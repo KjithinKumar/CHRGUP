@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         let splashVC = SplashScreenViewController()// Your splash screen view controller
-        splashVC.viewModel = SplashScreenViewModel(userDefaults: UserDefaults.standard,networkManager: NetworkManager(), delegate : splashVC)
+        splashVC.viewModel = SplashScreenViewModel(networkManager: NetworkManager(), delegate : splashVC)
         window.rootViewController = splashVC
         self.window = window
         window.makeKeyAndVisible()

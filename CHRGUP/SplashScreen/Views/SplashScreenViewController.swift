@@ -30,7 +30,10 @@ extension SplashScreenViewController : SplashViewModelDelegate{
     }
     
     func navigateToOnboarding() {
-        //Navigate to OnBoarding
+        let onboardingVC = OnboardingViewController(nibName: "OnboardingViewController", bundle: nil)
+        let navigationController = UINavigationController(rootViewController: onboardingVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
     
     func showUpdateDialog(url: String?) {

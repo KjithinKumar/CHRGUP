@@ -13,7 +13,7 @@ extension UIViewController {
         title: String?,
         message: String?,
         style: UIAlertController.Style = .alert,
-        actions: [UIAlertAction] = [UIAlertAction(title: "OK", style: .default, handler: nil)]
+        actions: [UIAlertAction] = [UIAlertAction(title: AppStrings.Alert.ok, style: .default, handler: nil)]
     ) {
         
         if let _ = self.presentedViewController as? UIAlertController {

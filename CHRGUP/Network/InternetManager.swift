@@ -56,6 +56,7 @@ class InternetManager{
             DispatchQueue.main.async {
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     self.dismissNoInternetAlert() // Internet is working
+                    NotificationCenter.default.post(name: .internetRestored, object: nil)
                 } else {
                     self.showNoInternetAlert() // No internet access
                 }

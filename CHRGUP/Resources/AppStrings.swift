@@ -24,4 +24,17 @@ struct AppStrings {
         static let noInternetMessage = "Please turn on Mobile Data or Wi-Fi to continue."
     }
     
+    struct Onboarding {
+        static let onboardingTitleOne = "Discover CHRGUP"
+        static let onboardingTitleTwo = "Scan QR"
+        static let onboardingTitleThree = "Start Charging"
+        
+        static let onboardingSubtitleOne = "Explore Charging Docks around you, know their\ncurrent status & navigate to the location"
+        static let onboardingSubtitleTwo = "To start start charging, scan the QR Code on the Dock"
+        static let onboardingSubtitleThree = "Review the charging dock details and click on start\ncharging. Monitor the progress remotely too."
+        
+        static let onboardingImageOne = "Onboarding-03"
+        static let onboardingImageTwo = "Onboarding-04"
+        static let onboardingImageThree = "Onboarding-02"
+    }
 }

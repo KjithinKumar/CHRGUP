@@ -16,32 +16,29 @@ protocol SplashViewModelDelegate: AnyObject {
 class SplashScreenViewModel{
     weak var delegate : SplashViewModelDelegate?
     var networkManager : NetworkManagerProtocol?
-    private let userDefaults : UserDefaults
-    init(userDefaults : UserDefaults,networkManager : NetworkManagerProtocol,delegate : SplashViewModelDelegate){
-        self.userDefaults = userDefaults
+    
+    init(networkManager : NetworkManagerProtocol,delegate : SplashViewModelDelegate){
         self.delegate = delegate
         self.networkManager = networkManager
+        NotificationCenter.default.addObserver(self, selector: #selector(handleInternetRestored), name: .internetRestored, object: nil)
+
     }
     
     //Start the Splash process
     func startSplashProcess(){
         let startTime = Date().timeIntervalSince1970
-        //Calculate how long version check took
-        let versionCheckTime = Date().timeIntervalSince1970 - startTime
-        let leftTime = max(0, AppConstants.splashScreenInterval - versionCheckTime)
         checkLatestVersion { [weak self] isForcedUpdate, updateUrl in
-            guard let url = updateUrl else {
-                return
-            }
-            if isForcedUpdate{
-                DispatchQueue.main.asyncAfter(deadline: .now() + leftTime) {
-                    self?.delegate?.showUpdateDialog(url: url)
-                    return
-                }
-            }
-            //Delay if needed, then check login status
+            guard let url = updateUrl else {return}
+            //Calculate how long version check took
+            let versionCheckTime = Date().timeIntervalSince1970 - startTime
+            let leftTime = max(0, AppConstants.splashScreenInterval - versionCheckTime)
             DispatchQueue.main.asyncAfter(deadline: .now() + leftTime) {
-                self?.checkLoginStatus()
+                if isForcedUpdate{
+                    self?.delegate?.showUpdateDialog(url: url) //Notify User to Force Update
+                    return
+                }else {
+                    self?.checkLoginStatus()// Check login
+                }
             }
         } 
     }
@@ -64,7 +61,7 @@ class SplashScreenViewModel{
                     }
                 case .failure(let error) :
                     //error
-                    print(error)
+                    debugPrint(error)
                     return
                 }
             })
@@ -73,11 +70,16 @@ class SplashScreenViewModel{
     
     //Checking Login Status
     private func checkLoginStatus() {
-        let isLoggedIn = userDefaults.bool(forKey: AppConstants.isLoggedInKey)
+        let isLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.isLoggedInKey)
         if isLoggedIn {
-            delegate?.navigateToMain()
+            //delegate?.navigateToMain()
         } else {
             delegate?.navigateToOnboarding()
+            UserDefaults.standard.set(true, forKey: AppConstants.isLoggedInKey)
         }
+    }
+    
+    @objc func handleInternetRestored(){
+        startSplashProcess()
     }
 }
