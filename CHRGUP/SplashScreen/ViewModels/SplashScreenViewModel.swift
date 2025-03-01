@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol SplashViewModelDelegate: AnyObject {
     func navigateToMain()
@@ -20,8 +21,7 @@ class SplashScreenViewModel{
     init(networkManager : NetworkManagerProtocol,delegate : SplashViewModelDelegate){
         self.delegate = delegate
         self.networkManager = networkManager
-        NotificationCenter.default.addObserver(self, selector: #selector(handleInternetRestored), name: .internetRestored, object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(handleInternetRestored), name: .internetRestored, object: nil) //Internet Restored Observer
     }
     
     //Start the Splash process
@@ -35,7 +35,7 @@ class SplashScreenViewModel{
             DispatchQueue.main.asyncAfter(deadline: .now() + leftTime) {
                 if isForcedUpdate{
                     self?.delegate?.showUpdateDialog(url: url) //Notify User to Force Update
-                    return
+                    //return
                 }else {
                     self?.checkLoginStatus()// Check login
                 }
@@ -72,14 +72,17 @@ class SplashScreenViewModel{
     private func checkLoginStatus() {
         let isLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.isLoggedInKey)
         if isLoggedIn {
-            //delegate?.navigateToMain()
+            delegate?.navigateToMain()
         } else {
             delegate?.navigateToOnboarding()
-            UserDefaults.standard.set(true, forKey: AppConstants.isLoggedInKey)
         }
     }
     
     @objc func handleInternetRestored(){
-        startSplashProcess()
+        //If splash screen is visible continue with process
+        if UIApplication.shared.getCurrentViewController() is SplashScreenViewController {
+            startSplashProcess()
+        }
+        
     }
 }

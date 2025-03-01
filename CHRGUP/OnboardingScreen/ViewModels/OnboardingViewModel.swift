@@ -19,7 +19,7 @@ class OnboardingViewModel {
                                            description: AppStrings.Onboarding.onboardingSubtitleThree,
                                            image: UIImage(named: AppStrings.Onboarding.onboardingImageThree)!)
     ]
-    private var currentIndex = 0
+     var currentIndex = 0
     
     var screenCount: Int {
         return screens.count

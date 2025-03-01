@@ -21,19 +21,22 @@ class SplashScreenViewController: UIViewController {
         UIView.animate(withDuration: 1.2, delay: 0, options: .curveEaseInOut){
             self.logoImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }
-        gridImageView.tintColor = .label
+        gridImageView.tintColor = ColorManager.textColor
+        view.backgroundColor = ColorManager.backgroundColor
     }
 }
 extension SplashScreenViewController : SplashViewModelDelegate{
     func navigateToMain() {
-        //Navigate to Main
+        let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
+        let navigationController = UINavigationController(rootViewController: welcomeVc)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
     
     func navigateToOnboarding() {
         let onboardingVC = OnboardingViewController(nibName: "OnboardingViewController", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: onboardingVC)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.present(navigationController, animated: true)
+        onboardingVC.modalPresentationStyle = .fullScreen
+        present(onboardingVC, animated: true, completion: nil)
     }
     
     func showUpdateDialog(url: String?) {

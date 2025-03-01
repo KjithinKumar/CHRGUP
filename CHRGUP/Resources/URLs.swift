@@ -16,4 +16,10 @@ struct URLs{
     static let checkVersionUrl = baseUrl + "version?version=\(AppConstants.currentAppVersion)"
     
     static let appleTestUrl = "https://www.apple.com/library/test/success.html"
+    
+    static let termsUrl = "https://chrgup.in/terms-and-conditions"
+    
+    static let privacyUrl = "https://chrgup.in/privacy-policy"
+    
+    static let cancellaionPolicyUrl = "https://chrgup.in/cancellation-and-refund-policy"
 }

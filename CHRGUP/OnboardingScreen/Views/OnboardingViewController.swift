@@ -15,11 +15,12 @@ class OnboardingViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var previousButton: UIButton!
+    @IBOutlet weak var pageController: UIPageControl!
     var viewModel : OnboardingViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
+        //navigationController?.isNavigationBarHidden = true
         viewModel = OnboardingViewModel()
 
         configureUi()
@@ -39,11 +40,11 @@ class OnboardingViewController: UIViewController {
                 debugPrint(UserDefaults.standard.bool(forKey: AppConstants.isLoggedInKey))
             }
         } else {
-            //navigateToHome()
+            navigateToWelcomeScreen()
         }
     }
     @IBAction func skipButtonPressed(_ sender: Any) {
-        //navigateToHome()
+        navigateToWelcomeScreen()
     }
     @IBAction func previousButtonPressed(_ sender: Any) {
         if viewModel?.moveToPreviousScreen( ) ?? false {
@@ -57,12 +58,12 @@ class OnboardingViewController: UIViewController {
         
         view.backgroundColor = ColorManager.backgroundColor
         
-        titleLabel.font = FontManager.bold(size: 30)
+        titleLabel.font = FontManager.bold()
         titleLabel.textColor = ColorManager.textColor
         titleLabel.numberOfLines = 0
         
         
-        descriptionLabel.font = FontManager.regular(size: 14)
+        descriptionLabel.font = FontManager.regular()
         descriptionLabel.textColor = ColorManager.subtitleTextColor
         descriptionLabel.numberOfLines = 0
         
@@ -71,8 +72,10 @@ class OnboardingViewController: UIViewController {
         nextButton.tintColor = ColorManager.backgroundColor
         
         skipButton.tintColor = ColorManager.buttonColor
-        skipButton.titleLabel?.font = FontManager.bold(size: 20) 
+        skipButton.titleLabel?.font = FontManager.bold(size: 14)
         
+        pageController.numberOfPages = viewModel?.screenCount ?? 3
+        pageController.isUserInteractionEnabled = false
     }
     func updateUi(){
         
@@ -81,6 +84,7 @@ class OnboardingViewController: UIViewController {
         UIImageView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut){
             self.imageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }
+        pageController.currentPage = viewModel?.currentIndex ?? 0
         skipButton.isHidden = !(viewModel?.shouldShowSkip ?? true)
         previousButton.isHidden = !(viewModel?.shouldShowPrevious ?? true)
         UIView.transition(with: self.imageView, duration: 0.5, options: .transitionCrossDissolve, animations: {
@@ -94,5 +98,12 @@ class OnboardingViewController: UIViewController {
         UIView.transition(with: self.descriptionLabel, duration: 0.5, options: .transitionCrossDissolve, animations: {
             self.descriptionLabel.text = screen?.description
         }, completion: nil)
+    }
+    
+    func navigateToWelcomeScreen(){
+        let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
+        let navigationController = UINavigationController(rootViewController: welcomeVc)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
 }
