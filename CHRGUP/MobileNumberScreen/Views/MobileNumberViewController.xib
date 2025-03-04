@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MobileNumberViewController" customModule="CHRGUP" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="Yjx-n2-74e" id="7xA-8F-8mB"/>
                 <outlet property="checkButton" destination="oWD-Nm-awc" id="9TD-n2-bbE"/>
                 <outlet property="mobileNumberLabel" destination="NPn-zb-CO0" id="GB2-Y8-YKB"/>
                 <outlet property="mobileNumberTextField" destination="qk5-8F-Zao" id="aPT-Vo-kzK"/>
@@ -61,14 +62,16 @@
                         </textField>
                     </subviews>
                 </stackView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Fd-o4-rGT">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Fd-o4-rGT">
                     <rect key="frame" x="25" y="718" width="343" height="50"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Ml4-BU-ShY"/>
                     </constraints>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                    <connections>
+                        <action selector="signInButtonTapped:" destination="-1" eventType="touchUpInside" id="BR2-48-hJL"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oWD-Nm-awc">
                     <rect key="frame" x="25" y="678" width="25" height="25"/>
@@ -92,6 +95,10 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Yjx-n2-74e">
+                    <rect key="frame" x="186.66666666666666" y="733" width="20" height="20"/>
+                    <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -103,11 +110,14 @@
                 <constraint firstItem="5Fd-o4-rGT" firstAttribute="top" secondItem="oWD-Nm-awc" secondAttribute="bottom" constant="15" id="HPg-uH-dje"/>
                 <constraint firstItem="0sk-MT-MCR" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="80" id="Hww-Ge-qrd"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0sk-MT-MCR" secondAttribute="trailing" constant="25" id="Jn8-QT-ISD"/>
+                <constraint firstItem="Yjx-n2-74e" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Loo-N4-QCR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="5Fd-o4-rGT" secondAttribute="bottom" constant="50" id="Mmk-r2-C73"/>
                 <constraint firstItem="0sk-MT-MCR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="NVv-ZP-vOc"/>
                 <constraint firstItem="5Fd-o4-rGT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="U1R-Ra-bLy"/>
                 <constraint firstItem="3g9-Q6-2ew" firstAttribute="leading" secondItem="oWD-Nm-awc" secondAttribute="trailing" constant="15" id="XI6-G6-wPd"/>
                 <constraint firstItem="oWD-Nm-awc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="ikl-sv-k8H"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Yjx-n2-74e" secondAttribute="bottom" constant="65" id="nNR-Se-jk2"/>
+                <constraint firstItem="Yjx-n2-74e" firstAttribute="top" secondItem="3g9-Q6-2ew" secondAttribute="bottom" constant="30" id="ohp-ai-oTc"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="wGU-n6-2jd" secondAttribute="trailing" constant="25" id="sxs-sk-fMQ"/>
                 <constraint firstItem="wGU-n6-2jd" firstAttribute="top" secondItem="0sk-MT-MCR" secondAttribute="bottom" constant="65" id="tke-wk-Nko"/>
             </constraints>

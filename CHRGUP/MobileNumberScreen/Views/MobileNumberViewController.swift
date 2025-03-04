@@ -21,18 +21,29 @@ class MobileNumberViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var termsLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var authMode: AuthMode = .SignIn
     private var isChecked : Bool = false
     private var isValidMobileNumber: Bool = false
+    private var isSendingOtp : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAuth()
         configureUi()
         configureNavBar()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        observeKeyboardNotifications()
+    }
+    deinit {
+        removeKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear (_ animated: Bool) {
+        view.endEditing(true)
+        activityIndicator.isHidden = true
+        signInButton.isEnabled = true
+        isSendingOtp = false
     }
     
     func configureAuth() {
@@ -40,11 +51,20 @@ class MobileNumberViewController: UIViewController {
         case .SignIn:
             welcomeLabel.text = AppStrings.Auth.welcomBackTitle
             welcomeSubtitleLabel.text = AppStrings.Auth.welcomeSubtitle
-            signInButton.setTitle(AppStrings.Auth.signInButtonTitle, for: .normal)
+            let attributedTitle = NSAttributedString(
+                string: AppStrings.Auth.signInButtonTitle,
+                attributes: [.font: FontManager.bold(size: 17)]
+            )
+            signInButton.setAttributedTitle(attributedTitle, for: .normal)
+
         case .SignUp:
             welcomeLabel.text = AppStrings.Auth.welcomeTitle
             welcomeSubtitleLabel.text = AppStrings.Auth.welcomeSubtitle
-            signInButton.setTitle(AppStrings.Auth.signUpButtonTitle, for: .normal)
+            let attributedTitle = NSAttributedString(
+                string: AppStrings.Auth.signUpButtonTitle,
+                attributes: [.font: FontManager.bold(size: 17)]
+            )
+            signInButton.setAttributedTitle(attributedTitle, for: .normal)
         }
     }
     func configureUi(){
@@ -53,30 +73,34 @@ class MobileNumberViewController: UIViewController {
         welcomeLabel.font = FontManager.bold()
         welcomeLabel.textColor = ColorManager.textColor
         
-        welcomeSubtitleLabel.textColor = ColorManager.textColor
+        welcomeSubtitleLabel.textColor = ColorManager.subtitleTextColor
         welcomeSubtitleLabel.font = FontManager.regular()
         
+        mobileNumberTextField.translatesAutoresizingMaskIntoConstraints = false
         mobileNumberTextField.delegate = self
         mobileNumberTextField.backgroundColor = ColorManager.secondaryBackgroundColor
-        mobileNumberTextField.layer.cornerRadius = 20
+        mobileNumberTextField.layer.cornerRadius = 8
+        mobileNumberTextField.layer.masksToBounds = true
         mobileNumberTextField.textColor = ColorManager.primaryColor
         mobileNumberTextField.tintColor = ColorManager.primaryColor
-        mobileNumberTextField.attributedPlaceholder = NSAttributedString(string: AppStrings.Auth.placeHolder,attributes: [NSAttributedString.Key.foregroundColor: ColorManager.placeholderColor,NSAttributedString.Key.font: FontManager.light()])
-        //mobileNumberTextField.textColor = ColorManager.textColor
-        mobileNumberTextField.font = FontManager.regular()
-        mobileNumberTextField.borderStyle = .roundedRect
+        mobileNumberTextField.attributedPlaceholder = NSAttributedString(string: AppStrings.Auth.placeHolder,attributes: [NSAttributedString.Key.foregroundColor: ColorManager.placeholderColor,NSAttributedString.Key.font: FontManager.light(size: 9)])
+        mobileNumberTextField.font = FontManager.bold(size: 17)
         mobileNumberTextField.keyboardType = .numberPad
         mobileNumberTextField.tag = 0
-        mobileNumberTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        mobileNumberTextField.layer.borderWidth = 1
+        mobileNumberTextField.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor
         
+
         mobileNumberLabel.textColor = ColorManager.textColor
-                mobileNumberLabel.font = FontManager.regular()
+        mobileNumberLabel.font = FontManager.regular()
         
-        
-        signInButton.backgroundColor = ColorManager.primaryColor
+        signInButton.translatesAutoresizingMaskIntoConstraints = false
+        signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
         signInButton.tintColor = ColorManager.backgroundColor
         signInButton.layer.cornerRadius = 20
         signInButton.isEnabled = false
+        
+        activityIndicator.isHidden = true
         
         termsLabel.isUserInteractionEnabled = true
         termsLabel.textColor = ColorManager.textColor
@@ -98,6 +122,7 @@ class MobileNumberViewController: UIViewController {
         checkButton.backgroundColor = ColorManager.backgroundColor
         checkButton.setImage(nil, for: .normal)
         checkButton.tintColor = ColorManager.backgroundColor
+        checkButton.layer.cornerRadius = 10
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(gesture)
@@ -132,7 +157,39 @@ class MobileNumberViewController: UIViewController {
         updateSignInButtonState()
     }
     func updateSignInButtonState(){
-        signInButton.isEnabled = isChecked && isValidMobileNumber
+        if isChecked && isValidMobileNumber{
+            signInButton.isEnabled = true
+            signInButton.backgroundColor = ColorManager.primaryColor
+
+        }else{
+            signInButton.isEnabled = false
+            signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
+
+        }
+    }
+    @IBAction func signInButtonTapped(_ sender: Any) {
+        isSendingOtp = true
+        if isSendingOtp {
+            signInButton.isEnabled = false
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+        }
+        let otpVc = OtpViewController()
+        let mobileNumber = mobileNumberTextField.text!
+        let validNumber = mobileNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        let number = validNumber.replacingOccurrences(of: " ", with: "")
+        otpVc.mobileNumber = validNumber
+        TwilioHelper.sendVerificationCode(to: number) { isValid in
+            guard (isValid == nil) else {
+                self.showAlert(title: "Error", message: "Please check the number you have entered")
+                self.signInButton.isEnabled = true
+                self.activityIndicator.isHidden = true
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.navigationController?.pushViewController(otpVc, animated: true)
+            }
+        }
     }
 }
 
@@ -141,12 +198,10 @@ extension MobileNumberViewController : UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if mobileNumberTextField.tag == 0{
             textField.text = AppStrings.MobileExtension.Ind
+            textField.layer.borderColor = ColorManager.primaryColor.cgColor
             textField.tag = 1
         }
         
-    }
-    @objc func textFieldDidChange(){
-        //Do any checks for entered text
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
@@ -200,31 +255,18 @@ extension MobileNumberViewController{
 }
 
 extension MobileNumberViewController{
-    @objc func dismissKeyboard(){
-        view.endEditing(true)
+    @objc override func dismissKeyboard(){
+        super.dismissKeyboard()
         if mobileNumberTextField.text?.count ?? 0 == 4{
             mobileNumberTextField.text = ""
+            mobileNumberTextField.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor
             mobileNumberTextField.tag = 0
         }
     }
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            let keyboardHeight = keyboardFrame.height
-            let safeAreaBottom = view.safeAreaInsets.bottom
-            
-            UIView.animate(withDuration: 0.3) {
-                self.signInButton.transform = CGAffineTransform(translationX: 0, y: -(keyboardHeight - safeAreaBottom - 20))
-                self.termsLabel.transform = CGAffineTransform(translationX: 0, y: -(keyboardHeight - safeAreaBottom - 15))
-                self.checkButton.transform = CGAffineTransform(translationX: 0, y: -(keyboardHeight - safeAreaBottom - 15))
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        UIView.animate(withDuration: 0.3) {
-            self.signInButton.transform = .identity  // Reset position
-            self.termsLabel.transform = .identity
-            self.checkButton.transform = .identity
-        }
+    override func moveViewForKeyboard(yOffset: CGFloat) {
+        signInButton.transform = CGAffineTransform(translationX: 0, y: yOffset)
+        activityIndicator.transform = CGAffineTransform(translationX: 0, y: yOffset)
+        termsLabel.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
+        checkButton.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
     }
 }

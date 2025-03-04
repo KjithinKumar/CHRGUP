@@ -41,8 +41,12 @@ class WelcomeViewController: UIViewController {
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         continueButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         continueButton.backgroundColor = ColorManager.buttonColorwhite
-        continueButton.titleLabel?.font = FontManager.bold(size: 14)
         continueButton.titleLabel?.tintColor = ColorManager.backgroundColor
+        let attributedTitle = NSAttributedString(
+            string: AppStrings.Welcome.continueButtonTitle,
+            attributes: [.font: FontManager.bold(size: 17)]
+        )
+        continueButton.setAttributedTitle(attributedTitle, for: .normal)
         
         welcomeLabel.text = AppStrings.Welcome.welcomeTitle
         welcomeLabel.textColor = ColorManager.textColor

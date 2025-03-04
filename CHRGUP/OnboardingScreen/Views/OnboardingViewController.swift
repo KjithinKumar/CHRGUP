@@ -72,7 +72,7 @@ class OnboardingViewController: UIViewController {
         nextButton.tintColor = ColorManager.backgroundColor
         
         skipButton.tintColor = ColorManager.buttonColor
-        skipButton.titleLabel?.font = FontManager.bold(size: 14)
+        skipButton.titleLabel?.font = FontManager.bold(size: 17)
         
         pageController.numberOfPages = viewModel?.screenCount ?? 3
         pageController.isUserInteractionEnabled = false

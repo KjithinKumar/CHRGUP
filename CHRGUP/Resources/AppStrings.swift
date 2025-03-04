@@ -42,6 +42,7 @@ struct AppStrings {
         static let welcomeTitle = "Welcome"
         static let welcomeSubtitle = "Create an account or login to start charging"
         static let signupTitle = "Doesn’t have an account? Sign Up"
+        static let continueButtonTitle = " Continue with phone"
     }
     
     struct Auth{
@@ -56,5 +57,16 @@ struct AppStrings {
     
     struct MobileExtension{
         static let Ind = "+91 "
+    }
+    
+    struct Otp{
+        static let title = "OTP Verification"
+        static let subtitle = "Otp has been sent to your mobile number ending with "
+        static let resendOtp = "Resend OTP"
+        static let resendIn = "Resend OTP in %d seconds"
+        static let verifyButtonTitle = "Verify"
+        static let verifyingButtonTitle = "Verifying..."
+        static let verifiedButtonTitle = "Verified"
+        static let verifyFailedButtonTitle = "Verify Failed"
     }
 }

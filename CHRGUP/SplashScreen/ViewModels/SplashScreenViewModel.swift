@@ -46,9 +46,11 @@ class SplashScreenViewModel{
     //Checking the latest version
     private func checkLatestVersion(completion: @escaping (Bool,String?)->(Void)){
         let request = networkManager?.createRequest(
-            with: URLs.checkVersionUrl,
+            urlString: URLs.checkVersionUrl,
             method: .get,
-            body: nil)
+            body: nil,
+            encoding: .json,
+            headers: nil)
         if let request = request{
             let _ = networkManager?.request(request, decodeTo: VersionResponseModel.self, completion: {result in
                 switch result{

@@ -22,4 +22,8 @@ struct URLs{
     static let privacyUrl = "https://chrgup.in/privacy-policy"
     
     static let cancellaionPolicyUrl = "https://chrgup.in/cancellation-and-refund-policy"
+    
+    static let TwilioUrlSendCode = "https://verify.twilio.com/v2/Services/\(AppIdentifications.Twilio.serviceSID)/Verifications"
+    
+    static let TwilioUrlVerifyCode = "https://verify.twilio.com/v2/Services/\(AppIdentifications.Twilio.serviceSID)/VerificationCheck"
 }

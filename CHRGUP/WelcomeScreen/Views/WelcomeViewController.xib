@@ -32,10 +32,11 @@
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
                             <rect key="frame" x="25" y="159" width="343" height="89.333333333333314"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-0S-JI1">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-0S-JI1">
                                     <rect key="frame" x="0.0" y="0.0" width="343" height="57.333333333333336"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <state key="normal" title="Button"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="  Continue with phone" image="fi-rr-smartphone"/>
                                     <buttonConfiguration key="configuration" style="plain" image="fi-rr-smartphone" title="  Continue with phone"/>
                                     <connections>
                                         <action selector="ContinueButtonPressed:" destination="-1" eventType="touchUpInside" id="p1t-Nw-0gY"/>
@@ -49,18 +50,18 @@
                                 </label>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="GCa-fc-wxm">
-                            <rect key="frame" x="25" y="30.000000000000007" width="343" height="89.666666666666686"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="GCa-fc-wxm">
+                            <rect key="frame" x="25" y="30.000000000000004" width="343" height="53.333333333333343"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3X-C6-ZEG">
-                                    <rect key="frame" x="0.0" y="0.0" width="343" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="343" height="20.333333333333332"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvZ-Fw-lHM">
-                                    <rect key="frame" x="0.0" y="45" width="343" height="44.666666666666657"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <rect key="frame" x="0.0" y="35.333333333333371" width="343" height="18"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -72,7 +73,6 @@
                         <constraint firstAttribute="trailing" secondItem="ClL-y0-mi0" secondAttribute="trailing" constant="25" id="CyS-ZM-dbT"/>
                         <constraint firstAttribute="trailing" secondItem="GCa-fc-wxm" secondAttribute="trailing" constant="25" id="Mka-F9-3sn"/>
                         <constraint firstItem="ClL-y0-mi0" firstAttribute="leading" secondItem="bOC-E0-8T1" secondAttribute="leading" constant="25" id="PYu-6C-Ox7"/>
-                        <constraint firstItem="GCa-fc-wxm" firstAttribute="height" secondItem="bOC-E0-8T1" secondAttribute="height" multiplier="0.3" id="XgW-rS-aaJ"/>
                         <constraint firstItem="ClL-y0-mi0" firstAttribute="height" secondItem="bOC-E0-8T1" secondAttribute="height" multiplier="0.3" id="czn-Ye-bEF"/>
                         <constraint firstItem="GCa-fc-wxm" firstAttribute="leading" secondItem="bOC-E0-8T1" secondAttribute="leading" constant="25" id="reL-MC-6vV"/>
                         <constraint firstAttribute="bottom" secondItem="ClL-y0-mi0" secondAttribute="bottom" constant="50" id="sPn-Ds-LL1"/>
