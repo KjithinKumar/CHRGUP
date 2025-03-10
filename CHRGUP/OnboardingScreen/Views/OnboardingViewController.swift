@@ -17,10 +17,8 @@ class OnboardingViewController: UIViewController {
     @IBOutlet weak var previousButton: UIButton!
     @IBOutlet weak var pageController: UIPageControl!
     var viewModel : OnboardingViewModel?
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        //navigationController?.isNavigationBarHidden = true
         viewModel = OnboardingViewModel()
 
         configureUi()
@@ -36,9 +34,6 @@ class OnboardingViewController: UIViewController {
 
             updateUi()
             
-            if viewModel?.isLastScreen ?? false {
-                debugPrint(UserDefaults.standard.bool(forKey: AppConstants.isLoggedInKey))
-            }
         } else {
             navigateToWelcomeScreen()
         }
@@ -76,6 +71,9 @@ class OnboardingViewController: UIViewController {
         
         pageController.numberOfPages = viewModel?.screenCount ?? 3
         pageController.isUserInteractionEnabled = false
+        
+        previousButton.tintColor = ColorManager.buttonColor
+        
     }
     func updateUi(){
         
@@ -104,6 +102,7 @@ class OnboardingViewController: UIViewController {
         let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
         let navigationController = UINavigationController(rootViewController: welcomeVc)
         navigationController.modalPresentationStyle = .fullScreen
+        navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
         present(navigationController, animated: true)
     }
 }

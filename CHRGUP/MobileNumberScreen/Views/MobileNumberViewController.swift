@@ -51,20 +51,18 @@ class MobileNumberViewController: UIViewController {
         case .SignIn:
             welcomeLabel.text = AppStrings.Auth.welcomBackTitle
             welcomeSubtitleLabel.text = AppStrings.Auth.welcomeSubtitle
-            let attributedTitle = NSAttributedString(
-                string: AppStrings.Auth.signInButtonTitle,
-                attributes: [.font: FontManager.bold(size: 17)]
-            )
-            signInButton.setAttributedTitle(attributedTitle, for: .normal)
+            signInButton.setTitle(AppStrings.Auth.signInButtonTitle, for: .normal)
+            signInButton.titleLabel?.font = FontManager.bold(size: 17)
+            signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        
 
         case .SignUp:
             welcomeLabel.text = AppStrings.Auth.welcomeTitle
             welcomeSubtitleLabel.text = AppStrings.Auth.welcomeSubtitle
-            let attributedTitle = NSAttributedString(
-                string: AppStrings.Auth.signUpButtonTitle,
-                attributes: [.font: FontManager.bold(size: 17)]
-            )
-            signInButton.setAttributedTitle(attributedTitle, for: .normal)
+            signInButton.setTitle(AppStrings.Auth.signUpButtonTitle, for: .normal)
+            signInButton.titleLabel?.font = FontManager.bold(size: 17)
+            signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+            
         }
     }
     func configureUi(){
@@ -83,7 +81,6 @@ class MobileNumberViewController: UIViewController {
         mobileNumberTextField.layer.masksToBounds = true
         mobileNumberTextField.textColor = ColorManager.primaryColor
         mobileNumberTextField.tintColor = ColorManager.primaryColor
-        mobileNumberTextField.attributedPlaceholder = NSAttributedString(string: AppStrings.Auth.placeHolder,attributes: [NSAttributedString.Key.foregroundColor: ColorManager.placeholderColor,NSAttributedString.Key.font: FontManager.light(size: 9)])
         mobileNumberTextField.font = FontManager.bold(size: 17)
         mobileNumberTextField.keyboardType = .numberPad
         mobileNumberTextField.tag = 0
@@ -96,7 +93,6 @@ class MobileNumberViewController: UIViewController {
         
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
-        signInButton.tintColor = ColorManager.backgroundColor
         signInButton.layer.cornerRadius = 20
         signInButton.isEnabled = false
         
@@ -128,12 +124,7 @@ class MobileNumberViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     func configureNavBar(){
-        navigationController?.isNavigationBarHidden = false
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "Vector"), for: .normal)
-        button.backgroundColor = .clear
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        navigationItem.backButtonTitle = ""
     }
     
     @objc func backButtonTapped(){
@@ -171,6 +162,7 @@ class MobileNumberViewController: UIViewController {
         isSendingOtp = true
         if isSendingOtp {
             signInButton.isEnabled = false
+            signInButton.setTitleColor(ColorManager.textColor, for: .normal)
             activityIndicator.isHidden = false
             activityIndicator.startAnimating()
         }
@@ -178,7 +170,10 @@ class MobileNumberViewController: UIViewController {
         let mobileNumber = mobileNumberTextField.text!
         let validNumber = mobileNumber.trimmingCharacters(in: .whitespacesAndNewlines)
         let number = validNumber.replacingOccurrences(of: " ", with: "")
-        otpVc.mobileNumber = validNumber
+        otpVc.mobileNumber = number
+        let viewModel = OtpViewModel(delegate: otpVc, networkManager: NetworkManager())
+        otpVc.viewModel = viewModel
+        
         TwilioHelper.sendVerificationCode(to: number) { isValid in
             guard (isValid == nil) else {
                 self.showAlert(title: "Error", message: "Please check the number you have entered")
@@ -221,6 +216,7 @@ extension MobileNumberViewController : UITextFieldDelegate {
         // Limit total length to 14 (including "+91 " prefix)
         return true
     }
+    
 }
 
 extension MobileNumberViewController{

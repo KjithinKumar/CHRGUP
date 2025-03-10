@@ -72,7 +72,9 @@ class SplashScreenViewModel{
     
     //Checking Login Status
     private func checkLoginStatus() {
-        let isLoggedIn = UserDefaults.standard.bool(forKey: AppConstants.isLoggedInKey)
+        let isLoggedIn = UserDefaultManager.shared.isOnboardingCompleted()
+        NSLog("user logged in:\(isLoggedIn)")
+//        print("user logged in:\(isLoggedIn)")
         if isLoggedIn {
             delegate?.navigateToMain()
         } else {

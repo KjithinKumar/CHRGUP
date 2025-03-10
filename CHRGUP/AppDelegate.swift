@@ -6,14 +6,23 @@
 //
 
 import UIKit
+import FirebaseCore
+import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        UserDefaults.standard.set(false, forKey: AppConstants.isLoggedInKey)
+        
+        FirebaseApp.configure()
         let _ = InternetManager.shared
         return true
+    }
+    // MARK: SignIn with Google
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+      return GIDSignIn.sharedInstance.handle(url)
     }
     
     // MARK: UISceneSession Lifecycle

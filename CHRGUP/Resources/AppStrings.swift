@@ -56,7 +56,7 @@ struct AppStrings {
     }
     
     struct MobileExtension{
-        static let Ind = "+91 "
+        static let Ind = "+91 6299459950"
     }
     
     struct Otp{
@@ -68,5 +68,6 @@ struct AppStrings {
         static let verifyingButtonTitle = "Verifying..."
         static let verifiedButtonTitle = "Verified"
         static let verifyFailedButtonTitle = "Verify Failed"
+        static let toastMessage = "⚠️ Press back again to exit"
     }
 }

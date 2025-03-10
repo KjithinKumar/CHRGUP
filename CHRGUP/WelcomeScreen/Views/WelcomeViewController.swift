@@ -19,11 +19,8 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         configureUi()
-        UserDefaults.standard.set(true, forKey: AppConstants.isLoggedInKey)
+        UserDefaultManager.shared.setOnboardingCompleted(true)
         
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = true
     }
     
     @IBAction func ContinueButtonPressed(_ sender: Any) {
@@ -69,7 +66,8 @@ class WelcomeViewController: UIViewController {
         signUpLabel.attributedText = attributedText
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SignUplabelTapped))
         signUpLabel.addGestureRecognizer(tapGesture)
-        
+        navigationItem.backButtonTitle = ""
+
     }
     @objc func SignUplabelTapped() {
         navigateToSignIn(with: .SignUp)
@@ -85,6 +83,7 @@ class WelcomeViewController: UIViewController {
             let signUpVc = MobileNumberViewController()
             signUpVc.authMode = .SignUp
             navigationController?.pushViewController(signUpVc, animated: true)
+            
         }
     }
 }

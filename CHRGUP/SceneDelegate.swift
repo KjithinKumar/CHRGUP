@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let splashVC = SplashScreenViewController()// Your splash screen view controller
         splashVC.viewModel = SplashScreenViewModel(networkManager: NetworkManager(), delegate : splashVC)
         window.rootViewController = splashVC
+        window.overrideUserInterfaceStyle = .dark
         self.window = window
         window.makeKeyAndVisible()
     }

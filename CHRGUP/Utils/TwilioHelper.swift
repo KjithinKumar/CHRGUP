@@ -38,7 +38,7 @@ struct TwilioHelper {
         let request = networkManager.createRequest(urlString: urlString, method: .post, body: bodyParams, encoding: .urlEncoded, headers: headers)
         if let request = request{
             networkManager.postRequest(request: request) { results in
-                debugPrint(results as? String)
+                debugPrint(results as? String ?? "sent")
                 completion(results as? String)
             }
         }
@@ -69,55 +69,5 @@ struct TwilioHelper {
                 }
             }
         }
-        
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-        // Build the request body
-        
-        //request.httpBody = bodyParams.data(using: .utf8)
-        // Set the headers
-        //request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        // Basic Auth: "AccountSID:AuthToken" Base64-encoded
-        
-        
-        // Execute the network call
-//        URLSession.shared.dataTask(with: request) { data, response, error in
-//            // Check for network or server errors
-//            if let error = error {
-//                completion(false, "Failed to verify code: \(error.localizedDescription)")
-//                return
-//            }
-//            guard let httpResponse = response as? HTTPURLResponse else {
-//                completion(false, "Invalid response.")
-//                return
-//            }
-//            // Check for successful status code
-//            guard (200...299).contains(httpResponse.statusCode) else {
-//                let responseBody = String(data: data ?? Data(), encoding: .utf8) ?? "No response body"
-//                completion(false, "Failed with status code \(httpResponse.statusCode): \(responseBody)")
-//                return
-//            }
-//            // Attempt to parse the JSON response
-//            guard let data = data else {
-//                completion(false, "No data returned from server.")
-//                return
-//            }
-//            do {
-//                // Convert response to dictionary
-//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-//                    let status = json["status"] as? String ?? ""
-//                    let isVerified = (status == "approved")
-//                    if isVerified {
-//                        completion(true, nil)
-//                    } else {
-//                        completion(false, "Verification failed. Status: \(status)")
-//                    }
-//                } else {
-//                    completion(false, "Invalid JSON structure.")
-//                }
-//            } catch {
-//                completion(false, "JSON parsing error: \(error.localizedDescription)")
-//            }
-//        }.resume()
     }
 }

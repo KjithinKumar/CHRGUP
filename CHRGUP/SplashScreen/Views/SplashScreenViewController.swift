@@ -17,10 +17,7 @@ class SplashScreenViewController: UIViewController {
         viewModel?.startSplashProcess()
     }
     private func setUp(){
-        //Animate the logo
-        UIView.animate(withDuration: 1.2, delay: 0, options: .curveEaseInOut){
-            self.logoImageView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        }
+        logoImageView.startShimmering()
         gridImageView.tintColor = ColorManager.textColor
         view.backgroundColor = ColorManager.backgroundColor
     }
@@ -30,13 +27,19 @@ extension SplashScreenViewController : SplashViewModelDelegate{
         let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
         let navigationController = UINavigationController(rootViewController: welcomeVc)
         navigationController.modalPresentationStyle = .fullScreen
+        navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
         present(navigationController, animated: true, completion: nil)
+        
     }
     
     func navigateToOnboarding() {
         let onboardingVC = OnboardingViewController(nibName: "OnboardingViewController", bundle: nil)
         onboardingVC.modalPresentationStyle = .fullScreen
-        present(onboardingVC, animated: true, completion: nil)
+       present(onboardingVC, animated: true, completion: nil)
+        //let testVc = UserVehicleInfoViewController()
+        //testVc.modalPresentationStyle = .fullScreen
+        //testVc.viewModel = UserVehicleInfoViewModel(delegate: testVc, networkManager: NetworkManager())
+        //present(testVc,animated: true)
     }
     
     func showUpdateDialog(url: String?) {

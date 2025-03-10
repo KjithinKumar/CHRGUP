@@ -41,11 +41,11 @@ enum RequestEncoding {
     case urlEncoded
 }
 
-protocol NetworkManagerProtocol {
+protocol NetworkManagerProtocol : AnyObject {
     func request<T: Decodable>(_ urlRequest: URLRequest,decodeTo type: T.Type,completion: @escaping (Result<T, Error>) -> Void)
     func createRequest(urlString: String,
                        method: NetworkRequestType,
-                       body: [String : String]?,
+                       body: [String : Any]?,
                        encoding: RequestEncoding,
                        headers: [String: String]?) -> URLRequest?
 }
@@ -105,7 +105,7 @@ class NetworkManager: NetworkManagerProtocol {
         }.resume()
     }
     
-    func createRequest(urlString: String,method: NetworkRequestType,body: [String : String]?,encoding: RequestEncoding,headers: [String: String]?) -> URLRequest? {
+    func createRequest(urlString: String,method: NetworkRequestType,body: [String : Any]?,encoding: RequestEncoding,headers: [String: String]?) -> URLRequest? {
         guard let url = URL(string: urlString) else {
             return nil
         }
@@ -125,13 +125,37 @@ class NetworkManager: NetworkManagerProtocol {
                 
             case .urlEncoded:
                 request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                //                let encodedBody = body
+                //                    .map { key, value in
+                //                        let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
+                //                        let encodedValue = (value).addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? value
+                //                        return "\(encodedKey)=\(encodedValue)"
+                //                    }
+                //                    .joined(separator: "&")
+                //                request.httpBody = encodedBody.data(using: .utf8)
                 let encodedBody = body
-                    .map { key, value in
+                    .compactMap { key, value -> String? in
                         let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
-                        let encodedValue = (value).addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? value
-                        return "\(encodedKey)=\(encodedValue)"
+                        
+                        let encodedValue: String
+                        if let stringValue = value as? String {
+                            encodedValue = stringValue
+                        } else if let numberValue = value as? NSNumber {
+                            encodedValue = numberValue.stringValue
+                        } else if let boolValue = value as? Bool {
+                            encodedValue = boolValue ? "true" : "false"
+                        } else if let jsonData = try? JSONSerialization.data(withJSONObject: value, options: []),
+                                  let jsonString = String(data: jsonData, encoding: .utf8) {
+                            encodedValue = jsonString  // Convert nested objects to JSON string
+                        } else {
+                            return nil // Skip unsupported values
+                        }
+                        
+                        let encodedFinalValue = encodedValue.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? encodedValue
+                        return "\(encodedKey)=\(encodedFinalValue)"
                     }
                     .joined(separator: "&")
+                
                 request.httpBody = encodedBody.data(using: .utf8)
             }
         }

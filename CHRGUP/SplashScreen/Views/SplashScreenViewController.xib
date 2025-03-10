@@ -22,21 +22,26 @@
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grid-02 1" translatesAutoresizingMaskIntoConstraints="NO" id="Knp-NC-jPf">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                    <color key="backgroundColor" red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                 </imageView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chrgup_white_6cm" translatesAutoresizingMaskIntoConstraints="NO" id="2zG-kP-IC2">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chrgup_white_6cm" translatesAutoresizingMaskIntoConstraints="NO" id="2zG-kP-IC2">
                     <rect key="frame" x="83" y="394" width="227" height="64"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="227" id="Dz6-J1-fo9"/>
+                    </constraints>
                 </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="2zG-kP-IC2" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="2Ni-Mj-BoT"/>
                 <constraint firstAttribute="bottom" secondItem="Knp-NC-jPf" secondAttribute="bottom" id="6nu-fO-CiZ"/>
-                <constraint firstItem="2zG-kP-IC2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="9k1-lv-dM8"/>
                 <constraint firstItem="Knp-NC-jPf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Ctx-aU-Oc9"/>
                 <constraint firstItem="Knp-NC-jPf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NIz-0B-MdD"/>
                 <constraint firstAttribute="trailing" secondItem="Knp-NC-jPf" secondAttribute="trailing" id="WiR-ET-5bo"/>
+                <constraint firstItem="2zG-kP-IC2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="aTM-yC-2Fw"/>
+                <constraint firstItem="2zG-kP-IC2" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="d6G-k8-SCR"/>
             </constraints>
             <point key="canvasLocation" x="63" y="20"/>
         </view>
