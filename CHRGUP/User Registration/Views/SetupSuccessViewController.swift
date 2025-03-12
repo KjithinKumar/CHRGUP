@@ -53,6 +53,13 @@ class SetupSuccessViewController: UIViewController {
                     animationView2.trailingAnchor.constraint(equalTo: animationView.trailingAnchor)
                 ])
         animationView2.play() // Start animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            let MapVc = MapScreenViewController()
+            let navigationController = UINavigationController(rootViewController: MapVc)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.present(navigationController, animated: true)
+            
+        }
     }
 
 }

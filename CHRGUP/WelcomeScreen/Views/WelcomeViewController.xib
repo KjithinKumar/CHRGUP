@@ -29,11 +29,11 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOC-E0-8T1">
                     <rect key="frame" x="0.0" y="553.66666666666663" width="393" height="298.33333333333337"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
                             <rect key="frame" x="25" y="159" width="343" height="89.333333333333314"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-0S-JI1">
-                                    <rect key="frame" x="0.0" y="0.0" width="343" height="57.333333333333336"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="343" height="45.333333333333336"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="  Continue with phone" image="fi-rr-smartphone"/>
@@ -43,7 +43,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labellllllllll" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ghg-d0-8Qz">
-                                    <rect key="frame" x="0.0" y="57.333333333333371" width="343" height="32"/>
+                                    <rect key="frame" x="0.0" y="60.333333333333371" width="343" height="29"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>

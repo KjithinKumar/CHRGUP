@@ -24,11 +24,17 @@ class SplashScreenViewController: UIViewController {
 }
 extension SplashScreenViewController : SplashViewModelDelegate{
     func navigateToMain() {
-        let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: welcomeVc)
+//       let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
+//        let navigationController = UINavigationController(rootViewController: welcomeVc)
+//        navigationController.modalPresentationStyle = .fullScreen
+//        navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
+//        present(navigationController, animated: true, completion: nil)
+        let MapVc = MapScreenViewController()
+        MapVc.viewModel = MapScreenViewModel()
+        let navigationController = UINavigationController(rootViewController: MapVc)
         navigationController.modalPresentationStyle = .fullScreen
-        navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
-        present(navigationController, animated: true, completion: nil)
+        self.present(navigationController, animated: true)
+        
         
     }
     
@@ -40,6 +46,7 @@ extension SplashScreenViewController : SplashViewModelDelegate{
         //testVc.modalPresentationStyle = .fullScreen
         //testVc.viewModel = UserVehicleInfoViewModel(delegate: testVc, networkManager: NetworkManager())
         //present(testVc,animated: true)
+        
     }
     
     func showUpdateDialog(url: String?) {

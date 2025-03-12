@@ -70,4 +70,29 @@ struct AppStrings {
         static let verifyFailedButtonTitle = "Verify Failed"
         static let toastMessage = "⚠️ Press back again to exit"
     }
+    
+    struct Map{
+        static let scanButtonTitle = " Scan QR"
+    }
+    
+    struct leftMenu{
+        static let Title = "What am i driving today?"
+        static let highlihtedTitle = "driving"
+        
+        static let menuItem1 = "My Garage"
+        static let menuItemImage1 = "car"
+        
+        static let menuItem2 = "Favourite Docks"
+        static let menuItemImage2 = "heart"
+        
+        static let menuItem3 = "History"
+        static let menuItemImage3 = "clock"
+        
+        static let menuItem4 = "Help & Support"
+        static let menuItemImage4 = "phone.connection"
+        
+        static let menuItem5 = "Settings"
+        static let menuItemImage5 = "gear"
+    }
+    
 }

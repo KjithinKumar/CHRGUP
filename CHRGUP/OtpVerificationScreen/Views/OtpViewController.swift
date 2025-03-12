@@ -48,6 +48,7 @@ class OtpViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         view.endEditing(true)
+        setVerifyButtonState(.verify)
     }
     deinit {
         removeKeyboardNotifications()
@@ -411,6 +412,14 @@ extension OtpViewController : OtpViewModelDelegate {
         debugPrint("fetched session Data from API - \(String(describing: sessionData))")
         debugPrint("checking user from userdefaults - \(String(describing: UserDefaultManager.shared.getUserProfile()))")
         debugPrint("checking JWTToken from userdefaults - \(String(describing: UserDefaultManager.shared.getJWTToken()))")
+        DispatchQueue.main.async{
+            let MapVc = MapScreenViewController()
+            MapVc.viewModel = MapScreenViewModel()
+            let navigationController = UINavigationController(rootViewController: MapVc)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.present(navigationController, animated: true)
+        }
+        
     }
     
     func didFailToRegister(error: String) {

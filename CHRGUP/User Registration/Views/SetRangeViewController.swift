@@ -110,9 +110,7 @@ extension SetRangeViewController : UITextFieldDelegate {
 
 extension SetRangeViewController : UserRegistrationViewModelDelegate{
     func didSaveUserProfileSuccessfully(token: String?) {
-        print(UserDefaultManager.shared.getUserProfile())
-        UserDefaultManager.shared.setJWTToken(token ?? "")
-        
+        UserDefaultManager.shared.setJWTToken(token ?? "")        
         DispatchQueue.main.async{
             let vc = SetupSuccessViewController()
             vc.modalPresentationStyle = .fullScreen

@@ -47,7 +47,7 @@ class WelcomeViewController: UIViewController {
         
         welcomeLabel.text = AppStrings.Welcome.welcomeTitle
         welcomeLabel.textColor = ColorManager.textColor
-        welcomeLabel.font = FontManager.bold(size: 35)
+        welcomeLabel.font = FontManager.bold(size: 40)
 
         
         subtitleLabel.text = AppStrings.Welcome.welcomeSubtitle

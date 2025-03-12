@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041B4DA72D7F3CDB00193D8E /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 041B4DA62D7F3CDB00193D8E /* GoogleMaps */; };
 		046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 046D569F2D7C5AC100B6B654 /* SDWebImage */; };
 		046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */; };
 		048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 048B05C62D7DFB9A00763C9C /* Lottie */; };
@@ -50,6 +51,7 @@
 			files = (
 				04BEF12F2D786CA9005A3979 /* GoogleSignIn in Frameworks */,
 				04BEF12A2D7861A5005A3979 /* FirebaseCrashlytics in Frameworks */,
+				041B4DA72D7F3CDB00193D8E /* GoogleMaps in Frameworks */,
 				048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */,
 				04BEF1262D7861A5005A3979 /* FirebaseAnalytics in Frameworks */,
 				046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */,
@@ -108,6 +110,7 @@
 				046D569F2D7C5AC100B6B654 /* SDWebImage */,
 				046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */,
 				048B05C62D7DFB9A00763C9C /* Lottie */,
+				041B4DA62D7F3CDB00193D8E /* GoogleMaps */,
 			);
 			productName = CHRGUP;
 			productReference = 04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */;
@@ -142,6 +145,7 @@
 				04BEF12D2D786CA9005A3979 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				048B05C52D7DFB9A00763C9C /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				041B4DA52D7F3CDB00193D8E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04DAC96F2D6DB3F800EB4FB8 /* Products */;
@@ -375,6 +379,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		041B4DA52D7F3CDB00193D8E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.3.0;
+			};
+		};
 		046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -410,6 +422,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		041B4DA62D7F3CDB00193D8E /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041B4DA52D7F3CDB00193D8E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMaps;
+		};
 		046D569F2D7C5AC100B6B654 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */;

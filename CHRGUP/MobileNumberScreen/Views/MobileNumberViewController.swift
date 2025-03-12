@@ -178,6 +178,7 @@ class MobileNumberViewController: UIViewController {
             guard (isValid == nil) else {
                 self.showAlert(title: "Error", message: "Please check the number you have entered")
                 self.signInButton.isEnabled = true
+                self.signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
                 self.activityIndicator.isHidden = true
                 return
             }

@@ -23,7 +23,7 @@ class GoogleSignInHelper{
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
         
-        GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { [weak self] result, error in
+        GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { result, error in
             if let error = error {
                 completion(.failure(error))
                 return
