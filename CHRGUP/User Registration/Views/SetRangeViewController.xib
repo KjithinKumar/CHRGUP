@@ -20,7 +20,7 @@
                 <outlet property="imageView" destination="yYB-0Q-Z3L" id="AP1-Zy-2eH"/>
                 <outlet property="noteLabel" destination="p0h-Is-mUW" id="N5n-cs-IvQ"/>
                 <outlet property="popUpView" destination="TbR-ii-u0Z" id="Cnh-ut-CS2"/>
-                <outlet property="reangeTextField" destination="NdQ-V0-807" id="2wd-Go-L5i"/>
+                <outlet property="rangeTextField" destination="NdQ-V0-807" id="2wd-Go-L5i"/>
                 <outlet property="setRangeLabel" destination="Ngv-JR-07m" id="mg3-w7-JP9"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

@@ -34,4 +34,22 @@ struct URLs{
     static let postUserUrl = baseUrl + "users/"
     
     static let vehiclesUrl = baseUrl + "vehicle/all"
+    
+    static func imageUrl(_ imageName : String) -> String{
+        return "\(baseUrls3)\(imageName)"
+    }
+    
+    static func userVehiclesUrl(mobileNumber : String) -> String{
+        return "\(baseUrl)users/\(mobileNumber)/vehicles"}
+    
+    static func deleteVehicleUrl(mobileNumber : String, VehicleId : String) -> String{
+        return "\(baseUrl)users/\(mobileNumber)/vehicles/\(VehicleId)"
+    }
+    
+    static func updateVehicleUrl(mobileNumber : String, VehicleId : String) -> String{
+        return "\(baseUrl)users/\(mobileNumber)/vehicles/\(VehicleId)"
+    }
+    static let faqURl = baseUrl + "faq/all-faq-category"
+    
+    static let faqCatergoryUrl = baseUrl + "faq/faq-category"
 }

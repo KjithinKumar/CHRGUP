@@ -29,7 +29,6 @@ class InternetManager{
     
     var topVC : UIViewController?
     private func showNoInternetAlert() {
-        //let topVC = UIApplication.shared.currentUIWindow()?.rootViewController
         topVC = UIApplication.shared.getCurrentViewController()
         topVC?.showAlert(title: AppStrings.Alert.noInternetTitle,
                         message: AppStrings.Alert.noInternetMessage,

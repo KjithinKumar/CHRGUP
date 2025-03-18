@@ -24,7 +24,11 @@ class MapScreenViewController: UIViewController {
         setUpMaps()
         setUpNavBar()
         viewModel?.delegate = self
+        UserDefaultManager.shared.setLoginStatus(true)
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        ToastManager.shared.showToast(message: "Welcome to CHRGUP")
     }
     
     func setUpMaps(){
@@ -75,11 +79,10 @@ class MapScreenViewController: UIViewController {
     
     func setUpNavBar(){
         navigationController?.navigationBar.isHidden = false
-        navigationController?.view.backgroundColor = ColorManager.backgroundColor
+        navigationController?.view.backgroundColor = ColorManager.secondaryBackgroundColor
+        navigationController?.navigationBar.backgroundColor = ColorManager.secondaryBackgroundColor
         navigationController?.navigationBar.tintColor = ColorManager.textColor
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.layer.cornerRadius = 10
-        navigationController?.navigationBar.layer.masksToBounds = true
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(listMenuTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchMenuTapped))
@@ -89,8 +92,9 @@ class MapScreenViewController: UIViewController {
     @objc func listMenuTapped(){
         let leftPopVc = SideMenuViewController()
         leftPopVc.viewModel = SideMenuViewModel()
+        leftPopVc.delegate = self
         leftPopVc.modalPresentationStyle = .overFullScreen
-        present(leftPopVc, animated: false)
+        navigationController?.present(leftPopVc, animated: false)
     }
     @objc func searchMenuTapped(){
         
@@ -116,4 +120,10 @@ extension MapScreenViewController : MapViewModelDelegate {
     }
     
     
+}
+
+extension MapScreenViewController : SideMenuDelegate {
+    func didSelectMenuOption(_ viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }

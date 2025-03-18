@@ -6,20 +6,11 @@
 //
 
 import Foundation
-//struct VehicleResponseModel: Codable {
-//    let category: String
-//    let manufacturer: String
-//    let model: String
-//    let variant: String
-//    let ARAI_range: String
-//    let claimed_range: String
-//    let image: String
-//}
 
-
-struct VehicleResponse: Decodable {
+struct VehicleCatalogResponse: Decodable {
     let success : Bool
     let data : [VehicleType]
+    let message : String?
 }
 
 typealias VehicleTypes = [String : VehicleType]

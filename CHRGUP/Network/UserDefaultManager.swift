@@ -17,6 +17,7 @@ class UserDefaultManager{
         static let userProfile = "userProfile"
         static let selectedVehicle = "selectedVehicle"
         static let jwtTokenKey = "JWTKey"
+        static let loggedInUserIdKey = "loggedInUserIdKey"
     }
     
     // MARK: - User Profile
@@ -55,5 +56,16 @@ class UserDefaultManager{
     
     func getJWTToken() -> String? {
         return defaults.string(forKey: Keys.jwtTokenKey)
+    }
+    
+    //MARK: - Login Stats
+    func setLoginStatus(_ status: Bool) {
+        defaults.set(status, forKey: Keys.loggedInUserIdKey)
+    }
+    func isLoggedIn() -> Bool {
+        return defaults.bool(forKey: Keys.loggedInUserIdKey)
+    }
+    func resetLoginStatus() {
+        defaults.removeObject(forKey: Keys.loggedInUserIdKey)
     }
 }

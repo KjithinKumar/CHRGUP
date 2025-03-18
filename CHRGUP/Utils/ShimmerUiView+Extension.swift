@@ -47,4 +47,9 @@ extension UIView {
             objc_setAssociatedObject(self, &shimmerLayerKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+    func updateShimmerLayout() {
+        if let shimmerLayer = objc_getAssociatedObject(self, &shimmerLayerKey) as? CAGradientLayer {
+            shimmerLayer.frame = self.bounds
+        }
+    }
 }

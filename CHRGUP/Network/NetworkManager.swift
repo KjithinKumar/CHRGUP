@@ -20,6 +20,7 @@ enum NetworkManagerError : Error {
     case invalidResponse
     case decodingFailed
     case noData
+    case serverError(message: String,code : Int)
     
     var description: String {
         switch self {
@@ -31,8 +32,11 @@ enum NetworkManagerError : Error {
             return "Invalid Response"
         case .decodingFailed:
             return "Decoding Failed"
+        case .serverError(let message, let code) :
+            return "\(message) with code \(code)"
         case .noData:
             return "No Data"
+            
         }
     }
 }
@@ -53,8 +57,8 @@ protocol NetworkManagerProtocol : AnyObject {
 class NetworkManager: NetworkManagerProtocol {
     func request<T>(_ urlRequest: URLRequest, decodeTo type: T.Type, completion: @escaping (Result<T, any Error>) -> Void) where T : Decodable {
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
-            if let _ = error{
-                completion(.failure(NetworkManagerError.invalidRequest))
+            if let error = error{
+                completion(.failure(NetworkManagerError.serverError(message: error.localizedDescription, code: 0)))
                 return
             }
             guard let data = data else{
@@ -64,13 +68,39 @@ class NetworkManager: NetworkManagerProtocol {
             
             do {
                 let decodedObject = try JSONDecoder().decode(T.self, from: data)
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    return
+                }
+                if !(200...299).contains(httpResponse.statusCode) {
+                    let errorMessage = self.parseErrorMessage(from: data)
+                    completion(.failure(NetworkManagerError.serverError(message: errorMessage, code: httpResponse.statusCode)))
+                    return
+                }
                 completion(.success(decodedObject))
+                
             }catch(let error){
                 debugPrint(error)
                 completion(.failure(NetworkManagerError.decodingFailed))
             }
+            
+            
         }
         task.resume()
+    }
+    func parseErrorMessage(from errorData: Data?) -> String {
+        guard let errorData = errorData, !errorData.isEmpty else {
+            return "Server error"
+        }
+        do {
+            if let jsonObject = try JSONSerialization.jsonObject(with: errorData, options: []) as? [String: Any],
+               let message = jsonObject["message"] as? String {
+                return message
+            }
+            return "Server error"
+        } catch {
+            debugPrint("Error parsing error message: \(error)")
+            return "Server error"
+        }
     }
     func postRequest(request : URLRequest,completion : @escaping (Any?) -> Void){
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -125,14 +155,6 @@ class NetworkManager: NetworkManagerProtocol {
                 
             case .urlEncoded:
                 request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                //                let encodedBody = body
-                //                    .map { key, value in
-                //                        let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
-                //                        let encodedValue = (value).addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? value
-                //                        return "\(encodedKey)=\(encodedValue)"
-                //                    }
-                //                    .joined(separator: "&")
-                //                request.httpBody = encodedBody.data(using: .utf8)
                 let encodedBody = body
                     .compactMap { key, value -> String? in
                         let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key

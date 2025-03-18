@@ -36,7 +36,6 @@ class DropdownTableViewCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     
     weak var delegate : UserVehicleInfoCellDelegate?
-    //private var pickerData: [String] = []
     private var cellType: UserVehicleInfoCellType?
 
     private let pickerView = UIPickerView()
@@ -47,6 +46,10 @@ class DropdownTableViewCell: UITableViewCell, UITextFieldDelegate {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        return false
     }
     func configure(with type: UserVehicleInfoCellType,delegate : UserVehicleInfoCellDelegate, selectedValue: String?,isEnabled: Bool) {
         
@@ -68,7 +71,7 @@ class DropdownTableViewCell: UITableViewCell, UITextFieldDelegate {
         textField.delegate = self
         textField.backgroundColor = ColorManager.secondaryBackgroundColor
         textField.textColor = ColorManager.primaryColor
-        textField.tintColor = ColorManager.primaryColor
+        
         textField.font = FontManager.regular()
         textField.layer.borderWidth = 0
         textField.layer.cornerRadius = 8
@@ -87,16 +90,17 @@ class DropdownTableViewCell: UITableViewCell, UITextFieldDelegate {
             textField.placeholder = placeholder
             textField.inputView = pickerView // Set picker for dropdowns
             createToolbar(for: textField)
-            //addDropdownIcon()
             textField.rightView = dropDownImageView()
             textField.rightViewMode = .always
             pickerView.reloadAllComponents()
+            textField.tintColor = .clear
         case .textField(let title, let placeholder):
             label.text = title
             textField.placeholder = placeholder
             textField.inputView = nil // Normal keyboard
             textField.rightView = nil
             textField.rightViewMode = .never
+            textField.tintColor = ColorManager.primaryColor
             
             
         }
@@ -112,17 +116,6 @@ class DropdownTableViewCell: UITableViewCell, UITextFieldDelegate {
         containerView.addSubview(imageView)
         return containerView
     }
-//    func addDropdownIcon(){
-//        let dropdownImageView = dropDownImageView()
-//        textField.addSubview(dropdownImageView)
-//        dropdownImageView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            dropdownImageView.trailingAnchor.constraint(equalTo: textField.trailingAnchor,constant: -10),
-//            dropdownImageView.topAnchor.constraint(equalTo: textField.topAnchor),
-//            dropdownImageView.bottomAnchor.constraint(equalTo: textField.bottomAnchor)
-//            
-//        ])
-//    }
     private func createToolbar(for textField: UITextField){
         let toolbar = UIToolbar()
         toolbar.sizeToFit()

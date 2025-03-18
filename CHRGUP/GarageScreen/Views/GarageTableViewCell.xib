@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GarageTableViewCell" rowHeight="252" id="KGk-i7-Jjw" customClass="GarageTableViewCell" customModule="CHRGUP" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="383" height="252"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="383" height="252"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eci-VT-plH">
+                        <rect key="frame" x="15" y="20" width="353" height="227"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m4p-qF-CoH">
+                                <rect key="frame" x="0.0" y="170.33333333333334" width="353" height="56.666666666666657"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Car picture" translatesAutoresizingMaskIntoConstraints="NO" id="NQF-zK-lQf">
+                                <rect key="frame" x="78" y="105" width="197" height="102"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oh9-D4-0an">
+                                <rect key="frame" x="285" y="15" width="19" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="BGT-kn-hXd"/>
+                                    <constraint firstAttribute="width" constant="19" id="iGZ-cK-NyE"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="pencil" catalog="system"/>
+                                <connections>
+                                    <action selector="editButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Nfs-b8-6bJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYY-F1-wUY">
+                                <rect key="frame" x="319" y="15" width="19" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="RPE-dh-Biz"/>
+                                    <constraint firstAttribute="height" constant="19" id="qEm-cu-ZZT"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="trash" catalog="system"/>
+                                <connections>
+                                    <action selector="deleteButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kZy-63-BnR"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TaTa Nexon EV         " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mzS-TX-c5h">
+                                <rect key="frame" x="15" y="14.999999999999998" width="151" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2025" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZ6-CH-tKn">
+                                <rect key="frame" x="15" y="40.333333333333336" width="36" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AaH-U9-vqW">
+                                <rect key="frame" x="56" y="40.333333333333336" width="2" height="17"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="2" id="bSl-rE-bYP"/>
+                                    <constraint firstAttribute="height" constant="17" id="eru-Ao-5j1"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EV plus" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1si-hz-OAI">
+                                <rect key="frame" x="63" y="40.333333333333336" width="51.333333333333343" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AaH-U9-vqW" firstAttribute="leading" secondItem="BZ6-CH-tKn" secondAttribute="trailing" constant="5" id="1EQ-f9-qgk"/>
+                            <constraint firstAttribute="bottom" secondItem="m4p-qF-CoH" secondAttribute="bottom" id="1nr-ky-Dcc"/>
+                            <constraint firstItem="BZ6-CH-tKn" firstAttribute="top" secondItem="mzS-TX-c5h" secondAttribute="bottom" constant="5" id="5Wc-df-pfa"/>
+                            <constraint firstItem="yYY-F1-wUY" firstAttribute="top" secondItem="eci-VT-plH" secondAttribute="top" constant="15" id="CfW-ZT-14Q"/>
+                            <constraint firstItem="yYY-F1-wUY" firstAttribute="leading" secondItem="Oh9-D4-0an" secondAttribute="trailing" constant="15" id="FBh-a0-Y8B"/>
+                            <constraint firstItem="1si-hz-OAI" firstAttribute="top" secondItem="mzS-TX-c5h" secondAttribute="bottom" constant="5" id="GZb-AB-4gb"/>
+                            <constraint firstItem="1si-hz-OAI" firstAttribute="leading" secondItem="AaH-U9-vqW" secondAttribute="trailing" constant="5" id="NsU-wf-KKS"/>
+                            <constraint firstItem="m4p-qF-CoH" firstAttribute="leading" secondItem="eci-VT-plH" secondAttribute="leading" id="OMB-bv-HJD"/>
+                            <constraint firstItem="NQF-zK-lQf" firstAttribute="centerX" secondItem="eci-VT-plH" secondAttribute="centerX" id="SQ3-Rk-1O8"/>
+                            <constraint firstItem="BZ6-CH-tKn" firstAttribute="leading" secondItem="eci-VT-plH" secondAttribute="leading" constant="15" id="VL4-0u-CqC"/>
+                            <constraint firstItem="m4p-qF-CoH" firstAttribute="height" secondItem="eci-VT-plH" secondAttribute="height" multiplier="0.25" id="YIO-jI-OvU"/>
+                            <constraint firstItem="NQF-zK-lQf" firstAttribute="bottom" secondItem="m4p-qF-CoH" secondAttribute="bottom" constant="-20" id="efX-S4-Irr"/>
+                            <constraint firstItem="Oh9-D4-0an" firstAttribute="top" secondItem="eci-VT-plH" secondAttribute="top" constant="15" id="gwE-iL-3ma"/>
+                            <constraint firstItem="mzS-TX-c5h" firstAttribute="leading" secondItem="eci-VT-plH" secondAttribute="leading" constant="15" id="jfN-M6-mdM"/>
+                            <constraint firstAttribute="trailing" secondItem="yYY-F1-wUY" secondAttribute="trailing" constant="15" id="lAJ-QS-ihA"/>
+                            <constraint firstAttribute="trailing" secondItem="m4p-qF-CoH" secondAttribute="trailing" id="pBq-6l-8lH"/>
+                            <constraint firstItem="mzS-TX-c5h" firstAttribute="top" secondItem="eci-VT-plH" secondAttribute="top" constant="15" id="saW-Rd-bSB"/>
+                            <constraint firstItem="AaH-U9-vqW" firstAttribute="top" secondItem="mzS-TX-c5h" secondAttribute="bottom" constant="5" id="taP-N3-3AP"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="eci-VT-plH" secondAttribute="bottom" constant="5" id="BVL-fX-Asq"/>
+                    <constraint firstAttribute="trailing" secondItem="eci-VT-plH" secondAttribute="trailing" constant="15" id="IdA-GE-0nn"/>
+                    <constraint firstItem="eci-VT-plH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Nnt-au-TVN"/>
+                    <constraint firstItem="eci-VT-plH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="aha-b5-Kxa"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="backgroundViewBottom" destination="m4p-qF-CoH" id="fhf-8v-N89"/>
+                <outlet property="backgroundViewTop" destination="eci-VT-plH" id="KBc-GR-DqI"/>
+                <outlet property="deleteButton" destination="yYY-F1-wUY" id="NBB-b9-MMO"/>
+                <outlet property="editButton" destination="Oh9-D4-0an" id="2HY-On-FF4"/>
+                <outlet property="vehicleImageView" destination="NQF-zK-lQf" id="B6G-Ss-8AF"/>
+                <outlet property="vehicleNameLabel" destination="mzS-TX-c5h" id="Jaj-ys-HXH"/>
+                <outlet property="vehicleVariantLabel" destination="1si-hz-OAI" id="XQD-F7-Ota"/>
+                <outlet property="vehicleYearLabel" destination="BZ6-CH-tKn" id="ZLA-w5-OT2"/>
+            </connections>
+            <point key="canvasLocation" x="20.610687022900763" y="92.957746478873247"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Car picture" width="197" height="102"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

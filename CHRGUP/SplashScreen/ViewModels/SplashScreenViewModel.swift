@@ -11,6 +11,7 @@ import UIKit
 protocol SplashViewModelDelegate: AnyObject {
     func navigateToMain()
     func navigateToOnboarding()
+    func navigateToMap()
     func showUpdateDialog(url: String?)
 }
 
@@ -37,7 +38,7 @@ class SplashScreenViewModel{
                     self?.delegate?.showUpdateDialog(url: url) //Notify User to Force Update
                     //return
                 }else {
-                    self?.checkLoginStatus()// Check login
+                    self?.checkOnboardingStatus()// Check login
                 }
             }
         } 
@@ -71,15 +72,22 @@ class SplashScreenViewModel{
     }
     
     //Checking Login Status
-    private func checkLoginStatus() {
-        let isLoggedIn = UserDefaultManager.shared.isOnboardingCompleted()
-        NSLog("user logged in:\(isLoggedIn)")
-//        print("user logged in:\(isLoggedIn)")
-        if isLoggedIn {
-            delegate?.navigateToMain()
+    private func checkOnboardingStatus() {
+        let isOnboarded = UserDefaultManager.shared.isOnboardingCompleted()
+        if  isOnboarded{
+            checkLoginStatus()
         } else {
             delegate?.navigateToOnboarding()
         }
+    }
+    private func checkLoginStatus() {
+        let isLoggedIn = UserDefaultManager.shared.isLoggedIn()
+        if isLoggedIn{
+            delegate?.navigateToMap()
+        }else{
+            delegate?.navigateToMain()
+        }
+        
     }
     
     @objc func handleInternetRestored(){

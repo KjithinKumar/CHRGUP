@@ -339,7 +339,7 @@ extension OtpViewController{
                 title = AppStrings.Otp.verifiedButtonTitle
                 self.activityIndicator.isHidden = true
                 self.activityIndicator.stopAnimating()
-                //self.movetoCheckUser()
+                self.verifyButton.isUserInteractionEnabled = false
             }
             
             let attributedTitle = NSAttributedString(string: title, attributes: attributes)
@@ -390,11 +390,15 @@ extension OtpViewController : OtpViewModelDelegate {
     func didRequireGoogleSignIn() {
         DispatchQueue.main.async {
             self.navigationItem.leftBarButtonItem?.isHidden = true
+            self.verifyButton.tintColor = ColorManager.textColor
+            self.activityIndicator.startAnimating()
+            self.activityIndicator.isHidden = false
             GoogleSignInHelper.shared.signIn(with: self) { result in
                 switch result{
                 case .success(let newuser) :
                     let vehicleVc = UserVehicleInfoViewController()
                     vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+                    vehicleVc.screenType = .registerNew
                     vehicleVc.userData = newuser
                     vehicleVc.userData?.phoneNumber = self.mobileNumber ?? ""
                     self.navigationController?.pushViewController(vehicleVc, animated: true)
@@ -407,11 +411,15 @@ extension OtpViewController : OtpViewModelDelegate {
         }
     }
     
-    func didRegisterSuccessfully(userProfile: UserProfile, sessionData: SessionData?) {
+    func didRegisterSuccessfully(userProfile: UserProfile, sessionData: SessionData?,token: String) {
         debugPrint("fetched User Profile from API - \(userProfile)")
         debugPrint("fetched session Data from API - \(String(describing: sessionData))")
+        debugPrint("fetched token from API - \(token)")
+        UserDefaultManager.shared.saveUserProfile(userProfile)
+        UserDefaultManager.shared.setJWTToken(token)
         debugPrint("checking user from userdefaults - \(String(describing: UserDefaultManager.shared.getUserProfile()))")
         debugPrint("checking JWTToken from userdefaults - \(String(describing: UserDefaultManager.shared.getJWTToken()))")
+        
         DispatchQueue.main.async{
             let MapVc = MapScreenViewController()
             MapVc.viewModel = MapScreenViewModel()

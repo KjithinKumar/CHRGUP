@@ -9,7 +9,7 @@ import Foundation
 struct UserProfile: Codable {
     var firstName: String
     var lastName: String
-    var userVehicle: [UserVehicleModel]
+    var userVehicle: [VehicleModel]
     var email: String
     var gender: String
     var dob: String

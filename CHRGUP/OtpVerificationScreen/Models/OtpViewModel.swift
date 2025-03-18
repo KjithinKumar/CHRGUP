@@ -18,7 +18,7 @@ enum VerifyState {
 
 
 protocol OtpViewModelDelegate : AnyObject {
-    func didRegisterSuccessfully(userProfile: UserProfile, sessionData: SessionData?)
+    func didRegisterSuccessfully(userProfile: UserProfile, sessionData: SessionData?,token: String)
     func didFailToRegister(error: String)
     func didRequireGoogleSignIn()
 }
@@ -69,7 +69,8 @@ class OtpViewModel: OtpViewModelInterface {
             case .success(let response):
                 if response.success,let userProfile = response.data{
                     let sessionData = SessionData(sessionId: response.sessionId, locationId: response.locationId, startTime: response.startTime, chargerId: response.chargerId, status: response.status)
-                    self.delegate?.didRegisterSuccessfully(userProfile: userProfile, sessionData: sessionData)
+                    let token = response.token ?? ""
+                    self.delegate?.didRegisterSuccessfully(userProfile: userProfile, sessionData: sessionData, token: token)
                 }else{
                     self.delegate?.didRequireGoogleSignIn()
                 }

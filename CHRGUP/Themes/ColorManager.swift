@@ -16,4 +16,5 @@ struct ColorManager {
     static let buttonColorwhite = UIColor(hex: "#E8E8E8") //Neutral/100
     static let secondaryBackgroundColor = UIColor(hex: "#272727") //Neutral/800
     static let placeholderColor = UIColor(hex: "#767676") //Neutral/300
+    static let thirdBackgroundColor = UIColor(hex: "#4C4C4C") //Neutral/400
 }

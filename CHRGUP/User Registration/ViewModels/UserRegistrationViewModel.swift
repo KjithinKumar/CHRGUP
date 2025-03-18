@@ -8,11 +8,15 @@
 import Foundation
 protocol UserRegistrationViewModelDelegate: AnyObject {
     func didSaveUserProfileSuccessfully(token: String?)
+    func didAddedNewVehicleSuccessfully(message : String?)
+    func failedToAddNewVehicle(_ error : String,_ code : Int)
+    func didUpdateVehicleSuccessfully(message: String?)
     func didFailToSaveUserProfile(error: String)
 }
 protocol UserRegistrationViewModelnterface{
-    
     func saveUserProfile(userProfile: UserProfile)
+    func addNewVehicle(vehicle: VehicleModel,mobileNumber: String)
+    func updateVehicle(vehicle: VehicleModel,mobileNumber: String,vehicleId: String)
 }
 
 class UserRegistrationViewModel : UserRegistrationViewModelnterface{
@@ -42,6 +46,66 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
                 self.delegate?.didSaveUserProfileSuccessfully(token: userResponse.token)
             case .failure(let error) :
                 self.delegate?.didFailToSaveUserProfile(error: error.localizedDescription)
+            }
+        })
+    }
+    func addNewVehicle(vehicle: VehicleModel,mobileNumber: String) {
+        let url = URLs.userVehiclesUrl(mobileNumber: mobileNumber)
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else {
+            return
+        }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        guard let request = networkManager?.createRequest(urlString: url,
+                                                          method: .post,
+                                                          body: vehicle.toDictionary(),
+                                                          encoding: .json,
+                                                          headers: header) else{
+            delegate?.didFailToSaveUserProfile(error: "Invalid Request")
+            return
+        }
+        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { result in
+            switch result {
+            case .success(let response):
+                self.delegate?.didAddedNewVehicleSuccessfully(message: response.message)
+            case .failure(let error) :
+                if let error = error as? NetworkManagerError{
+                    switch error{
+                    case .serverError(let message,let code) :
+                        self.delegate?.failedToAddNewVehicle(message, code)
+                    default :
+                        debugPrint(error)
+                    }
+                }else{
+                    debugPrint(error)
+                }
+            }
+        })
+    }
+    func updateVehicle(vehicle: VehicleModel,mobileNumber: String,vehicleId: String){
+        let url = URLs.updateVehicleUrl(mobileNumber: mobileNumber, VehicleId: vehicleId)
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else {
+            return
+        }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        guard let request = networkManager?.createRequest(urlString: url,
+                                                          method: .put,
+                                                          body: vehicle.toDictionary(),
+                                                          encoding: .json, headers: header) else {return}
+        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { result in
+            switch result {
+            case .success(let response):
+                self.delegate?.didUpdateVehicleSuccessfully(message: response.message)
+            case .failure(let error) :
+                if let error = error as? NetworkManagerError{
+                    switch error{
+                    case .serverError(let message,let code) :
+                        self.delegate?.failedToAddNewVehicle(message, code)
+                    default :
+                        debugPrint(error)
+                    }
+                }else{
+                    debugPrint(error)
+                }
             }
         })
     }

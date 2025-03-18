@@ -56,7 +56,15 @@ struct AppStrings {
     }
     
     struct MobileExtension{
-        static let Ind = "+91 6299459950"
+        static let Ind = "+91 "
+    }
+    
+    struct VehicleDetails{
+        static let addVehicle = "Add Vehicle"
+        static let addButtonTitle = "Add"
+        static let editButtonTitle = "Edit"
+        static let updateButtonTitle = "Update"
+        static let editVechicle = "Edit Vehicle"
     }
     
     struct Otp{
@@ -95,4 +103,7 @@ struct AppStrings {
         static let menuItemImage5 = "gear"
     }
     
+    struct Garage{
+        static let Title = "My Garage"
+    }
 }

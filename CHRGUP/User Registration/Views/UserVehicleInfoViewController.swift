@@ -7,6 +7,12 @@
 
 import UIKit
 
+enum UserVehicleInfoScreenType{
+    case registerNew   // First-time user registration with vehicle
+    case addNew        // Adding a new vehicle to "My Garage"
+    case edit          // Editing an existing vehicle
+}
+
 class UserVehicleInfoViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -17,7 +23,8 @@ class UserVehicleInfoViewController: UIViewController {
     var enabledFields: [UserVehicleInfoCellType: Bool] = [:]
     
     var userData : UserProfile?
-    var userSelecetedVechileData : UserVehicleModel?
+    var userSelecetedVechileData : VehicleModel?
+    var screenType : UserVehicleInfoScreenType = .registerNew
 
     private var selectedType: String?
     private var selectedMake: String?
@@ -40,7 +47,6 @@ class UserVehicleInfoViewController: UIViewController {
         observeKeyboardNotifications()
         initializeFieldStates()
         configureNextButton()
-        configureNavBar()
         
     }
     func configureNextButton() {
@@ -66,55 +72,92 @@ class UserVehicleInfoViewController: UIViewController {
         let variantDetails = viewModel?.getVariants(for: selectedType, make: selectedMake, model: selectedModel).first(where: { variant in
             variant.variant == selectedVariant
         })
-        userSelecetedVechileData = UserVehicleModel(type: selectedType,
+        userSelecetedVechileData = VehicleModel(type: selectedType,
                                                     make: selectedMake,
                                                     model: selectedModel,
                                                     variant: selectedVariant,
                                                     vehicleReg: registrationNumber ?? "",
-                                                    range: "",
-                                                    id: "",
+                                                    range: userSelecetedVechileData?.range ?? "",
+                                                    id: userSelecetedVechileData?.id ?? "",
                                                     vehicleImg: variantDetails?.image ?? "" )
         guard let userSelecetedVechileData = userSelecetedVechileData else {
             return
         }
-        userData?.userVehicle.insert(userSelecetedVechileData, at: 0)
         
-        let vc = SetRangeViewController()
-        vc.userData = userData
-        vc.selectedVehicleVariant = variantDetails
-        vc.viewModel = UserRegistrationViewModel(delegate: vc, networkManager: NetworkManager())
-        vc.modalPresentationStyle = .popover
-        present(vc, animated: true)
+        
+        let rangeVc = SetRangeViewController()
+        userData?.userVehicle.insert(userSelecetedVechileData, at: 0)
+        rangeVc.userData = userData
+        rangeVc.selectedVehicleVariant = variantDetails
+        rangeVc.setRangeScreenType = screenType
+        rangeVc.viewModel = UserRegistrationViewModel(delegate: rangeVc, networkManager: NetworkManager())
+        rangeVc.modalPresentationStyle = .popover
+        switch screenType {
+        case .registerNew:
+            rangeVc.setRangeScreenType = .registerNew
+        case .addNew:
+            rangeVc.newVehicle = userSelecetedVechileData
+            rangeVc.setRangeScreenType = .addNew
+            rangeVc.delegate = self
+        case .edit:
+            rangeVc.newVehicle = userSelecetedVechileData
+            rangeVc.setRangeScreenType = .edit
+            rangeVc.delegate = self
+        }
+        present(rangeVc, animated: true)
     }
     
     func setUpUI(){
         view.backgroundColor = ColorManager.backgroundColor
-       
-        
-        nextButton.setTitle("Next", for: .normal)
+        navigationController?.view.backgroundColor = ColorManager.secondaryBackgroundColor
         nextButton.titleLabel?.font = FontManager.bold(size: 20)
-        
         nextButton.layer.cornerRadius = 20
         nextButton.backgroundColor = ColorManager.primaryColor
         nextButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         
-        
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(gesture)
         
-        navigationItem.backBarButtonItem?.isHidden = true
+        
+        switch screenType {
+        case .registerNew:
+            navigationItem.title = AppStrings.VehicleDetails.addVehicle
+            nextButton.setTitle(AppStrings.VehicleDetails.addButtonTitle, for: .normal)
+            navigationItem.backBarButtonItem?.isHidden = true
+            configureNavBar()
+        case .addNew:
+            navigationItem.title = AppStrings.VehicleDetails.addVehicle
+            nextButton.setTitle(AppStrings.VehicleDetails.addButtonTitle, for: .normal)
+        case .edit:
+            navigationItem.title = AppStrings.VehicleDetails.editVechicle
+            nextButton.setTitle(AppStrings.VehicleDetails.updateButtonTitle, for: .normal)
+            populateExistingVehicleData()
+        }
+    }
+    func populateExistingVehicleData() {
+        guard let vehicle = userSelecetedVechileData else { return }
+        
+        selectedType = vehicle.type
+        selectedMake = vehicle.make
+        selectedModel = vehicle.model
+        selectedVariant = vehicle.variant
+        registrationNumber = vehicle.vehicleReg
+        
+        enabledFields = [:]  // Enable all fields for editing
+        for field in viewModel?.getFieldsForTableView() ?? [] {
+            enabledFields[field] = true
+        }
+        tableView.reloadData()
     }
     func configureNavBar(){
         let button = UIButton(type: .system)
-       let backImage = UIImage(systemName: "xmark")
-        //?.applyingSymbolConfiguration(UIImage.SymbolConfiguration(weight: .bold))
+        let backImage = UIImage(systemName: "xmark")
         button.setImage(backImage, for: .normal)
         button.backgroundColor = .clear
         button.tintColor = ColorManager.buttonColorwhite
         button.contentHorizontalAlignment = .left
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
         button.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        navigationItem.title = "Vehicle Info"
         
     }
     @objc func handleBackButton(){
@@ -166,16 +209,6 @@ extension UserVehicleInfoViewController : UserVehicleInfoViewModelDelegateProtoc
     func didLoadVehicleData() {
         tableView.reloadData()
     }
-    
-    func didSaveVehicleInfoSuccessfully() {
-        debugPrint("saved")
-    }
-    
-    func didFailToSaveVehicleInfo(error: String) {
-        debugPrint("failed to save")
-    }
-    
-    
 }
 
 extension UserVehicleInfoViewController : UserVehicleInfoCellDelegate{
@@ -248,7 +281,6 @@ extension UserVehicleInfoViewController : UserVehicleInfoCellDelegate{
         }
     }
     override func moveViewForKeyboard(yOffset: CGFloat) {
-        //tableView.transform = CGAffineTransform(translationX: 0, y: yOffset)
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -(yOffset - self.view.safeAreaInsets.bottom), right: 0)
         tableView.scrollIndicatorInsets = tableView.contentInset
         nextButton.transform = CGAffineTransform(translationX: 0, y: yOffset)
@@ -266,10 +298,45 @@ extension UserVehicleInfoViewController : UserVehicleInfoCellDelegate{
     }
     func initializeFieldStates() {
         let fields = viewModel?.getFieldsForTableView() ?? []
-        for (index, field) in fields.enumerated() {
-            enabledFields[field] = (index == 0) // Enable only first field initially
+        if screenType == .edit {
+            // Enable all fields for editing
+            for field in fields {
+                enabledFields[field] = true
+            }
+        } else {
+            // Enable only the first field for a new vehicle
+            for (index, field) in fields.enumerated() {
+                enabledFields[field] = (index == 0)
+            }
         }
         tableView.reloadData()
     }
     
+}
+extension UserVehicleInfoViewController : setRangeViewControllerDelegate{
+    
+    func addedNewVehicle(message : String) {
+        ToastManager.shared.showToast(message: message)
+        view.endEditing(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+            //self.dismissAlert()
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    func failedToAddNewVehicle(_ error : String,_ code : Int) {
+        if code == 401{
+            let actions = [UIAlertAction(title: "Login Again", style: .default, handler: { alertAction in
+                let welcomeVc = WelcomeViewController()
+                welcomeVc.modalPresentationStyle = .fullScreen
+                self.present(welcomeVc, animated: true)
+            })]
+            DispatchQueue.main.async {
+                self.showAlert(title: "Unauthorized", message: error,actions: actions)
+            }
+        }else{
+            DispatchQueue.main.async {
+                self.showAlert(title: "Error", message: error)
+            }
+        }
+    }
 }

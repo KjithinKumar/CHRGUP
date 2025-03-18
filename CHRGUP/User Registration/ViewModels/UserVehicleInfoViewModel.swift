@@ -9,8 +9,6 @@ import Foundation
 
 protocol UserVehicleInfoViewModelDelegateProtocol : AnyObject{
     func didLoadVehicleData()
-    func didSaveVehicleInfoSuccessfully()
-    func didFailToSaveVehicleInfo(error: String)
 }
 protocol UserVehicleInfoViewModelInterface {
     func loadVehicleData()
@@ -29,13 +27,13 @@ class UserVehicleInfoViewModel : UserVehicleInfoViewModelInterface {
         self.delegate = delegate
         self.networkManager = networkManager
     }
-    var vehicleResponse: VehicleResponse?
+    var vehicleResponse: VehicleCatalogResponse?
     
     //Fetch Vehicle data for dropdown
     func loadVehicleData() {
         let url = URLs.vehiclesUrl
         if let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: nil){
-            networkManager?.request(request, decodeTo: VehicleResponse.self, completion: { result in
+            networkManager?.request(request, decodeTo: VehicleCatalogResponse.self, completion: { result in
                 switch result {
                 case .success(let vehicles) :
                     self.vehicleResponse = vehicles
