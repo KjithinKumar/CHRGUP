@@ -319,17 +319,12 @@ extension UserVehicleInfoViewController : setRangeViewControllerDelegate{
         ToastManager.shared.showToast(message: message)
         view.endEditing(true)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
-            //self.dismissAlert()
             self.navigationController?.popViewController(animated: true)
         }
     }
     func failedToAddNewVehicle(_ error : String,_ code : Int) {
         if code == 401{
-            let actions = [UIAlertAction(title: "Login Again", style: .default, handler: { alertAction in
-                let welcomeVc = WelcomeViewController()
-                welcomeVc.modalPresentationStyle = .fullScreen
-                self.present(welcomeVc, animated: true)
-            })]
+            let actions = [AlertActions.loginAgainAction()]
             DispatchQueue.main.async {
                 self.showAlert(title: "Unauthorized", message: error,actions: actions)
             }

@@ -16,6 +16,8 @@ class MapScreenViewController: UIViewController {
     @IBOutlet weak var listButton: UIButton!
     @IBOutlet weak var locateButton: UIButton!
     
+    private var userLocation : CLLocation?
+    
     var mapView : GMSMapView?
     var viewModel : MapScreenViewModelInterface?
     override func viewDidLoad() {
@@ -27,12 +29,9 @@ class MapScreenViewController: UIViewController {
         UserDefaultManager.shared.setLoginStatus(true)
         
     }
-    override func viewWillAppear(_ animated: Bool) {
-        ToastManager.shared.showToast(message: "Welcome to CHRGUP")
-    }
-    
     func setUpMaps(){
         let camera = GMSCameraPosition.camera(withLatitude: 12.9716, longitude: 77.5946, zoom: 13)
+    
         let options = GMSMapViewOptions()
         options.camera = camera
         mapView = GMSMapView.init(options: options)
@@ -40,9 +39,9 @@ class MapScreenViewController: UIViewController {
         mapView.frame = view.bounds
         mapView.autoresizingMask = [.flexibleHeight,.flexibleWidth]
         do {
-                if let styleURL = Bundle.main.url(forResource: "Mapstyle", withExtension: "json") {
-                    mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-                }
+            if let styleURL = Bundle.main.url(forResource: "Mapstyle", withExtension: "json") {
+                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+            }
         } catch {
             print("Failed to load map style: \(error)")
         }
@@ -69,7 +68,7 @@ class MapScreenViewController: UIViewController {
         locateButton.tintColor = ColorManager.textColor
         locateButton.layer.cornerRadius = 10
         
-        scanQRButton.layer.cornerRadius = 20
+        scanQRButton.layer.cornerRadius = 25
         scanQRButton.setTitle(AppStrings.Map.scanButtonTitle, for: .normal)
         scanQRButton.titleLabel?.font = FontManager.bold(size: 17)
         scanQRButton.imageView?.tintColor = ColorManager.backgroundColor
@@ -84,14 +83,13 @@ class MapScreenViewController: UIViewController {
         navigationController?.navigationBar.tintColor = ColorManager.textColor
         navigationController?.navigationBar.isTranslucent = false
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(listMenuTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(leftMenuTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchMenuTapped))
     }
     
-
-    @objc func listMenuTapped(){
+    @objc func leftMenuTapped(){
         let leftPopVc = SideMenuViewController()
-        leftPopVc.viewModel = SideMenuViewModel()
+        leftPopVc.viewModel = SideMenuViewModel(networkManager: NetworkManager(),delegate: leftPopVc)
         leftPopVc.delegate = self
         leftPopVc.modalPresentationStyle = .overFullScreen
         navigationController?.present(leftPopVc, animated: false)
@@ -103,12 +101,18 @@ class MapScreenViewController: UIViewController {
         viewModel?.requestLocationPermission()
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
+        let listViewVc = NearByChargerViewController()
+        listViewVc.userLocation = userLocation
+        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager(),delegate: listViewVc)
+        navigationController?.pushViewController(listViewVc, animated: true)
+        
     }
     
 }
 extension MapScreenViewController : MapViewModelDelegate {
     func didUpdateUserLocation(_ location: CLLocation) {
         let userLocation = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 13)
+        self.userLocation = location
         guard let mapView = mapView else { return }
         mapView.animate(to: userLocation)
         let marker = GMSMarker(position: location.coordinate)

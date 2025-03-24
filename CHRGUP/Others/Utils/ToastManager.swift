@@ -24,7 +24,7 @@ class ToastManager {
         let toast = UILabel()
         toast.text = message
         toast.textAlignment = .center
-        toast.backgroundColor = ColorManager.secondaryBackgroundColor.withAlphaComponent(0.8)
+        toast.backgroundColor = ColorManager.thirdBackgroundColor.withAlphaComponent(0.8)
         toast.textColor = ColorManager.subtitleTextColor
         toast.layer.cornerRadius = 20
         toast.clipsToBounds = true

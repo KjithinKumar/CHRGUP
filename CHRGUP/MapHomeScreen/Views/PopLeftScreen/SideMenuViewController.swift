@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SDWebImage
+
 protocol SideMenuDelegate: AnyObject {
     func didSelectMenuOption(_ viewController: UIViewController)
 }
@@ -22,9 +24,11 @@ class SideMenuViewController: UIViewController {
     @IBOutlet weak var vehicleButton: UIButton!
     
     weak var delegate : SideMenuDelegate?
-    var viewModel : SideMenuViewModelProtocolInterface?
+    var viewModel : SideMenuViewModelInterface?
     private var menuWidthConstraint: NSLayoutConstraint?
     private let menuMaxWidth = UIScreen.main.bounds.width * 0.65
+    var isLoading : Bool = true
+    let indicator = UIActivityIndicatorView(style: .medium)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +36,7 @@ class SideMenuViewController: UIViewController {
         setUpPopoverView()
         setUpTableView()
         setUpVehicleButton()
+        viewModel?.fetchVehicleDetails()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -43,7 +48,6 @@ class SideMenuViewController: UIViewController {
     @IBAction func closeButtonPressed(_ sender: Any) {
         dismissToLeft()
     }
-    
     func setUpUI(){
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissView))
         backgroundView.addGestureRecognizer(gesture)
@@ -59,58 +63,56 @@ class SideMenuViewController: UIViewController {
         profileImageView.tintColor = ColorManager.textColor
         
         self.firstStackView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        self.profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        self.profileImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.profileImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
         self.vehicleButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
+        let userProfile = UserDefaultManager.shared.getUserProfile()
+        profileImageView.layer.cornerRadius = 25
+        if let image = userProfile?.profilePic{
+            let url = URL(string: image)
+            profileImageView.sd_setImage(with: url)
+            profileImageView.clipsToBounds = true
+        }
     }
     
     func setUpPopoverView(){
         popOverView.translatesAutoresizingMaskIntoConstraints = false
         popOverView.backgroundColor = ColorManager.secondaryBackgroundColor
-
     }
-
-    
     func setUpVehicleButton(){
         popOverView.addSubview(vehicleButton)
         vehicleButton.translatesAutoresizingMaskIntoConstraints = false
         vehicleButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        let imageView = UIImageView(image: UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate))
-        vehicleButton.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.autoresizingMask = .flexibleWidth
-        imageView.autoresizingMask = .flexibleHeight
-        imageView.tintColor = ColorManager.textColor
-        NSLayoutConstraint.activate([
-            imageView.centerYAnchor.constraint(equalTo: vehicleButton.centerYAnchor),
-            imageView.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -35)])
-        vehicleButton.layoutSubviews()
-        vehicleButton.setTitle("\u{2003}vehicle", for: .normal)
+        vehicleButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        vehicleButton.titleLabel?.minimumScaleFactor = 0.5 // Adjust as needed
+        vehicleButton.titleLabel?.lineBreakMode = .byTruncatingTail
+        
+        if isLoading{
+            vehicleButton.addSubview(indicator)
+            indicator.translatesAutoresizingMaskIntoConstraints = false
+            indicator.autoresizingMask = .flexibleWidth
+            indicator.autoresizingMask = .flexibleHeight
+            indicator.startAnimating()
+            NSLayoutConstraint.activate([
+                indicator.centerYAnchor.constraint(equalTo: vehicleButton.centerYAnchor),
+                indicator.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -35)])
+        }else{
+            indicator.hidesWhenStopped = true
+            indicator.stopAnimating()
+            let imageView = UIImageView(image: UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysTemplate))
+            vehicleButton.addSubview(imageView)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.autoresizingMask = .flexibleWidth
+            imageView.autoresizingMask = .flexibleHeight
+            imageView.tintColor = ColorManager.textColor
+            NSLayoutConstraint.activate([
+                imageView.centerYAnchor.constraint(equalTo: vehicleButton.centerYAnchor),
+                imageView.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -35)])
+        }
         vehicleButton.layer.borderWidth = 1
         vehicleButton.layer.cornerRadius = 5
         vehicleButton.layer.borderColor = ColorManager.primaryColor.cgColor
         vehicleButton.backgroundColor = ColorManager.secondaryBackgroundColor
-        let addVehicleAttributedString = NSAttributedString(string: "+ Add Vehicle", attributes: [.foregroundColor: ColorManager.primaryColor])
-        
-        
-        let first = UIAction(title: "Vehicle one", state: .off) { _ in
-            self.vehicleButton.setTitle("\u{2003}Vehicle one", for: .normal)
-        }
-        let third = UIAction(title: "Vehicle two", state: .off) { _ in
-            self.vehicleButton.setTitle("\u{2003}Vehicle two", for: .normal)
-        }
-        let fourth = UIAction(title: "Vehicle three", state: .off) { _ in
-            self.vehicleButton.setTitle("\u{2003}Vehicle three", for: .normal)
-        }
-        let second = UIAction(title: "+ Add vehicle", state: .off){ _ in
-            print("one vehicle")
-        }
-        second.setValue(addVehicleAttributedString, forKey: "attributedTitle")
-    
-        let elements = [first,third,fourth,second]
-        vehicleButton.menu = UIMenu(title: "", options: [], children: elements)
-        
     }
 }
 extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
@@ -155,20 +157,16 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-        
     }
 }
 
 extension SideMenuViewController {
     func dismissToLeft() {
-        
         UIView.animate(withDuration: 0.3, animations: {
             self.view.frame.origin.x = -self.view.frame.width // Slide out
-            
         }) { _ in
             self.dismiss(animated: false)
         }
-        
     }
     @objc func dismissView() {
         dismissToLeft()
@@ -181,5 +179,62 @@ extension SideMenuViewController {
             attributedString.addAttribute(.foregroundColor, value: highlightColor, range: range)
         }
         return attributedString
+    }
+}
+
+extension SideMenuViewController : sideMenuDelegate {
+    func receivedVehicleDetails() {
+        var menuItems : [UIAction] = []
+        let userSelectedVehicle = UserDefaultManager.shared.getSelectedVehicle()
+        let userVehicles = viewModel?.vehicleData
+        for vehicle in userVehicles ?? [] {
+            let make = vehicle.make
+            let model = vehicle.model
+            let variant = vehicle.variant
+            let Vehiclename = "\(make) \(model) \(variant)"
+            if userSelectedVehicle?.id == vehicle.id {
+                DispatchQueue.main.async {
+                    self.vehicleButton.setTitle("\u{2003}\(Vehiclename)\u{2003}\u{2003}", for: .normal)
+                }
+            }
+            let action = UIAction(title : Vehiclename) { _ in
+                self.vehicleButton.setTitle("\u{2003}\(Vehiclename)\u{2003}\u{2003}", for: .normal)
+                UserDefaultManager.shared.saveSelectedVehicle(vehicle)
+            }
+            menuItems.append(action)
+        }
+        let addVehicleAttributedString = NSAttributedString(string: "+ Add Vehicle", attributes: [.foregroundColor: ColorManager.primaryColor])
+        let addVehicleAction = UIAction(title: "+ Add Vehicle", handler: { _ in
+            let vehicleVc = UserVehicleInfoViewController()
+            vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+            vehicleVc.userData = UserDefaultManager.shared.getUserProfile()
+            vehicleVc.screenType = .addNew
+            self.dismissView()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                self.delegate?.didSelectMenuOption(vehicleVc)
+            }
+        })
+        addVehicleAction.setValue(addVehicleAttributedString, forKey: "attributedTitle")
+        menuItems.append(addVehicleAction)
+        DispatchQueue.main.async {
+            self.vehicleButton.menu = UIMenu(title: "", options: [], children: menuItems)
+            self.vehicleButton.showsMenuAsPrimaryAction = true
+            self.isLoading = false
+            self.setUpVehicleButton()
+        }
+    }
+    func didFailWithError(_ message: String, _ code: Int) {
+        DispatchQueue.main.async {
+            if code == 401{
+                let actions = [AlertActions.loginAgainAction()]
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Unauthorized", message: message,actions: actions)
+                }
+            }else{
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error", message: message)
+                }
+            }
+        }
     }
 }

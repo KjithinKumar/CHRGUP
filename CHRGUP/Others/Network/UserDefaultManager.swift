@@ -18,6 +18,7 @@ class UserDefaultManager{
         static let selectedVehicle = "selectedVehicle"
         static let jwtTokenKey = "JWTKey"
         static let loggedInUserIdKey = "loggedInUserIdKey"
+        static let favouriteLocationskey = "FavouriteLocations"
     }
     
     // MARK: - User Profile
@@ -67,5 +68,40 @@ class UserDefaultManager{
     }
     func resetLoginStatus() {
         defaults.removeObject(forKey: Keys.loggedInUserIdKey)
+    }
+    //MARK: - SelectedVehicle
+    func saveSelectedVehicle(_ vehicle: VehicleModel?) {
+        if let encoded = try? JSONEncoder().encode(vehicle) {
+            defaults.set(encoded, forKey: Keys.selectedVehicle)
+        }
+    }
+    func getSelectedVehicle() -> VehicleModel? {
+        if let savedData = defaults.data(forKey: Keys.selectedVehicle),
+           let decoded = try? JSONDecoder().decode(VehicleModel.self, from: savedData) {
+            return decoded
+        }
+        return nil
+    }
+    //MARK: - FavouriteLocation
+    func saveFavouriteLocation(_ locationId: String ) {
+        // Retrieve existing favorites or initialize an empty array
+        var favourites = UserDefaults.standard.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
+        
+        // Append only if it's not already in the list
+        if !favourites.contains(locationId) {
+            favourites.append(locationId)
+            UserDefaults.standard.setValue(favourites, forKey: Keys.favouriteLocationskey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    func getFavouriteLocations() -> [String] {
+        return UserDefaults.standard.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
+    }
+    func removeFavouriteLocation(_ locationId: String) {
+        var favourites = UserDefaults.standard.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
+        if let index = favourites.firstIndex(of: locationId) {
+            favourites.remove(at: index)
+        }
+        UserDefaults.standard.setValue(favourites, forKey: Keys.favouriteLocationskey)
     }
 }

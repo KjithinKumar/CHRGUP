@@ -22,7 +22,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.down" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="lhy-bd-aaj">
-                        <rect key="frame" x="411" y="143" width="20" height="10"/>
+                        <rect key="frame" x="411" y="30.333333333333329" width="20" height="10"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="eOw-l2-bLt"/>
@@ -30,16 +30,16 @@
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="1Bv-P3-RUl">
-                        <rect key="frame" x="35" y="25" width="366" height="245"/>
+                        <rect key="frame" x="35" y="25" width="371" height="245"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Question" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAD-4i-n1c">
-                                <rect key="frame" x="0.0" y="0.0" width="366" height="20.333333333333332"/>
+                                <rect key="frame" x="0.0" y="0.0" width="371" height="20.333333333333332"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Answer" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4u-IV-7DR">
-                                <rect key="frame" x="0.0" y="35.333333333333329" width="366" height="209.66666666666669"/>
+                                <rect key="frame" x="0.0" y="35.333333333333329" width="371" height="209.66666666666669"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -50,14 +50,14 @@
                 <constraints>
                     <constraint firstItem="1Bv-P3-RUl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="0dA-PV-84V"/>
                     <constraint firstItem="1Bv-P3-RUl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="35" id="6eW-sZ-br3"/>
-                    <constraint firstItem="lhy-bd-aaj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9Cz-jk-Csu"/>
+                    <constraint firstItem="lhy-bd-aaj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="8bI-jF-Z0A"/>
                     <constraint firstAttribute="bottom" secondItem="1Bv-P3-RUl" secondAttribute="bottom" constant="25" id="H96-Bq-dV7"/>
                     <constraint firstItem="e9T-EX-czr" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Lna-mT-J7y"/>
                     <constraint firstAttribute="bottom" secondItem="e9T-EX-czr" secondAttribute="bottom" constant="5" id="McR-U8-P77"/>
                     <constraint firstItem="e9T-EX-czr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Rqs-z8-kA6"/>
                     <constraint firstAttribute="trailing" secondItem="e9T-EX-czr" secondAttribute="trailing" constant="10" id="bwr-bg-GoO"/>
                     <constraint firstItem="e9T-EX-czr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="fvH-yg-5BU"/>
-                    <constraint firstItem="lhy-bd-aaj" firstAttribute="leading" secondItem="1Bv-P3-RUl" secondAttribute="trailing" constant="10" id="k4Z-V8-f7D"/>
+                    <constraint firstItem="lhy-bd-aaj" firstAttribute="leading" secondItem="1Bv-P3-RUl" secondAttribute="trailing" constant="5" id="k4Z-V8-f7D"/>
                     <constraint firstItem="e9T-EX-czr" firstAttribute="trailingMargin" secondItem="lhy-bd-aaj" secondAttribute="trailing" id="xb3-vr-u1S"/>
                 </constraints>
             </tableViewCellContentView>
@@ -65,6 +65,7 @@
             <connections>
                 <outlet property="answerLabel" destination="i4u-IV-7DR" id="ULe-Jj-VEh"/>
                 <outlet property="backView" destination="e9T-EX-czr" id="qfU-Ks-mqo"/>
+                <outlet property="chevronImageView" destination="lhy-bd-aaj" id="bVw-PZ-pna"/>
                 <outlet property="questionLabel" destination="kAD-4i-n1c" id="Bcd-GF-QwC"/>
                 <outlet property="stackView" destination="1Bv-P3-RUl" id="o4Z-Zn-xzU"/>
             </connections>

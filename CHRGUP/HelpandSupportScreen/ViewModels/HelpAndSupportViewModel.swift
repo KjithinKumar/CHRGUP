@@ -12,11 +12,11 @@ protocol HelpandSupportViewModelDelegate: AnyObject {
     
 }
 
-protocol HelpAndSupportViewModelProtocolInterface {
+protocol HelpAndSupportViewModelInterface {
     var faqCategories : [String]? {get}
     func getFAQCategories()
 }
-class HelpAndSupportViewModel: HelpAndSupportViewModelProtocolInterface {
+class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
     var networkManager : NetworkManagerProtocol?
     weak var delegate : HelpandSupportViewModelDelegate?
     

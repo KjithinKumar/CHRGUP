@@ -9,6 +9,7 @@ import UIKit
 
 class FaqTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var chevronImageView: UIImageView!
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var answerLabel: UILabel!
@@ -33,8 +34,15 @@ class FaqTableViewCell: UITableViewCell {
         answerLabel.isHidden = !isExpanded
         answerLabel.text = "\(answer)"
         answerLabel.font = FontManager.light()
-        answerLabel.textColor = ColorManager.textColor.withAlphaComponent(0.90)
+        answerLabel.textColor = ColorManager.subtitleTextColor
         answerLabel.backgroundColor = .clear
+        
+        if isExpanded {
+            chevronImageView.image = UIImage(systemName: "chevron.up")
+        }else{
+            chevronImageView.image = UIImage(systemName: "chevron.down")
+        }
+        
     }
     
     func setShimmer(isShimmer: Bool) {

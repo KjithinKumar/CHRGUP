@@ -35,3 +35,15 @@ extension UIViewController {
         }
     }
 }
+class AlertActions {
+    static func loginAgainAction() -> UIAlertAction {
+        return UIAlertAction(title: "Login Again", style: .default) { _ in
+            let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
+             let navigationController = UINavigationController(rootViewController: welcomeVc)
+             navigationController.modalPresentationStyle = .fullScreen
+             navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
+            let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+            sceneDelegate?.window?.rootViewController = navigationController
+        }
+    }
+}

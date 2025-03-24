@@ -14,6 +14,7 @@ class GarageViewController: UIViewController {
     
     var viewModel : GarageViewModelInterface?
     private var isLoading = true
+    private var deletedVehicleId : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +86,9 @@ extension GarageViewController: GarageViewModelDelegate {
             self.tableView.reloadData()
             self.addnewButton.isHidden = self.isLoading
         }
+        if self.deletedVehicleId != nil{
+            self.updateUserDefaultSelectedVehicle()
+        }
     }
     
     func didUpdateGarage(_ vehicle: VehicleModel) {
@@ -94,17 +98,15 @@ extension GarageViewController: GarageViewModelDelegate {
         DispatchQueue.main.async {
             ToastManager.shared.showToast(message: message)
             self.viewModel?.fetchVehicles()
+           
         }
     }
     
     func didFailWithError(_ error: String, _ code: Int) {
         if code == 401{
-            let actions = [UIAlertAction(title: "Login Again", style: .default, handler: { alertAction in
-                let welcomeVc = WelcomeViewController()
-                welcomeVc.modalPresentationStyle = .fullScreen
-                self.present(welcomeVc, animated: true)
-            })]
+            let actions = [AlertActions.loginAgainAction()]
             DispatchQueue.main.async {
+                
                 self.showAlert(title: "Unauthorized", message: error,actions: actions)
             }
         }else{
@@ -129,13 +131,21 @@ extension GarageViewController : GarageTableViewCellDelegate{
     
     func didTapDelete(at index: Int) {
         let deletingVechicle = viewModel?.getVehicles()?[index]
+        let userSlectedVechile = UserDefaultManager.shared.getSelectedVehicle()
         guard let make = deletingVechicle?.make, let model = deletingVechicle?.model, let variant = deletingVechicle?.variant else { return }
         let vehicleName = "\(make) \(model) \(variant)"
         let alertVc = CustomDeleteAlertController(vehicleImageURL: URLs.imageUrl(deletingVechicle?.vehicleImg ?? ""), vehicleName: vehicleName) {
             guard let deletingVehicleId = self.viewModel?.getVehicles()?[index].id else{ return}
             self.viewModel?.deleteVehicle(vehicleId: deletingVehicleId)
+            if deletingVehicleId == userSlectedVechile?.id{
+                self.deletedVehicleId = deletingVehicleId
+            }
         }
         present(alertVc, animated: true)
         
+    }
+    func updateUserDefaultSelectedVehicle(){
+        let nextSelectedVehicle = viewModel?.getVehicles()?[0]
+        UserDefaultManager.shared.saveSelectedVehicle(nextSelectedVehicle)
     }
 }

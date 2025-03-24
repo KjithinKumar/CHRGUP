@@ -49,7 +49,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pq-oK-rhh">
-                            <rect key="frame" x="129" y="717" width="135" height="50"/>
+                            <rect key="frame" x="129" y="727" width="135" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="WEf-Ra-zkK"/>
                                 <constraint firstAttribute="width" constant="135" id="bn3-Fs-hVA"/>
@@ -60,7 +60,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="7Pq-oK-rhh" secondAttribute="bottom" constant="85" id="60x-mf-iBu"/>
+                        <constraint firstAttribute="bottom" secondItem="7Pq-oK-rhh" secondAttribute="bottom" constant="75" id="60x-mf-iBu"/>
                         <constraint firstItem="9xw-bN-AsZ" firstAttribute="centerY" secondItem="ups-ev-fd2" secondAttribute="centerY" id="Cda-ev-51g"/>
                         <constraint firstAttribute="trailing" secondItem="Zji-bQ-Fq7" secondAttribute="trailing" constant="20" id="MdK-OG-uF8"/>
                         <constraint firstItem="Zji-bQ-Fq7" firstAttribute="top" secondItem="9xw-bN-AsZ" secondAttribute="bottom" constant="25" id="SpA-af-A70"/>

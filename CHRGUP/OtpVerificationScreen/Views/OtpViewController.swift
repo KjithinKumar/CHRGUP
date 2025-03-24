@@ -416,9 +416,11 @@ extension OtpViewController : OtpViewModelDelegate {
         debugPrint("fetched session Data from API - \(String(describing: sessionData))")
         debugPrint("fetched token from API - \(token)")
         UserDefaultManager.shared.saveUserProfile(userProfile)
+        UserDefaultManager.shared.saveSelectedVehicle(userProfile.userVehicle[0])
         UserDefaultManager.shared.setJWTToken(token)
         debugPrint("checking user from userdefaults - \(String(describing: UserDefaultManager.shared.getUserProfile()))")
         debugPrint("checking JWTToken from userdefaults - \(String(describing: UserDefaultManager.shared.getJWTToken()))")
+        debugPrint("checking user vehicle from userdefaults - \(String(describing: UserDefaultManager.shared.getSelectedVehicle()))")
         
         DispatchQueue.main.async{
             let MapVc = MapScreenViewController()

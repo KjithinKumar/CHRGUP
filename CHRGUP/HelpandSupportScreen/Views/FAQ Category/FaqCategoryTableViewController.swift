@@ -10,7 +10,7 @@ import UIKit
 class FaqCategoryTableViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    var viewModel : HelpAndSupportViewModelProtocolInterface?
+    var viewModel : HelpAndSupportViewModelInterface?
     private var isLoading = true
     
     override func viewDidLoad() {

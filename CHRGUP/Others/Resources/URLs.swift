@@ -52,4 +52,10 @@ struct URLs{
     static let faqURl = baseUrl + "faq/all-faq-category"
     
     static let faqCatergoryUrl = baseUrl + "faq/faq-category"
+    
+    static let nearByChargersUrl = baseUrl + "charger-locations/location/near/range"
+    
+    static func addFavouriteLocationUrl (mobileNumber : String) -> String{
+        return "\(baseUrl)users/\(mobileNumber)/add-favourite"
+    }
 }

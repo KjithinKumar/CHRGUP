@@ -18,7 +18,6 @@ class SideMenuTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
@@ -30,5 +29,4 @@ class SideMenuTableViewCell: UITableViewCell {
         titleLabel.textColor = ColorManager.textColor
         titleLabel.font = FontManager.regular()
     }
-    
 }

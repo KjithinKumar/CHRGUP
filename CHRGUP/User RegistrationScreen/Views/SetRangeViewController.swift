@@ -101,6 +101,7 @@ class SetRangeViewController: UIViewController {
             userData?.userVehicle[0].range = rangeTextField.text ?? "0"
             guard let userData = userData else { return }
             UserDefaultManager.shared.saveUserProfile(userData)
+            UserDefaultManager.shared.saveSelectedVehicle(userData.userVehicle[0])
             viewModel?.saveUserProfile(userProfile: userData)
         case .addNew:
             guard let mobileNumeber = userData?.phoneNumber else { return }

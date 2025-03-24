@@ -106,4 +106,8 @@ struct AppStrings {
     struct Garage{
         static let Title = "My Garage"
     }
+    
+    struct NearByCharger{
+        static let Title = "Nearby Chargers"
+    }
 }

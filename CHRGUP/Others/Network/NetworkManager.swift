@@ -79,7 +79,7 @@ class NetworkManager: NetworkManagerProtocol {
                 completion(.success(decodedObject))
                 
             }catch(let error){
-                debugPrint(error)
+                debugPrint(error, urlRequest.url ?? "decodingFailed")
                 completion(.failure(NetworkManagerError.decodingFailed))
             }
             

@@ -20,7 +20,6 @@ protocol MapScreenViewModelInterface{
 class MapScreenViewModel: NSObject, CLLocationManagerDelegate, MapScreenViewModelInterface {
     private let locationManager = CLLocationManager()
     weak var delegate: MapViewModelDelegate?
-    
 
     override init() {
         super.init()

@@ -6,7 +6,7 @@
 //
 
 
-struct SessionData {
+struct SessionData : Decodable{
     let sessionId: String?
     let locationId: String?
     let startTime: String?
