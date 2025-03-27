@@ -12,11 +12,17 @@ struct ChargerInfo : Codable {
     let subType : String?
     let powerOutput : String?
     let id : String?
+    let costPerUnit : Cost?
     enum CodingKeys : String, CodingKey {
         case status
         case type
-        case subType
+        case subType = "subtype"
         case powerOutput
         case id = "_id"
+        case costPerUnit
     }
+}
+struct Cost : Codable {
+    let amount : Double?
+    let currency : String?
 }

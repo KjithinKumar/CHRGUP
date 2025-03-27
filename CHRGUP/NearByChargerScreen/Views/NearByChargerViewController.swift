@@ -74,7 +74,6 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
         tableView.register(UINib(nibName: "NearByChargerTableViewCell", bundle: nil), forCellReuseIdentifier:
                             NearByChargerTableViewCell.identifier)
         tableView.separatorStyle = .none
-        tableView.allowsSelection = false
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isLoading ? 10 : viewModel?.nearByChargerData().count ?? 0
@@ -86,8 +85,10 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
             cell.setShimmer(isShimmering: true)
         }else{
             cell.setShimmer(isShimmering: false)
-            if let chargerLocation = viewModel?.sortedNearByChargerData(currentLocation: userLocation ?? userLocation!)[indexPath.row] {
-                cell.configure(viewModel: NearByChargerCellViewModel(chargerLocationData: chargerLocation),delegate: self)
+            if let userLocation = userLocation{
+                if let chargerLocation = viewModel?.sortedNearByChargerData(currentLocation: userLocation)[indexPath.row] {
+                    cell.configure(viewModel: NearByChargerCellViewModel(chargerLocationData: chargerLocation),delegate: self)
+                }
             }
         }
         
@@ -95,6 +96,16 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 250
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let infoVc = LocationInfoViewController()
+        if let userLocation = userLocation{
+            if let locationData = viewModel?.sortedNearByChargerData(currentLocation: userLocation)[indexPath.row]{
+                infoVc.viewModel = LocationInfoViewModel(locationData: locationData,latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+            }
+        }
+        self.present(infoVc, animated: true, completion: nil)
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
 extension NearByChargerViewController : NearByChargerViewModelDelegate {

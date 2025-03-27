@@ -27,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0sk-MT-MCR">
-                    <rect key="frame" x="25" y="139" width="343" height="64"/>
+                    <rect key="frame" x="25" y="96.666666666666686" width="343" height="64"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Mn-tn-das">
                             <rect key="frame" x="0.0" y="0.0" width="343" height="36"/>
@@ -36,7 +36,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your phone number to continue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Vf-Gh-0rC">
-                            <rect key="frame" x="0.0" y="46" width="343" height="18"/>
+                            <rect key="frame" x="0.0" y="45.999999999999986" width="343" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -44,7 +44,7 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wGU-n6-2jd">
-                    <rect key="frame" x="25" y="268" width="343" height="80.333333333333314"/>
+                    <rect key="frame" x="25" y="225.66666666666666" width="343" height="80.333333333333343"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Mobile Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NPn-zb-CO0">
                             <rect key="frame" x="0.0" y="0.0" width="343" height="20.333333333333332"/>
@@ -53,7 +53,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Mobile Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qk5-8F-Zao">
-                            <rect key="frame" x="0.0" y="30.333333333333314" width="343" height="50"/>
+                            <rect key="frame" x="0.0" y="30.333333333333343" width="343" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="EnN-8n-iRd"/>
                             </constraints>
@@ -108,7 +108,7 @@
                 <constraint firstItem="wGU-n6-2jd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="95d-a4-Oqg"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="5Fd-o4-rGT" secondAttribute="trailing" constant="25" id="EEo-HF-6L8"/>
                 <constraint firstItem="5Fd-o4-rGT" firstAttribute="top" secondItem="oWD-Nm-awc" secondAttribute="bottom" constant="15" id="HPg-uH-dje"/>
-                <constraint firstItem="0sk-MT-MCR" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="80" id="Hww-Ge-qrd"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="0sk-MT-MCR" secondAttribute="top" multiplier="0.6" constant="1" id="Hww-Ge-qrd"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0sk-MT-MCR" secondAttribute="trailing" constant="25" id="Jn8-QT-ISD"/>
                 <constraint firstItem="Yjx-n2-74e" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Loo-N4-QCR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="5Fd-o4-rGT" secondAttribute="bottom" constant="50" id="Mmk-r2-C73"/>

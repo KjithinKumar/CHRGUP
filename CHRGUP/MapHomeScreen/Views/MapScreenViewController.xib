@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,7 +32,10 @@
                                 <constraint firstAttribute="width" constant="50" id="hFd-nz-Unh"/>
                             </constraints>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" image="list.bullet" catalog="system"/>
+                            <state key="normal">
+                                <imageReference key="image" image="list.bullet" catalog="system" symbolScale="medium"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                            </state>
                             <connections>
                                 <action selector="listViewButtonTapped:" destination="-1" eventType="touchUpInside" id="2Gp-wp-wBW"/>
                             </connections>
@@ -43,24 +47,30 @@
                                 <constraint firstAttribute="width" constant="50" id="Y4l-C5-2tL"/>
                             </constraints>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" image="dot.scope" catalog="system"/>
+                            <state key="normal">
+                                <imageReference key="image" image="dot.scope" catalog="system" symbolScale="medium"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                            </state>
                             <connections>
                                 <action selector="UpdateLocationButtonTapped:" destination="-1" eventType="touchUpInside" id="Mud-a5-53o"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pq-oK-rhh">
-                            <rect key="frame" x="129" y="727" width="135" height="50"/>
+                            <rect key="frame" x="129" y="737" width="135" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="WEf-Ra-zkK"/>
                                 <constraint firstAttribute="width" constant="135" id="bn3-Fs-hVA"/>
                             </constraints>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" image="qrcode.viewfinder" catalog="system"/>
+                            <state key="normal">
+                                <imageReference key="image" image="qrcode.viewfinder" catalog="system" symbolScale="medium"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                            </state>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="7Pq-oK-rhh" secondAttribute="bottom" constant="75" id="60x-mf-iBu"/>
+                        <constraint firstAttribute="bottom" secondItem="7Pq-oK-rhh" secondAttribute="bottom" constant="65" id="60x-mf-iBu"/>
                         <constraint firstItem="9xw-bN-AsZ" firstAttribute="centerY" secondItem="ups-ev-fd2" secondAttribute="centerY" id="Cda-ev-51g"/>
                         <constraint firstAttribute="trailing" secondItem="Zji-bQ-Fq7" secondAttribute="trailing" constant="20" id="MdK-OG-uF8"/>
                         <constraint firstItem="Zji-bQ-Fq7" firstAttribute="top" secondItem="9xw-bN-AsZ" secondAttribute="bottom" constant="25" id="SpA-af-A70"/>

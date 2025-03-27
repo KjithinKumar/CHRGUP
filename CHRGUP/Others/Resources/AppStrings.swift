@@ -110,4 +110,22 @@ struct AppStrings {
     struct NearByCharger{
         static let Title = "Nearby Chargers"
     }
+    
+    struct ChargerInfo{
+        static let ChargersTitle = "CHARGERS"
+        
+        static let issueText = "Any issue with the charger? call us"
+        
+        static let chargingTariffText = "CHARGING TARIFF"
+        
+        static let parkingTariffText = "PARKING TARIFF"
+        
+        static let facilityText = "FACILITIES"
+        
+        static let workingHoursText = "WORKING HOURS"
+        
+        static let AddressText = "ADDRESS"
+        
+        static let contactText = "CONTACT"
+    }
 }

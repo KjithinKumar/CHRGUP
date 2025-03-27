@@ -90,6 +90,9 @@ class SetRangeViewController: UIViewController {
         let imageUrl = URL(string: imageUrlSting)
         
         imageView.sd_setImage(with: imageUrl)
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(gesture)
     
     }
     @IBAction func closeButtonPressed(_ sender: Any) {

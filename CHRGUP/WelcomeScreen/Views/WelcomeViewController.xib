@@ -27,14 +27,17 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOC-E0-8T1">
-                    <rect key="frame" x="0.0" y="553.66666666666663" width="393" height="298.33333333333337"/>
+                    <rect key="frame" x="0.0" y="575" width="393" height="277"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
-                            <rect key="frame" x="25" y="159" width="343" height="89.333333333333314"/>
+                            <rect key="frame" x="25" y="143.33333333333337" width="343" height="98.666666666666686"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-0S-JI1">
-                                    <rect key="frame" x="0.0" y="0.0" width="343" height="45.333333333333336"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="FQy-ps-Zuq"/>
+                                    </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="  Continue with phone" image="fi-rr-smartphone"/>
                                     <buttonConfiguration key="configuration" style="plain" image="fi-rr-smartphone" title="  Continue with phone"/>
@@ -43,7 +46,7 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labellllllllll" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ghg-d0-8Qz">
-                                    <rect key="frame" x="0.0" y="60.333333333333371" width="343" height="29"/>
+                                    <rect key="frame" x="0.0" y="65" width="343" height="33.666666666666657"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -59,7 +62,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvZ-Fw-lHM">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvZ-Fw-lHM">
                                     <rect key="frame" x="0.0" y="35.333333333333371" width="343" height="18"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <nil key="textColor"/>
@@ -71,11 +74,11 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="ClL-y0-mi0" secondAttribute="trailing" constant="25" id="CyS-ZM-dbT"/>
+                        <constraint firstItem="ClL-y0-mi0" firstAttribute="top" secondItem="GCa-fc-wxm" secondAttribute="bottom" constant="60" id="EQX-95-0N0"/>
+                        <constraint firstAttribute="bottom" secondItem="ClL-y0-mi0" secondAttribute="bottom" constant="35" id="EuA-vw-Nhj"/>
                         <constraint firstAttribute="trailing" secondItem="GCa-fc-wxm" secondAttribute="trailing" constant="25" id="Mka-F9-3sn"/>
                         <constraint firstItem="ClL-y0-mi0" firstAttribute="leading" secondItem="bOC-E0-8T1" secondAttribute="leading" constant="25" id="PYu-6C-Ox7"/>
-                        <constraint firstItem="ClL-y0-mi0" firstAttribute="height" secondItem="bOC-E0-8T1" secondAttribute="height" multiplier="0.3" id="czn-Ye-bEF"/>
                         <constraint firstItem="GCa-fc-wxm" firstAttribute="leading" secondItem="bOC-E0-8T1" secondAttribute="leading" constant="25" id="reL-MC-6vV"/>
-                        <constraint firstAttribute="bottom" secondItem="ClL-y0-mi0" secondAttribute="bottom" constant="50" id="sPn-Ds-LL1"/>
                         <constraint firstItem="GCa-fc-wxm" firstAttribute="top" secondItem="bOC-E0-8T1" secondAttribute="top" constant="30" id="zm9-0P-WHZ"/>
                     </constraints>
                 </view>
@@ -83,7 +86,6 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="bOC-E0-8T1" firstAttribute="height" secondItem="5in-2i-hq1" secondAttribute="height" multiplier="0.35" id="2gf-AW-WJM"/>
                 <constraint firstItem="bOC-E0-8T1" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="6Py-bR-biF"/>
                 <constraint firstItem="5in-2i-hq1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="NYh-0J-SFe"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="5in-2i-hq1" secondAttribute="trailing" id="OgR-H8-yCs"/>

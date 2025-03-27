@@ -17,4 +17,9 @@ struct ColorManager {
     static let secondaryBackgroundColor = UIColor(hex: "#272727") //Neutral/800
     static let placeholderColor = UIColor(hex: "#767676") //Neutral/300
     static let thirdBackgroundColor = UIColor(hex: "#4C4C4C") //Neutral/400
+    
+    static let acbulletColor = UIColor(hex: "#30D5C8")
+    static let dcbulletColor = UIColor(hex: "#F2771A")
+    
+    static let inUseColor = UIColor(hex: "#95C1DF")
 }

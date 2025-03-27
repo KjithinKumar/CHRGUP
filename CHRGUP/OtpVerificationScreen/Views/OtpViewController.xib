@@ -30,7 +30,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="KIb-f9-HPV">
-                    <rect key="frame" x="25" y="139" width="343" height="96.333333333333314"/>
+                    <rect key="frame" x="25" y="89.666666666666686" width="343" height="96.333333333333314"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OTP Verification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgQ-9v-Mkq">
                             <rect key="frame" x="0.0" y="0.0" width="343" height="40.666666666666664"/>
@@ -39,7 +39,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="otp has been sent to your mobile number ending with ******0000" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqt-oq-ZSK">
-                            <rect key="frame" x="0.0" y="55.666666666666657" width="343" height="40.666666666666657"/>
+                            <rect key="frame" x="0.0" y="55.666666666666671" width="343" height="40.666666666666671"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -47,7 +47,7 @@
                     </subviews>
                 </stackView>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-m1-QfI">
-                    <rect key="frame" x="25" y="310.33333333333331" width="343" height="48"/>
+                    <rect key="frame" x="25" y="251" width="343" height="48"/>
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fXs-yu-GXz">
                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
@@ -106,7 +106,7 @@
                     </subviews>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Resend otp in 0:30 sec" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfS-Qy-kIX">
-                    <rect key="frame" x="109.00000000000001" y="393.33333333333331" width="175.33333333333337" height="20.333333333333314"/>
+                    <rect key="frame" x="109.00000000000001" y="334" width="175.33333333333337" height="20.333333333333314"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -131,12 +131,12 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="WzL-m1-QfI" firstAttribute="top" secondItem="KIb-f9-HPV" secondAttribute="bottom" constant="75" id="1Zk-i4-26r"/>
+                <constraint firstItem="WzL-m1-QfI" firstAttribute="top" secondItem="KIb-f9-HPV" secondAttribute="bottom" constant="65" id="1Zk-i4-26r"/>
                 <constraint firstItem="CBC-Nf-jFr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1s9-el-qcv"/>
                 <constraint firstItem="WzL-m1-QfI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="3gw-83-eHA"/>
                 <constraint firstItem="KIb-f9-HPV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="AE9-pM-7Hh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dJ7-Lg-moH" secondAttribute="bottom" constant="50" id="HjU-sJ-EGh"/>
-                <constraint firstItem="KIb-f9-HPV" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="80" id="SvV-7l-ZJh"/>
+                <constraint firstItem="KIb-f9-HPV" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" multiplier="1.5" constant="1" id="SvV-7l-ZJh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dJ7-Lg-moH" secondAttribute="trailing" constant="25" id="Ybj-7w-19w"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WzL-m1-QfI" secondAttribute="trailing" constant="25" id="aJr-q2-TKM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="CBC-Nf-jFr" secondAttribute="bottom" constant="65" id="e9C-bH-Wr1"/>
@@ -153,7 +153,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

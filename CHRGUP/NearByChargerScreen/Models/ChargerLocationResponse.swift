@@ -34,6 +34,9 @@ struct ChargerLocation : Codable{
     var isFromSharedPreferences: Bool?
     let version: Int
     var distance: Double?
+    var modDistance: String?
+    var modpointsAvailable : Int?
+    var modLocationAvailble : Bool?
     let freePaid: FreePaid
     
     enum CodingKeys: String, CodingKey {

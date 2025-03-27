@@ -174,17 +174,20 @@ class MobileNumberViewController: UIViewController {
         let viewModel = OtpViewModel(delegate: otpVc, networkManager: NetworkManager())
         otpVc.viewModel = viewModel
         
-        TwilioHelper.sendVerificationCode(to: number) { isValid in
-            guard (isValid == nil) else {
-                self.showAlert(title: "Error", message: "Please check the number you have entered")
-                self.signInButton.isEnabled = true
-                self.signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
-                self.activityIndicator.isHidden = true
-                return
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.navigationController?.pushViewController(otpVc, animated: true)
-            }
+//        TwilioHelper.sendVerificationCode(to: number) { isValid in
+//            guard (isValid == nil) else {
+//                self.showAlert(title: "Error", message: "Please check the number you have entered or try again later")
+//                self.signInButton.isEnabled = true
+//                self.signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+//                self.activityIndicator.isHidden = true
+//                return
+//            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                self.navigationController?.pushViewController(otpVc, animated: true)
+//            }
+//        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.navigationController?.pushViewController(otpVc, animated: true)
         }
     }
 }
