@@ -58,4 +58,11 @@ struct URLs{
     static func addFavouriteLocationUrl (mobileNumber : String) -> String{
         return "\(baseUrl)users/\(mobileNumber)/add-favourite"
     }
+    
+    static func getFavouriteLocationUrl (mobileNumber : String) -> String{
+        return "\(baseUrl)users/\(mobileNumber)/get-favourite"
+    }
+    static func deleteFavouriteLocationUrl (mobileNumber : String) -> String{
+        return "\(baseUrl)users/\(mobileNumber)/favourite"
+    }
 }

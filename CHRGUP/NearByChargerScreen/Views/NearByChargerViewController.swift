@@ -61,12 +61,13 @@ class NearByChargerViewController: UIViewController {
             }
         }
     }
+    
     func setUpUi() {
         view.backgroundColor = ColorManager.backgroundColor
         navigationItem.title = AppStrings.NearByCharger.Title
     }
 }
-extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegate {
+extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegate,locationInfoViewControllerDelegate {
     func setUpTableView() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -102,10 +103,15 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
         if let userLocation = userLocation{
             if let locationData = viewModel?.sortedNearByChargerData(currentLocation: userLocation)[indexPath.row]{
                 infoVc.viewModel = LocationInfoViewModel(locationData: locationData,latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+                infoVc.indexPath = indexPath
+                infoVc.delegate = self
             }
         }
         self.present(infoVc, animated: true, completion: nil)
         tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    func didTapFavouriteButton(at indexPath: IndexPath) {
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 extension NearByChargerViewController : NearByChargerViewModelDelegate {

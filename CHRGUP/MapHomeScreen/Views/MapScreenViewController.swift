@@ -113,6 +113,7 @@ class MapScreenViewController: UIViewController {
 extension MapScreenViewController : MapViewModelDelegate {
     func didUpdateUserLocation(_ location: CLLocation) {
         let userLocation = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 13)
+        UserDefaultManager.shared.saveUserCurrentLocation(location.coordinate.latitude, location.coordinate.longitude)
         self.userLocation = location
         guard let mapView = mapView else { return }
         mapView.animate(to: userLocation)

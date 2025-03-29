@@ -25,6 +25,7 @@ protocol LocationInfoViewModelInterface{
     var locationImage : [String] {get}
     var locationCellType : [locationInfoCellType] {get}
     var pointsAvailable : String {get}
+    func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void)
 }
 
 class LocationInfoViewModel : LocationInfoViewModelInterface{
@@ -60,6 +61,28 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
     
     var pointsAvailable : String {
         return "\(locationData?.modpointsAvailable ?? 0)"
+    }
+    func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void){
+        let locationId = locationData?.id ?? ""
+        let userDetails = UserDefaultManager.shared.getUserProfile()
+        guard let mobileNumber = userDetails?.phoneNumber else {
+            return
+        }
+        let url = URLs.addFavouriteLocationUrl(mobileNumber: mobileNumber)
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let requestBody : [String : Any] = ["locationId" : locationId]
+        let header = ["Authorization": "Bearer \(authToken)"]
+        if let request = networkManager.createRequest(urlString: url, method: .post, body: requestBody, encoding: .json, headers: header){
+            networkManager.request(request, decodeTo: FavouriteResponseModel.self) { result in
+                switch result{
+                case .success(let response):
+                    UserDefaultManager.shared.saveFavouriteLocation(locationId)
+                    completion(.success(response))
+                case .failure(let error) :
+                    completion(.failure(error))
+                }
+            }
+        }
     }
     
 }

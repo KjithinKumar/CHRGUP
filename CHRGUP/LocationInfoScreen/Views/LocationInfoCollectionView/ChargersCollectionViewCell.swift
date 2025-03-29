@@ -34,7 +34,7 @@ class ChargersCollectionViewCell: UICollectionViewCell {
             statusLabel.text = chargerInfo.status
         }else{
             firstBackgroundView.backgroundColor = ColorManager.inUseColor
-            statusLabel.text = chargerInfo.status
+            statusLabel.text = "In Use"
             statusLabel.textColor = ColorManager.backgroundColor
         }
         

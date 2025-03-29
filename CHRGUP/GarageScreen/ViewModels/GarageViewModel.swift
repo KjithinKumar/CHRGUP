@@ -17,6 +17,7 @@ protocol GarageViewModelInterface{
     func fetchVehicles()
     func getVehicles() -> [VehicleModel]?
     func deleteVehicle(vehicleId : String)
+    var userVehicles : [VehicleModel]? { get set } 
 }
 
 class GarageViewModel : GarageViewModelInterface {

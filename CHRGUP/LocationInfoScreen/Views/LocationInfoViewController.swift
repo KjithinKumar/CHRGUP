@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol locationInfoViewControllerDelegate : AnyObject {
+    func didTapFavouriteButton(at indexPath: IndexPath)
+}
+
 class LocationInfoViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,6 +27,8 @@ class LocationInfoViewController: UIViewController {
     let pageController = UIPageControl()
     
     var viewModel : LocationInfoViewModelInterface?
+    weak var delegate : locationInfoViewControllerDelegate?
+    var indexPath : IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +76,29 @@ class LocationInfoViewController: UIViewController {
     }
     @IBAction func dismissButtonPressed(_ sender: Any) {
         dismiss(animated: true)
+    }
+    @IBAction func addToFavouriteButtonPressed(_ sender: Any) {
+        viewModel?.addToFavourtie(networkManager: NetworkManager(), completion: { result in
+            switch result{
+            case .success(let response):
+                if !response.status{
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Failed to add", message: response.message)
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        ToastManager.shared.showToast(message: response.message ?? "Location added to favourite")
+                        self.setFavouritebutton(favourite: true)
+                        if let indexPath = self.indexPath{
+                            self.delegate?.didTapFavouriteButton(at: indexPath)
+                        }
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async{
+                    self.showAlert(title: "Error", message: error.localizedDescription)}
+            }
+        })
     }
     func setFavouritebutton(favourite : Bool){
         if favourite{
@@ -178,7 +207,11 @@ extension LocationInfoViewController : UITableViewDelegate,UITableViewDataSource
             if let cell = tableView.dequeueReusableCell(withIdentifier: ChargersTableViewCell.identifier) as? ChargersTableViewCell{
                 if let locationData = viewModel?.locationData{
                     if let pointsAvailable = viewModel?.pointsAvailable{
-                        cell.configure(chargerInfo: locationData.chargerInfo, pointsAvailable: pointsAvailable)
+                        let statusPriority: [String: Int] = ["Available": 0, "Inactive": 2]
+                        let sortedChargers = locationData.chargerInfo.sorted {
+                            (statusPriority[$0.status ?? ""] ?? 1) < (statusPriority[$1.status ?? ""] ?? 1)
+                        }
+                        cell.configure(chargerInfo: sortedChargers, pointsAvailable: pointsAvailable)
                         cell.backgroundColor = .clear
                     }
                 }

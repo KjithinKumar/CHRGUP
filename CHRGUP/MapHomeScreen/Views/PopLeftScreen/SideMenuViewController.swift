@@ -154,6 +154,13 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                 self.delegate?.didSelectMenuOption(helpAndSupportVc)
             }
+        case .favouritedocks:
+            let favouriteDocksVc = FavouriteDockViewController()
+            favouriteDocksVc.viewModel = FavouriteDockViewModel(networkManager: NetworkManager())
+            dismissView()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                self.delegate?.didSelectMenuOption(favouriteDocksVc)
+            }
         default:
             break
         }

@@ -10,5 +10,10 @@ struct FavouriteResponseModel: Decodable {
     let status: Bool
     let message: String?
     let data: UserProfile?
-    
+}
+
+struct GetFavouriteResponseModel: Decodable {
+    let status: Bool
+    let message: String?
+    let data: [ChargerLocation]
 }

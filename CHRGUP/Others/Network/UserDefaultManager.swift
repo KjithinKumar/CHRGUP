@@ -19,6 +19,7 @@ class UserDefaultManager{
         static let jwtTokenKey = "JWTKey"
         static let loggedInUserIdKey = "loggedInUserIdKey"
         static let favouriteLocationskey = "FavouriteLocations"
+        static let userLocationKey = "userLocationKey"
     }
     
     // MARK: - User Profile
@@ -104,4 +105,12 @@ class UserDefaultManager{
         }
         UserDefaults.standard.setValue(favourites, forKey: Keys.favouriteLocationskey)
     }
+    func saveUserCurrentLocation(_ latitude : Double,_ longitude : Double){
+        UserDefaults.standard.setValue([latitude,longitude], forKey: Keys.userLocationKey)
+        UserDefaults.standard.synchronize()
+    }
+    func getUserCurrentLocation() -> [Double]?{
+        return UserDefaults.standard.array(forKey: Keys.userLocationKey) as? [Double]
+    }
+    
 }

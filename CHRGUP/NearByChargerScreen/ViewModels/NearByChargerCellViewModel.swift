@@ -73,7 +73,6 @@ class NearByChargerCellViewModel{
     
     func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void){
         let locationId = chargerLocationData.id
-        UserDefaultManager.shared.saveFavouriteLocation(locationId)
         let userDetails = UserDefaultManager.shared.getUserProfile()
         guard let mobileNumber = userDetails?.phoneNumber else {
             return
@@ -86,13 +85,13 @@ class NearByChargerCellViewModel{
             networkManager.request(request, decodeTo: FavouriteResponseModel.self) { result in
                 switch result{
                 case .success(let response):
+                    UserDefaultManager.shared.saveFavouriteLocation(locationId)
                     completion(.success(response))
                 case .failure(let error) :
                     completion(.failure(error))
                 }
             }
         }
-        
     }
 }
 

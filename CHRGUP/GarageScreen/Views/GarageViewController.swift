@@ -15,6 +15,7 @@ class GarageViewController: UIViewController {
     var viewModel : GarageViewModelInterface?
     private var isLoading = true
     private var deletedVehicleId : String?
+    private var deletingVehicleIndexPath : IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,9 +97,15 @@ extension GarageViewController: GarageViewModelDelegate {
     }
     func didDeletedVehicle(_ message : String) {
         DispatchQueue.main.async {
-            ToastManager.shared.showToast(message: message)
-            self.viewModel?.fetchVehicles()
-           
+            self.tableView.performBatchUpdates {
+                if let deletingVehicleIndexPath = self.deletingVehicleIndexPath{
+                    self.viewModel?.userVehicles?.remove(at: deletingVehicleIndexPath.row)
+                    self.tableView.deleteRows(at: [deletingVehicleIndexPath], with: .left)
+                }
+            } completion: { _ in
+                ToastManager.shared.showToast(message: message)
+                self.viewModel?.fetchVehicles()
+            }
         }
     }
     
@@ -131,6 +138,7 @@ extension GarageViewController : GarageTableViewCellDelegate{
     
     func didTapDelete(at index: Int) {
         let deletingVechicle = viewModel?.getVehicles()?[index]
+        self.deletingVehicleIndexPath = IndexPath(row: index, section: 0)
         let userSlectedVechile = UserDefaultManager.shared.getSelectedVehicle()
         guard let make = deletingVechicle?.make, let model = deletingVechicle?.model, let variant = deletingVechicle?.variant else { return }
         let vehicleName = "\(make) \(model) \(variant)"
