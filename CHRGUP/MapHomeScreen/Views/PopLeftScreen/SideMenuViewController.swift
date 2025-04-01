@@ -95,7 +95,7 @@ class SideMenuViewController: UIViewController {
             indicator.startAnimating()
             NSLayoutConstraint.activate([
                 indicator.centerYAnchor.constraint(equalTo: vehicleButton.centerYAnchor),
-                indicator.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -35)])
+                indicator.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -25)])
         }else{
             indicator.hidesWhenStopped = true
             indicator.stopAnimating()
@@ -107,12 +107,19 @@ class SideMenuViewController: UIViewController {
             imageView.tintColor = ColorManager.textColor
             NSLayoutConstraint.activate([
                 imageView.centerYAnchor.constraint(equalTo: vehicleButton.centerYAnchor),
-                imageView.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -35)])
+                imageView.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -25)])
         }
         vehicleButton.layer.borderWidth = 1
         vehicleButton.layer.cornerRadius = 5
         vehicleButton.layer.borderColor = ColorManager.primaryColor.cgColor
         vehicleButton.backgroundColor = ColorManager.secondaryBackgroundColor
+        let vehicle = UserDefaultManager.shared.getSelectedVehicle()
+        if let make = vehicle?.make ,let model = vehicle?.model ,let variant = vehicle?.variant{
+            let Vehiclename = "\(make) \(model) \(variant)"
+            vehicleButton.setTitle("\u{2003}\(Vehiclename)\u{2003}\u{2003}", for: .normal)
+        }
+        
+        
     }
 }
 extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
@@ -145,21 +152,28 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             let myGarageVc = GarageViewController()
             myGarageVc.viewModel = GarageViewModel(networkManager: NetworkManager(), delegate: myGarageVc)
             dismissView()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            DispatchQueue.main.async{
                 self.delegate?.didSelectMenuOption(myGarageVc)
             }
         case .helpandsupport:
             let helpAndSupportVc = HelpandSupportViewController()
             dismissView()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            DispatchQueue.main.async{
                 self.delegate?.didSelectMenuOption(helpAndSupportVc)
             }
         case .favouritedocks:
             let favouriteDocksVc = FavouriteDockViewController()
             favouriteDocksVc.viewModel = FavouriteDockViewModel(networkManager: NetworkManager())
             dismissView()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            DispatchQueue.main.async{
                 self.delegate?.didSelectMenuOption(favouriteDocksVc)
+            }
+        case .settings:
+            let settingsVc = SettingsViewController()
+            settingsVc.viewModel = settingsViewModel(networkManager: NetworkManager())
+            dismissView()
+            DispatchQueue.main.async{
+                self.delegate?.didSelectMenuOption(settingsVc)
             }
         default:
             break

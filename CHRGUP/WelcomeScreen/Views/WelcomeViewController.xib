@@ -27,10 +27,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOC-E0-8T1">
-                    <rect key="frame" x="0.0" y="575" width="393" height="277"/>
+                    <rect key="frame" x="0.0" y="555.66666666666663" width="393" height="296.33333333333337"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
-                            <rect key="frame" x="25" y="143.33333333333337" width="343" height="98.666666666666686"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
+                            <rect key="frame" x="25" y="143.33333333333337" width="343" height="118"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-0S-JI1">
                                     <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
@@ -39,16 +39,15 @@
                                         <constraint firstAttribute="height" constant="50" id="FQy-ps-Zuq"/>
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" title="  Continue with phone" image="fi-rr-smartphone"/>
-                                    <buttonConfiguration key="configuration" style="plain" image="fi-rr-smartphone" title="  Continue with phone">
-                                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="heavy"/>
-                                    </buttonConfiguration>
+                                    <state key="normal" title="  Continue with phone" image="fi-rr-smartphone">
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
+                                    </state>
                                     <connections>
                                         <action selector="ContinueButtonPressed:" destination="-1" eventType="touchUpInside" id="p1t-Nw-0gY"/>
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labellllllllll" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ghg-d0-8Qz">
-                                    <rect key="frame" x="0.0" y="65" width="343" height="33.666666666666657"/>
+                                    <rect key="frame" x="0.0" y="60" width="343" height="58"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>

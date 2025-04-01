@@ -36,7 +36,7 @@
                     <rect key="frame" x="0.0" y="64" width="275" height="788"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Odu-zs-0yy">
-                            <rect key="frame" x="25" y="25" width="225" height="50"/>
+                            <rect key="frame" x="15" y="25" width="245" height="50"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Sn9-DL-Rdn">
                                     <rect key="frame" x="0.0" y="0.66666666666666785" width="50" height="48.666666666666657"/>
@@ -46,7 +46,7 @@
                                     </constraints>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSG-13-1gK">
-                                    <rect key="frame" x="202" y="14" width="23" height="22"/>
+                                    <rect key="frame" x="222" y="14" width="23" height="22"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal">
                                         <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
@@ -59,17 +59,17 @@
                             </subviews>
                         </stackView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JsE-Ix-g3G">
-                            <rect key="frame" x="25" y="251.66666666666671" width="225" height="511.33333333333326"/>
+                            <rect key="frame" x="15" y="251.66666666666671" width="245" height="511.33333333333326"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What am i driving today" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ib-3d-7mK">
-                            <rect key="frame" x="25" y="100" width="225" height="71.666666666666686"/>
+                            <rect key="frame" x="15" y="100" width="245" height="71.666666666666686"/>
                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LZX-Jg-q2d">
-                            <rect key="frame" x="25" y="196.66666666666669" width="225" height="30"/>
+                            <rect key="frame" x="15" y="196.66666666666669" width="245" height="30"/>
                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                             <menu key="menu" id="lB0-hp-gJq">
                                 <children>
@@ -84,16 +84,16 @@
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="JsE-Ix-g3G" secondAttribute="bottom" constant="25" id="2gU-b2-kVi"/>
                         <constraint firstItem="JsE-Ix-g3G" firstAttribute="top" secondItem="LZX-Jg-q2d" secondAttribute="bottom" constant="25" id="9hr-Mz-tzz"/>
-                        <constraint firstItem="2Ib-3d-7mK" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="25" id="H9m-C3-LO4"/>
+                        <constraint firstItem="2Ib-3d-7mK" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="15" id="H9m-C3-LO4"/>
                         <constraint firstItem="2Ib-3d-7mK" firstAttribute="top" secondItem="Odu-zs-0yy" secondAttribute="bottom" constant="25" id="IRd-4p-Cxi"/>
-                        <constraint firstAttribute="trailing" secondItem="2Ib-3d-7mK" secondAttribute="trailing" constant="25" id="JcJ-ZU-Ltr"/>
+                        <constraint firstAttribute="trailing" secondItem="2Ib-3d-7mK" secondAttribute="trailing" constant="15" id="JcJ-ZU-Ltr"/>
                         <constraint firstItem="LZX-Jg-q2d" firstAttribute="top" secondItem="2Ib-3d-7mK" secondAttribute="bottom" constant="25" id="POa-mV-qhE"/>
-                        <constraint firstAttribute="trailing" secondItem="LZX-Jg-q2d" secondAttribute="trailing" constant="25" id="UWo-AG-rjP"/>
-                        <constraint firstAttribute="trailing" secondItem="JsE-Ix-g3G" secondAttribute="trailing" constant="25" id="aCo-Kj-gXM"/>
-                        <constraint firstItem="LZX-Jg-q2d" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="25" id="l7q-UI-sUt"/>
-                        <constraint firstItem="Odu-zs-0yy" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="25" id="t9c-Jw-ecs"/>
-                        <constraint firstAttribute="trailing" secondItem="Odu-zs-0yy" secondAttribute="trailing" constant="25" id="vYW-9J-kVR"/>
-                        <constraint firstItem="JsE-Ix-g3G" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="25" id="vfr-qt-dDT"/>
+                        <constraint firstAttribute="trailing" secondItem="LZX-Jg-q2d" secondAttribute="trailing" constant="15" id="UWo-AG-rjP"/>
+                        <constraint firstAttribute="trailing" secondItem="JsE-Ix-g3G" secondAttribute="trailing" constant="15" id="aCo-Kj-gXM"/>
+                        <constraint firstItem="LZX-Jg-q2d" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="15" id="l7q-UI-sUt"/>
+                        <constraint firstItem="Odu-zs-0yy" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="15" id="t9c-Jw-ecs"/>
+                        <constraint firstAttribute="trailing" secondItem="Odu-zs-0yy" secondAttribute="trailing" constant="15" id="vYW-9J-kVR"/>
+                        <constraint firstItem="JsE-Ix-g3G" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="15" id="vfr-qt-dDT"/>
                         <constraint firstItem="Odu-zs-0yy" firstAttribute="top" secondItem="lvm-Wf-gLY" secondAttribute="top" constant="25" id="w6Q-H0-TVe"/>
                     </constraints>
                 </view>

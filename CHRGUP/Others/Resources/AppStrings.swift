@@ -128,4 +128,36 @@ struct AppStrings {
         
         static let contactText = "CONTACT"
     }
+    
+    struct Settings{
+        static let editProfileText = "Edit Profile"
+        
+        static let deleteAccountText = "Delete Account"
+        
+        static let logoutText = " Logout"
+        
+        static let settings = "Settings"
+    }
+    
+    struct EditProfile{
+        static let firstNameText = " First Name"
+        
+        static let firstNamePlaceholderText = "Enter your first name"
+        
+        static let lastnameText = "Last Name"
+        
+        static let lastnamePlaceholderText = "Enter your last name"
+        
+        static let emailText = "Email Id"
+        
+        static let emailPlaceholderText = "Enter your email id"
+        
+        static let genderText = "Gender"
+        
+        static let genderPlaceholderText = "Select your gender"
+        
+        static let dob = "Date of Birth (DD/MM/YYYY)"
+        
+        static let dobPlaceholderText = "Select your date of birth"
+    }
 }

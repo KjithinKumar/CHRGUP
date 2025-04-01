@@ -21,7 +21,7 @@ class facilityCollectionViewCell: UICollectionViewCell {
         facilityLabel.font = FontManager.light()
         facilityLabel.textColor = ColorManager.textColor
         
-        facilityImageView.tintColor = ColorManager.subtitleTextColor
+        facilityImageView.tintColor = ColorManager.textColor
         facilityImageView.image = FacilityManager().getIcon(for: facility)
         facilityImageView.layer.cornerRadius = facilityImageView.frame.width / 2
         facilityImageView.layer.masksToBounds = true

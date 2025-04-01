@@ -40,7 +40,7 @@ class WelcomeViewController: UIViewController {
         continueButton.backgroundColor = ColorManager.buttonColorwhite
         continueButton.setTitle(AppStrings.Welcome.continueButtonTitle, for: .normal)
         continueButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
-        continueButton.titleLabel?.font = FontManager.bold(size: 17)
+        continueButton.titleLabel?.font = FontManager.bold(size: 18)
         
         welcomeLabel.text = AppStrings.Welcome.welcomeTitle
         welcomeLabel.textColor = ColorManager.textColor

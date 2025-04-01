@@ -112,6 +112,7 @@ extension FavouriteDockViewController : UITableViewDataSource,UITableViewDelegat
             cell?.setShimmering(isShimmering: true)
         }else{
             if let favouriteLocation = viewModel?.favouriteLocation?[indexPath.row]{
+                UserDefaultManager.shared.saveFavouriteLocation(favouriteLocation.id)
                 cell?.setShimmering(isShimmering: false)
                 cell?.configure(chargerLocation: favouriteLocation,indexPath: indexPath,delegate: self)
             }else {

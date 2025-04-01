@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="IyV-Nj-zwr">
-                        <rect key="frame" x="10" y="5" width="615" height="68"/>
+                        <rect key="frame" x="15" y="5" width="605" height="68"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7iP-eQ-NWD">
                                 <rect key="frame" x="0.0" y="0.0" width="5" height="68"/>
@@ -34,10 +34,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D26-E2-T4V">
-                                <rect key="frame" x="321.33333333333326" y="0.0" width="272.66666666666674" height="68"/>
+                                <rect key="frame" x="321.33333333333326" y="0.0" width="262.66666666666674" height="68"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NVW-iP-1Mh">
-                                <rect key="frame" x="614" y="0.0" width="1" height="68"/>
+                                <rect key="frame" x="604" y="0.0" width="1" height="68"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="WLx-Ti-Jxs"/>
@@ -48,9 +48,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="IyV-Nj-zwr" secondAttribute="bottom" constant="5" id="Dv5-4y-pYe"/>
-                    <constraint firstAttribute="trailing" secondItem="IyV-Nj-zwr" secondAttribute="trailing" constant="10" id="m2H-7B-sRR"/>
+                    <constraint firstAttribute="trailing" secondItem="IyV-Nj-zwr" secondAttribute="trailing" constant="15" id="m2H-7B-sRR"/>
                     <constraint firstItem="IyV-Nj-zwr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="rLH-lf-ZLN"/>
-                    <constraint firstItem="IyV-Nj-zwr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="vXa-E2-dUN"/>
+                    <constraint firstItem="IyV-Nj-zwr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="vXa-E2-dUN"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

@@ -20,14 +20,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="211" height="141"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TeG-Ee-W3F">
-                                <rect key="frame" x="80.666666666666671" y="0.0" width="50.000000000000014" height="50"/>
+                                <rect key="frame" x="78" y="0.0" width="55" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="Ct7-yg-soV"/>
-                                    <constraint firstAttribute="height" constant="50" id="wmI-2z-fYC"/>
+                                    <constraint firstAttribute="width" constant="55" id="Ct7-yg-soV"/>
+                                    <constraint firstAttribute="height" constant="55" id="wmI-2z-fYC"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="izM-E6-Ejh">
-                                <rect key="frame" x="85" y="55" width="41.333333333333343" height="86"/>
+                                <rect key="frame" x="85" y="60" width="41.333333333333343" height="81"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
