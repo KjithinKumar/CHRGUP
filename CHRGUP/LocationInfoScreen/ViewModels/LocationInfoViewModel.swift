@@ -26,6 +26,9 @@ protocol LocationInfoViewModelInterface{
     var locationCellType : [locationInfoCellType] {get}
     var pointsAvailable : String {get}
     func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void)
+    var locationLatitude : Double {get}
+    var locationLongitude : Double {get}
+    
 }
 
 class LocationInfoViewModel : LocationInfoViewModelInterface{
@@ -55,6 +58,12 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
     }
     var locationImage : [String]{
         return locationData?.locationImage ?? []
+    }
+    var locationLatitude : Double {
+        return locationData?.direction.latitude ?? 0
+    }
+    var locationLongitude : Double {
+        return locationData?.direction.longitude ?? 0
     }
     
     var locationCellType : [locationInfoCellType] = [.chargers,.tarrif,.facilities,.titleSubTitle,.titleSubTitle,.titleSubTitle]

@@ -55,40 +55,34 @@ class FavouriteDockViewController: UIViewController {
     }
     func fetchData(){
         viewModel?.getUserFavouriteLocation(completion: { result in
-            switch result{
-            case .success(let response):
-                if response.status{
-                    self.isLoading = false
-                    DispatchQueue.main.async {
-                        self.setupLottieAnimation()
-                        self.checkForEmptyState()
-                        self.tableView.reloadData()
-                    }
-                }else{
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result{
+                case .success(let response):
+                    if response.status{
+                        self.isLoading = false
+                            self.setupLottieAnimation()
+                            self.checkForEmptyState()
+                            self.tableView.reloadData()
+                    }else{
                         self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
                     }
-                }
-
-            case .failure(let error):
-                if let error = error as? NetworkManagerError{
-                    switch error{
-                    case .serverError(let message,let code) :
-                        if code == 401{
-                            let actions = [AlertActions.loginAgainAction()]
-                            DispatchQueue.main.async {
+                    
+                case .failure(let error):
+                    if let error = error as? NetworkManagerError{
+                        switch error{
+                        case .serverError(let message,let code) :
+                            if code == 401{
+                                let actions = [AlertActions.loginAgainAction()]
                                 self.showAlert(title: "Unauthorized", message: message,actions: actions)
-                            }
-                        }else{
-                            DispatchQueue.main.async {
+                            }else{
                                 self.showAlert(title: "Error", message: message)
                             }
+                        default :
+                            break
                         }
-                    default :
-                        break
+                    }else{
+                        debugPrint(error)
                     }
-                }else{
-                    debugPrint(error)
                 }
             }
         })

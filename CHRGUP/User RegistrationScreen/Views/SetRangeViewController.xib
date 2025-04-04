@@ -31,7 +31,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TbR-ii-u0Z">
-                    <rect key="frame" x="46.666666666666657" y="201" width="300" height="450"/>
+                    <rect key="frame" x="46.666666666666657" y="211" width="300" height="430"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="afR-6K-3C6">
                             <rect key="frame" x="259" y="15" width="26" height="26"/>
@@ -59,7 +59,7 @@
                             </constraints>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qiS-lN-yli">
-                            <rect key="frame" x="15" y="400.66666666666663" width="270" height="34.333333333333314"/>
+                            <rect key="frame" x="15" y="380.66666666666663" width="270" height="34.333333333333314"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
                             <connections>
@@ -160,14 +160,14 @@
                         <constraint firstItem="NdQ-V0-807" firstAttribute="leading" secondItem="TbR-ii-u0Z" secondAttribute="leading" constant="15" id="BlX-sQ-ljt"/>
                         <constraint firstAttribute="trailing" secondItem="afR-6K-3C6" secondAttribute="trailing" constant="15" id="MbB-94-XUy"/>
                         <constraint firstItem="NdQ-V0-807" firstAttribute="top" secondItem="91N-cG-m3J" secondAttribute="bottom" constant="25" id="Mek-f4-isa"/>
+                        <constraint firstAttribute="height" constant="430" id="NuT-Dh-K0U"/>
                         <constraint firstItem="91N-cG-m3J" firstAttribute="leading" secondItem="TbR-ii-u0Z" secondAttribute="leading" constant="20" id="RNJ-UM-P47"/>
-                        <constraint firstAttribute="width" constant="300" id="aeo-Vj-l3K"/>
+                        <constraint firstAttribute="width" constant="300" id="WEX-8X-anm"/>
                         <constraint firstItem="Ngv-JR-07m" firstAttribute="centerX" secondItem="TbR-ii-u0Z" secondAttribute="centerX" id="ejx-CO-ahK"/>
                         <constraint firstItem="yYB-0Q-Z3L" firstAttribute="top" secondItem="Ngv-JR-07m" secondAttribute="bottom" constant="35" id="faw-c8-9r9"/>
                         <constraint firstAttribute="trailing" secondItem="NdQ-V0-807" secondAttribute="trailing" constant="15" id="gXw-Xi-t0R"/>
                         <constraint firstAttribute="trailing" secondItem="qiS-lN-yli" secondAttribute="trailing" constant="15" id="hjq-Mu-4nF"/>
                         <constraint firstItem="IIc-1e-bd2" firstAttribute="top" secondItem="yYB-0Q-Z3L" secondAttribute="bottom" constant="20" id="i1M-mE-f3q"/>
-                        <constraint firstAttribute="height" constant="450" id="j0W-bO-n5I"/>
                         <constraint firstAttribute="trailing" secondItem="IIc-1e-bd2" secondAttribute="trailing" constant="15" id="jEc-8G-DBJ"/>
                         <constraint firstItem="Ngv-JR-07m" firstAttribute="top" secondItem="TbR-ii-u0Z" secondAttribute="top" constant="15" id="kHb-Cz-u2J"/>
                         <constraint firstItem="IIc-1e-bd2" firstAttribute="leading" secondItem="TbR-ii-u0Z" secondAttribute="leading" constant="15" id="o4q-1W-uCT"/>
@@ -190,10 +190,10 @@
     <resources>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

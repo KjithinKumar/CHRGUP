@@ -118,7 +118,7 @@ class LocationInfoViewController: UIViewController {
     @IBAction func scanQrButtonPressed(_ sender: Any) {
     }
     @IBAction func MapsButtonPressed(_ sender: Any) {
-        if let latitude = viewModel?.userLocationlatitude, let longitude = viewModel?.userLocationlongitude{
+        if let latitude = viewModel?.locationLatitude, let longitude = viewModel?.locationLongitude{
             let appleMapsURL = "http://maps.apple.com/?q=\(latitude),\(longitude)&dirflg=d"
             let googleMapsURL = "comgooglemaps://?q=\(latitude),\(longitude)&directionsmode=driving"
             

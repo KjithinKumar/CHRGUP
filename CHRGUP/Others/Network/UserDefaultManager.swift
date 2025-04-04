@@ -20,6 +20,7 @@ class UserDefaultManager{
         static let loggedInUserIdKey = "loggedInUserIdKey"
         static let favouriteLocationskey = "FavouriteLocations"
         static let userLocationKey = "userLocationKey"
+        static let recentSearchHistoryKey = "recentSearchHistoryKey"
     }
     
     // MARK: - User Profile
@@ -105,12 +106,30 @@ class UserDefaultManager{
         }
         UserDefaults.standard.setValue(favourites, forKey: Keys.favouriteLocationskey)
     }
+    func resetFavouriteLocations() {
+        UserDefaults.standard.removeObject(forKey: Keys.favouriteLocationskey)
+    }
+    
+    //MARK: - CurrentLocation
     func saveUserCurrentLocation(_ latitude : Double,_ longitude : Double){
         UserDefaults.standard.setValue([latitude,longitude], forKey: Keys.userLocationKey)
         UserDefaults.standard.synchronize()
     }
     func getUserCurrentLocation() -> [Double]?{
         return UserDefaults.standard.array(forKey: Keys.userLocationKey) as? [Double]
+    }
+    //MARK: - RecentChargerLocation
+    func saveRecentChargers(_ chargers: [ChargerLocation]) {
+        if let encoded = try? JSONEncoder().encode(chargers) {
+            UserDefaults.standard.set(encoded, forKey: Keys.recentSearchHistoryKey)
+        }
+    }
+    func getRecentChargers() -> [ChargerLocation]? {
+        if let data = UserDefaults.standard.data(forKey: Keys.recentSearchHistoryKey),
+           let decoded = try? JSONDecoder().decode([ChargerLocation].self, from: data) {
+            return decoded
+        }
+        return []
     }
     
 }

@@ -92,6 +92,9 @@ class UserVehicleInfoViewController: UIViewController {
         rangeVc.setRangeScreenType = screenType
         rangeVc.viewModel = UserRegistrationViewModel(delegate: rangeVc, networkManager: NetworkManager())
         rangeVc.modalPresentationStyle = .popover
+        if let popoverPresentationController = rangeVc.popoverPresentationController {
+            popoverPresentationController.sourceView = sender as? UIView
+        }
         switch screenType {
         case .registerNew:
             rangeVc.setRangeScreenType = .registerNew

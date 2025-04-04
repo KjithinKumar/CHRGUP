@@ -25,7 +25,6 @@ class SplashScreenViewController: UIViewController {
 extension SplashScreenViewController : SplashViewModelDelegate{
     func navigateToMain() {
        let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
-        
         let navigationController = UINavigationController(rootViewController: welcomeVc)
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite

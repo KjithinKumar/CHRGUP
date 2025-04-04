@@ -96,6 +96,9 @@ class MapScreenViewController: UIViewController {
         navigationController?.present(leftPopVc, animated: false)
     }
     @objc func searchMenuTapped(){
+        let searchVc = SearchViewController()
+        searchVc.viewModel = SearchViewModel(networkManager: NetworkManager())
+        navigationController?.pushViewController(searchVc, animated: true)
         
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {

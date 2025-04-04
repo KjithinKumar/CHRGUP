@@ -84,7 +84,7 @@ struct AppStrings {
     }
     
     struct leftMenu{
-        static let Title = "What am i driving today?"
+        static let Title = "What am i\ndriving today?"
         static let highlihtedTitle = "driving"
         
         static let menuItem1 = "My Garage"

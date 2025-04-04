@@ -36,11 +36,12 @@ class SetRangeViewController: UIViewController {
     var viewModel : UserRegistrationViewModelnterface?
     var setRangeScreenType : UserVehicleInfoScreenType?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        observeKeyboardNotifications()
+        if UIDevice.current.userInterfaceIdiom == .phone{
+            observeKeyboardNotifications()
+        }
     }
     func setUpUI(){
         guard let selectedVehicleVariant = selectedVehicleVariant else { return }

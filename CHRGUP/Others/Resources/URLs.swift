@@ -69,4 +69,12 @@ struct URLs{
     static func updateUserProfile(mobile : String) -> String{
         return "\(baseUrl)users/\(mobile)"
     }
+    
+    static func searchChargersUrl(searchText : String) -> String{
+        return "\(baseUrl)charger-locations/location/search?query=\(searchText)"
+    }
+    
+    static func getChargerByIdUrl(chargerId : String) -> String{
+        return "\(baseUrl)charger-locations/\(chargerId)"
+    }
 }

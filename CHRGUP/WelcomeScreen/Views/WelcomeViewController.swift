@@ -20,6 +20,7 @@ class WelcomeViewController: UIViewController {
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         configureUi()
         UserDefaultManager.shared.setOnboardingCompleted(true)
+        UserDefaultManager.shared.resetFavouriteLocations()
         
     }
     

@@ -54,6 +54,7 @@ class AlertActions {
              navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
             let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
             sceneDelegate?.window?.rootViewController = navigationController
+            UserDefaultManager.shared.setLoginStatus(false)
         }
     }
     static func logoutAction() -> UIAlertAction {
@@ -64,6 +65,7 @@ class AlertActions {
              navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
             let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
             sceneDelegate?.window?.rootViewController = navigationController
+            UserDefaultManager.shared.setLoginStatus(false)
         }
     }
 }

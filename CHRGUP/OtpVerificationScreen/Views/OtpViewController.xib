@@ -46,8 +46,8 @@
                         </label>
                     </subviews>
                 </stackView>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-m1-QfI">
-                    <rect key="frame" x="25" y="251" width="343" height="48"/>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="WzL-m1-QfI">
+                    <rect key="frame" x="15" y="251" width="363" height="48"/>
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fXs-yu-GXz">
                             <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
@@ -59,7 +59,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jer-0U-DUL">
-                            <rect key="frame" x="59" y="0.0" width="48" height="48"/>
+                            <rect key="frame" x="63" y="0.0" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="32d-dt-BbZ"/>
                                 <constraint firstAttribute="width" constant="48" id="6BN-NG-597"/>
@@ -68,7 +68,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ggq-Z6-GN8">
-                            <rect key="frame" x="118" y="0.0" width="48" height="48"/>
+                            <rect key="frame" x="126" y="0.0" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="48" id="mY2-iY-TZ8"/>
                                 <constraint firstAttribute="height" constant="48" id="wLG-lk-xa5"/>
@@ -77,7 +77,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pcQ-0s-J0A">
-                            <rect key="frame" x="177" y="0.0" width="48" height="48"/>
+                            <rect key="frame" x="189" y="0.0" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="QCt-YO-0PL"/>
                                 <constraint firstAttribute="width" constant="48" id="lZV-W1-o3N"/>
@@ -86,7 +86,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F4I-1z-jBb">
-                            <rect key="frame" x="236" y="0.0" width="48" height="48"/>
+                            <rect key="frame" x="252" y="0.0" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="48" id="vqf-pD-YVZ"/>
                                 <constraint firstAttribute="height" constant="48" id="xxM-vP-GkB"/>
@@ -95,7 +95,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gyt-Nt-rd8">
-                            <rect key="frame" x="295" y="0.0" width="48" height="48"/>
+                            <rect key="frame" x="315" y="0.0" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="cDS-3q-QuS"/>
                                 <constraint firstAttribute="width" constant="48" id="pId-N9-8RW"/>
@@ -131,14 +131,13 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="WzL-m1-QfI" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="0Vn-sK-g0e"/>
                 <constraint firstItem="WzL-m1-QfI" firstAttribute="top" secondItem="KIb-f9-HPV" secondAttribute="bottom" constant="65" id="1Zk-i4-26r"/>
                 <constraint firstItem="CBC-Nf-jFr" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1s9-el-qcv"/>
-                <constraint firstItem="WzL-m1-QfI" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="3gw-83-eHA"/>
                 <constraint firstItem="KIb-f9-HPV" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="AE9-pM-7Hh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="dJ7-Lg-moH" secondAttribute="bottom" constant="50" id="HjU-sJ-EGh"/>
                 <constraint firstItem="KIb-f9-HPV" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" multiplier="1.5" constant="1" id="SvV-7l-ZJh"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dJ7-Lg-moH" secondAttribute="trailing" constant="25" id="Ybj-7w-19w"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="WzL-m1-QfI" secondAttribute="trailing" constant="25" id="aJr-q2-TKM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="CBC-Nf-jFr" secondAttribute="bottom" constant="65" id="e9C-bH-Wr1"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="KIb-f9-HPV" secondAttribute="trailing" constant="25" id="hal-R3-JYb"/>
                 <constraint firstItem="tfS-Qy-kIX" firstAttribute="top" secondItem="WzL-m1-QfI" secondAttribute="bottom" constant="35" id="jVW-Es-Ftd"/>
@@ -153,7 +152,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
