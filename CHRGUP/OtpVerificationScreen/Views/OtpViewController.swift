@@ -427,7 +427,7 @@ extension OtpViewController : OtpViewModelDelegate {
         
         DispatchQueue.main.async{
             let MapVc = MapScreenViewController()
-            MapVc.viewModel = MapScreenViewModel()
+            MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
             let navigationController = UINavigationController(rootViewController: MapVc)
             navigationController.modalPresentationStyle = .fullScreen
             self.present(navigationController, animated: true)

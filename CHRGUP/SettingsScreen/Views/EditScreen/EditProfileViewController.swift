@@ -46,21 +46,17 @@ class EditProfileViewController: UIViewController {
     @IBAction func updateButtonPressed(_ sender: Any) {
         guard let modifiedUserData = modifiedUserData else { return }
         viewModel?.updateUserProfile(userData: modifiedUserData, completion: { result in
-            switch result{
-            case .success(let response):
-                if response.success == false {
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async{
+                switch result{
+                case .success(let response):
+                    if response.success == false {
                         self.showAlert(title: "Failed to Update", message: response.message)
-                    }
-                }else{
-                    DispatchQueue.main.async {
+                    }else{
                         UserDefaultManager.shared.saveUserProfile(modifiedUserData)
                         ToastManager.shared.showToast(message: response.message ?? "User profile Updated")
                         self.navigationController?.popViewController(animated: true)
                     }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async{
+                case .failure(let error):
                     self.showAlert(title: "Error", message: error.localizedDescription)}
             }
         })

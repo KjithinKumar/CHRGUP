@@ -68,21 +68,7 @@ class FavouriteDockViewController: UIViewController {
                     }
                     
                 case .failure(let error):
-                    if let error = error as? NetworkManagerError{
-                        switch error{
-                        case .serverError(let message,let code) :
-                            if code == 401{
-                                let actions = [AlertActions.loginAgainAction()]
-                                self.showAlert(title: "Unauthorized", message: message,actions: actions)
-                            }else{
-                                self.showAlert(title: "Error", message: message)
-                            }
-                        default :
-                            break
-                        }
-                    }else{
-                        debugPrint(error)
-                    }
+                    AppErrorHandler.handle(error, in: self)
                 }
             }
         })
@@ -131,15 +117,13 @@ extension FavouriteDockViewController : FavouriteDockTableViewCellDelegate{
         let indextoRemove = indexPath.row
         let locationId = viewModel?.favouriteLocation?[indextoRemove].id ?? ""
         viewModel?.removeFavouriteLocation(locationId: locationId, completion: { result in
-            switch result{
-            case .success(let response):
-                if !response.status{
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async{
+                switch result{
+                case .success(let response):
+                    if !response.status{
                         self.showAlert(title: "Failed to Remove", message: response.message)
-                    }
-                }else{
-                    self.viewModel?.favouriteLocation?.remove(at: indextoRemove)
-                    DispatchQueue.main.async {
+                    }else{
+                        self.viewModel?.favouriteLocation?.remove(at: indextoRemove)
                         self.tableView.performBatchUpdates({
                             self.tableView.deleteRows(at: [IndexPath(row: indextoRemove, section: 0)], with: .left)
                         }, completion: { _ in
@@ -151,11 +135,8 @@ extension FavouriteDockViewController : FavouriteDockTableViewCellDelegate{
                         })
                         ToastManager.shared.showToast(message: response.message ?? "Location removed from favourite")
                     }
-                }
-                
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.showAlert(title: "Error", message: error.localizedDescription)
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
                 }
             }
         })

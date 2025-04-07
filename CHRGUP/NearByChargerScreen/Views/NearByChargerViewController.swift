@@ -23,38 +23,17 @@ class NearByChargerViewController: UIViewController {
         if let lat = userLocation?.coordinate.latitude, let long = userLocation?.coordinate.longitude {
             if let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber{
                 viewModel?.getNearByCharger(latitue: lat, longitude: long, range: 15, mobileNumber: mobileNumber){result in
-                    switch result{
-                    case .success(let response):
-                        if response.success{
-                            self.isLoading = false
-                            DispatchQueue.main.async {
+                    DispatchQueue.main.async {
+                        switch result{
+                        case .success(let response):
+                            if response.success{
+                                self.isLoading = false
                                 self.tableView.reloadData()
-                            }
-                        }else{
-                            DispatchQueue.main.async {
+                            }else{
                                 self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
                             }
-                        }
-    
-                    case .failure(let error):
-                        if let error = error as? NetworkManagerError{
-                            switch error{
-                            case .serverError(let message,let code) :
-                                if code == 401{
-                                    let actions = [AlertActions.loginAgainAction()]
-                                    DispatchQueue.main.async {
-                                        self.showAlert(title: "Unauthorized", message: message,actions: actions)
-                                    }
-                                }else{
-                                    DispatchQueue.main.async {
-                                        self.showAlert(title: "Error", message: message)
-                                    }
-                                }
-                            default :
-                                break
-                            }
-                        }else{
-                            debugPrint(error)
+                        case .failure(let error):
+                            AppErrorHandler.handle(error, in: self)
                         }
                     }
                 }
@@ -84,6 +63,7 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
         cell.backgroundColor = .clear
         if isLoading{
             cell.setShimmer(isShimmering: true)
+            tableView.allowsSelection = false
         }else{
             cell.setShimmer(isShimmering: false)
             if let userLocation = userLocation{
@@ -91,6 +71,7 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
                     cell.configure(viewModel: NearByChargerCellViewModel(chargerLocationData: chargerLocation),delegate: self)
                 }
             }
+            tableView.allowsSelection = true
         }
         
         return cell

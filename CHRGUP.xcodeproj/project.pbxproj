@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		041B4DA72D7F3CDB00193D8E /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 041B4DA62D7F3CDB00193D8E /* GoogleMaps */; };
 		046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 046D569F2D7C5AC100B6B654 /* SDWebImage */; };
 		046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */; };
 		048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 048B05C62D7DFB9A00763C9C /* Lottie */; };
@@ -17,10 +16,14 @@
 		04BEF12C2D7861A5005A3979 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF12B2D7861A5005A3979 /* FirebasePerformance */; };
 		04BEF12F2D786CA9005A3979 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF12E2D786CA9005A3979 /* GoogleSignIn */; };
 		04BEF1312D786CA9005A3979 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF1302D786CA9005A3979 /* GoogleSignInSwift */; };
+		C1DF051A9902C3632A484231 /* Pods_CHRGUP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHRGUP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		32950A6D190C67D6354BB407 /* Pods-CHRGUP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.release.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.release.xcconfig"; sourceTree = "<group>"; };
+		70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.debug.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.debug.xcconfig"; sourceTree = "<group>"; };
+		F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CHRGUP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -51,7 +54,6 @@
 			files = (
 				04BEF12F2D786CA9005A3979 /* GoogleSignIn in Frameworks */,
 				04BEF12A2D7861A5005A3979 /* FirebaseCrashlytics in Frameworks */,
-				041B4DA72D7F3CDB00193D8E /* GoogleMaps in Frameworks */,
 				048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */,
 				04BEF1262D7861A5005A3979 /* FirebaseAnalytics in Frameworks */,
 				046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */,
@@ -59,6 +61,7 @@
 				04BEF12C2D7861A5005A3979 /* FirebasePerformance in Frameworks */,
 				046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */,
 				04BEF1282D7861A5005A3979 /* FirebaseAuth in Frameworks */,
+				C1DF051A9902C3632A484231 /* Pods_CHRGUP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +73,8 @@
 			children = (
 				04DAC9702D6DB3F800EB4FB8 /* CHRGUP */,
 				04DAC96F2D6DB3F800EB4FB8 /* Products */,
+				06C4FE6238F0ACDF2478F1FA /* Pods */,
+				48A1D4C702373511978A2D0F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,6 +86,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		06C4FE6238F0ACDF2478F1FA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */,
+				32950A6D190C67D6354BB407 /* Pods-CHRGUP.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		48A1D4C702373511978A2D0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -88,9 +110,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04DAC9812D6DB3FA00EB4FB8 /* Build configuration list for PBXNativeTarget "CHRGUP" */;
 			buildPhases = (
+				5A847AB5380F44FD862EF201 /* [CP] Check Pods Manifest.lock */,
 				04DAC96A2D6DB3F800EB4FB8 /* Sources */,
 				04DAC96B2D6DB3F800EB4FB8 /* Frameworks */,
 				04DAC96C2D6DB3F800EB4FB8 /* Resources */,
+				1312D090DD39719C81AF5B1A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -110,7 +134,6 @@
 				046D569F2D7C5AC100B6B654 /* SDWebImage */,
 				046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */,
 				048B05C62D7DFB9A00763C9C /* Lottie */,
-				041B4DA62D7F3CDB00193D8E /* GoogleMaps */,
 			);
 			productName = CHRGUP;
 			productReference = 04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */;
@@ -145,7 +168,6 @@
 				04BEF12D2D786CA9005A3979 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				048B05C52D7DFB9A00763C9C /* XCRemoteSwiftPackageReference "lottie-spm" */,
-				041B4DA52D7F3CDB00193D8E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04DAC96F2D6DB3F800EB4FB8 /* Products */;
@@ -167,6 +189,52 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1312D090DD39719C81AF5B1A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5A847AB5380F44FD862EF201 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CHRGUP-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		04DAC96A2D6DB3F800EB4FB8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -180,11 +248,13 @@
 /* Begin XCBuildConfiguration section */
 		04DAC9822D6DB3FA00EB4FB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CHRGUP/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -201,6 +271,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.consumer.CHRGUP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -208,11 +279,13 @@
 		};
 		04DAC9832D6DB3FA00EB4FB8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 32950A6D190C67D6354BB407 /* Pods-CHRGUP.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CHRGUP/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -229,6 +302,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.consumer.CHRGUP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -379,14 +453,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		041B4DA52D7F3CDB00193D8E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.3.0;
-			};
-		};
 		046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -422,11 +488,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		041B4DA62D7F3CDB00193D8E /* GoogleMaps */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 041B4DA52D7F3CDB00193D8E /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
-			productName = GoogleMaps;
-		};
 		046D569F2D7C5AC100B6B654 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */;

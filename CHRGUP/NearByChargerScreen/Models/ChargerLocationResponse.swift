@@ -12,6 +12,12 @@ struct ChargerLocationResponse : Decodable{
     let message: String?
     let sessionInfo : SessionData?
 }
+struct ChargerLocationResponseById: Decodable{
+    let success: Bool
+    let data : ChargerLocation?
+    let message: String?
+    let sessionInfo : SessionData?
+}
 
 struct ChargerLocation : Codable{
     let id: String

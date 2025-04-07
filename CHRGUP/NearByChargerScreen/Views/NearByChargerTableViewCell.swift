@@ -41,11 +41,16 @@ class NearByChargerTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.layoutIfNeeded()
         cellbackgroundView.updateShimmerLayout()
+        locationLabel.updateShimmerLayout()
+        distanceLabel.updateShimmerLayout()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -74,17 +79,25 @@ class NearByChargerTableViewCell: UITableViewCell {
         distanceLabel.font = FontManager.bold(size: 17)
         
         let facilities = viewModel.facilities
-        if facilities.count == 1{
+        // First, reset everything
+        nearByOneLabel.isHidden = true
+        nearByTwoLabel.isHidden = true
+        nearByThreeLabel.isHidden = true
+        nearByOneLabel.text = ""
+        nearByTwoLabel.text = ""
+        nearByThreeLabel.text = ""
+
+        // Now assign based on count
+        if facilities.indices.contains(0) {
+            nearByOneLabel.isHidden = false
             nearByOneLabel.text = facilities[0]
-            nearByTwoLabel.isHidden = true
-            nearByThreeLabel.isHidden = true
-        }else if facilities.count == 2{
+        }
+        if facilities.indices.contains(1) {
+            nearByTwoLabel.isHidden = false
             nearByTwoLabel.text = facilities[1]
-            nearByOneLabel.text = facilities[0]
-            nearByThreeLabel.isHidden = true
-        }else if facilities.count == 3{
-            nearByOneLabel.text = facilities[0]
-            nearByTwoLabel.text = facilities[1]
+        }
+        if facilities.indices.contains(2) {
+            nearByThreeLabel.isHidden = false
             nearByThreeLabel.text = facilities[2]
         }
         

@@ -53,21 +53,7 @@ class SearchViewController: UIViewController {
                         ToastManager.shared.showToast(message: response.message ?? "Something went wrong")
                     }
                 case .failure(let error):
-                    if let error = error as? NetworkManagerError{
-                        switch error{
-                        case .serverError(let message,let code) :
-                            if code == 401{
-                                let actions = [AlertActions.loginAgainAction()]
-                                self.showAlert(title: "Unauthorized", message: message,actions: actions)
-                            }else{
-                                self.showAlert(title: "Error", message: message)
-                            }
-                        default :
-                            break
-                        }
-                    }else{
-                        debugPrint(error)
-                    }
+                    AppErrorHandler.handle(error, in: self)
                 }
             }
         }
@@ -179,13 +165,17 @@ extension SearchViewController : UITableViewDataSource,UITableViewDelegate {
                     viewModel?.refreshLocationData(id: locationData.id) { result in
                         switch result {
                         case .success(let chargerData):
-                            infoVc.viewModel = LocationInfoViewModel(locationData: chargerData,latitude: userLatitude, longitude: userLongitude)
+                            DispatchQueue.main.async {
+                                infoVc.viewModel = LocationInfoViewModel(locationData: chargerData,latitude: userLatitude, longitude: userLongitude)
+                                infoVc.reloadUi()
+                                self.viewModel?.addRecentCharger(chargerData)
+                            }
+                            
                         case .failure(let error):
                             self.showAlert(title: "Error", message: error.localizedDescription)
                         }
                     }
                     infoVc.viewModel = LocationInfoViewModel(locationData: locationData,latitude: userLatitude, longitude: userLongitude)
-                    viewModel?.addRecentCharger(locationData)
                 }
                 
             }else{
@@ -196,7 +186,7 @@ extension SearchViewController : UITableViewDataSource,UITableViewDelegate {
             }
         }
         self.present(infoVc, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.tableView.reloadData()
         }
         

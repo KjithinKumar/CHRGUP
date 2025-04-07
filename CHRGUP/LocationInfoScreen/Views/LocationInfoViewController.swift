@@ -37,6 +37,11 @@ class LocationInfoViewController: UIViewController {
         setUpTableView()
         
     }
+    func reloadUi(){
+        tableView.reloadData()
+        collectionView.reloadData()
+    }
+
     func configureUi(){
         guard let viewModel = viewModel else { return }
         view.backgroundColor = ColorManager.secondaryBackgroundColor
@@ -79,24 +84,21 @@ class LocationInfoViewController: UIViewController {
     }
     @IBAction func addToFavouriteButtonPressed(_ sender: Any) {
         viewModel?.addToFavourtie(networkManager: NetworkManager(), completion: { result in
-            switch result{
-            case .success(let response):
-                if !response.status{
-                    DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result{
+                case .success(let response):
+                    if !response.status{
                         self.showAlert(title: "Failed to add", message: response.message)
-                    }
-                }else{
-                    DispatchQueue.main.async {
+                    }else{
                         ToastManager.shared.showToast(message: response.message ?? "Location added to favourite")
                         self.setFavouritebutton(favourite: true)
                         if let indexPath = self.indexPath{
                             self.delegate?.didTapFavouriteButton(at: indexPath)
                         }
                     }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
                 }
-            case .failure(let error):
-                DispatchQueue.main.async{
-                    self.showAlert(title: "Error", message: error.localizedDescription)}
             }
         })
     }

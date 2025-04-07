@@ -39,12 +39,8 @@ class NearByChargerCellViewModel{
     var chargerLocationAvailable : Bool {
         return chargerLocationData.modLocationAvailble ?? false
     }
-    var facilities : [String] {
-        var names : [String] = []
-        if let facility = chargerLocationData.facilities {
-            names = facility.map { $0.name }
-        }
-        return names
+    var facilities: [String] {
+        return chargerLocationData.facilities?.map { $0.name } ?? []
     }
     var pointsAvailable : Int {
         return chargerLocationData.modpointsAvailable ?? 0
