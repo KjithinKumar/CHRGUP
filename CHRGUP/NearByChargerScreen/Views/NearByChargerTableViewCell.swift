@@ -82,7 +82,9 @@ class NearByChargerTableViewCell: UITableViewCell {
         distanceLabel.font = FontManager.bold(size: 17)
         
         let facilities = viewModel.facilities
-
+        nearByOneLabel.text = ""
+        nearByTwoLabel.text = ""
+        nearByThreeLabel.text = ""
         // Now assign based on count
         if facilities.indices.contains(0) {
             nearByOneLabel.isHidden = false

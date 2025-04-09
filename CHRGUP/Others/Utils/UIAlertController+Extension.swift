@@ -16,16 +16,6 @@ extension UIViewController {
         actions: [UIAlertAction] = [UIAlertAction(title: AppStrings.Alert.ok, style: .default, handler: nil)]
     ) {
         
-//        if let _ = self.presentedViewController as? UIAlertController {
-//            return
-//        }
-//        
-//        let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-//        actions.forEach { alertController.addAction($0) }
-//        
-//        DispatchQueue.main.async {
-//            self.present(alertController, animated: true, completion: nil)
-//        }
         DispatchQueue.main.async {
             self.dismissAlert { [weak self] in
                 guard let self = self else { return }

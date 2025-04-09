@@ -21,6 +21,8 @@ class UserDefaultManager{
         static let favouriteLocationskey = "FavouriteLocations"
         static let userLocationKey = "userLocationKey"
         static let recentSearchHistoryKey = "recentSearchHistoryKey"
+        static let chargerIdKey = "chargerIdKey"
+        static let sessionStartTimeKey = "sessionTimeKey"
     }
     
     // MARK: - User Profile
@@ -131,5 +133,24 @@ class UserDefaultManager{
         }
         return []
     }
+    //MARK: -  ChargerId
+    func saveChargerId(_ chargerId: String) {
+        UserDefaults.standard.setValue(chargerId, forKey: Keys.chargerIdKey)
+        UserDefaults.standard.synchronize()
+    }
+    func getChargerId() -> String? {
+        return UserDefaults.standard.string(forKey: Keys.chargerIdKey)
+    }
+    func removeChargerId() {
+        UserDefaults.standard.removeObject(forKey: Keys.chargerIdKey)
+    }
     
+    func saveTimestamp(){
+        let currentTime = Date().timeIntervalSince1970
+        UserDefaults.standard.setValue(currentTime, forKey: Keys.sessionStartTimeKey)
+        UserDefaults.standard.synchronize()
+    }
+    func getSessionStartTime() -> String? {
+        return UserDefaults.standard.string(forKey: Keys.sessionStartTimeKey)
+    }
 }

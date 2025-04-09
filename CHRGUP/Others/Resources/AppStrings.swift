@@ -164,4 +164,22 @@ struct AppStrings {
     struct ScanQr{
         static let manualQrTitle = "Please enter the code\ndisplayed on the charger"
     }
+    
+    struct StartCharging{
+        static let title = "Charger is ready to start"
+        
+        static let titleOne = "Charger Name"
+        
+        static let titleTwo = "Charger Location"
+        
+        static let titleThree = "Charger Type"
+        
+        static let titleFour = "Charging Tariff"
+        
+        static let titleFive = "Parking Tariff"
+        
+        static let downViewTitle = "Note: Make sure the charging gun is connected properly to the car"
+    }
+    
+    
 }

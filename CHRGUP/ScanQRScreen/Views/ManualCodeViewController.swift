@@ -15,7 +15,7 @@ class ManualCodeViewController: UIViewController {
     @IBOutlet weak var closeButton: UIButton!
     
     var viewModel : ScanQrViewModelInterface?
-    var onCodeScanned: ((ChargerLocationData) -> Void)?
+    var onCodeScanned: ((ChargerLocationData,QRPayload) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +60,7 @@ class ManualCodeViewController: UIViewController {
     }
     @IBAction func submitButtonPressed(_ sender: Any) {
         if let code = codeTextField.text?.replacingOccurrences(of: " ", with: ""){
+            let payLoad = QRPayload(connectorId: 1, chargerId: code)
             viewModel?.fetchChargerDetails(id: code) { [weak self ]result in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
@@ -67,8 +68,9 @@ class ManualCodeViewController: UIViewController {
                     case .success(let response):
                         if response.status{
                             if let data = response.data{
-                                self.onCodeScanned?(data)
-                                self.presentingViewController?.presentingViewController?.dismiss(animated: true)
+                                self.presentingViewController?.presentingViewController?.dismiss(animated: true){
+                                    self.onCodeScanned?(data,payLoad)
+                                }
                             }
                         }else{
                             self.showAlert(title: "Error", message: response.message)

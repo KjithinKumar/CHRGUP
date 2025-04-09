@@ -85,4 +85,6 @@ struct URLs{
     }
     
     static let getChargerByName = baseUrl + "charger-locations/get-charger-info-by-name"
+    
+    static let startChargingUrl = baseUrl + "/session/transaction"
 }

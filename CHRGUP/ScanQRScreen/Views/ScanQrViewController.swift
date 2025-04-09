@@ -21,12 +21,15 @@ class ScanQrViewController: UIViewController {
     private var scannerAnimationView: LottieAnimationView?
     private var cameraManager: CameraManager?
     var viewModel : ScanQrViewModelInterface?
-    var onCodeScanned: ((ChargerLocationData) -> Void)?
+    var onCodeScanned: ((ChargerLocationData,QRPayload?) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupScannerAnimation()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        cameraManager?.stopSession()
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -41,12 +44,11 @@ class ScanQrViewController: UIViewController {
                         case .success(let response):
                             if response.status{
                                 if let data = response.data{
-                                    self.onCodeScanned?(data)
+                                    self.onCodeScanned?(data,scannedCode)
                                 }
                             }else{
                                 self.showAlert(title: "Error", message: response.message)
                             }
-                            self.dismiss(animated: true)
                         case .failure(let error):
                             AppErrorHandler.handle(error, in: self)
                         }

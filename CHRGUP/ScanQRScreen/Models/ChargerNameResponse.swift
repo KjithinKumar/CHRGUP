@@ -12,14 +12,20 @@ struct ChargerNameResponse: Decodable {
     let data : ChargerLocationData?
     let message: String?
 }
-struct ChargerLocationData : Codable{
-    let id: String?
+struct Location : Codable{
     let locationName: String?
     let locationType: String?
-    let state: String?
-    let city: String?
-    let address: String?
-    let direction: Direction?
+    let freePaid: FreePaid?
+    
+    enum CodingKeys: String, CodingKey {
+        case locationName
+        case locationType
+        case freePaid = "freepaid"
+    }
+}
+struct ChargerLocationData : Codable{
+    let id: String?
+    let location : Location?
     let salesManager: Person?
     let dealer: Person?
     let facilities: [Facility]?
@@ -36,16 +42,11 @@ struct ChargerLocationData : Codable{
     var modDistance: String?
     var modpointsAvailable : Int?
     var modLocationAvailble : Bool?
-    let freePaid: FreePaid?
+    
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case locationName
-        case locationType
-        case state
-        case city
-        case address
-        case direction
+        case location
         case salesManager
         case dealer
         case facilities
@@ -59,6 +60,5 @@ struct ChargerLocationData : Codable{
         case isFromSharedPreferences
         case version = "__v"
         case distance
-        case freePaid = "freepaid"
     }
 }

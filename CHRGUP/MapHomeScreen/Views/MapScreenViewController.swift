@@ -84,8 +84,15 @@ class MapScreenViewController: UIViewController{
     @IBAction func scanQRButtonPressed(_ sender: Any) {
         let scanVc = ScanQrViewController()
         scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
-        scanVc.onCodeScanned = { [weak self] data in
-            print(data)
+        scanVc.onCodeScanned = { [weak self] (data,payload) in
+            guard let self = self else { return }
+            scanVc.dismiss(animated: true) {
+                let startChargeVc = StartChargeViewController()
+                startChargeVc.modalPresentationStyle = .fullScreen
+                startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
+                startChargeVc.payLoad = payload
+                self.navigationController?.present(startChargeVc, animated: true)
+            }
         }
         scanVc.modalPresentationStyle = .fullScreen
         navigationController?.present(scanVc, animated: true)
