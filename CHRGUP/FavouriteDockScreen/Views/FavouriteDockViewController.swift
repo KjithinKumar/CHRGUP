@@ -54,7 +54,8 @@ class FavouriteDockViewController: UIViewController {
         }
     }
     func fetchData(){
-        viewModel?.getUserFavouriteLocation(completion: { result in
+        viewModel?.getUserFavouriteLocation(completion: {[weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result{
                 case .success(let response):

@@ -34,7 +34,8 @@ class NearByChargerViewModel : NearByChargerViewModelInterface{
         let body = ["latitude": latitue, "longitude": longitude, "range": range, "mobileNumber": mobileNumber] as [String : Any]
         let header = ["Authorization": "Bearer \(authToken)"]
         if let reqest = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
-            networkManager?.request(reqest, decodeTo: ChargerLocationResponse.self , completion: { result in
+            networkManager?.request(reqest, decodeTo: ChargerLocationResponse.self , completion: { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let response):
                     self.chargerLocationResponse = response

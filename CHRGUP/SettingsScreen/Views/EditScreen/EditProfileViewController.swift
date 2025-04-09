@@ -45,7 +45,8 @@ class EditProfileViewController: UIViewController {
     }
     @IBAction func updateButtonPressed(_ sender: Any) {
         guard let modifiedUserData = modifiedUserData else { return }
-        viewModel?.updateUserProfile(userData: modifiedUserData, completion: { result in
+        viewModel?.updateUserProfile(userData: modifiedUserData, completion: { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async{
                 switch result{
                 case .success(let response):

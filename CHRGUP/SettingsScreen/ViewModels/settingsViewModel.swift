@@ -23,7 +23,8 @@ class settingsViewModel: settingsViewModelInterface {
         guard let authToken = UserDefaultManager.shared.getJWTToken() else {return}
         let header = ["Authorization": "Bearer \(authToken)"]
         if let request = networkManager?.createRequest(urlString: url, method: .delete, body: nil, encoding: .json, headers: header){
-            networkManager?.request(request, decodeTo: DeleteUserModel.self, completion: { result in
+            networkManager?.request(request, decodeTo: DeleteUserModel.self, completion: { [weak self] result in
+                guard let _ = self else { return }
                 switch result {
                     case .success(let response):
                     completion(.success(response))

@@ -27,7 +27,8 @@ class EditProfileViewModel :  EditProfileViewModelInterface{
                     "dob" : userData.dob,
                     "gender" : userData.gender]
         if let request = networkManager?.createRequest(urlString: url, method: .patch, body: body, encoding: .json, headers: header){
-            networkManager?.request(request, decodeTo: UserLoginResponseModel.self, completion: { result in
+            networkManager?.request(request, decodeTo: UserLoginResponseModel.self, completion: { [weak self] result in
+                guard let _ = self else {return}
                 switch result {
                     case .success(let response):
                     completion(.success(response))

@@ -33,7 +33,8 @@ class UserVehicleInfoViewModel : UserVehicleInfoViewModelInterface {
     func loadVehicleData() {
         let url = URLs.vehiclesUrl
         if let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: nil){
-            networkManager?.request(request, decodeTo: VehicleCatalogResponse.self, completion: { result in
+            networkManager?.request(request, decodeTo: VehicleCatalogResponse.self, completion: { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let vehicles) :
                     self.vehicleResponse = vehicles

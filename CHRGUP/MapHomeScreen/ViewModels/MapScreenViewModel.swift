@@ -41,7 +41,8 @@ class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
                                        "status" : "Active",
                                        "userPhone" : mobile]
         if let reqest = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
-            networkManager?.request(reqest, decodeTo: ChargerRangeresponse.self , completion: { result in
+            networkManager?.request(reqest, decodeTo: ChargerRangeresponse.self , completion: { [weak self] result in
+                guard let _ = self else { return }
                 switch result {
                 case .success(let response):
                     completion(.success(response))
@@ -56,7 +57,8 @@ class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
         if let reqest = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){
-            networkManager?.request(reqest, decodeTo: ChargerLocationResponseById.self , completion: { result in
+            networkManager?.request(reqest, decodeTo: ChargerLocationResponseById.self , completion: { [weak self] result in
+                guard let _ = self else { return }
                 switch result {
                 case .success(let response):
                     completion(.success(response))

@@ -78,7 +78,8 @@ class NearByChargerCellViewModel{
         let requestBody : [String : Any] = ["locationId" : locationId]
         let header = ["Authorization": "Bearer \(authToken)"]
         if let request = networkManager.createRequest(urlString: url, method: .post, body: requestBody, encoding: .json, headers: header){
-            networkManager.request(request, decodeTo: FavouriteResponseModel.self) { result in
+            networkManager.request(request, decodeTo: FavouriteResponseModel.self) { [weak self] result in
+                guard let _ = self else { return }
                 switch result{
                 case .success(let response):
                     UserDefaultManager.shared.saveFavouriteLocation(locationId)

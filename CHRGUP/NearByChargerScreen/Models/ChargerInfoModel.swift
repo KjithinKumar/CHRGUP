@@ -13,6 +13,8 @@ struct ChargerInfo : Codable {
     let powerOutput : String?
     let id : String?
     let costPerUnit : Cost?
+    let name : String?
+    let energyConsumptions : String?
     enum CodingKeys : String, CodingKey {
         case status
         case type
@@ -20,6 +22,8 @@ struct ChargerInfo : Codable {
         case powerOutput
         case id = "_id"
         case costPerUnit
+        case name
+        case energyConsumptions
     }
 }
 struct Cost : Codable {

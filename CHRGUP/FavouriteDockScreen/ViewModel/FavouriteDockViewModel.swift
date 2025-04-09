@@ -31,7 +31,8 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
             guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
             let header = ["Authorization": "Bearer \(authToken)"]
             if let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){
-                networkManager?.request(request, decodeTo: GetFavouriteResponseModel.self, completion: { result in
+                networkManager?.request(request, decodeTo: GetFavouriteResponseModel.self, completion: {[weak self] result in
+                    guard let self = self else { return }
                     switch result{
                     case .success(let response):
                         if let currentLocation = UserDefaultManager.shared.getUserCurrentLocation(){
@@ -54,7 +55,8 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
             let requestBody : [String : Any] = ["locationId" : locationId]
             let header = ["Authorization": "Bearer \(authToken)"]
             if let request = networkManager?.createRequest(urlString: url, method: .delete, body: requestBody, encoding: .json, headers: header){
-                networkManager?.request(request, decodeTo: FavouriteResponseModel.self, completion: { result in
+                networkManager?.request(request, decodeTo: FavouriteResponseModel.self, completion: {[weak self] result in
+                    guard let _ = self else { return }
                     switch result{
                     case .success(let response):
                         if response.status{
@@ -79,7 +81,8 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
         let requestBody : [String : Any] = ["locationId" : locationId]
         let header = ["Authorization": "Bearer \(authToken)"]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: requestBody, encoding: .json, headers: header){
-            networkManager?.request(request, decodeTo: FavouriteResponseModel.self) { result in
+            networkManager?.request(request, decodeTo: FavouriteResponseModel.self) { [weak self] result in
+                guard let _ = self else { return }
                 switch result{
                 case .success(let response):
                     UserDefaultManager.shared.saveFavouriteLocation(locationId)

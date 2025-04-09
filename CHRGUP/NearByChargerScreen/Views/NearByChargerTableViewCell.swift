@@ -43,6 +43,9 @@ class NearByChargerTableViewCell: UITableViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
+        nearByOneLabel.text = ""
+        nearByTwoLabel.text = ""
+        nearByThreeLabel.text = ""
     }
     
     override func layoutSubviews() {
@@ -79,13 +82,6 @@ class NearByChargerTableViewCell: UITableViewCell {
         distanceLabel.font = FontManager.bold(size: 17)
         
         let facilities = viewModel.facilities
-        // First, reset everything
-        nearByOneLabel.isHidden = true
-        nearByTwoLabel.isHidden = true
-        nearByThreeLabel.isHidden = true
-        nearByOneLabel.text = ""
-        nearByTwoLabel.text = ""
-        nearByThreeLabel.text = ""
 
         // Now assign based on count
         if facilities.indices.contains(0) {
@@ -273,7 +269,8 @@ class NearByChargerTableViewCell: UITableViewCell {
         viewModel?.openLocationInMaps()
     }
     @IBAction func addToFavouriteButtonPressed(_ sender: Any) {
-        viewModel?.addToFavourtie(networkManager: NetworkManager(),completion: { result in
+        viewModel?.addToFavourtie(networkManager: NetworkManager(),completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let resoponse) :
                 self.delegate?.addedTofavouriteResponse(response: resoponse, error: nil)

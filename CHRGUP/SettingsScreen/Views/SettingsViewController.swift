@@ -35,7 +35,8 @@ class SettingsViewController: UIViewController {
     @IBAction func deleteButtonPressed(_ sender: Any) {
         showAlert(title: "Delete Account", message: "Do you want to delete your user account?",actions: [UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
             if let mobileNumber = self.userData?.phoneNumber {
-                self.viewModel?.deletUserAccount(mobileNumber: mobileNumber, completion: { result in
+                self.viewModel?.deletUserAccount(mobileNumber: mobileNumber, completion: { [weak self] result in
+                    guard let self = self else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         switch result{
                         case .success(let response):

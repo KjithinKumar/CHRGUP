@@ -67,6 +67,9 @@
                                 <imageReference key="image" image="qrcode.viewfinder" catalog="system" symbolScale="medium"/>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
                             </state>
+                            <connections>
+                                <action selector="scanQRButtonPressed:" destination="-1" eventType="touchUpInside" id="qUI-zh-8Ba"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -160,4 +160,8 @@ struct AppStrings {
         
         static let dobPlaceholderText = "Select your date of birth"
     }
+    
+    struct ScanQr{
+        static let manualQrTitle = "Please enter the code\ndisplayed on the charger"
+    }
 }

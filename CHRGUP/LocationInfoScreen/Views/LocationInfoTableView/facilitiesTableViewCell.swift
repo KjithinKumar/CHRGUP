@@ -38,7 +38,7 @@ extension facilitiesTableViewCell : UICollectionViewDataSource,UICollectionViewD
         collectionView.register(UINib(nibName: "facilityCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: facilityCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.heightAnchor.constraint(equalToConstant: 85).isActive = true
+        collectionView.heightAnchor.constraint(equalToConstant: 95).isActive = true
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 20
@@ -58,7 +58,7 @@ extension facilitiesTableViewCell : UICollectionViewDataSource,UICollectionViewD
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: 55, height: 85)
+        return CGSize(width: 55, height: 95)
     }
 }
 

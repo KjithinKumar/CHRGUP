@@ -50,7 +50,8 @@ class OtpViewModel: OtpViewModelInterface {
         }
     }
     func resendOtp(phoneNumber: String,completion: @escaping(String)->Void) {
-        TwilioHelper.sendVerificationCode(to: phoneNumber) { result in
+        TwilioHelper.sendVerificationCode(to: phoneNumber) { [weak self] result in
+            guard let _ = self else { return }
             if let error = result {
                 completion(error)
             } else {
@@ -64,7 +65,8 @@ class OtpViewModel: OtpViewModelInterface {
         guard let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: nil) else {
             return
         }
-        networkManager?.request(request, decodeTo: UserLoginResponseModel.self, completion: { result in
+        networkManager?.request(request, decodeTo: UserLoginResponseModel.self, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result{
             case .success(let response):
                 if response.success,let userProfile = response.data{

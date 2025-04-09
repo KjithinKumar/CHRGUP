@@ -39,7 +39,8 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
             return
         }
         networkManager?.request(request,
-                                decodeTo: UserLoginResponseModel.self, completion: { result in
+                                decodeTo: UserLoginResponseModel.self, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let userResponse):
                 debugPrint(userResponse)
@@ -63,7 +64,8 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
             delegate?.didFailToSaveUserProfile(error: "Invalid Request")
             return
         }
-        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { result in
+        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let response):
                 self.delegate?.didAddedNewVehicleSuccessfully(message: response.message)
@@ -91,7 +93,8 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
                                                           method: .put,
                                                           body: vehicle.toDictionary(),
                                                           encoding: .json, headers: header) else {return}
-        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { result in
+        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let response):
                 self.delegate?.didUpdateVehicleSuccessfully(message: response.message)

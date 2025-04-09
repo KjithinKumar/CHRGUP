@@ -83,7 +83,8 @@ class LocationInfoViewController: UIViewController {
         dismiss(animated: true)
     }
     @IBAction func addToFavouriteButtonPressed(_ sender: Any) {
-        viewModel?.addToFavourtie(networkManager: NetworkManager(), completion: { result in
+        viewModel?.addToFavourtie(networkManager: NetworkManager(), completion: { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result{
                 case .success(let response):

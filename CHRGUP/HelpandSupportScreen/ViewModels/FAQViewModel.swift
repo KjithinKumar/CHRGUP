@@ -31,7 +31,8 @@ class FAQViewModel : FAQViewModelInterface{
         let headers = ["Authorization": "Bearer \(authToken)"]
         let body = ["category" : "\(category)"]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: headers){
-            networkManager?.request(request, decodeTo: faqResponse.self, completion: { result in
+            networkManager?.request(request, decodeTo: faqResponse.self, completion: { [weak self] result in
+                guard let self = self else { return }
                 switch result{
                 case .success(let response):
                     self.FAQs = response.data

@@ -83,4 +83,6 @@ struct URLs{
     static func getChargerById (chargerId : String) -> String{
         return "\(baseUrl)charger-locations/\(chargerId)"
     }
+    
+    static let getChargerByName = baseUrl + "charger-locations/get-charger-info-by-name"
 }

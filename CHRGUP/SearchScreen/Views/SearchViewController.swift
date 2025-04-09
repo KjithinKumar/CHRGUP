@@ -34,6 +34,7 @@ class SearchViewController: UIViewController {
         view.backgroundColor = ColorManager.backgroundColor
         navigationItem.title = "Search Chargers"
         searchLabel.textColor = ColorManager.subtitleTextColor
+        searchBar.tintColor = ColorManager.primaryColor
     }
     func fetchData(query : String){
         isLoading = true
@@ -162,7 +163,8 @@ extension SearchViewController : UITableViewDataSource,UITableViewDelegate {
         if let userLatitude = UserDefaultManager.shared.getUserCurrentLocation()?.first, let userLongitude = UserDefaultManager.shared.getUserCurrentLocation()?.last{
             if searchBar.text?.isEmpty ?? true {
                 if let locationData = viewModel?.recentChargers[indexPath.row]{
-                    viewModel?.refreshLocationData(id: locationData.id) { result in
+                    viewModel?.refreshLocationData(id: locationData.id) { [weak self] result in
+                        guard let self = self else { return }
                         switch result {
                         case .success(let chargerData):
                             DispatchQueue.main.async {

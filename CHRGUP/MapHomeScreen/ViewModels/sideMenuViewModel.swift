@@ -68,7 +68,8 @@ class SideMenuViewModel: SideMenuViewModelInterface {
         let header = ["Authorization": "Bearer \(authToken)"]
         let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header)
         if let request = request {
-            networkManager?.request(request, decodeTo: UserVehicleResponse.self, completion: { result in
+            networkManager?.request(request, decodeTo: UserVehicleResponse.self, completion: { [weak self] result in
+                guard let self = self else {return}
                 switch result {
                 case .success(let response) :
                     self.vehicleData = response.data

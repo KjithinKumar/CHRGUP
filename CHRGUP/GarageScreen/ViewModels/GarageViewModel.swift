@@ -49,7 +49,8 @@ class GarageViewModel : GarageViewModelInterface {
         let header = ["Authorization": "Bearer \(authToken)"]
         let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header)
         if let request = request {
-            networkManager?.request(request, decodeTo: UserVehicleResponse.self, completion: { result in
+            networkManager?.request(request, decodeTo: UserVehicleResponse.self, completion: { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let response) :
                     self.userVehicles = response.data
@@ -79,7 +80,8 @@ class GarageViewModel : GarageViewModelInterface {
         guard let request = networkManager?.createRequest(urlString: url, method: .delete, body: nil, encoding: .json, headers: ["Authorization": "Bearer \(authToken)"]) else {
             return
         }
-        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { result in
+        networkManager?.request(request, decodeTo: newVehicleResponse.self, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let response):
                 let message = response.message

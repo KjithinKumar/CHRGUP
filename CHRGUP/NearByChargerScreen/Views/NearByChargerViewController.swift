@@ -22,7 +22,8 @@ class NearByChargerViewController: UIViewController {
         setUpTableView()
         if let lat = userLocation?.coordinate.latitude, let long = userLocation?.coordinate.longitude {
             if let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber{
-                viewModel?.getNearByCharger(latitue: lat, longitude: long, range: 15, mobileNumber: mobileNumber){result in
+                viewModel?.getNearByCharger(latitue: lat, longitude: long, range: 15, mobileNumber: mobileNumber){ [weak self] result in
+                    guard let self = self else { return }
                     DispatchQueue.main.async {
                         switch result{
                         case .success(let response):

@@ -45,6 +45,13 @@ class MapScreenViewController: UIViewController{
         selectedCharger = nil
         clusterManager?.cluster()
         hideBottomCard()
+        if let mapView = mapView {
+            let position = mapView.camera
+            let centerLat = position.target.latitude
+            let centerLng = position.target.longitude
+            let visibleRadius = getVisibleRadius(from: mapView)
+            setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
+        }
     }
     func setupUI(){
         listButton.backgroundColor = .black
@@ -73,6 +80,15 @@ class MapScreenViewController: UIViewController{
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(leftMenuTapped))
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchMenuTapped))
+    }
+    @IBAction func scanQRButtonPressed(_ sender: Any) {
+        let scanVc = ScanQrViewController()
+        scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
+        scanVc.onCodeScanned = { [weak self] data in
+            print(data)
+        }
+        scanVc.modalPresentationStyle = .fullScreen
+        navigationController?.present(scanVc, animated: true)
     }
     
     @objc func leftMenuTapped(){
@@ -164,24 +180,33 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
         return true
     }
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        hideBottomCard()
         if let clusterItem = marker.userData as? ChargerClusterItem{
-            viewModel?.fetchLocationById(id: clusterItem.chargers?.id ?? "") { result in
+            if clusterItem.chargers?.id != selectedCharger?.id{
+                hideBottomCard()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.showBottomCard()
+                self.chargerDetailTableView.reloadData()
+            }
+            if let icon = self.markerIcon(for: clusterItem.chargers?.chargerInfo) {
+                marker.icon = self.resizeMarkerImage(image: icon, scale: 1.3)
+                self.selectedCharger = nil
+                self.clusterManager?.cluster()
+            }
+            
+            viewModel?.fetchLocationById(id: clusterItem.chargers?.id ?? "") { [weak self]result in
+                guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch result {
                     case.success(let response):
                         if response.success {
                             if let chargerData = response.data {
                                 self.selectedCharger = chargerData
-                                if let icon = self.markerIcon(for: clusterItem.chargers?.chargerInfo) {
-                                    marker.icon = self.resizeMarkerImage(image: icon, scale: 1.3)
-                                }
+                                self.isLoading = false
+                                self.chargerDetailTableView.reloadData()
                                 self.clusterManager?.cluster()
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                                    self.isLoading = false
-                                    self.chargerDetailTableView.reloadData()
-                                    self.showBottomCard()
-                                }
+                            }else{
+                                self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
                             }
                         }
                     case.failure(let error):
@@ -223,7 +248,8 @@ extension MapScreenViewController : SideMenuDelegate {
 //MARK: - Map Icons
 extension MapScreenViewController {
     func setUplocation(latitude : Double, longitude : Double, range : Int){
-        viewModel?.fetchchargerLocation(lat: latitude, lon: longitude, range: range) { result in
+        viewModel?.fetchchargerLocation(lat: latitude, lon: longitude, range: range) { [weak self] result in
+            guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result{
                 case .success(let response):
@@ -307,10 +333,8 @@ extension MapScreenViewController: GMUClusterRendererDelegate {
         if let clusterItem = marker.userData as? ChargerClusterItem {
             if let image = markerIcon(for: clusterItem.chargers?.chargerInfo){
                 if clusterItem.chargers?.id == selectedCharger?.id {
-                    // Resize if selected
                     marker.icon = resizeMarkerImage(image: image, scale: 1.3)
                 } else {
-                    // Use normal size otherwise
                     marker.icon = image
                 }
             }
@@ -376,6 +400,7 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
             }
         }
         return cell
+        
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         250
@@ -408,6 +433,7 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
         UIView.animate() {
             self.view.layoutIfNeeded()
         }
+        isLoading = true
     }
 }
 extension MapScreenViewController : NearByChargerTableViewCellDelegate{

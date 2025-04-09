@@ -46,7 +46,8 @@ class SearchViewModel: SearchViewModelInterface {
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
         if let reqest = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){
-            networkManager?.request(reqest, decodeTo: ChargerLocationResponse.self , completion: { result in
+            networkManager?.request(reqest, decodeTo: ChargerLocationResponse.self , completion: { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let response):
                     if let currentLocation = UserDefaultManager.shared.getUserCurrentLocation(){
@@ -77,7 +78,8 @@ class SearchViewModel: SearchViewModelInterface {
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
         if let reqest = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){
-            networkManager?.request(reqest, decodeTo: ChargerLocationUpdateResopnse.self , completion: { result in
+            networkManager?.request(reqest, decodeTo: ChargerLocationUpdateResopnse.self , completion: { [weak self] result in
+                guard let _ = self else { return }
                 switch result {
                 case .success(let response):
                     if let currentLocation = UserDefaultManager.shared.getUserCurrentLocation(){
