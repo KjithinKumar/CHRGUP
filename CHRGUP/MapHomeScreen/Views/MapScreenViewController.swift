@@ -113,6 +113,10 @@ class MapScreenViewController: UIViewController{
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
         viewModel?.requestLocationPermission()
+        let vc = ReviewViewController()
+        vc.viewModel = ReviewViewModel(networkManager: NetworkManager())
+        vc.modalPresentationStyle = .fullScreen
+        navigationController?.present(vc, animated: true)
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
         let listViewVc = NearByChargerViewController()

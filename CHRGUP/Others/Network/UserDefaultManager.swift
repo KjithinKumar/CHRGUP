@@ -23,6 +23,7 @@ class UserDefaultManager{
         static let recentSearchHistoryKey = "recentSearchHistoryKey"
         static let chargerIdKey = "chargerIdKey"
         static let sessionStartTimeKey = "sessionTimeKey"
+        static let scannedLocationId = "scannedLocationId"
     }
     
     // MARK: - User Profile
@@ -152,5 +153,15 @@ class UserDefaultManager{
     }
     func getSessionStartTime() -> String? {
         return UserDefaults.standard.string(forKey: Keys.sessionStartTimeKey)
+    }
+    
+    //MARK: - ScannedLocation
+    func saveScannedLocation(_ locationId: String) {
+        UserDefaults.standard.setValue(locationId, forKey: Keys.scannedLocationId)
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getScannedLocationId() -> String? {
+        return UserDefaults.standard.string(forKey: Keys.scannedLocationId)
     }
 }

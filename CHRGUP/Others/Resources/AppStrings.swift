@@ -181,5 +181,16 @@ struct AppStrings {
         static let downViewTitle = "Note: Make sure the charging gun is connected properly to the car"
     }
     
+    struct Review{
+        static let title = "Thank you for choosing us"
+        
+        static let subtitle = "Please rate your experience in using us and our location partner"
+        
+        static let subtitleOne = "Charging Experience"
+        
+        static let subtitleTwo = "Charging Location"
+        
+        static let commentsText = "Comments"
+    }
     
 }

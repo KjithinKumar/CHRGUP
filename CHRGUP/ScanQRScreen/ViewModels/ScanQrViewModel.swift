@@ -27,6 +27,9 @@ class ScanQrViewModel: ScanQrViewModelInterface {
                 guard let _ = self else { return }
                 switch result {
                 case .success(let response):
+                    if let locationId = response.data?.id{
+                        UserDefaultManager.shared.saveScannedLocation(locationId)
+                    }
                     completion(.success(response))
                 case .failure(let error):
                     completion(.failure(error))

@@ -1,0 +1,159 @@
+//
+//  ReviewViewController.swift
+//  CHRGUP
+//
+//  Created by Jithin Kamatham on 09/04/25.
+//
+
+import UIKit
+
+class ReviewViewController: UIViewController {
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var subtitleOne: UILabel!
+    @IBOutlet weak var subtitleTwo: UILabel!
+    @IBOutlet weak var starOneView: UIView!
+    @IBOutlet weak var starTwoView: UIView!
+    @IBOutlet weak var commentsTitle: UILabel!
+    @IBOutlet weak var commentsTextView: UITextView!
+    @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var skipButton: UIButton!
+    @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var spacerView: UIView!
+    let ratingViewOne = RatingView()
+    let ratingViewTwo = RatingView()
+    
+    var viewModel : ReviewViewModelInterface?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpUI()
+        observeKeyboardNotifications()
+    }
+    deinit {
+        removeKeyboardNotifications()
+    }
+    func setUpUI(){
+        view.backgroundColor = ColorManager.backgroundColor
+        backView.backgroundColor = ColorManager.backgroundColor
+        
+        titleLabel.text = AppStrings.Review.title
+        titleLabel.textColor = ColorManager.primaryColor
+        titleLabel.font = FontManager.bold(size: 24)
+        
+        subtitleLabel.text = AppStrings.Review.subtitle
+        subtitleLabel.textColor = ColorManager.subtitleTextColor
+        subtitleLabel.font = FontManager.light()
+        
+        subtitleOne.textColor = ColorManager.textColor
+        subtitleOne.font = FontManager.bold(size: 17)
+        subtitleOne.text = AppStrings.Review.subtitleOne
+        
+        
+        starOneView.backgroundColor = ColorManager.backgroundColor
+        
+        ratingViewOne.translatesAutoresizingMaskIntoConstraints = false
+        starOneView.addSubview(ratingViewOne)
+        NSLayoutConstraint.activate([
+            ratingViewOne.leadingAnchor.constraint(equalTo: starOneView.leadingAnchor,constant: 20),
+            ratingViewOne.trailingAnchor.constraint(equalTo: starOneView.trailingAnchor,constant: -20),
+            ratingViewOne.topAnchor.constraint(equalTo: starOneView.topAnchor),
+            ratingViewOne.bottomAnchor.constraint(equalTo: starOneView.bottomAnchor),
+            ratingViewOne.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        
+        starTwoView.backgroundColor = ColorManager.backgroundColor
+        
+        ratingViewTwo.translatesAutoresizingMaskIntoConstraints = false
+        starTwoView.addSubview(ratingViewTwo)
+        NSLayoutConstraint.activate([
+            ratingViewTwo.leadingAnchor.constraint(equalTo: starTwoView.leadingAnchor,constant: 20),
+            ratingViewTwo.trailingAnchor.constraint(equalTo: starTwoView.trailingAnchor,constant: -20),
+            ratingViewTwo.topAnchor.constraint(equalTo: starTwoView.topAnchor),
+            ratingViewTwo.bottomAnchor.constraint(equalTo: starTwoView.bottomAnchor),
+            ratingViewTwo.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        subtitleTwo.textColor = ColorManager.textColor
+        subtitleTwo.font = FontManager.bold(size: 17)
+        subtitleTwo.text = AppStrings.Review.subtitleTwo
+        
+        commentsTitle.text = AppStrings.Review.commentsText
+        commentsTitle.textColor = ColorManager.textColor
+        commentsTitle.font = FontManager.bold(size: 17)
+        
+        commentsTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        commentsTextView.backgroundColor = ColorManager.secondaryBackgroundColor
+        commentsTextView.layer.cornerRadius = 8
+        commentsTextView.layer.borderWidth = 2
+        commentsTextView.layer.borderColor = ColorManager.thirdBackgroundColor.cgColor
+        commentsTextView.textColor = ColorManager.primaryColor
+        commentsTextView.tintColor = ColorManager.primaryColor
+        commentsTextView.clipsToBounds = true
+        
+        submitButton.titleLabel?.font = FontManager.bold(size: 18)
+        submitButton.setTitle("Submit", for: .normal)
+        submitButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        submitButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        submitButton.backgroundColor = ColorManager.primaryColor
+        submitButton.layer.cornerRadius = 20
+        
+        skipButton.setTitle("Skip", for: .normal)
+        skipButton.setTitleColor(ColorManager.primaryColor, for: .normal)
+        skipButton.backgroundColor = .clear
+        skipButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        
+        spacerView.backgroundColor = ColorManager.backgroundColor
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(keyboardWillHide))
+        let scroll = UISwipeGestureRecognizer(target: self, action: #selector(keyboardWillHide))
+        view.addGestureRecognizer(gesture)
+        view.addGestureRecognizer(scroll)
+        scrollView.isScrollEnabled = false
+        scrollView.delegate = self
+        
+    }
+    override func moveViewForKeyboard(yOffset: CGFloat) {
+        scrollView.contentOffset.y = -(yOffset)
+        scrollView.isScrollEnabled = true
+    }
+    @objc func keyboardWillHide() {
+        dismissKeyboard()
+        UIView.animate(withDuration: 0.2) {
+            self.scrollView.contentOffset.y = 0
+            self.view.layoutIfNeeded()
+        }
+        scrollView.isScrollEnabled = false
+        
+    }
+    @IBAction func submitButtonPressed(_ sender: Any) {
+        keyboardWillHide()
+        let chargingExp = ratingViewOne.selectedIndex + 1
+        let locationExp = ratingViewTwo.selectedIndex + 1
+        let comment = commentsTextView.text ?? ""
+        viewModel?.submitReview(charging: chargingExp, location: locationExp, comments: comment) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async{
+                switch result {
+                case .success(let response):
+                    if response.success {
+                        self.showAlert(title: "Success", message: response.message)
+                        self.dismiss(animated: true)
+                    }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
+                }
+            }
+        }
+    }
+    @IBAction func skipButtonPressed(_ sender: Any) {
+        dismiss(animated: true)
+    }
+}
+extension ReviewViewController : UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        keyboardWillHide()
+    }
+}

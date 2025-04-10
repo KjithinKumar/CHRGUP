@@ -39,7 +39,7 @@ class StartChargeViewModel: StartChargeViewModelInterface {
         let header = ["Authorization": "Bearer \(authToken)"]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: requestModel.toDictionary(), encoding: .json, headers: header){
             networkManager?.request(request, decodeTo: StartChargeResponseModel.self) { [weak self] result in
-                guard let self = self else { return }
+                guard let _ = self else { return }
                 switch result {
                 case .success(let response):
                     if response.status{

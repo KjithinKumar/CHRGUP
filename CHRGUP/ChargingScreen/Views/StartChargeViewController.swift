@@ -31,8 +31,6 @@ class StartChargeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUi()
-        debugPrint(UserDefaultManager.shared.getChargerId())
-        debugPrint(UserDefaultManager.shared.getSessionStartTime())
     }
     func setUpUi(){
         view.backgroundColor = ColorManager.backgroundColor
@@ -169,7 +167,6 @@ class StartChargeViewController: UIViewController {
                         indicator.stopAnimating()
                         indicator.removeFromSuperview()
                     }
-                    print(response)
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
                 }
