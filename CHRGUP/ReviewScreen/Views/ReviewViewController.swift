@@ -21,6 +21,7 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var spacerView: UIView!
+    @IBOutlet weak var spacerTwo: UIView!
     let ratingViewOne = RatingView()
     let ratingViewTwo = RatingView()
     
@@ -106,23 +107,26 @@ class ReviewViewController: UIViewController {
         skipButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
         spacerView.backgroundColor = ColorManager.backgroundColor
+        spacerTwo.backgroundColor = ColorManager.backgroundColor
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(keyboardWillHide))
-        let scroll = UISwipeGestureRecognizer(target: self, action: #selector(keyboardWillHide))
         view.addGestureRecognizer(gesture)
-        view.addGestureRecognizer(scroll)
         scrollView.isScrollEnabled = false
-        scrollView.delegate = self
         
     }
     override func moveViewForKeyboard(yOffset: CGFloat) {
-        scrollView.contentOffset.y = -(yOffset)
         scrollView.isScrollEnabled = true
+        scrollView.contentOffset.y = -(yOffset-20)
+        
+        scrollView.contentInset.bottom = -yOffset - 20
+        scrollView.verticalScrollIndicatorInsets.bottom = -yOffset - 20
     }
     @objc func keyboardWillHide() {
         dismissKeyboard()
         UIView.animate(withDuration: 0.2) {
             self.scrollView.contentOffset.y = 0
+            self.scrollView.contentInset.bottom = 0
+            self.scrollView.verticalScrollIndicatorInsets.bottom = 0
             self.view.layoutIfNeeded()
         }
         scrollView.isScrollEnabled = false
@@ -150,10 +154,5 @@ class ReviewViewController: UIViewController {
     }
     @IBAction func skipButtonPressed(_ sender: Any) {
         dismiss(animated: true)
-    }
-}
-extension ReviewViewController : UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        keyboardWillHide()
     }
 }

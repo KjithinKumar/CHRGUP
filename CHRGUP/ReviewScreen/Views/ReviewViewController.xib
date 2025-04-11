@@ -15,6 +15,7 @@
                 <outlet property="commentsTitle" destination="LuN-qR-c5f" id="z4F-bq-yh6"/>
                 <outlet property="scrollView" destination="xsO-r4-xmA" id="4v4-t2-Mq9"/>
                 <outlet property="skipButton" destination="KFu-Wa-z58" id="TgQ-C1-saw"/>
+                <outlet property="spacerTwo" destination="9qj-nV-EoK" id="2IJ-Xo-AQf"/>
                 <outlet property="spacerView" destination="m6I-sT-bB7" id="T4R-wj-4M0"/>
                 <outlet property="starOneView" destination="h8t-no-O2Z" id="oQp-Hg-Qts"/>
                 <outlet property="starTwoView" destination="tuY-Ha-n9r" id="Jas-Ul-A2k"/>
@@ -97,8 +98,12 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
+                                        <view contentMode="scaleToFill" verticalHuggingPriority="247" verticalCompressionResistancePriority="747" translatesAutoresizingMaskIntoConstraints="NO" id="9qj-nV-EoK">
+                                            <rect key="frame" x="0.0" y="496.33333333333343" width="353" height="50.666666666666686"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1tr-aL-BfO">
-                                            <rect key="frame" x="0.0" y="496.33333333333337" width="353" height="50"/>
+                                            <rect key="frame" x="0.0" y="567" width="353" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="5Bo-Iy-yy6"/>
                                             </constraints>
@@ -109,7 +114,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFu-Wa-z58">
-                                            <rect key="frame" x="0.0" y="566.33333333333337" width="353" height="35"/>
+                                            <rect key="frame" x="0.0" y="637" width="353" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="7vq-eC-CyK"/>
                                             </constraints>
@@ -119,9 +124,12 @@
                                                 <action selector="skipButtonPressed:" destination="-1" eventType="touchUpInside" id="rgR-Ye-suM"/>
                                             </connections>
                                         </button>
-                                        <view contentMode="scaleToFill" verticalHuggingPriority="247" verticalCompressionResistancePriority="747" translatesAutoresizingMaskIntoConstraints="NO" id="m6I-sT-bB7" userLabel="Spacer">
-                                            <rect key="frame" x="0.0" y="621.33333333333337" width="353" height="135.66666666666663"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6I-sT-bB7" userLabel="Spacer">
+                                            <rect key="frame" x="0.0" y="692" width="353" height="65"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="65" id="ylp-zE-zKx"/>
+                                            </constraints>
                                         </view>
                                     </subviews>
                                 </stackView>
