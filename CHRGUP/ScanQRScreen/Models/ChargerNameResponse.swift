@@ -13,18 +13,18 @@ struct ChargerNameResponse: Decodable {
     let message: String?
 }
 struct Location : Codable{
+    let locationId : String?
     let locationName: String?
     let locationType: String?
     let freePaid: FreePaid?
     
     enum CodingKeys: String, CodingKey {
-        case locationName
+        case locationName,locationId
         case locationType
         case freePaid = "freepaid"
     }
 }
 struct ChargerLocationData : Codable{
-    let id: String?
     let location : Location?
     let salesManager: Person?
     let dealer: Person?
@@ -45,7 +45,6 @@ struct ChargerLocationData : Codable{
     
     
     enum CodingKeys: String, CodingKey {
-        case id = "_id"
         case location
         case salesManager
         case dealer

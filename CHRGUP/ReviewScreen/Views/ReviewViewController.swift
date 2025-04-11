@@ -24,6 +24,8 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var spacerTwo: UIView!
     let ratingViewOne = RatingView()
     let ratingViewTwo = RatingView()
+    private var ratingOne: Int?
+    private var ratingTwo: Int?
     
     var viewModel : ReviewViewModelInterface?
     
@@ -63,6 +65,10 @@ class ReviewViewController: UIViewController {
             ratingViewOne.bottomAnchor.constraint(equalTo: starOneView.bottomAnchor),
             ratingViewOne.heightAnchor.constraint(equalToConstant: 50)
         ])
+        ratingViewOne.onRatingSelected = { [weak self] rating in
+            self?.ratingOne = rating
+            self?.checkIfBothRatingsSelected()
+        }
         
         
         starTwoView.backgroundColor = ColorManager.backgroundColor
@@ -76,6 +82,10 @@ class ReviewViewController: UIViewController {
             ratingViewTwo.bottomAnchor.constraint(equalTo: starTwoView.bottomAnchor),
             ratingViewTwo.heightAnchor.constraint(equalToConstant: 50)
         ])
+        ratingViewTwo.onRatingSelected = { [weak self] rating in
+            self?.ratingTwo = rating
+            self?.checkIfBothRatingsSelected()
+        }
         
         subtitleTwo.textColor = ColorManager.textColor
         subtitleTwo.font = FontManager.bold(size: 17)
@@ -98,8 +108,8 @@ class ReviewViewController: UIViewController {
         submitButton.setTitle("Submit", for: .normal)
         submitButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         submitButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        submitButton.backgroundColor = ColorManager.primaryColor
         submitButton.layer.cornerRadius = 20
+        configureSubmitButton(isEnable: false)
         
         skipButton.setTitle("Skip", for: .normal)
         skipButton.setTitleColor(ColorManager.primaryColor, for: .normal)
@@ -114,6 +124,23 @@ class ReviewViewController: UIViewController {
         scrollView.isScrollEnabled = false
         
     }
+    func configureSubmitButton(isEnable : Bool) {
+        if isEnable{
+            submitButton.isEnabled = true
+            submitButton.backgroundColor = ColorManager.primaryColor
+        }else{
+            submitButton.isEnabled = false
+            submitButton.backgroundColor = ColorManager.secondaryBackgroundColor
+        }
+    }
+    private func checkIfBothRatingsSelected() {
+        if let first = ratingOne, let second = ratingTwo {
+            configureSubmitButton(isEnable: true)
+        } else {
+            configureSubmitButton(isEnable: false)
+        }
+    }
+    
     override func moveViewForKeyboard(yOffset: CGFloat) {
         scrollView.isScrollEnabled = true
         scrollView.contentOffset.y = -(yOffset-20)
@@ -142,8 +169,8 @@ class ReviewViewController: UIViewController {
             DispatchQueue.main.async{
                 switch result {
                 case .success(let response):
-                    if response.success {
-                        self.showAlert(title: "Success", message: response.message)
+                    ToastManager.shared.showToast(message: response.message ?? "Success")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                         self.dismiss(animated: true)
                     }
                 case .failure(let error):

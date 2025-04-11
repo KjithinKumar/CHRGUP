@@ -12,6 +12,8 @@ class UserDefaultManager{
     
     private let defaults = UserDefaults.standard
     
+    private let value = 0
+    
     private enum Keys{
         static let isOnboardingCompleted = "isOnboardingCompleted"
         static let userProfile = "userProfile"
@@ -24,6 +26,7 @@ class UserDefaultManager{
         static let chargerIdKey = "chargerIdKey"
         static let sessionStartTimeKey = "sessionTimeKey"
         static let scannedLocationId = "scannedLocationId"
+        static let showPopupKey = "showPopupKey"
     }
     
     // MARK: - User Profile
@@ -163,5 +166,15 @@ class UserDefaultManager{
     
     func getScannedLocationId() -> String? {
         return UserDefaults.standard.string(forKey: Keys.scannedLocationId)
+    }
+    
+    //MARK: - PopUpTime
+    func showPopUp() -> Bool {
+        let currentValue = UserDefaults.standard.integer(forKey: Keys.showPopupKey)
+        UserDefaults.standard.set(currentValue + 1, forKey: Keys.showPopupKey)
+        return UserDefaults.standard.integer(forKey: Keys.showPopupKey) <= 2
+    }
+    func resetPopUp() {
+        UserDefaults.standard.removeObject(forKey: Keys.showPopupKey)
     }
 }

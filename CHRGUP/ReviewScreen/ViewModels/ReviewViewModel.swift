@@ -19,8 +19,8 @@ class ReviewViewModel: ReviewViewModelInterface {
     
     func submitReview(charging : Int, location : Int, comments : String, completion : @escaping (Result<ReviewResponseModel, Error>) -> Void) {
         let url = URLs.reviewsUrl
-        let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber ?? ""
-        let locationId = UserDefaultManager.shared.getScannedLocationId() ?? ""
+        guard let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else {return}
+        guard let locationId = UserDefaultManager.shared.getScannedLocationId() else {return}
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
         let body : [String : Any] = [ "phoneNumber": phoneNumber,

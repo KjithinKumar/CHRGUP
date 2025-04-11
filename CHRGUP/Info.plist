@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>We need camera access to scan QR codes</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This will help us to locate chargers near you</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>comgooglemaps</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -22,6 +14,10 @@
 				<string>com.googleusercontent.apps.665573547274-j6doccv8ju866h5f60s65f3bnd6svbsg</string>
 			</array>
 		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>comgooglemaps</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

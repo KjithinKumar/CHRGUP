@@ -130,6 +130,7 @@ class MapScreenViewController: UIViewController{
 //MARK: - MapviewDelegate,ClusterManagerDelegate
 extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegate  {
     func setUpMaps(){
+        viewModel?.requestLocationPermission()
         let camera = GMSCameraPosition.camera(withLatitude: 12.9716, longitude: 77.5946, zoom: 14)
         let options = GMSMapViewOptions()
         options.camera = camera

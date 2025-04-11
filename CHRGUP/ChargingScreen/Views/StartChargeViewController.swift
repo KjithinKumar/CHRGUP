@@ -31,6 +31,24 @@ class StartChargeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUi()
+        checkIfPopShouldShow()
+        
+    }
+    func checkIfPopShouldShow(){
+        if UserDefaultManager.shared.showPopUp(){
+            // Show popup automatically on screen load
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                guard let self = self else { return }
+                self.showPopUp(sender: self.infoButton)
+                // Dismiss the popup after 2 seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    UIView.animate(withDuration: 0.1) {
+                        self.dismissPopup()
+                    }
+                    
+                }
+            }
+        }
     }
     func setUpUi(){
         view.backgroundColor = ColorManager.backgroundColor
@@ -91,6 +109,14 @@ class StartChargeViewController: UIViewController {
     }
     
     @IBAction func infoButtonPressed(_ sender: Any) {
+        showPopUp(sender: sender)
+    }
+    @objc func dismissPopup() {
+        if let overlay = view.viewWithTag(9999) {
+            overlay.removeFromSuperview()
+        }
+    }
+    func showPopUp(sender : Any? = nil){
         if let existing = view.viewWithTag(9999) {
             existing.removeFromSuperview()
         }
@@ -129,11 +155,6 @@ class StartChargeViewController: UIViewController {
             popup.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             popup.widthAnchor.constraint(equalToConstant: 365)
         ])
-    }
-    @objc func dismissPopup() {
-        if let overlay = view.viewWithTag(9999) {
-            overlay.removeFromSuperview()
-        }
     }
     @IBAction func closeButtonPressed(_ sender: Any) {
         dismiss(animated: true)

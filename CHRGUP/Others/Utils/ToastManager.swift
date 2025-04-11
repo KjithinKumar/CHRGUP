@@ -12,9 +12,9 @@ class ToastManager {
     static let shared = ToastManager()
     
     private var toastLabel: UILabel?
-
+    
     private init() {}
-
+    
     func showToast(message: String) {
         guard let window = UIApplication.shared.currentUIWindow() else { return }
         
@@ -22,6 +22,7 @@ class ToastManager {
         toastLabel?.removeFromSuperview()
         
         let toast = UILabel()
+        toast.numberOfLines = 0
         toast.text = message
         toast.textAlignment = .center
         toast.backgroundColor = ColorManager.thirdBackgroundColor.withAlphaComponent(0.8)
@@ -29,12 +30,16 @@ class ToastManager {
         toast.layer.cornerRadius = 20
         toast.clipsToBounds = true
         toast.alpha = 0.0
+        toast.font = FontManager.light()
         
         // Set Frame
-        let toastWidth = window.frame.width - 100
-        let toastHeight: CGFloat = 40
+        let maxWidth = window.frame.width - 100
+        let maxSize = CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
+        
+        let expectedSize = toast.sizeThatFits(maxSize)
+        let toastHeight = max(expectedSize.height + 20, 40) // Add padding
         let yPosition = window.frame.height - toastHeight - 50
-        toast.frame = CGRect(x: 50, y: yPosition, width: toastWidth, height: toastHeight)
+        toast.frame = CGRect(x: 50, y: yPosition, width: maxWidth, height: toastHeight)
         
         window.addSubview(toast)
         toastLabel = toast

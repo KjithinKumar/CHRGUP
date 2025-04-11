@@ -88,5 +88,5 @@ struct URLs{
     
     static let startChargingUrl = baseUrl + "/session/transaction"
     
-    static let reviewsUrl = baseUrl + "/reviews"
+    static let reviewsUrl = baseUrl + "reviews"
 }

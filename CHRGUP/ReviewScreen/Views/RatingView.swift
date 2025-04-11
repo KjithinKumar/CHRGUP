@@ -12,6 +12,7 @@ class RatingView: UIView {
 
     var starViews: [LottieAnimationView] = []
     var selectedIndex: Int = -1
+    var onRatingSelected: ((Int) -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -72,5 +73,6 @@ class RatingView: UIView {
                 star.currentProgress = 0
             }
         }
+        onRatingSelected?(index + 1)
     }
 }
