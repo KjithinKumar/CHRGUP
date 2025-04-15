@@ -23,11 +23,11 @@ struct StartChargingRequest: Codable {
     let action: String
     let chargerId: String
     let vehicleId: String
-    let payload: payload
+    let payload: StartChargingpayload
     let sessionReason: String
 }
 
-struct payload: Codable {
+struct StartChargingpayload: Codable {
     let idTag: String
     let connectorId : Int
 }

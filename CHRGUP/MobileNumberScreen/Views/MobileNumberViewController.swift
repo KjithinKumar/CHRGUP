@@ -34,6 +34,7 @@ class MobileNumberViewController: UIViewController {
         configureUi()
         configureNavBar()
         observeKeyboardNotifications()
+        mobileNumberTextField.becomeFirstResponder()
     }
     deinit {
         removeKeyboardNotifications()
@@ -44,6 +45,7 @@ class MobileNumberViewController: UIViewController {
         activityIndicator.isHidden = true
         signInButton.isEnabled = true
         isSendingOtp = false
+        signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
     }
     
     func configureAuth() {

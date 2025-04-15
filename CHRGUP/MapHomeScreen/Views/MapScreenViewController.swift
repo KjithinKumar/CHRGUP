@@ -9,6 +9,7 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 import GoogleMapsUtils
+import Lottie
 
 class MapScreenViewController: UIViewController{
     
@@ -25,10 +26,16 @@ class MapScreenViewController: UIViewController{
     private var didTapCluster = false
     private var lastFetchedChargers: [ChargerRangeModel] = []
     private var bottomCardConstraint: NSLayoutConstraint!
+    private var topCardConstraint: NSLayoutConstraint!
     private var chargerDetailContainer: UIView!
     private var chargerDetailTableView: UITableView!
     private var selectedCharger: ChargerLocation?
     private var isLoading = true
+    
+    var unitsConsumedLabel: UILabel!
+    var timeConsumedLabel: UILabel!
+    var chargingTimer: Timer?
+    var chargingStartTime: Date?
     
     override func viewDidLoad() {
         GMSServices.provideAPIKey(AppIdentifications.GoolgeMaps.ApiKey)
@@ -40,6 +47,8 @@ class MapScreenViewController: UIViewController{
         viewModel?.requestLocationPermission()
         setupUI()
         setupBottomCard()
+        setUpNotificationCard()
+        navigationItem.title = ""
     }
     override func viewWillDisappear(_ animated: Bool) {
         selectedCharger = nil
@@ -51,6 +60,14 @@ class MapScreenViewController: UIViewController{
             let centerLng = position.target.longitude
             let visibleRadius = getVisibleRadius(from: mapView)
             setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
+        }
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        if UserDefaultManager.shared.IsSessionActive() {
+            showNotificationCard()
+        }else{
+            hideNotificationCard()
         }
     }
     func setupUI(){
@@ -84,18 +101,11 @@ class MapScreenViewController: UIViewController{
     @IBAction func scanQRButtonPressed(_ sender: Any) {
         let scanVc = ScanQrViewController()
         scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
-        scanVc.onCodeScanned = { [weak self] (data,payload) in
-            guard let self = self else { return }
-            scanVc.dismiss(animated: true) {
-                let startChargeVc = StartChargeViewController()
-                startChargeVc.modalPresentationStyle = .fullScreen
-                startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
-                startChargeVc.payLoad = payload
-                self.navigationController?.present(startChargeVc, animated: true)
-            }
-        }
         scanVc.modalPresentationStyle = .fullScreen
-        navigationController?.present(scanVc, animated: true)
+        let navController = UINavigationController(rootViewController: scanVc)
+        navController.modalPresentationStyle = .fullScreen
+        navController.navigationBar.tintColor = ColorManager.textColor
+        navigationController?.present(navController, animated: true)
     }
     
     @objc func leftMenuTapped(){
@@ -113,10 +123,13 @@ class MapScreenViewController: UIViewController{
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
         viewModel?.requestLocationPermission()
-        let vc = ReviewViewController()
-        vc.viewModel = ReviewViewModel(networkManager: NetworkManager())
-        vc.modalPresentationStyle = .fullScreen
-        navigationController?.present(vc, animated: true)
+        let statusVc = ChargingStatusViewController()
+        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
+        statusVc.modalPresentationStyle = .fullScreen
+        let navController = UINavigationController(rootViewController: statusVc)
+        navController.modalPresentationStyle = .fullScreen
+        navController.navigationBar.tintColor = ColorManager.textColor
+        navigationController?.present(navController, animated: true)
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
         let listViewVc = NearByChargerViewController()
@@ -188,7 +201,8 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
     }
     func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
         didTapCluster = true
-        mapView?.animate(with: GMSCameraUpdate.setTarget(cluster.position, zoom: 14))
+        let location = CLLocation(latitude: cluster.position.latitude, longitude: cluster.position.longitude)
+        animateStepToUserLocation(location)
         return true
     }
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
@@ -200,6 +214,8 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
                 self.showBottomCard()
                 self.chargerDetailTableView.reloadData()
             }
+            let location = CLLocation(latitude: marker.layer.latitude, longitude: marker.layer.longitude)
+            animateStepToUserLocation(location)
             if let icon = self.markerIcon(for: clusterItem.chargers?.chargerInfo) {
                 marker.icon = self.resizeMarkerImage(image: icon, scale: 1.3)
                 self.selectedCharger = nil
@@ -240,14 +256,30 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
 //MARK: - MapViewModelDelegate
 extension MapScreenViewController : MapViewModelDelegate {
     func didUpdateUserLocation(_ location: CLLocation) {
-        let userLocation = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 14)
-        UserDefaultManager.shared.saveUserCurrentLocation(location.coordinate.latitude, location.coordinate.longitude)
         self.userLocation = location
-        guard let mapView = mapView else { return }
-        mapView.animate(to: userLocation)
+        UserDefaultManager.shared.saveUserCurrentLocation(location.coordinate.latitude, location.coordinate.longitude)
+        animateStepToUserLocation(location)
     }
     func didFailWithError(_ error: any Error) {
         debugPrint(error)
+    }
+    func animateStepToUserLocation(_ location: CLLocation) {
+        guard let mapView = mapView else { return }
+        let coord = location.coordinate
+        
+        // Step 1: Move to location
+        CATransaction.begin()
+        CATransaction.setValue(0.50, forKey: kCATransactionAnimationDuration)
+        mapView.animate(toLocation: coord)
+        CATransaction.commit()
+
+        // Step 2: Zoom after delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.50) {
+            CATransaction.begin()
+            CATransaction.setValue(1.0, forKey: kCATransactionAnimationDuration)
+            mapView.animate(toZoom: 14)
+            CATransaction.commit()
+        }
     }
 }
 
@@ -303,16 +335,12 @@ extension MapScreenViewController {
                   charger.id == new[index].id else {
                 return true
             }
-            
             if abs(oldLat - newLat) > 0.0001 || abs(oldLon - newLon) > 0.0001 {
                 return true
             }
         }
-        
         return false
     }
-    
-    
     func markerIcon(for chargers: [ChargerInfo]?) -> UIImage? {
         guard let chargers = chargers else { return UIImage(named: "Location inactive") }
         
@@ -372,17 +400,17 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
         chargerDetailTableView.dataSource = self
         chargerDetailTableView.delegate = self
         chargerDetailTableView.rowHeight = UITableView.automaticDimension
-        chargerDetailTableView.estimatedRowHeight = 250
+        chargerDetailTableView.estimatedRowHeight = 240
         chargerDetailTableView.isScrollEnabled = false
        
         
-        bottomCardConstraint = chargerDetailContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 250)
+        bottomCardConstraint = chargerDetailContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 240)
         
         NSLayoutConstraint.activate([
             chargerDetailContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
             chargerDetailContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
             bottomCardConstraint,
-            chargerDetailContainer.heightAnchor.constraint(equalToConstant: 250),
+            chargerDetailContainer.heightAnchor.constraint(equalToConstant: 240),
             
             chargerDetailTableView.topAnchor.constraint(equalTo: chargerDetailContainer.topAnchor),
             chargerDetailTableView.bottomAnchor.constraint(equalTo: chargerDetailContainer.bottomAnchor),
@@ -415,7 +443,7 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
         
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        250
+        240
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -471,5 +499,147 @@ extension MapScreenViewController : NearByChargerTableViewCellDelegate{
 extension MapScreenViewController : locationInfoViewControllerDelegate {
     func didTapFavouriteButton(at indexPath: IndexPath) {
         chargerDetailTableView.reloadData()
+    }
+}
+extension MapScreenViewController{
+    func setUpNotificationCard(){
+        let notificationView = UIView()
+        notificationView.backgroundColor = ColorManager.backgroundColor
+        notificationView.layer.cornerRadius = 20
+        notificationView.clipsToBounds = true
+        notificationView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(notificationView)
+        topCardConstraint = notificationView.topAnchor.constraint(equalTo: view.topAnchor, constant: -240)
+        NSLayoutConstraint.activate([notificationView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 15),
+                                     notificationView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+                                     topCardConstraint,
+                                     notificationView.heightAnchor.constraint(equalToConstant: 90),
+                                    ])
+        let lottieView = UIView()
+        lottieView.translatesAutoresizingMaskIntoConstraints = false
+        let animationView = LottieAnimationView(name: "charing_anim")
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.contentMode = .scaleToFill
+        animationView.loopMode = .loop
+        animationView.play()
+        notificationView.addSubview(lottieView)
+        NSLayoutConstraint.activate( [lottieView.topAnchor.constraint(equalTo: notificationView.topAnchor,constant: 5),
+                                      lottieView.bottomAnchor.constraint(equalTo: notificationView.bottomAnchor, constant: -5),
+                                      lottieView.leadingAnchor.constraint(equalTo: notificationView.leadingAnchor, constant: 5),
+                                      lottieView.widthAnchor.constraint(equalToConstant: 75)])
+        lottieView.addSubview(animationView)
+        
+        NSLayoutConstraint.activate([ animationView.centerXAnchor.constraint(equalTo: lottieView.centerXAnchor),
+                                      animationView.centerYAnchor.constraint(equalTo: lottieView.centerYAnchor),
+                                      animationView.widthAnchor.constraint(equalTo: lottieView.widthAnchor),
+                                      animationView.heightAnchor.constraint(equalTo: lottieView.heightAnchor)])
+        let labelsView = UIView()
+        labelsView.translatesAutoresizingMaskIntoConstraints = false
+        notificationView.addSubview(labelsView)
+        NSLayoutConstraint.activate([labelsView.topAnchor.constraint(equalTo: notificationView.topAnchor,constant: 10),
+                                     labelsView.bottomAnchor.constraint(equalTo: notificationView.bottomAnchor,constant: -10),
+                                     labelsView.leadingAnchor.constraint(equalTo: lottieView.trailingAnchor, constant: 5),
+                                    labelsView.trailingAnchor.constraint(equalTo: notificationView.trailingAnchor, constant: -10)])
+        
+        
+        let vStackView: UIStackView = {
+            let titleLabel = UILabel()
+            titleLabel.text = "Units consumed"
+            titleLabel.font = FontManager.regular(size: 14)
+            titleLabel.textColor = ColorManager.subtitleTextColor
+            
+            unitsConsumedLabel = UILabel()
+            unitsConsumedLabel.text = "0.0wh"
+            unitsConsumedLabel.font = FontManager.regular()
+            unitsConsumedLabel.textColor = ColorManager.textColor
+            
+            let stackView = UIStackView(arrangedSubviews: [titleLabel, unitsConsumedLabel])
+            stackView.axis = .vertical
+            stackView.distribution = .fillProportionally
+            stackView.spacing = 5
+            return stackView
+        }()
+        let vStackViewTwo: UIStackView = {
+            let titleLabel = UILabel()
+            titleLabel.text = "Time consumed"
+            titleLabel.font = FontManager.regular(size: 14)
+            titleLabel.textColor = ColorManager.subtitleTextColor
+            
+            timeConsumedLabel = UILabel()
+            timeConsumedLabel.text = "00h : 00m"
+            timeConsumedLabel.font = FontManager.regular()
+            timeConsumedLabel.textColor = ColorManager.textColor
+            
+            let stackView = UIStackView(arrangedSubviews: [titleLabel, timeConsumedLabel])
+            stackView.axis = .vertical
+            stackView.distribution = .fillProportionally
+            stackView.spacing = 5
+            return stackView
+        }()
+        let title : UILabel = {
+            let label = UILabel()
+            label.text = "CHARGING"
+            label.font = FontManager.bold(size: 17)
+            label.textColor = ColorManager.primaryColor
+            return label
+        }()
+        labelsView.addSubview(title)
+        title.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([title.topAnchor.constraint(equalTo: labelsView.topAnchor),
+                                     title.leadingAnchor.constraint(equalTo: labelsView.leadingAnchor)])
+        let horizontalStackView: UIStackView = {
+            let stackView = UIStackView(arrangedSubviews: [vStackView, vStackViewTwo])
+            stackView.axis = .horizontal
+            stackView.distribution = .fillProportionally
+            stackView.spacing = 25
+            return stackView
+        }()
+        labelsView.addSubview(horizontalStackView)
+        horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([horizontalStackView.topAnchor.constraint(equalTo: title.bottomAnchor,constant: 5),
+                                     horizontalStackView.leadingAnchor.constraint(equalTo: labelsView.leadingAnchor),
+                                     horizontalStackView.bottomAnchor.constraint(equalTo: labelsView.bottomAnchor)])
+        
+        
+    }
+    func showNotificationCard(){
+        topCardConstraint?.constant = 20
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+        chargingStartTime = Date()
+        chargingTimer?.invalidate() // safety
+        chargingTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(updateChargingInfo), userInfo: nil, repeats: true)
+        updateChargingInfo()
+    }
+    func hideNotificationCard(){
+        topCardConstraint?.constant = -240
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+        chargingTimer?.invalidate()
+        chargingTimer = nil
+    }
+    @objc func updateChargingInfo() {
+        viewModel?.fetchChargingStatus { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.status{
+                        if let chargingStatus = response.data, let startTime = chargingStatus.startTimeIST {
+                            self.timeConsumedLabel.text = self.viewModel?.getFormattedTimeDifference(from: startTime)
+                            let energyConsumed = chargingStatus.meterValueDifference
+                            self.unitsConsumedLabel.text = " \(energyConsumed)"
+                            UserDefaultManager.shared.saveSessionId(nil, response.data?.status)
+                        }
+                    }else{
+                        self.showAlert(title: "Error", message: response.message)
+                    }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
+                }
+            }
+        }
     }
 }

@@ -70,7 +70,6 @@ class ReviewViewController: UIViewController {
             self?.checkIfBothRatingsSelected()
         }
         
-        
         starTwoView.backgroundColor = ColorManager.backgroundColor
         
         ratingViewTwo.translatesAutoresizingMaskIntoConstraints = false
@@ -134,7 +133,7 @@ class ReviewViewController: UIViewController {
         }
     }
     private func checkIfBothRatingsSelected() {
-        if let first = ratingOne, let second = ratingTwo {
+        if let _ = ratingOne, let _ = ratingTwo {
             configureSubmitButton(isEnable: true)
         } else {
             configureSubmitButton(isEnable: false)

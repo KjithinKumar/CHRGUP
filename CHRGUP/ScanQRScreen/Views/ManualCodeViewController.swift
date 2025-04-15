@@ -15,11 +15,11 @@ class ManualCodeViewController: UIViewController {
     @IBOutlet weak var closeButton: UIButton!
     
     var viewModel : ScanQrViewModelInterface?
-    var onCodeScanned: ((ChargerLocationData,QRPayload) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
     }
     
     func setUpUI(){
@@ -45,6 +45,13 @@ class ManualCodeViewController: UIViewController {
         submitButton.titleLabel?.font = FontManager.bold(size: 18)
         
         closeButton.tintColor = ColorManager.textColor
+        configureNavBar()
+    }
+    func configureNavBar(){
+        navigationItem.title = "Enter Code"
+        
+        let barButton = UIBarButtonItem(customView: closeButton)
+        navigationItem.rightBarButtonItem = barButton
     }
     func setButtonState(enable : Bool){
         if enable{
@@ -56,7 +63,7 @@ class ManualCodeViewController: UIViewController {
         }
     }
     @IBAction func closeButtonPressed(_ sender: Any) {
-        self.presentingViewController?.presentingViewController?.dismiss(animated: true)
+        self.navigationController?.presentingViewController?.dismiss(animated: true)
     }
     @IBAction func submitButtonPressed(_ sender: Any) {
         if let code = codeTextField.text?.replacingOccurrences(of: " ", with: ""){
@@ -68,9 +75,10 @@ class ManualCodeViewController: UIViewController {
                     case .success(let response):
                         if response.status{
                             if let data = response.data{
-                                self.presentingViewController?.presentingViewController?.dismiss(animated: true){
-                                    self.onCodeScanned?(data,payLoad)
-                                }
+                                let startChargeVc = StartChargeViewController()
+                                startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
+                                startChargeVc.payLoad = payLoad
+                                self.navigationController?.setViewControllers([startChargeVc], animated: true)
                             }
                         }else{
                             self.showAlert(title: "Error", message: response.message)

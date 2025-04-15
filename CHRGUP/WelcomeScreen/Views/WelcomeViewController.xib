@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,10 +27,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOC-E0-8T1">
-                    <rect key="frame" x="0.0" y="555.66666666666663" width="393" height="296.33333333333337"/>
+                    <rect key="frame" x="0.0" y="565.66666666666663" width="393" height="286.33333333333337"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
-                            <rect key="frame" x="25" y="143.33333333333337" width="343" height="118"/>
+                            <rect key="frame" x="25" y="133.33333333333337" width="343" height="118"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-0S-JI1">
                                     <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
@@ -75,7 +75,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="ClL-y0-mi0" secondAttribute="trailing" constant="25" id="CyS-ZM-dbT"/>
-                        <constraint firstItem="ClL-y0-mi0" firstAttribute="top" secondItem="GCa-fc-wxm" secondAttribute="bottom" constant="60" id="EQX-95-0N0"/>
+                        <constraint firstItem="ClL-y0-mi0" firstAttribute="top" secondItem="GCa-fc-wxm" secondAttribute="bottom" constant="50" id="EQX-95-0N0"/>
                         <constraint firstAttribute="bottom" secondItem="ClL-y0-mi0" secondAttribute="bottom" constant="35" id="EuA-vw-Nhj"/>
                         <constraint firstAttribute="trailing" secondItem="GCa-fc-wxm" secondAttribute="trailing" constant="25" id="Mka-F9-3sn"/>
                         <constraint firstItem="ClL-y0-mi0" firstAttribute="leading" secondItem="bOC-E0-8T1" secondAttribute="leading" constant="25" id="PYu-6C-Ox7"/>

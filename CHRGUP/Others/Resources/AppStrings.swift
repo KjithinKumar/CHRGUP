@@ -193,4 +193,14 @@ struct AppStrings {
         static let commentsText = "Comments"
     }
     
+    struct chargingStatus{
+        static let title = "Charging in progress"
+        
+        static let energyConsumedText = "Energy Consumed"
+        
+        static let chargingTimeText = "Charging Time"
+        
+        static let stopChargingText = "Stop Charging"
+    }
+    
 }

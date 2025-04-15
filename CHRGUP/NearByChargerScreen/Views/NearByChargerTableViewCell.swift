@@ -43,9 +43,6 @@ class NearByChargerTableViewCell: UITableViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
-        nearByOneLabel.text = ""
-        nearByTwoLabel.text = ""
-        nearByThreeLabel.text = ""
     }
     
     override func layoutSubviews() {
@@ -78,13 +75,16 @@ class NearByChargerTableViewCell: UITableViewCell {
             statusLabel.text = "CLOSED"
             statusLabel.textColor = .red
         }
+        
+        
+        
         distanceLabel.text = viewModel.distance + " Kms"
-        distanceLabel.font = FontManager.bold(size: 17)
+        distanceLabel.font = FontManager.bold(size: 14)
         
         let facilities = viewModel.facilities
-        nearByOneLabel.text = ""
-        nearByTwoLabel.text = ""
-        nearByThreeLabel.text = ""
+        nearByOneLabel.isHidden = true
+        nearByTwoLabel.isHidden = true
+        nearByThreeLabel.isHidden = true
         // Now assign based on count
         if facilities.indices.contains(0) {
             nearByOneLabel.isHidden = false
@@ -218,14 +218,14 @@ class NearByChargerTableViewCell: UITableViewCell {
         cellbackgroundView.layer.cornerRadius = 8
         cellbackgroundView.backgroundColor = ColorManager.secondaryBackgroundColor
         
-        locationLabel.font = FontManager.bold(size: 22)
+        locationLabel.font = FontManager.bold(size: 20)
         locationLabel.textColor = ColorManager.textColor
         
         pointsLabel.textColor = ColorManager.primaryColor
         pointsLabel.font = FontManager.light()
         
         statusLabel.textColor = ColorManager.primaryColor
-        statusLabel.font = FontManager.regular()
+        statusLabel.font = FontManager.light()
         
         nearByOneLabel.backgroundColor = ColorManager.thirdBackgroundColor
         nearByOneLabel.layer.cornerRadius = 4

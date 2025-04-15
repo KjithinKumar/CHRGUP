@@ -119,6 +119,13 @@ class LocationInfoViewController: UIViewController {
         }
     }
     @IBAction func scanQrButtonPressed(_ sender: Any) {
+        let scanVc = ScanQrViewController()
+        scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
+        scanVc.modalPresentationStyle = .fullScreen
+        let navController = UINavigationController(rootViewController: scanVc)
+        navController.modalPresentationStyle = .fullScreen
+        navController.navigationBar.tintColor = ColorManager.textColor
+        self.present(navController, animated: true)
     }
     @IBAction func MapsButtonPressed(_ sender: Any) {
         if let latitude = viewModel?.locationLatitude, let longitude = viewModel?.locationLongitude{

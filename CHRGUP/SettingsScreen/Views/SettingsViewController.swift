@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController {
         userData = UserDefaultManager.shared.getUserProfile()
     }
     @IBAction func logoutButtonPressed(_ sender: Any) {
-        showAlert(title: "Logout", message: "Are you sure you want to logout?",actions: [AlertActions.logoutAction(),UIAlertAction(title: AppStrings.Alert.cancel, style: .cancel, handler: nil)])
+        showAlert(title: "Logout", message: "Are you sure you want to logout?",actions: [AlertActions.logoutAction(),UIAlertAction(title: AppStrings.Alert.cancel, style: .default, handler: nil)])
         
     }
     @IBAction func deleteButtonPressed(_ sender: Any) {
@@ -62,7 +62,7 @@ class SettingsViewController: UIViewController {
                     }
                 })
             }
-        }),UIAlertAction(title: AppStrings.Alert.cancel, style: .cancel, handler: nil)])
+        }),UIAlertAction(title: AppStrings.Alert.cancel, style: .default, handler: nil)])
         
     }
     @IBAction func editButtonPressed(_ sender: Any) {

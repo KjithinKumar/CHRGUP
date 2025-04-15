@@ -53,7 +53,7 @@ class SplashScreenViewModel{
             encoding: .json,
             headers: nil)
         if let request = request{
-            let _ = networkManager?.request(request, decodeTo: VersionResponseModel.self, completion: { [weak self] result in
+            networkManager?.request(request, decodeTo: VersionResponseModel.self, completion: { [weak self] result in
                 guard let _ = self else { return }
                 switch result{
                 case .success(let versionResponse) :

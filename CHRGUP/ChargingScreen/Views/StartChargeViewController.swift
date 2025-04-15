@@ -45,7 +45,6 @@ class StartChargeViewController: UIViewController {
                     UIView.animate(withDuration: 0.1) {
                         self.dismissPopup()
                     }
-                    
                 }
             }
         }
@@ -89,6 +88,7 @@ class StartChargeViewController: UIViewController {
         infoButton.tintColor = ColorManager.textColor
         
         setUpData()
+        configureNavBar()
     }
     func setUpData(){
         subtitleOneLabel.text = viewModel?.chargerDetails()?.chargerInfo?.name
@@ -106,6 +106,12 @@ class StartChargeViewController: UIViewController {
             attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
             subtitleThreeLabel.attributedText = attributedString
         }
+    }
+    func configureNavBar(){
+        let leftBarButton = UIBarButtonItem(customView: closeButton)
+        let rightBarButton = UIBarButtonItem(customView: infoButton)
+        navigationItem.leftBarButtonItem = leftBarButton
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     @IBAction func infoButtonPressed(_ sender: Any) {
@@ -180,8 +186,9 @@ class StartChargeViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "Charging started")
-                        let chargingStatusVc = ChargingStatusViewController()
-                        self.present(chargingStatusVc, animated: true)
+                        let statusVc = ChargingStatusViewController()
+                        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
+                        self.navigationController?.setViewControllers([statusVc], animated: true)
                     }else{
                         self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
                         self.startButton.isUserInteractionEnabled = true

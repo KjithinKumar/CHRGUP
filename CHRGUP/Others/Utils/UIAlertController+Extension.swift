@@ -20,7 +20,14 @@ extension UIViewController {
             self.dismissAlert { [weak self] in
                 guard let self = self else { return }
                 let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-                actions.forEach { alertController.addAction($0) }
+                //actions.forEach { alertController.addAction($0) }
+                actions.forEach {
+                    if $0.style == .default {
+                        $0.setValue(ColorManager.primaryColor, forKey: "titleTextColor")
+                    }
+                    
+                    alertController.addAction($0)
+                }
                 self.present(alertController, animated: true)
             }
         }
@@ -38,24 +45,25 @@ extension UIViewController {
 class AlertActions {
     static func loginAgainAction() -> UIAlertAction {
         return UIAlertAction(title: "Login Again", style: .default) { _ in
+            UserDefaultManager.shared.setLoginStatus(false)
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
              let navigationController = UINavigationController(rootViewController: welcomeVc)
              navigationController.modalPresentationStyle = .fullScreen
              navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
             let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
             sceneDelegate?.window?.rootViewController = navigationController
-            UserDefaultManager.shared.setLoginStatus(false)
         }
     }
     static func logoutAction() -> UIAlertAction {
         return UIAlertAction(title: "Logout", style: .destructive) { _ in
+            UserDefaultManager.shared.setLoginStatus(false)
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
              let navigationController = UINavigationController(rootViewController: welcomeVc)
              navigationController.modalPresentationStyle = .fullScreen
              navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
             let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
             sceneDelegate?.window?.rootViewController = navigationController
-            UserDefaultManager.shared.setLoginStatus(false)
+            
         }
     }
 }

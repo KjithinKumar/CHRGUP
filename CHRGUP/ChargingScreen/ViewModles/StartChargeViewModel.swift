@@ -28,13 +28,13 @@ class StartChargeViewModel: StartChargeViewModelInterface {
     }
     func startCharging(phoneNumber: String, qrpayload : QRPayload,completion : @escaping( Result<StartChargeResponseModel,Error>) -> Void){
         let vehicleId = UserDefaultManager.shared.getSelectedVehicle()?.id ?? ""
-        let payloadRequest = payload(idTag: phoneNumber, connectorId: qrpayload.connectorId)
+        let payloadRequest = StartChargingpayload(idTag: phoneNumber, connectorId: qrpayload.connectorId)
         let requestModel = StartChargingRequest(action: "start",
                                                 chargerId: qrpayload.chargerId,
                                                 vehicleId: vehicleId,
                                                 payload: payloadRequest,
                                                 sessionReason: "User done it remotely.")
-        let url = URLs.startChargingUrl
+        let url = URLs.sessionTransationUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: requestModel.toDictionary(), encoding: .json, headers: header){
@@ -44,6 +44,9 @@ class StartChargeViewModel: StartChargeViewModelInterface {
                 case .success(let response):
                     if response.status{
                         UserDefaultManager.shared.saveChargerId(qrpayload.chargerId)
+                        if let sessionId = response.sessionId {
+                            UserDefaultManager.shared.saveSessionId(sessionId, nil)
+                        }
                         UserDefaultManager.shared.saveTimestamp()
                     }
                     completion(.success(response))
@@ -53,5 +56,4 @@ class StartChargeViewModel: StartChargeViewModelInterface {
             }
         }
     }
-
 }

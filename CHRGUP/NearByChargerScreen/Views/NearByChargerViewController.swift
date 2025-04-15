@@ -78,7 +78,7 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return 240
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let infoVc = LocationInfoViewController()

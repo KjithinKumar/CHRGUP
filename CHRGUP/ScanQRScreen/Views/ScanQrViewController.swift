@@ -21,14 +21,14 @@ class ScanQrViewController: UIViewController {
     private var scannerAnimationView: LottieAnimationView?
     private var cameraManager: CameraManager?
     var viewModel : ScanQrViewModelInterface?
-    var onCodeScanned: ((ChargerLocationData,QRPayload?) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupScannerAnimation()
+        
     }
-    override func viewDidDisappear(_ animated: Bool) {
+    deinit{
         cameraManager?.stopSession()
     }
     override func viewDidLayoutSubviews() {
@@ -44,7 +44,11 @@ class ScanQrViewController: UIViewController {
                         case .success(let response):
                             if response.status{
                                 if let data = response.data{
-                                    self.onCodeScanned?(data,scannedCode)
+                                    let startChargeVc = StartChargeViewController()
+                                    startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
+                                    startChargeVc.payLoad = scannedCode
+                                    self.navigationController?.setViewControllers([startChargeVc], animated: true)
+        
                                 }
                             }else{
                                 self.showAlert(title: "Error", message: response.message)
@@ -79,6 +83,13 @@ class ScanQrViewController: UIViewController {
         codeManualButton.layer.cornerRadius = 20
         
         closeButton.tintColor = ColorManager.textColor
+        configureNavBar()
+    }
+    func configureNavBar(){
+        navigationItem.title = ""
+        
+        let barButton = UIBarButtonItem(customView: closeButton)
+        navigationItem.rightBarButtonItem = barButton
     }
     func toogleTorch(torchOn: Bool){
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular, scale: .large)
@@ -125,8 +136,7 @@ class ScanQrViewController: UIViewController {
         let manualCodeVc = ManualCodeViewController()
         manualCodeVc.modalPresentationStyle = .fullScreen
         manualCodeVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
-        manualCodeVc.onCodeScanned = self.onCodeScanned
-        self.present(manualCodeVc, animated: true)
+        navigationController?.pushViewController(manualCodeVc, animated: true)
     }
     @IBAction func closeButtonPressed(_ sender: Any) {
         dismiss(animated: true)

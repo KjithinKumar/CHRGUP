@@ -119,6 +119,7 @@ class OtpViewController: UIViewController {
 
 extension OtpViewController : UITextFieldDelegate{
     func setuptextFields(){
+        otpTextFields[0].becomeFirstResponder()
         for i in otpTextFields{
             i.backgroundColor = ColorManager.secondaryBackgroundColor
             i.textColor = ColorManager.primaryColor
@@ -421,6 +422,7 @@ extension OtpViewController : OtpViewModelDelegate {
         userProfile.userFavouriteChargerLocations?.forEach { (chargerLocation) in
             UserDefaultManager.shared.saveFavouriteLocation(chargerLocation)
         }
+        UserDefaultManager.shared.saveSessionId(sessionData?.sessionId, sessionData?.status)
         debugPrint("checking user from userdefaults - \(String(describing: UserDefaultManager.shared.getUserProfile()))")
         debugPrint("checking JWTToken from userdefaults - \(String(describing: UserDefaultManager.shared.getJWTToken()))")
         debugPrint("checking user vehicle from userdefaults - \(String(describing: UserDefaultManager.shared.getSelectedVehicle()))")

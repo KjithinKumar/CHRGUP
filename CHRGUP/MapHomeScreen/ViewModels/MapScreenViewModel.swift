@@ -17,6 +17,8 @@ protocol MapScreenViewModelInterface : AnyObject{
     func requestLocationPermission()
     func fetchchargerLocation(lat : Double, lon : Double, range : Int,completion : @escaping (Result<ChargerRangeresponse,Error>) -> Void)
     func fetchLocationById(id : String,completion : @escaping (Result<ChargerLocationResponseById,Error>) -> Void)
+    func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void)
+    func getFormattedTimeDifference(from dateString: String) -> String
 }
 
 class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
@@ -95,5 +97,39 @@ extension MapScreenViewModel : CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         delegate?.didFailWithError(error)
     }
+}
+extension MapScreenViewModel {
+    func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void){
+        let url = URLs.getChargingStatusUrl
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        guard let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
+        let body : [String:Any] = ["userPhone":phoneNumber,
+                                   "timezone":"Asia/Kolkata"]
+        if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: ChargingStatusResponseModel.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
+    func getFormattedTimeDifference(from dateString: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
 
+        guard let pastDate = dateFormatter.date(from: dateString) else {
+            return "Invalid date"
+        }
+
+        let currentDate = Date()
+        let components = Calendar.current.dateComponents([.hour, .minute], from: pastDate, to: currentDate)
+
+        let hours = components.hour ?? 0
+        let minutes = components.minute ?? 0
+
+        // Format with leading zeros
+        let formatted = String(format: "%02d h : %02d m", hours, minutes)
+        return formatted
+    }
 }

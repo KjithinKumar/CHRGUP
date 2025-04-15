@@ -27,6 +27,8 @@ class UserDefaultManager{
         static let sessionStartTimeKey = "sessionTimeKey"
         static let scannedLocationId = "scannedLocationId"
         static let showPopupKey = "showPopupKey"
+        static let sessionIdKey = "sessionIdKey"
+        static let sessionStatusKey = "sessionStatusKey"
     }
     
     // MARK: - User Profile
@@ -176,5 +178,26 @@ class UserDefaultManager{
     }
     func resetPopUp() {
         UserDefaults.standard.removeObject(forKey: Keys.showPopupKey)
+    }
+    
+    //MARK: - SessionId
+    func saveSessionId(_ sessionId: String?,_ sessionStatus : String?) {
+        UserDefaults.standard.setValue(sessionId, forKey: Keys.sessionIdKey)
+        UserDefaults.standard.set(sessionStatus, forKey: Keys.sessionStatusKey)
+    }
+    func getSessionId() -> String? {
+        return UserDefaults.standard.string(forKey: Keys.sessionIdKey)
+    }
+    func getSessionStatus() -> String? {
+        return UserDefaults.standard.string(forKey: Keys.sessionStatusKey)
+    }
+    func IsSessionActive() -> Bool {
+        let sessionStatus = getSessionStatus()
+        if sessionStatus == "Started" {
+            return true
+        }else{
+            return false
+        }
+        
     }
 }
