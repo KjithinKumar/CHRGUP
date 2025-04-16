@@ -34,6 +34,8 @@ class MobileNumberViewController: UIViewController {
         configureUi()
         configureNavBar()
         observeKeyboardNotifications()
+    }
+    override func viewDidAppear(_ animated: Bool) {
         mobileNumberTextField.becomeFirstResponder()
     }
     deinit {
@@ -202,27 +204,22 @@ extension MobileNumberViewController : UITextFieldDelegate {
             textField.layer.borderColor = ColorManager.primaryColor.cgColor
             textField.tag = 1
         }
-        
     }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
-
         // Prevent deletion of "+91 "
         if range.location < 4 {
             return false
         }
-        
         let newLength = text.count + string.count - range.length
         if newLength > 14 {
             return false
         }
         isValidMobileNumber = (newLength == 14)
         updateSignInButtonState()
-
         // Limit total length to 14 (including "+91 " prefix)
         return true
     }
-    
 }
 
 extension MobileNumberViewController{

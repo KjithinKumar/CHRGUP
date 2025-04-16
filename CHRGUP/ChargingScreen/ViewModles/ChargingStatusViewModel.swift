@@ -48,8 +48,8 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
 
         // Colors and fonts
         let numberColor = ColorManager.textColor
-        let unitColor = ColorManager.primaryColor
-        let font = FontManager.bold(size: 25)
+        let unitColor = ColorManager.thirdBackgroundColor
+        let font = FontManager.bold(size: 35)
 
         // Build attributed string
         let attributed = NSMutableAttributedString()

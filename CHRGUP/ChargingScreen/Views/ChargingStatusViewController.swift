@@ -96,7 +96,7 @@ class ChargingStatusViewController: UIViewController {
         stopButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         stopButton.layer.cornerRadius = 20
         
-        priceLabel.text = "Rs/- 0.00"
+        priceLabel.text = "₹ 0.000/Unit"
         priceLabel.textColor = ColorManager.subtitleTextColor
         priceLabel.font = FontManager.regular()
         
@@ -112,11 +112,14 @@ class ChargingStatusViewController: UIViewController {
         titleLabel.font = FontManager.bold(size: 25)
         titleLabel.textColor = ColorManager.primaryColor
         
-        chargingTimeLabel.text = "00 h : 00 m"
-        chargingTimeLabel.font = FontManager.bold(size: 25)
-        chargingTimeLabel.textColor = ColorManager.primaryColor
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let currentTimeString = dateFormatter.string(from: Date())
+        if let chargingTime = viewModel?.getFormattedTimeDifference(from: currentTimeString){
+            chargingTimeLabel.attributedText = chargingTime
+        }
         
-        eneryconsumedLabel.text = " 0.0Wh"
+        eneryconsumedLabel.text = " 0.000Wh"
         eneryconsumedLabel.textColor = ColorManager.textColor
         eneryconsumedLabel.font = FontManager.bold(size: 17)
         
@@ -196,7 +199,7 @@ class ChargingStatusViewController: UIViewController {
                         if let chargingStatus = response.data, let startTime = chargingStatus.startTimeIST, let cost = chargingStatus.costPerUnit {
                             let chargingTime = self.viewModel?.getFormattedTimeDifference(from: startTime)
                             self.chargingTimeLabel.attributedText =  chargingTime
-                            self.priceLabel.text = "Rs \(cost.amount ?? 0) /Unit"
+                            self.priceLabel.text = "₹ \(cost.amount ?? 0)/Unit"
                             let energyConsumed = chargingStatus.meterValueDifference
                             self.eneryconsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionId(nil, response.data?.status)

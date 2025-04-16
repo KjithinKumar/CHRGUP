@@ -22,4 +22,6 @@ struct ColorManager {
     static let dcbulletColor = UIColor(hex: "#F2771A")
     
     static let inUseColor = UIColor(hex: "#95C1DF")
+    
+    static let pendingColor = UIColor(hex: "#F74141")
 }

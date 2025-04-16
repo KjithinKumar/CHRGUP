@@ -19,7 +19,9 @@ class ManualCodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        codeTextField.becomeFirstResponder()
     }
     
     func setUpUI(){
@@ -35,7 +37,6 @@ class ManualCodeViewController: UIViewController {
         codeTextField.tintColor = ColorManager.primaryColor
         codeTextField.font = FontManager.bold(size: 17)
         codeTextField.delegate = self
-        codeTextField.becomeFirstResponder()
         codeTextField.autocapitalizationType = .allCharacters
         
         setButtonState(enable: false)

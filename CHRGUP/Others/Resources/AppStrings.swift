@@ -202,5 +202,22 @@ struct AppStrings {
         
         static let stopChargingText = "Stop Charging"
     }
+    struct History{
+        static let completedText = "Completed"
+        
+        static let failed = "Failed"
+        
+        static let chargerIdText = "Charger Id"
+        
+        static let chargingTimeText = "Charging Time"
+        
+        static let chargingTypeText = "Charging Type"
+        
+        static let energyConsumedText = "Energy Consumed"
+        
+        static let trasactionIdText = "Transaction Id"
+        
+        static let paymentMethodText = "Payment Mode"
+    }
     
 }

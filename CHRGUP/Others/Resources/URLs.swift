@@ -91,4 +91,8 @@ struct URLs{
     static let reviewsUrl = baseUrl + "reviews"
     
     static let getChargingStatusUrl = baseUrl + "session/get-session-info"
+    
+    static func gethistoryUrl(mobileNumber : String) -> String{
+        return "\(baseUrl)users/\(mobileNumber)/history"
+    }
 }

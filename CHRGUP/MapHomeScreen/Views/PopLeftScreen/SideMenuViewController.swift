@@ -175,6 +175,13 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             DispatchQueue.main.async{
                 self.delegate?.didSelectMenuOption(settingsVc)
             }
+        case .history:
+            let historyVc = HistoryViewController()
+            historyVc.viewModel = HistoryViewModel(networkManager: NetworkManager())
+            dismissView()
+            DispatchQueue.main.async{
+                self.delegate?.didSelectMenuOption(historyVc)
+            }
         default:
             break
         }

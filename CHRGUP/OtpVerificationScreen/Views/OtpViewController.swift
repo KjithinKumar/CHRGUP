@@ -45,6 +45,9 @@ class OtpViewController: UIViewController {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(gesture)
     }
+    override func viewDidAppear(_ animated: Bool) {
+        otpTextField1.becomeFirstResponder()
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         view.endEditing(true)
@@ -119,7 +122,6 @@ class OtpViewController: UIViewController {
 
 extension OtpViewController : UITextFieldDelegate{
     func setuptextFields(){
-        otpTextFields[0].becomeFirstResponder()
         for i in otpTextFields{
             i.backgroundColor = ColorManager.secondaryBackgroundColor
             i.textColor = ColorManager.primaryColor

@@ -48,7 +48,6 @@ class MapScreenViewController: UIViewController{
         setupUI()
         setupBottomCard()
         setUpNotificationCard()
-        navigationItem.title = ""
     }
     override func viewWillDisappear(_ animated: Bool) {
         selectedCharger = nil
@@ -61,7 +60,10 @@ class MapScreenViewController: UIViewController{
             let visibleRadius = getVisibleRadius(from: mapView)
             setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
         }
-        
+        navigationItem.title = "Map"
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = ""
     }
     override func viewDidAppear(_ animated: Bool) {
         if UserDefaultManager.shared.IsSessionActive() {
@@ -123,13 +125,6 @@ class MapScreenViewController: UIViewController{
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
         viewModel?.requestLocationPermission()
-        let statusVc = ChargingStatusViewController()
-        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
-        statusVc.modalPresentationStyle = .fullScreen
-        let navController = UINavigationController(rootViewController: statusVc)
-        navController.modalPresentationStyle = .fullScreen
-        navController.navigationBar.tintColor = ColorManager.textColor
-        navigationController?.present(navController, animated: true)
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
         let listViewVc = NearByChargerViewController()
@@ -250,7 +245,6 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
         selectedCharger = nil
         clusterManager?.cluster()
     }
-    
 }
 
 //MARK: - MapViewModelDelegate
@@ -269,14 +263,14 @@ extension MapScreenViewController : MapViewModelDelegate {
         
         // Step 1: Move to location
         CATransaction.begin()
-        CATransaction.setValue(0.50, forKey: kCATransactionAnimationDuration)
+        CATransaction.setValue(0.25, forKey: kCATransactionAnimationDuration)
         mapView.animate(toLocation: coord)
         CATransaction.commit()
 
         // Step 2: Zoom after delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.50) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
             CATransaction.begin()
-            CATransaction.setValue(1.0, forKey: kCATransactionAnimationDuration)
+            CATransaction.setValue(0.5, forKey: kCATransactionAnimationDuration)
             mapView.animate(toZoom: 14)
             CATransaction.commit()
         }
@@ -501,9 +495,13 @@ extension MapScreenViewController : locationInfoViewControllerDelegate {
         chargerDetailTableView.reloadData()
     }
 }
+
+//MARK: - Notification Card
 extension MapScreenViewController{
     func setUpNotificationCard(){
         let notificationView = UIView()
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleNotificationTap))
+        notificationView.addGestureRecognizer(gesture)
         notificationView.backgroundColor = ColorManager.backgroundColor
         notificationView.layer.cornerRadius = 20
         notificationView.clipsToBounds = true
@@ -549,7 +547,7 @@ extension MapScreenViewController{
             titleLabel.textColor = ColorManager.subtitleTextColor
             
             unitsConsumedLabel = UILabel()
-            unitsConsumedLabel.text = "0.0wh"
+            unitsConsumedLabel.text = "0.0000 Wh"
             unitsConsumedLabel.font = FontManager.regular()
             unitsConsumedLabel.textColor = ColorManager.textColor
             
@@ -566,7 +564,7 @@ extension MapScreenViewController{
             titleLabel.textColor = ColorManager.subtitleTextColor
             
             timeConsumedLabel = UILabel()
-            timeConsumedLabel.text = "00h : 00m"
+            timeConsumedLabel.text = "00 h : 00 m"
             timeConsumedLabel.font = FontManager.regular()
             timeConsumedLabel.textColor = ColorManager.textColor
             
@@ -641,5 +639,15 @@ extension MapScreenViewController{
                 }
             }
         }
+    }
+    @objc func handleNotificationTap(){
+        let statusVc = ChargingStatusViewController()
+        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
+        statusVc.modalPresentationStyle = .fullScreen
+        statusVc.fetchData()
+        let navController = UINavigationController(rootViewController: statusVc)
+        navController.modalPresentationStyle = .fullScreen
+        navController.navigationBar.tintColor = ColorManager.textColor
+        navigationController?.present(navController, animated: true)
     }
 }

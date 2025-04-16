@@ -86,8 +86,7 @@ class ScanQrViewController: UIViewController {
         configureNavBar()
     }
     func configureNavBar(){
-        navigationItem.title = ""
-        
+        navigationItem.title = "Scan QR"
         let barButton = UIBarButtonItem(customView: closeButton)
         navigationItem.rightBarButtonItem = barButton
     }
