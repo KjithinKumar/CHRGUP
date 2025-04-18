@@ -57,7 +57,6 @@ class OnboardingViewController: UIViewController {
         titleLabel.textColor = ColorManager.textColor
         titleLabel.numberOfLines = 0
         
-        
         descriptionLabel.font = FontManager.regular()
         descriptionLabel.textColor = ColorManager.subtitleTextColor
         descriptionLabel.numberOfLines = 0
@@ -66,13 +65,13 @@ class OnboardingViewController: UIViewController {
         nextButton.layer.cornerRadius = 30
         nextButton.tintColor = ColorManager.backgroundColor
         
-        skipButton.tintColor = ColorManager.buttonColor
-        skipButton.titleLabel?.font = FontManager.bold(size: 17)
+        skipButton.imageView?.tintColor = ColorManager.buttonColor
         
         pageController.numberOfPages = viewModel?.screenCount ?? 3
         pageController.isUserInteractionEnabled = false
         
-        previousButton.tintColor = ColorManager.buttonColor
+        previousButton.imageView?.tintColor = ColorManager.buttonColor
+        
         
     }
     func updateUi(){

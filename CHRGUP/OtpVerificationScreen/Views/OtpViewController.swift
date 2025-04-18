@@ -122,6 +122,7 @@ class OtpViewController: UIViewController {
 
 extension OtpViewController : UITextFieldDelegate{
     func setuptextFields(){
+        otpTextField1.textContentType = .oneTimeCode
         for i in otpTextFields{
             i.backgroundColor = ColorManager.secondaryBackgroundColor
             i.textColor = ColorManager.primaryColor
@@ -133,7 +134,7 @@ extension OtpViewController : UITextFieldDelegate{
             i.font = FontManager.bold(size: 17)
             i.layer.cornerRadius = 8
             i.layer.masksToBounds = true
-            i.textContentType = .oneTimeCode
+            //i.textContentType = .oneTimeCode
             i.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             
         }
@@ -302,6 +303,9 @@ extension OtpViewController{
         if isFilled {
             verifyButton.backgroundColor = ColorManager.primaryColor
             verifyButton.isEnabled = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.verifyButtonPressed(self.verifyButton ?? UIButton())
+            }
         }else{
             verifyButton.isEnabled = false
             verifyButton.backgroundColor = ColorManager.secondaryBackgroundColor
@@ -424,7 +428,7 @@ extension OtpViewController : OtpViewModelDelegate {
         userProfile.userFavouriteChargerLocations?.forEach { (chargerLocation) in
             UserDefaultManager.shared.saveFavouriteLocation(chargerLocation)
         }
-        UserDefaultManager.shared.saveSessionId(sessionData?.sessionId, sessionData?.status)
+        UserDefaultManager.shared.saveSessionId(sessionData?.sessionId)
         debugPrint("checking user from userdefaults - \(String(describing: UserDefaultManager.shared.getUserProfile()))")
         debugPrint("checking JWTToken from userdefaults - \(String(describing: UserDefaultManager.shared.getJWTToken()))")
         debugPrint("checking user vehicle from userdefaults - \(String(describing: UserDefaultManager.shared.getSelectedVehicle()))")

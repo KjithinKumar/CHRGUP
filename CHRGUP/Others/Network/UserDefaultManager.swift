@@ -181,8 +181,10 @@ class UserDefaultManager{
     }
     
     //MARK: - SessionId
-    func saveSessionId(_ sessionId: String?,_ sessionStatus : String?) {
+    func saveSessionId(_ sessionId: String?) {
         UserDefaults.standard.setValue(sessionId, forKey: Keys.sessionIdKey)
+    }
+    func saveSessionStatus(_ sessionStatus : String?) {
         UserDefaults.standard.set(sessionStatus, forKey: Keys.sessionStatusKey)
     }
     func getSessionId() -> String? {

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     // MARK: SignIn with Google
     func application(_ app: UIApplication,open url: URL,options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        DeepLinkManager.shared.handle(url: url)
       return GIDSignIn.sharedInstance.handle(url)
     }
     
@@ -31,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
-    
-    
+
 }
 

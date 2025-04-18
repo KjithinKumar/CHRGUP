@@ -62,7 +62,19 @@ class ChargingStatusViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "Charging Stopped")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                            let receiptVc = ReceiptViewController()
+                            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+                            self.navigationController?.navigationBar.isHidden = false
+                            self.navigationController?.setViewControllers([receiptVc], animated: true)
+                        }
                     }else{
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                            let receiptVc = ReceiptViewController()
+                            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+                            self.navigationController?.navigationBar.isHidden = false
+                            self.navigationController?.setViewControllers([receiptVc], animated: true)
+                        }
                         self.showAlert(title: "Error", message: response.message)
                         self.navigationController?.navigationBar.isHidden = false
                         self.stopButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
@@ -202,7 +214,8 @@ class ChargingStatusViewController: UIViewController {
                             self.priceLabel.text = "₹ \(cost.amount ?? 0)/Unit"
                             let energyConsumed = chargingStatus.meterValueDifference
                             self.eneryconsumedLabel.text = " \(energyConsumed)"
-                            UserDefaultManager.shared.saveSessionId(nil, response.data?.status)
+                            //UserDefaultManager.shared.saveSessionId(nil, response.data?.status)
+                            UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                         }
                     }else{
                         self.showAlert(title: "Error", message: response.message)

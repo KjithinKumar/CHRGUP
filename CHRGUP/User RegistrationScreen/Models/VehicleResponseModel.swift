@@ -9,23 +9,15 @@ import Foundation
 
 struct VehicleCatalogResponse: Decodable {
     let success : Bool
-    let data : [VehicleType]
+    let data : [VehicleTypes]
     let message : String?
 }
 
-typealias VehicleTypes = [String : VehicleType]
+typealias VehicleTypes = [String : Make]
 
-struct VehicleType: Decodable {
-    let threewheeler : [String: Make]
-    let twowheeler : [String: Make]
-    
-    enum CodingKeys: String, CodingKey {
-        case threewheeler = "3-Wheeler"
-        case twowheeler = "2-Wheeler"
-    }
-}
+typealias Make = [String : Model]
 
-typealias Make = [String : [Variant]]
+typealias Model = [String : [Variant]]
 
 struct Variant: Decodable {
     let variant : String

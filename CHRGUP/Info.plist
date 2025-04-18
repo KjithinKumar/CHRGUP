@@ -14,6 +14,16 @@
 				<string>com.googleusercontent.apps.665573547274-j6doccv8ju866h5f60s65f3bnd6svbsg</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.consumer.CHRGUP</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>CHRGUP</string>
+			</array>
+		</dict>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>

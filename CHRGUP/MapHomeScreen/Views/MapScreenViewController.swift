@@ -66,7 +66,7 @@ class MapScreenViewController: UIViewController{
         navigationItem.title = ""
     }
     override func viewDidAppear(_ animated: Bool) {
-        if UserDefaultManager.shared.IsSessionActive() {
+        if !UserDefaultManager.shared.IsSessionActive() {
             showNotificationCard()
         }else{
             hideNotificationCard()
@@ -125,6 +125,9 @@ class MapScreenViewController: UIViewController{
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
         viewModel?.requestLocationPermission()
+        let receiptVc = ReceiptViewController()
+        receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+        navigationController?.pushViewController(receiptVc, animated: true)
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
         let listViewVc = NearByChargerViewController()
@@ -629,7 +632,7 @@ extension MapScreenViewController{
                             self.timeConsumedLabel.text = self.viewModel?.getFormattedTimeDifference(from: startTime)
                             let energyConsumed = chargingStatus.meterValueDifference
                             self.unitsConsumedLabel.text = " \(energyConsumed)"
-                            UserDefaultManager.shared.saveSessionId(nil, response.data?.status)
+                            UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                         }
                     }else{
                         self.showAlert(title: "Error", message: response.message)

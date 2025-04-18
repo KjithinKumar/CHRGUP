@@ -45,7 +45,7 @@ class StartChargeViewModel: StartChargeViewModelInterface {
                     if response.status{
                         UserDefaultManager.shared.saveChargerId(qrpayload.chargerId)
                         if let sessionId = response.sessionId {
-                            UserDefaultManager.shared.saveSessionId(sessionId, nil)
+                            UserDefaultManager.shared.saveSessionId(sessionId)
                         }
                         UserDefaultManager.shared.saveTimestamp()
                     }

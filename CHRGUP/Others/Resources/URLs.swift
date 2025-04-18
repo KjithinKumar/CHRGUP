@@ -95,4 +95,5 @@ struct URLs{
     static func gethistoryUrl(mobileNumber : String) -> String{
         return "\(baseUrl)users/\(mobileNumber)/history"
     }
+    static let getReceiptUrl = baseUrl + "session/get-session-receipt"
 }

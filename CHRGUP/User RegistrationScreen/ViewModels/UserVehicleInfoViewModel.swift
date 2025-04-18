@@ -56,54 +56,28 @@ class UserVehicleInfoViewModel : UserVehicleInfoViewModelInterface {
         ]
         return fields
     }
-    // MARK: - Get Vehicle Types (3-Wheeler, 2-Wheeler)
-        func getVehicleTypes() -> [String] {
-            //guard let data = vehicleResponse?.data.first else { return [] }
-            return ["3-Wheeler", "2-Wheeler"] // Returns ["3-Wheeler", "2-Wheeler"]
-        }
-        
-        // MARK: - Get Makes for a Given Vehicle Type
-        func getMakes(for type: String) -> [String] {
-            guard let data = vehicleResponse?.data.first else { return [] }
-            //guard let vehicleType = type else { return [] }
-            
-            switch type {
-            case "3-Wheeler":
-                return Array(data.threewheeler.keys)
-            case "2-Wheeler":
-                return Array(data.twowheeler.keys)
-            default:
-                return []
-            }
-        }
-        
-        // MARK: - Get Models for a Given Vehicle Type and Make
-        func getModels(for type: String, make: String) -> [String] {
-            guard let data = vehicleResponse?.data.first else { return [] }
-            //guard let vehicleType = data[type] else { return [] }
-            
-            switch type {
-            case "3-Wheeler":
-                return data.threewheeler[make]?.keys.map { $0 } ?? []
-            case "2-Wheeler":
-                return data.twowheeler[make]?.keys.map { $0 } ?? []
-            default:
-                return []
-            }
-        }
-        
-        // MARK: - Get Variants for a Given Vehicle Type, Make, and Model
-        func getVariants(for type: String, make: String, model: String) -> [Variant] {
-            guard let data = vehicleResponse?.data.first else { return [] }
-            //guard let vehicleType = data[type] else { return [] }
-            
-            switch type {
-            case "3-Wheeler":
-                return data.threewheeler[make]?[model] ?? []
-            case "2-Wheeler":
-                return data.twowheeler[make]?[model] ?? []
-            default:
-                return []
-            }
-        }
+    // MARK: - Get Vehicle Types
+    func getVehicleTypes() -> [String] {
+        guard let data = vehicleResponse?.data.first else { return [] }
+        return Array(data.keys)
+    }
+    // MARK: - Get Makes for a Given Vehicle Type
+    func getMakes(for type: String) -> [String] {
+        guard let data = vehicleResponse?.data.first,
+              let makeDict = data[type] else { return [] }
+        return Array(makeDict.keys)
+    }
+    // MARK: - Get Models for a Given Vehicle Type and Make
+    func getModels(for type: String, make: String) -> [String] {
+        guard let data = vehicleResponse?.data.first,
+              let makeDict = data[type],
+              let modelDict = makeDict[make] else { return [] }
+        return Array(modelDict.keys)
+    }
+    // MARK: - Get Variants for a Given Vehicle Type, Make, and Model
+    func getVariants(for type: String, make: String, model: String) -> [Variant] {
+        guard let data = vehicleResponse?.data.first,
+              let variants = data[type]?[make]?[model] else { return [] }
+        return variants
+    }
 }
