@@ -36,11 +36,9 @@ class StartChargeViewController: UIViewController {
     }
     func checkIfPopShouldShow(){
         if UserDefaultManager.shared.showPopUp(){
-            // Show popup automatically on screen load
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 guard let self = self else { return }
                 self.showPopUp(sender: self.infoButton)
-                // Dismiss the popup after 2 seconds
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     UIView.animate(withDuration: 0.1) {
                         self.dismissPopup()

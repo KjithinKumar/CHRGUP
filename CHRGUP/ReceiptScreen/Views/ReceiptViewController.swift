@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Razorpay
 
 class ReceiptViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -14,10 +15,17 @@ class ReceiptViewController: UIViewController {
     let indicator = UIActivityIndicatorView(style: .large)
     @IBOutlet weak var payButton: UIButton!
     
+    
+    var grandTotal: Int?
+    var razorpay: RazorpayCheckout!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchReceipt()
         setUpUI()
+        
+        razorpay = RazorpayCheckout.initWithKey(AppIdentifications.RazorPay.key, andDelegate: self)
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         if isLoading{
@@ -39,6 +47,8 @@ class ReceiptViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         if let grandTotal = self.viewModel?.receiptData?.grandTotal{
+                            let cleanedString = grandTotal.replacingOccurrences(of: "₹", with: "").trimmingCharacters(in: .whitespaces)
+                            self.grandTotal = Int((Double(cleanedString) ?? 0.0) * 100)
                             self.payButton.setTitle("Pay \(grandTotal)/-", for: .normal)
                         }
                         self.isLoading = false
@@ -69,6 +79,33 @@ class ReceiptViewController: UIViewController {
         payButton.clipsToBounds = true
     }
     @IBAction func payButtonPressed(_ sender: Any) {
+        payButton.isUserInteractionEnabled = false
+        payButton.setTitleColor(ColorManager.primaryColor, for: .normal)
+        let indicator = UIActivityIndicatorView()
+        indicator.color = ColorManager.backgroundColor
+        view.addSubview(indicator)
+        indicator.startAnimating()
+        indicator.style = .medium
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: payButton.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: payButton.centerYAnchor)
+        ])
+        let amountInPaise = grandTotal ?? 00
+        viewModel?.createOder(amount: amountInPaise) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    debugPrint(response)
+                    if let amount = response.amount, let orderId = response.id{
+                        self.openCheckout(amount: String(amount), orderId: orderId)
+                    }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
+                }
+            }
+        }
     }
 }
 extension ReceiptViewController : UITableViewDataSource,UITableViewDelegate{
@@ -147,4 +184,110 @@ extension ReceiptViewController : UITableViewDataSource,UITableViewDelegate{
         }
     }
     
+}
+extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
+    func openCheckout(amount : String, orderId : String) {
+        let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber ?? ""
+        let email = UserDefaultManager.shared.getUserProfile()?.email ?? ""
+        let options: [String:Any] = [
+            "key" : AppIdentifications.RazorPay.key,
+            "amount": amount,
+            "currency": "INR",
+            "description": "Purchase Description",
+            "order_id": orderId,
+            "name": "CHRGUP",
+            "prefill": [
+                "contact": mobileNumber,
+                "email": email
+            ]
+        ]
+        
+        DispatchQueue.main.async {
+            self.razorpay.open(options, displayController: self)
+        }
+    }
+
+        func onPaymentSuccess(_ payment_id: String) {
+            print("Success: \(payment_id)")
+            fetchPaymentDetails(paymentId: payment_id)
+        }
+
+        func onPaymentError(_ code: Int32, description str: String) {
+            print("Error: \(code) | \(str)")
+        }
+    func fetchPaymentDetails(paymentId : String) {
+        viewModel?.fetchPaymentDetails(paymentId: paymentId) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    debugPrint(response)
+                    if response.status == "authorized" {
+                        let amount = self.grandTotal ?? 0
+                        self.viewModel?.capturePayment(paymentId: paymentId, amount: amount) { [weak self] result in
+                            guard let self = self else { return }
+                            DispatchQueue.main.async {
+                                switch result {
+                                case .success(let response):
+                                    self.postPaymentToServer(details: response)
+                                case .failure(let error):
+                                    AppErrorHandler.handle(error, in: self)
+                                }
+                            }
+                        }
+                    }else if response.status == "captured"{
+                        self.postPaymentToServer(details: response)
+                    }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
+                }
+            }
+        }
+    }
+    func postPaymentToServer(details : PaymentDetails){
+        if let sessionId = UserDefaultManager.shared.getSessionId(){
+            self.viewModel?.createPaymentOnServer(sessionId: sessionId, details: details) { [weak self] result in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let response):
+                        if response.status{
+                            UserDefaultManager.shared.removeChargerId()
+                            UserDefaultManager.shared.deleteSessionDetails()
+                            UserDefaultManager.shared.deleteSessionStartTime()
+                            self.checkIfReviewed()
+                            ToastManager.shared.showToast(message: "Payment Successful")
+                        }else{
+                            self.showAlert(title: "Error", message: response.message)
+                        }
+                    case .failure(let error):
+                        AppErrorHandler.handle(error, in: self)
+                    }
+                }
+            }
+        }
+    }
+    func checkIfReviewed(){
+        self.viewModel?.checkReviewforLocation { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case.success(let response):
+                    if response.success{
+                        if response.hasReviewed ?? true{
+                            self.navigationController?.dismiss(animated: true)
+                        }else{
+                            let reviewVc = ReviewViewController()
+                            reviewVc.viewModel = ReviewViewModel(networkManager: NetworkManager())
+                            self.navigationController?.pushViewController(reviewVc, animated: true)
+                        }
+                    }else{
+                        self.showAlert(title: "Error", message: response.message)
+                    }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
+                }
+            }
+        }
+    }
 }

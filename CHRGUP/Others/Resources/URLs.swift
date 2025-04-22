@@ -96,4 +96,22 @@ struct URLs{
         return "\(baseUrl)users/\(mobileNumber)/history"
     }
     static let getReceiptUrl = baseUrl + "session/get-session-receipt"
+    
+    static let razorPayBaseUrl : String = "https://api.razorpay.com/v1/"
+    
+    static let razorPayOrderUrl = razorPayBaseUrl + "orders"
+    
+    static func razorPayPaymentDetailUrl(paymentId : String) -> String{
+        return razorPayBaseUrl + "payments/\(paymentId)"
+    }
+    
+    static func capturePaymentUrl(paymentId : String) -> String{
+        return razorPayBaseUrl + "payments/\(paymentId)/capture"
+    }
+    
+    static let serverPaymentUrl = baseUrl + "payment"
+    
+    static func checkReviewExistUrl(mobileNumber : String, locationId : String) -> String{
+        return "\(baseUrl)reviews/hasReviewed/\(mobileNumber)/\(locationId)"
+    }
 }

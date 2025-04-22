@@ -159,6 +159,9 @@ class UserDefaultManager{
     func getSessionStartTime() -> String? {
         return UserDefaults.standard.string(forKey: Keys.sessionStartTimeKey)
     }
+    func deleteSessionStartTime() {
+        UserDefaults.standard.removeObject(forKey: Keys.sessionStartTimeKey)
+    }
     
     //MARK: - ScannedLocation
     func saveScannedLocation(_ locationId: String) {
@@ -200,6 +203,10 @@ class UserDefaultManager{
         }else{
             return false
         }
-        
     }
+    func deleteSessionDetails() {
+        UserDefaults.standard.removeObject(forKey: Keys.sessionIdKey)
+        UserDefaults.standard.removeObject(forKey: Keys.sessionStatusKey)
+    }
+    
 }

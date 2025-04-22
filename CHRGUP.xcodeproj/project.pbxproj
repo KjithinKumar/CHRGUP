@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041554F52DB615A900475DD7 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 041554F42DB615A900475DD7 /* CryptoSwift */; };
 		046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 046D569F2D7C5AC100B6B654 /* SDWebImage */; };
 		046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */; };
-		047F6A232DB14CFA00AAC6D2 /* RNCryptor in Frameworks */ = {isa = PBXBuildFile; productRef = 047F6A222DB14CFA00AAC6D2 /* RNCryptor */; };
+		047F6C0C2DB26B7B00AAC6D2 /* RazorpayCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 047F6C0B2DB26B7B00AAC6D2 /* RazorpayCheckout */; };
 		048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 048B05C62D7DFB9A00763C9C /* Lottie */; };
 		04BEF1262D7861A5005A3979 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF1252D7861A5005A3979 /* FirebaseAnalytics */; };
 		04BEF1282D7861A5005A3979 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF1272D7861A5005A3979 /* FirebaseAuth */; };
@@ -57,12 +58,13 @@
 				04BEF12A2D7861A5005A3979 /* FirebaseCrashlytics in Frameworks */,
 				048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */,
 				04BEF1262D7861A5005A3979 /* FirebaseAnalytics in Frameworks */,
-				047F6A232DB14CFA00AAC6D2 /* RNCryptor in Frameworks */,
 				046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */,
+				041554F52DB615A900475DD7 /* CryptoSwift in Frameworks */,
 				04BEF1312D786CA9005A3979 /* GoogleSignInSwift in Frameworks */,
 				04BEF12C2D7861A5005A3979 /* FirebasePerformance in Frameworks */,
 				046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */,
 				04BEF1282D7861A5005A3979 /* FirebaseAuth in Frameworks */,
+				047F6C0C2DB26B7B00AAC6D2 /* RazorpayCheckout in Frameworks */,
 				C1DF051A9902C3632A484231 /* Pods_CHRGUP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,7 +138,8 @@
 				046D569F2D7C5AC100B6B654 /* SDWebImage */,
 				046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */,
 				048B05C62D7DFB9A00763C9C /* Lottie */,
-				047F6A222DB14CFA00AAC6D2 /* RNCryptor */,
+				047F6C0B2DB26B7B00AAC6D2 /* RazorpayCheckout */,
+				041554F42DB615A900475DD7 /* CryptoSwift */,
 			);
 			productName = CHRGUP;
 			productReference = 04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */;
@@ -171,7 +174,8 @@
 				04BEF12D2D786CA9005A3979 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				048B05C52D7DFB9A00763C9C /* XCRemoteSwiftPackageReference "lottie-spm" */,
-				047F6A212DB14CFA00AAC6D2 /* XCRemoteSwiftPackageReference "RNCryptor" */,
+				047F6C0A2DB26B7B00AAC6D2 /* XCRemoteSwiftPackageReference "razorpay-pod" */,
+				041554F32DB615A900475DD7 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04DAC96F2D6DB3F800EB4FB8 /* Products */;
@@ -465,6 +469,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		041554F32DB615A900475DD7 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.4;
+			};
+		};
 		046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -473,12 +485,12 @@
 				minimumVersion = 5.21.0;
 			};
 		};
-		047F6A212DB14CFA00AAC6D2 /* XCRemoteSwiftPackageReference "RNCryptor" */ = {
+		047F6C0A2DB26B7B00AAC6D2 /* XCRemoteSwiftPackageReference "razorpay-pod" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RNCryptor/RNCryptor";
+			repositoryURL = "https://github.com/razorpay/razorpay-pod.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.2.0;
+				minimumVersion = 1.4.0;
 			};
 		};
 		048B05C52D7DFB9A00763C9C /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
@@ -508,6 +520,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		041554F42DB615A900475DD7 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 041554F32DB615A900475DD7 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
+		};
 		046D569F2D7C5AC100B6B654 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */;
@@ -518,10 +535,10 @@
 			package = 046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
 		};
-		047F6A222DB14CFA00AAC6D2 /* RNCryptor */ = {
+		047F6C0B2DB26B7B00AAC6D2 /* RazorpayCheckout */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 047F6A212DB14CFA00AAC6D2 /* XCRemoteSwiftPackageReference "RNCryptor" */;
-			productName = RNCryptor;
+			package = 047F6C0A2DB26B7B00AAC6D2 /* XCRemoteSwiftPackageReference "razorpay-pod" */;
+			productName = RazorpayCheckout;
 		};
 		048B05C62D7DFB9A00763C9C /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;

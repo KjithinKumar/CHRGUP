@@ -11,6 +11,11 @@ protocol ReceiptViewModelInterface{
     func assembleReceipt(from models: [ReceiptModel]) -> ReceiptDisplayModel
     var receiptList : [ReceiptListModel]? { get }
     var receiptData : ReceiptDisplayModel? { get }
+    func createOder(amount : Int,completion : @escaping (Result<PaymentDetails, Error>) -> Void)
+    func fetchPaymentDetails(paymentId : String,completion : @escaping(Result<PaymentDetails, Error>) -> Void)
+    func capturePayment(paymentId: String, amount : Int,completion : @escaping(Result<PaymentDetails,Error>) -> Void)
+    func createPaymentOnServer(sessionId: String,details : PaymentDetails, completion : @escaping(Result<PaymentDetailsResponse,Error>)->Void)
+    func checkReviewforLocation(completion : @escaping(Result<ReviewExistResponse,Error>)->Void)
 }
 class ReceiptViewModel: ReceiptViewModelInterface {
     var networkManager: NetworkManagerProtocol?
@@ -85,5 +90,86 @@ class ReceiptViewModel: ReceiptViewModelInterface {
             }
         }
         return displayModel
+    }
+    
+    func createOder(amount : Int,completion : @escaping (Result<PaymentDetails, Error>) -> Void){
+        let url = URLs.razorPayOrderUrl
+        let key = AppIdentifications.RazorPay.key
+        let secret = AppIdentifications.RazorPay.secret
+        let loginString = "\(key):\(secret)"
+        let loginData = loginString.data(using: .utf8)!
+        let base64LoginString = loginData.base64EncodedString()
+        let header = ["Authorization":"Basic \(base64LoginString)"]
+        let body = [
+            "amount": amount,
+            "currency": "INR"
+        ] as [String : Any]
+        
+        if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header ){
+            networkManager?.request(request, decodeTo: PaymentDetails.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
+    func fetchPaymentDetails(paymentId : String,completion : @escaping(Result<PaymentDetails, Error>) -> Void){
+        let url = URLs.razorPayPaymentDetailUrl(paymentId: paymentId)
+        let key = AppIdentifications.RazorPay.key
+        let secret = AppIdentifications.RazorPay.secret
+        let loginString = "\(key):\(secret)"
+        let loginData = loginString.data(using: .utf8)!
+        let base64LoginString = loginData.base64EncodedString()
+        let header = ["Authorization":"Basic \(base64LoginString)"]
+        if let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: PaymentDetails.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
+    func capturePayment(paymentId: String, amount : Int,completion : @escaping(Result<PaymentDetails,Error>) -> Void){
+        let url = URLs.capturePaymentUrl(paymentId: paymentId)
+        let key = AppIdentifications.RazorPay.key
+        let secret = AppIdentifications.RazorPay.secret
+        let loginString = "\(key):\(secret)"
+        let loginData = loginString.data(using: .utf8)!
+        let base64LoginString = loginData.base64EncodedString()
+        let header = ["Authorization":"Basic \(base64LoginString)"]
+        let body = [
+            "amount": amount,
+            "currency": "INR"
+        ] as [String : Any]
+        if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: PaymentDetails.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
+    func createPaymentOnServer(sessionId: String,details : PaymentDetails, completion : @escaping(Result<PaymentDetailsResponse,Error>)->Void){
+        let url = URLs.serverPaymentUrl
+        var body = details
+        body.sessionId = sessionId
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        if let request = networkManager?.createRequest(urlString: url, method: .post, body: body.toDictionary(), encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: PaymentDetailsResponse.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
+    func checkReviewforLocation(completion : @escaping(Result<ReviewExistResponse,Error>)->Void){
+        guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
+        guard let chargerLocationId = UserDefaultManager.shared.getScannedLocationId() else { return }
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        let url = URLs.checkReviewExistUrl(mobileNumber: mobileNumber, locationId: chargerLocationId)
+        if let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: ReviewExistResponse.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
     }
 }

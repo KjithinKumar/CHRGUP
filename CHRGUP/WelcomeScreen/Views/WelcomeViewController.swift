@@ -23,17 +23,19 @@ class WelcomeViewController: UIViewController {
         UserDefaultManager.shared.resetFavouriteLocations()
         
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = .clear
+    }
+
     @IBAction func ContinueButtonPressed(_ sender: Any) {
         navigateToSignIn(with: .SignIn)
     }
     func configureUi() {
         overlayView.layer.cornerRadius = 20
         overlayView.backgroundColor = ColorManager.backgroundColor.withAlphaComponent(0.95)
-        UIView.animate(withDuration: 0.75) {
+        UIView.animate(withDuration: 0.25) {
             self.overlayView.center.y -= self.overlayView.frame.height
         }
-        
         
         continueButton.layer.cornerRadius = 20
         continueButton.translatesAutoresizingMaskIntoConstraints = false
@@ -72,16 +74,18 @@ class WelcomeViewController: UIViewController {
     }
     
     func navigateToSignIn(with : AuthMode){
+        navigationController?.navigationBar.tintColor = ColorManager.buttonColorwhite
         switch with {
         case .SignIn:
             let signInVc = MobileNumberViewController()
             signInVc.authMode = .SignIn
+            navigationController?.navigationBar.isHidden = false
             navigationController?.pushViewController(signInVc, animated: true)
         case .SignUp:
             let signUpVc = MobileNumberViewController()
+            navigationController?.navigationBar.isHidden = false
             signUpVc.authMode = .SignUp
             navigationController?.pushViewController(signUpVc, animated: true)
-            
         }
     }
 }

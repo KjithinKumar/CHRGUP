@@ -21,7 +21,7 @@
 			<string>com.consumer.CHRGUP</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>CHRGUP</string>
+				<string>chrgup</string>
 			</array>
 		</dict>
 	</array>

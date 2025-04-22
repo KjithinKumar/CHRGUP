@@ -14,3 +14,8 @@ struct QRPayload: Codable {
     let connectorId: Int
     let chargerId: String
 }
+
+struct DecryptedPayload: Decodable {
+    let chargerId: String
+    let connectorId: Int
+}

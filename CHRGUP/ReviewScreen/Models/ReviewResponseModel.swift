@@ -26,3 +26,10 @@ struct ReviewData : Codable {
         case user,location,charging_exp,charging_location,review,createdAt,updatedAt
     }
 }
+
+struct ReviewExistResponse : Codable {
+    let success : Bool
+    let hasReviewed : Bool?
+    let message : String?
+    let error : String?
+}

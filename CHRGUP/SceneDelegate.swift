@@ -17,10 +17,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let splashVC = SplashScreenViewController()// Your splash screen view controller
         splashVC.viewModel = SplashScreenViewModel(networkManager: NetworkManager(), delegate : splashVC)
-        window.rootViewController = splashVC
+        let navController = UINavigationController(rootViewController: splashVC)
+        navController.navigationBar.tintColor = ColorManager.buttonColorwhite
+        window.rootViewController = navController
         window.overrideUserInterfaceStyle = .dark
         self.window = window
         window.makeKeyAndVisible()
+        if let url = connectionOptions.urlContexts.first?.url {
+            if let payLoad = DeepLinkManager.shared.handle(url: url) {
+                DeepLinkManager.shared.pendingPayload = payLoad
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if let topMapVc = navController.viewControllers.first as? MapScreenViewController {
+                        topMapVc.handleDeepLinkIfNeeded()
+                    }
+                }
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -39,9 +51,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url {
-            DeepLinkManager.shared.handle(url: url)
+            if let payLoad = DeepLinkManager.shared.handle(url: url){
+                DeepLinkManager.shared.pendingPayload = payLoad
+                if let rootNav = UIApplication.shared.connectedScenes
+                            .compactMap({ ($0.delegate as? SceneDelegate)?.window?.rootViewController as? UINavigationController }) // safely cast
+                    .first {
+                    let topMapVc = rootNav.viewControllers.first
+                    rootNav.popToRootViewController(animated: true)
+                    if let topMapVc = topMapVc as? MapScreenViewController {
+                        topMapVc.handleDeepLinkIfNeeded()
+                    }
+                }
+            }
         }
     }
-
 }
 

@@ -302,12 +302,10 @@ extension UserVehicleInfoViewController : UserVehicleInfoCellDelegate{
     func initializeFieldStates() {
         let fields = viewModel?.getFieldsForTableView() ?? []
         if screenType == .edit {
-            // Enable all fields for editing
             for field in fields {
                 enabledFields[field] = true
             }
         } else {
-            // Enable only the first field for a new vehicle
             for (index, field) in fields.enumerated() {
                 enabledFields[field] = (index == 0)
             }
@@ -321,7 +319,7 @@ extension UserVehicleInfoViewController : setRangeViewControllerDelegate{
     func addedNewVehicle(message : String) {
         ToastManager.shared.showToast(message: message)
         view.endEditing(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
             self.navigationController?.popViewController(animated: true)
         }
     }

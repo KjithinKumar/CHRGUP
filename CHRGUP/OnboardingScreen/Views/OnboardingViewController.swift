@@ -20,20 +20,15 @@ class OnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = OnboardingViewModel()
-
         configureUi()
         updateUi()
-
     }
     
     @IBAction func nextButtonPressed(_ sender: Any) {
-        
         if viewModel?.moveToNextScreen() ?? false{
             self.imageView.transform = .identity
             self.imageView.alpha = 0.5
-
             updateUi()
-            
         } else {
             navigateToWelcomeScreen()
         }
@@ -50,7 +45,6 @@ class OnboardingViewController: UIViewController {
     }
     
     func configureUi(){
-        
         view.backgroundColor = ColorManager.backgroundColor
         
         titleLabel.font = FontManager.bold()
@@ -72,10 +66,8 @@ class OnboardingViewController: UIViewController {
         
         previousButton.imageView?.tintColor = ColorManager.buttonColor
         
-        
     }
     func updateUi(){
-        
         let screen = viewModel?.currentScreen
         imageView.alpha = 1
         UIImageView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut){
@@ -99,9 +91,6 @@ class OnboardingViewController: UIViewController {
     
     func navigateToWelcomeScreen(){
         let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: welcomeVc)
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
-        present(navigationController, animated: true)
+        navigationController?.setViewControllers([welcomeVc], animated: true)
     }
 }

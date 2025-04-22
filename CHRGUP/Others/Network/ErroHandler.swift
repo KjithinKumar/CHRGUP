@@ -13,8 +13,15 @@ enum AppErrorHandler {
             case .serverError(let message, let code):
                 DispatchQueue.main.async {
                     if code == 401 {
-                        let actions = [AlertActions.loginAgainAction()]
-                        viewController.showAlert(title: "Unauthorized", message: message, actions: actions)
+                        guard GlobalAlertGuard.didShow401Alert == false else { return }
+                        GlobalAlertGuard.didShow401Alert = true
+//                        let actions = [AlertActions.loginAgainAction()]
+//                        viewController.showAlert(title: "Unauthorized", message: message, actions: actions)
+                        let topVC = viewController.topMostViewController
+                            topVC.dismissAlert {
+                                let actions = [AlertActions.loginAgainAction()]
+                                topVC.showAlert(title: "Unauthorized", message: message, actions: actions)
+                            }
                     } else {
                         viewController.showAlert(title: "Error", message: message)
                     }
@@ -25,5 +32,17 @@ enum AppErrorHandler {
         } else {
             debugPrint("Unhandled Error:", error)
         }
+    }
+}
+extension UIViewController {
+    var topMostViewController: UIViewController {
+        if let presented = self.presentedViewController {
+            return presented.topMostViewController
+        } else if let nav = self as? UINavigationController {
+            return nav.visibleViewController?.topMostViewController ?? nav
+        } else if let tab = self as? UITabBarController {
+            return tab.selectedViewController?.topMostViewController ?? tab
+        }
+        return self
     }
 }

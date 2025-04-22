@@ -33,6 +33,7 @@ class ReviewViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         observeKeyboardNotifications()
+        navigationController?.navigationBar.isHidden = true
     }
     deinit {
         removeKeyboardNotifications()

@@ -25,23 +25,18 @@ class SplashScreenViewController: UIViewController {
 extension SplashScreenViewController : SplashViewModelDelegate{
     func navigateToMain() {
        let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
-        let navigationController = UINavigationController(rootViewController: welcomeVc)
-        navigationController.modalPresentationStyle = .fullScreen
-        navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
-        present(navigationController, animated: true, completion: nil)
+        navigationController?.setViewControllers([welcomeVc], animated: true)
     }
     
     func navigateToOnboarding() {
         let onboardingVC = OnboardingViewController(nibName: "OnboardingViewController", bundle: nil)
-        onboardingVC.modalPresentationStyle = .fullScreen
-       present(onboardingVC, animated: true, completion: nil)
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.setViewControllers([onboardingVC], animated: true)
     }
     func navigateToMap() {
         let MapVc = MapScreenViewController()
         MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
-        let navigationController = UINavigationController(rootViewController: MapVc)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.present(navigationController, animated: true)
+        navigationController?.setViewControllers([MapVc], animated: true)
     }
     
     func showUpdateDialog(url: String?) {

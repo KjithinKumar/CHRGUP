@@ -21,6 +21,7 @@ class ScanQrViewController: UIViewController {
     private var scannerAnimationView: LottieAnimationView?
     private var cameraManager: CameraManager?
     var viewModel : ScanQrViewModelInterface?
+    private var activityIndicator: UIActivityIndicatorView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,29 +37,59 @@ class ScanQrViewController: UIViewController {
         cameraManager?.previewLayer?.frame = cameraView.bounds
         if cameraManager == nil {
             cameraManager = CameraManager(previewView: cameraView, onCodeScanned: { [weak self] scannedCode in
-                guard let _ = self else { return }
-                self?.viewModel?.fetchChargerDetails(id: scannedCode.chargerId) { [weak self] result in
-                    guard let self = self else { return }
-                    DispatchQueue.main.async {
-                        switch result {
-                        case .success(let response):
-                            if response.status{
-                                if let data = response.data{
-                                    let startChargeVc = StartChargeViewController()
-                                    startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
-                                    startChargeVc.payLoad = scannedCode
-                                    self.navigationController?.setViewControllers([startChargeVc], animated: true)
-        
-                                }
-                            }else{
-                                self.showAlert(title: "Error", message: response.message)
-                            }
-                        case .failure(let error):
-                            AppErrorHandler.handle(error, in: self)
-                        }
-                    }
-                }
+                guard let self = self else { return }
+                self.showActivityIndicator(true)
+                self.fetchChargerDetails(id: scannedCode.chargerId, scannedCode: scannedCode)
             })
+            cameraManager?.startSession()
+        }
+    }
+    func fetchChargerDetails(id: String,scannedCode : QRPayload){
+        viewModel?.fetchChargerDetails(id: id) { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    if response.status{
+                        if let data = response.data{
+                            let startChargeVc = StartChargeViewController()
+                            startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
+                            startChargeVc.payLoad = scannedCode
+                            self.navigationController?.setViewControllers([startChargeVc], animated: true)
+                        }
+                    }else{
+                        ToastManager.shared.showToast(message: response.message ?? "Invalid Qr")
+                        self.showActivityIndicator(false)
+                        self.showAlert(title: "Error", message: response.message)
+                    }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
+                }
+            }
+        }
+    }
+    func showActivityIndicator(_ show: Bool) {
+        if show {
+            if activityIndicator == nil {
+                let indicator = UIActivityIndicatorView(style: .large)
+                indicator.color = ColorManager.primaryColor
+                indicator.translatesAutoresizingMaskIntoConstraints = false
+                indicator.backgroundColor = .black
+                cameraView.addSubview(indicator)
+                
+                NSLayoutConstraint.activate([
+                    indicator.centerXAnchor.constraint(equalTo: cameraView.centerXAnchor),
+                    indicator.centerYAnchor.constraint(equalTo: cameraView.centerYAnchor)
+                ])
+                
+                indicator.startAnimating()
+                cameraManager?.stopSession()
+                activityIndicator = indicator
+            }
+        } else {
+            activityIndicator?.stopAnimating()
+            activityIndicator?.removeFromSuperview()
+            activityIndicator = nil
             cameraManager?.startSession()
         }
     }

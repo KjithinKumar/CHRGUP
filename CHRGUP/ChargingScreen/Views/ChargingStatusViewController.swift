@@ -131,7 +131,7 @@ class ChargingStatusViewController: UIViewController {
             chargingTimeLabel.attributedText = chargingTime
         }
         
-        eneryconsumedLabel.text = " 0.000Wh"
+        eneryconsumedLabel.text = " 0.0000 kWh"
         eneryconsumedLabel.textColor = ColorManager.textColor
         eneryconsumedLabel.font = FontManager.bold(size: 17)
         
@@ -212,9 +212,8 @@ class ChargingStatusViewController: UIViewController {
                             let chargingTime = self.viewModel?.getFormattedTimeDifference(from: startTime)
                             self.chargingTimeLabel.attributedText =  chargingTime
                             self.priceLabel.text = "₹ \(cost.amount ?? 0)/Unit"
-                            let energyConsumed = chargingStatus.meterValueDifference
+                            let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
                             self.eneryconsumedLabel.text = " \(energyConsumed)"
-                            //UserDefaultManager.shared.saveSessionId(nil, response.data?.status)
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                         }
                     }else{
@@ -279,5 +278,14 @@ class ChargingStatusViewController: UIViewController {
         if let overlay = view.viewWithTag(9999) {
             overlay.removeFromSuperview()
         }
+    }
+    func convertWhToKWh(_ whString: String) -> String {
+        let trimmed = whString.replacingOccurrences(of: "Wh", with: "").trimmingCharacters(in: .whitespaces)
+        guard let wattHours = Double(trimmed) else {
+            return "Invalid input"
+        }
+
+        let kilowattHours = wattHours / 1000
+        return String(format: "%.4f kWh", kilowattHours)
     }
 }

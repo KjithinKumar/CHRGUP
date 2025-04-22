@@ -44,7 +44,7 @@ class MapScreenViewController: UIViewController{
         setUpNavBar()
         viewModel?.delegate = self
         UserDefaultManager.shared.setLoginStatus(true)
-        viewModel?.requestLocationPermission()
+        viewModel?.requestLocationPermissionIfNeeded()
         setupUI()
         setupBottomCard()
         setUpNotificationCard()
@@ -60,16 +60,33 @@ class MapScreenViewController: UIViewController{
             let visibleRadius = getVisibleRadius(from: mapView)
             setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
         }
-        navigationItem.title = "Map"
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = ""
     }
+    deinit{
+        mapView?.removeFromSuperview()
+    }
     override func viewDidAppear(_ animated: Bool) {
-        if !UserDefaultManager.shared.IsSessionActive() {
+        super.viewDidAppear(animated)
+        if UserDefaultManager.shared.IsSessionActive() {
             showNotificationCard()
         }else{
             hideNotificationCard()
+        }
+        self.handleDeepLinkIfNeeded()
+    }
+    @objc func handleDeepLinkIfNeeded(){
+        if let qRPayload = DeepLinkManager.shared.pendingPayload{
+            DeepLinkManager.shared.pendingPayload = nil
+            let scanVc = ScanQrViewController()
+            scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
+            scanVc.modalPresentationStyle = .fullScreen
+            scanVc.fetchChargerDetails(id: qRPayload.chargerId, scannedCode: qRPayload)
+            let navController = UINavigationController(rootViewController: scanVc)
+            navController.modalPresentationStyle = .fullScreen
+            navController.navigationBar.tintColor = ColorManager.textColor
+            navigationController?.present(navController, animated: true)
         }
     }
     func setupUI(){
@@ -124,10 +141,7 @@ class MapScreenViewController: UIViewController{
         
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
-        viewModel?.requestLocationPermission()
-        let receiptVc = ReceiptViewController()
-        receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
-        navigationController?.pushViewController(receiptVc, animated: true)
+        viewModel?.requestLocationPermissionIfNeeded()
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
         let listViewVc = NearByChargerViewController()
@@ -141,7 +155,7 @@ class MapScreenViewController: UIViewController{
 //MARK: - MapviewDelegate,ClusterManagerDelegate
 extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegate  {
     func setUpMaps(){
-        viewModel?.requestLocationPermission()
+        viewModel?.requestLocationPermissionIfNeeded()
         let camera = GMSCameraPosition.camera(withLatitude: 12.9716, longitude: 77.5946, zoom: 14)
         let options = GMSMapViewOptions()
         options.camera = camera
@@ -199,8 +213,17 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
     }
     func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
         didTapCluster = true
-        let location = CLLocation(latitude: cluster.position.latitude, longitude: cluster.position.longitude)
-        animateStepToUserLocation(location)
+        var bounds = GMSCoordinateBounds(coordinate: cluster.position, coordinate: cluster.position)
+           for item in cluster.items {
+               bounds = bounds.includingCoordinate(item.position)
+           }
+
+           let cameraUpdate = GMSCameraUpdate.fit(bounds, withPadding: 60) // You can tweak padding here
+           
+           CATransaction.begin()
+           CATransaction.setValue(0.5, forKey: kCATransactionAnimationDuration)
+           mapView?.animate(with: cameraUpdate)
+           CATransaction.commit()
         return true
     }
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
@@ -227,10 +250,13 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
                     case.success(let response):
                         if response.success {
                             if let chargerData = response.data {
-                                self.selectedCharger = chargerData
-                                self.isLoading = false
-                                self.chargerDetailTableView.reloadData()
-                                self.clusterManager?.cluster()
+                                let status = self.viewModel?.isLocationPermissionGranted()
+                                if status ?? false{
+                                    self.selectedCharger = chargerData
+                                    self.isLoading = false
+                                    self.chargerDetailTableView.reloadData()
+                                    self.clusterManager?.cluster()
+                                }
                             }else{
                                 self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
                             }
@@ -263,14 +289,10 @@ extension MapScreenViewController : MapViewModelDelegate {
     func animateStepToUserLocation(_ location: CLLocation) {
         guard let mapView = mapView else { return }
         let coord = location.coordinate
-        
-        // Step 1: Move to location
         CATransaction.begin()
         CATransaction.setValue(0.25, forKey: kCATransactionAnimationDuration)
         mapView.animate(toLocation: coord)
         CATransaction.commit()
-
-        // Step 2: Zoom after delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
             CATransaction.begin()
             CATransaction.setValue(0.5, forKey: kCATransactionAnimationDuration)
@@ -377,6 +399,7 @@ extension MapScreenViewController: GMUClusterRendererDelegate {
             }
         }
     }
+    
 }
 
 extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
@@ -541,22 +564,22 @@ extension MapScreenViewController{
                                      labelsView.bottomAnchor.constraint(equalTo: notificationView.bottomAnchor,constant: -10),
                                      labelsView.leadingAnchor.constraint(equalTo: lottieView.trailingAnchor, constant: 5),
                                     labelsView.trailingAnchor.constraint(equalTo: notificationView.trailingAnchor, constant: -10)])
-        
-        
         let vStackView: UIStackView = {
             let titleLabel = UILabel()
             titleLabel.text = "Units consumed"
             titleLabel.font = FontManager.regular(size: 14)
             titleLabel.textColor = ColorManager.subtitleTextColor
+            titleLabel.textAlignment = .left
             
             unitsConsumedLabel = UILabel()
             unitsConsumedLabel.text = "0.0000 Wh"
             unitsConsumedLabel.font = FontManager.regular()
             unitsConsumedLabel.textColor = ColorManager.textColor
+            unitsConsumedLabel.textAlignment = .left
             
             let stackView = UIStackView(arrangedSubviews: [titleLabel, unitsConsumedLabel])
             stackView.axis = .vertical
-            stackView.distribution = .fillProportionally
+            stackView.distribution = .equalSpacing
             stackView.spacing = 5
             return stackView
         }()
@@ -565,15 +588,17 @@ extension MapScreenViewController{
             titleLabel.text = "Time consumed"
             titleLabel.font = FontManager.regular(size: 14)
             titleLabel.textColor = ColorManager.subtitleTextColor
+            titleLabel.textAlignment = .left
             
             timeConsumedLabel = UILabel()
             timeConsumedLabel.text = "00 h : 00 m"
             timeConsumedLabel.font = FontManager.regular()
             timeConsumedLabel.textColor = ColorManager.textColor
+            timeConsumedLabel.textAlignment = .left
             
             let stackView = UIStackView(arrangedSubviews: [titleLabel, timeConsumedLabel])
             stackView.axis = .vertical
-            stackView.distribution = .fillProportionally
+            stackView.distribution = .equalSpacing
             stackView.spacing = 5
             return stackView
         }()
@@ -582,6 +607,7 @@ extension MapScreenViewController{
             label.text = "CHARGING"
             label.font = FontManager.bold(size: 17)
             label.textColor = ColorManager.primaryColor
+            label.textAlignment = .left
             return label
         }()
         labelsView.addSubview(title)
@@ -591,17 +617,16 @@ extension MapScreenViewController{
         let horizontalStackView: UIStackView = {
             let stackView = UIStackView(arrangedSubviews: [vStackView, vStackViewTwo])
             stackView.axis = .horizontal
-            stackView.distribution = .fillProportionally
-            stackView.spacing = 25
+            stackView.distribution = .fillEqually
+            stackView.alignment = .leading
             return stackView
         }()
         labelsView.addSubview(horizontalStackView)
         horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([horizontalStackView.topAnchor.constraint(equalTo: title.bottomAnchor,constant: 5),
                                      horizontalStackView.leadingAnchor.constraint(equalTo: labelsView.leadingAnchor),
+                                     horizontalStackView.trailingAnchor.constraint(equalTo: labelsView.trailingAnchor,constant: -25),
                                      horizontalStackView.bottomAnchor.constraint(equalTo: labelsView.bottomAnchor)])
-        
-        
     }
     func showNotificationCard(){
         topCardConstraint?.constant = 20
@@ -630,7 +655,7 @@ extension MapScreenViewController{
                     if response.status{
                         if let chargingStatus = response.data, let startTime = chargingStatus.startTimeIST {
                             self.timeConsumedLabel.text = self.viewModel?.getFormattedTimeDifference(from: startTime)
-                            let energyConsumed = chargingStatus.meterValueDifference
+                            let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
                             self.unitsConsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                         }
@@ -642,6 +667,15 @@ extension MapScreenViewController{
                 }
             }
         }
+    }
+    func convertWhToKWh(_ whString: String) -> String {
+        let trimmed = whString.replacingOccurrences(of: "Wh", with: "").trimmingCharacters(in: .whitespaces)
+        guard let wattHours = Double(trimmed) else {
+            return "Invalid input"
+        }
+
+        let kilowattHours = wattHours / 1000
+        return String(format: "%.4f kWh", kilowattHours)
     }
     @objc func handleNotificationTap(){
         let statusVc = ChargingStatusViewController()

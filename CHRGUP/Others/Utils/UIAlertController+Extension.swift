@@ -20,7 +20,6 @@ extension UIViewController {
             self.dismissAlert { [weak self] in
                 guard let self = self else { return }
                 let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-                //actions.forEach { alertController.addAction($0) }
                 actions.forEach {
                     if $0.style == .default {
                         $0.setValue(ColorManager.primaryColor, forKey: "titleTextColor")
@@ -35,7 +34,7 @@ extension UIViewController {
     func dismissAlert(completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             if let presentedAlert = self.presentedViewController as? UIAlertController {
-                presentedAlert.dismiss(animated: true, completion: nil)
+                presentedAlert.dismiss(animated: true)
             }else{
                 completion?()
             }
@@ -46,6 +45,7 @@ class AlertActions {
     static func loginAgainAction() -> UIAlertAction {
         return UIAlertAction(title: "Login Again", style: .default) { _ in
             UserDefaultManager.shared.setLoginStatus(false)
+            GlobalAlertGuard.didShow401Alert = false
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
              let navigationController = UINavigationController(rootViewController: welcomeVc)
              navigationController.modalPresentationStyle = .fullScreen
@@ -58,12 +58,19 @@ class AlertActions {
         return UIAlertAction(title: "Logout", style: .destructive) { _ in
             UserDefaultManager.shared.setLoginStatus(false)
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
-             let navigationController = UINavigationController(rootViewController: welcomeVc)
-             navigationController.modalPresentationStyle = .fullScreen
-             navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
-            let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-            sceneDelegate?.window?.rootViewController = navigationController
+            if let rootNav = UIApplication.shared.connectedScenes
+                        .compactMap({ ($0.delegate as? SceneDelegate)?.window?.rootViewController as? UINavigationController }) // safely cast
+                .first {
+                rootNav.navigationBar.isTranslucent = true
+                rootNav.view.backgroundColor = .clear
+                rootNav.navigationBar.backgroundColor = .clear
+                rootNav.setViewControllers([welcomeVc], animated: true)
+                
+            }
             
         }
     }
+}
+class GlobalAlertGuard {
+    static var didShow401Alert = false
 }

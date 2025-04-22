@@ -60,17 +60,22 @@ class CameraManager: NSObject, AVCaptureMetadataOutputObjectsDelegate {
             session.stopRunning()
             if let qrResponse = decodeQRPayload(from: value){
                 onCodeScanned(qrResponse)
+            }else{
+                ToastManager.shared.showToast(message: "Invalid QR Code")
+                DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1.5){
+                    self.session.startRunning()
+                }
             }
         }
     }
-    func decodeQRPayload(from jsonString: String) -> QRPayload? {
-        guard let data = jsonString.data(using: .utf8) else { return nil }
-        do {
-            let decoded = try JSONDecoder().decode(QRPayloadContainer.self, from: data)
-            return decoded.payload
-        } catch {
-            print("Decoding error:", error)
-            return nil
-        }
+    func decodeQRPayload(from scannedString: String) -> QRPayload? {
+        guard let url = URL(string: scannedString),
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let encryptedPayload = components.queryItems?.first(where: { $0.name == "data" })?.value
+        else {return nil}
+        guard let decryptedText = DeepLinkManager.shared.decryptPayload(encryptedBase64: encryptedPayload, password: "Ankit@Sinha") else {return nil}
+        guard let payload = DeepLinkManager.shared.decodeDecryptedPayload(decryptedText: decryptedText) else {return nil}
+        return payload
     }
+
 }

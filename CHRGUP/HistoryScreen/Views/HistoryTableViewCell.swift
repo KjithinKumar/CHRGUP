@@ -26,6 +26,9 @@ class HistoryTableViewCell: UITableViewCell {
         vehicleLabel.updateShimmerLayout()
         timeLabel.updateShimmerLayout()
     }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -75,6 +78,7 @@ class HistoryTableViewCell: UITableViewCell {
             timeLabel.stopShimmering()
             timeLabel.textColor = ColorManager.subtitleTextColor
             timeLabel.backgroundColor = .clear
+            configureUI()
         }
     }
     func configureUI(){

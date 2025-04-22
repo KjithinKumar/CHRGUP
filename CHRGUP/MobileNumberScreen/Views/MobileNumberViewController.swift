@@ -90,7 +90,6 @@ class MobileNumberViewController: UIViewController {
         mobileNumberTextField.tag = 0
         mobileNumberTextField.layer.borderWidth = 1
         mobileNumberTextField.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor
-        
 
         mobileNumberLabel.textColor = ColorManager.textColor
         mobileNumberLabel.font = FontManager.regular()
@@ -117,8 +116,6 @@ class MobileNumberViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTermsTap))
         termsLabel.addGestureRecognizer(tapGesture)
         
-        
-        
         checkButton.backgroundColor = ColorManager.backgroundColor
         checkButton.setImage(nil, for: .normal)
         checkButton.tintColor = ColorManager.backgroundColor
@@ -127,14 +124,9 @@ class MobileNumberViewController: UIViewController {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(gesture)
     }
-    func configureNavBar(){
-        navigationItem.backButtonTitle = ""
+    func configureNavBar() {
+        
     }
-    
-    @objc func backButtonTapped(){
-        navigationController?.popViewController(animated: true)
-    }
-    
     func openURL(_ urlString: String) {
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url)

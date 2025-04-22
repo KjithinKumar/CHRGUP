@@ -27,10 +27,10 @@ class RatingView: UIView {
     private func setupStars() {
         let stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = 10
-        stack.alignment = .center
+        stack.alignment = .leading
         stack.distribution = .fillEqually
-
+        stack.spacing = 10
+        
         for index in 0..<5 {
             let star = LottieAnimationView(name: "star_anim")
             star.contentMode = .scaleAspectFit

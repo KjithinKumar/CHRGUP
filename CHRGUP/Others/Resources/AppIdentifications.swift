@@ -16,5 +16,10 @@ struct AppIdentifications{
     struct GoolgeMaps{
         static let ApiKey = "AIzaSyAm1SMrGRzbMLGmK3uxDKa2Ud0aJr1NjhE"
     }
+    
+    struct RazorPay{
+        static let key = "rzp_test_VqEUdibo7SvawM"
+        static let secret = "9QBEFUXxlTJHOr2YlTZeHzjA"
+    }
 }
 

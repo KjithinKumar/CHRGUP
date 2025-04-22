@@ -14,7 +14,8 @@ protocol MapViewModelDelegate : AnyObject {
 }
 protocol MapScreenViewModelInterface : AnyObject{
     var delegate: MapViewModelDelegate? { get set }
-    func requestLocationPermission()
+    func requestLocationPermissionIfNeeded()
+    func isLocationPermissionGranted() -> Bool
     func fetchchargerLocation(lat : Double, lon : Double, range : Int,completion : @escaping (Result<ChargerRangeresponse,Error>) -> Void)
     func fetchLocationById(id : String,completion : @escaping (Result<ChargerLocationResponseById,Error>) -> Void)
     func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void)
@@ -76,24 +77,35 @@ extension MapScreenViewModel : CLLocationManagerDelegate{
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
-    func requestLocationPermission() {
+    // MARK: - Permission Check
+    func isLocationPermissionGranted() -> Bool {
         let status = locationManager.authorizationStatus
-        if status == .notDetermined {
-            locationManager.requestWhenInUseAuthorization()
-        }else if status == .denied || status == .restricted {
+        if status == .denied || status == .restricted {
             ToastManager.shared.showToast(message: "Please allow location access in settings")
         }
-        else {
-            locationManager.startUpdatingLocation()
-        }
+        return status == .authorizedAlways || status == .authorizedWhenInUse
     }
-
+    
+    // MARK: - Request Permission (does NOT start updating)
+    func requestLocationPermissionIfNeeded() {
+        let status = locationManager.authorizationStatus
+        switch status {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            ToastManager.shared.showToast(message: "Please allow location access in settings")
+        default:
+            break
+        }
+        locationManager.startUpdatingLocation()
+        
+    }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         delegate?.didUpdateUserLocation(location)
         locationManager.stopUpdatingLocation() // Stop after getting the location
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         delegate?.didFailWithError(error)
     }

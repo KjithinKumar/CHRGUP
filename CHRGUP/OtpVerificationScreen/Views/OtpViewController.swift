@@ -54,6 +54,7 @@ class OtpViewController: UIViewController {
         setVerifyButtonState(.verify)
     }
     deinit {
+        debugPrint("otp screen deinit")
         removeKeyboardNotifications()
     }
     
@@ -117,7 +118,6 @@ class OtpViewController: UIViewController {
         button.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
     }
 
-    
 }
 
 extension OtpViewController : UITextFieldDelegate{
@@ -134,7 +134,6 @@ extension OtpViewController : UITextFieldDelegate{
             i.font = FontManager.bold(size: 17)
             i.layer.cornerRadius = 8
             i.layer.masksToBounds = true
-            //i.textContentType = .oneTimeCode
             i.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             
         }
@@ -144,12 +143,9 @@ extension OtpViewController : UITextFieldDelegate{
         guard let text = textField.text else {return false}
         let isDeleting = string.isEmpty  // Detect backspace
         if let _ = string.rangeOfCharacter(from: .decimalDigits), string.count == otpTextFields.count {
-            
-            // Split and assign digits to respective text fields
             for (index, char) in string.enumerated() {
                 otpTextFields[index].text = String(char)
             }
-            
             checkIfOTPIsEntered()
             return false
         }
@@ -158,14 +154,11 @@ extension OtpViewController : UITextFieldDelegate{
             
             if isDeleting {
                 if !text.isEmpty {
-                    // If the field has text, just delete it
                     textField.text = ""
-                    // Move to the previous field if empty and backspace is pressed
                     if currentIndex > 0 {
                         let previousTextField = otpTextFields[currentIndex - 1]
                         previousTextField.becomeFirstResponder() // Move cursor back
                     }
-                    
                     return false
                 }
             }
@@ -176,16 +169,11 @@ extension OtpViewController : UITextFieldDelegate{
                 }
                 checkIfOTPIsEntered()
             }
-            
-            // Ensure only one character is entered per field
             if text.isEmpty && string.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil {
                 textField.text = string
-                
-                // Move to the next field
                 if currentIndex < otpTextFields.count - 1 {
                     otpTextFields[currentIndex + 1].becomeFirstResponder()
                 }
-                
                 checkIfOTPIsEntered()
                 return false
             }
@@ -201,10 +189,9 @@ extension OtpViewController : UITextFieldDelegate{
         textField.layer.borderColor = ColorManager.primaryColor.cgColor
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        // Ensure text fields are filled in order
         if let index = otpTextFields.firstIndex(of: textField) {
             if index > 0 && otpTextFields[index - 1].text?.isEmpty == true {
-                return false // Prevent editing if previous field is empty
+                return false
             }
         }
         return true
@@ -212,24 +199,19 @@ extension OtpViewController : UITextFieldDelegate{
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
-            textField.layer.borderColor = ColorManager.primaryColor.cgColor // Keep border color if text exists
+            textField.layer.borderColor = ColorManager.primaryColor.cgColor
         } else {
-            textField.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor // Reset if empty
+            textField.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor
         }
     }
     @objc func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text, !text.isEmpty else { return }
-        
         if let index = otpTextFields.firstIndex(of: textField) {
-            // Ensure only one character is present
             textField.text = String(text.prefix(1))
-            
-            // Move to the next text field if not the last
             if index < otpTextFields.count - 1 {
                 otpTextFields[index + 1].becomeFirstResponder()
             }
         }
-        
         checkIfOTPIsEntered()
     }
 }
@@ -254,7 +236,6 @@ extension OtpViewController{
                 }
             }
         }
-        
     }
     private func startTimer() {
         secondsRemaining = 30
@@ -303,9 +284,9 @@ extension OtpViewController{
         if isFilled {
             verifyButton.backgroundColor = ColorManager.primaryColor
             verifyButton.isEnabled = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.verifyButtonPressed(self.verifyButton ?? UIButton())
-            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                self.verifyButtonPressed(self.verifyButton ?? UIButton())
+//            }
         }else{
             verifyButton.isEnabled = false
             verifyButton.backgroundColor = ColorManager.secondaryBackgroundColor
@@ -355,26 +336,22 @@ extension OtpViewController{
     }
     
     func maskPhoneNumber(_ phoneNumber: String) -> String {
-        guard phoneNumber.count >= 4 else { return phoneNumber } // Ensure the number is valid
-        
-        let lastFour = phoneNumber.suffix(4) // Get last 4 digits
-        let maskedPart = String(repeating: "*", count: 6) // Mask remaining
+        guard phoneNumber.count >= 4 else { return phoneNumber }
+        let lastFour = phoneNumber.suffix(4)
+        let maskedPart = String(repeating: "*", count: 6)
         return maskedPart + lastFour
     }
     @objc func handleBackButton() {
         let currentTime = Date().timeIntervalSince1970
-        
         if currentTime - lastBackPressedTime < 2 {
             backButtonTapped()
         } else {
             showToast(message: AppStrings.Otp.toastMessage)
         }
-        
         lastBackPressedTime = currentTime
     }
     private func showToast(message: String) {
         toastLabel?.removeFromSuperview()
-        
         let toast = UILabel()
         toast.text = message
         toast.textAlignment = .center
@@ -383,10 +360,8 @@ extension OtpViewController{
         toast.layer.cornerRadius = 20
         toast.clipsToBounds = true
         toast.frame = CGRect(x: 50, y: self.view.safeAreaInsets.top+10 , width: self.view.frame.width - 100, height: 40)
-        
         self.view.addSubview(toast)
         toastLabel = toast
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             toast.removeFromSuperview()
         }
@@ -419,9 +394,6 @@ extension OtpViewController : OtpViewModelDelegate {
     }
     
     func didRegisterSuccessfully(userProfile: UserProfile, sessionData: SessionData?,token: String) {
-        debugPrint("fetched User Profile from API - \(userProfile)")
-        debugPrint("fetched session Data from API - \(String(describing: sessionData))")
-        debugPrint("fetched token from API - \(token)")
         UserDefaultManager.shared.saveUserProfile(userProfile)
         UserDefaultManager.shared.saveSelectedVehicle(userProfile.userVehicle[0])
         UserDefaultManager.shared.setJWTToken(token)
@@ -429,20 +401,12 @@ extension OtpViewController : OtpViewModelDelegate {
             UserDefaultManager.shared.saveFavouriteLocation(chargerLocation)
         }
         UserDefaultManager.shared.saveSessionId(sessionData?.sessionId)
-        debugPrint("checking user from userdefaults - \(String(describing: UserDefaultManager.shared.getUserProfile()))")
-        debugPrint("checking JWTToken from userdefaults - \(String(describing: UserDefaultManager.shared.getJWTToken()))")
-        debugPrint("checking user vehicle from userdefaults - \(String(describing: UserDefaultManager.shared.getSelectedVehicle()))")
-        
         DispatchQueue.main.async{
             let MapVc = MapScreenViewController()
             MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
-            let navigationController = UINavigationController(rootViewController: MapVc)
-            navigationController.modalPresentationStyle = .fullScreen
-            self.present(navigationController, animated: true)
+            self.navigationController?.setViewControllers([MapVc], animated: true)
         }
-        
     }
-    
     func didFailToRegister(error: String) {
         debugPrint(error.description)
     }
