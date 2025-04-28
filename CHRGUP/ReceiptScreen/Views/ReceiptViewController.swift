@@ -221,7 +221,6 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    debugPrint(response)
                     if response.status == "authorized" {
                         let amount = self.grandTotal ?? 0
                         self.viewModel?.capturePayment(paymentId: paymentId, amount: amount) { [weak self] result in

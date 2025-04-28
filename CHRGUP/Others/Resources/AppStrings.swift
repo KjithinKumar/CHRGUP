@@ -220,4 +220,8 @@ struct AppStrings {
         static let paymentMethodText = "Payment Mode"
     }
     
+    struct signUp{
+        static let title = "Create an account to access more features"
+    }
+    
 }

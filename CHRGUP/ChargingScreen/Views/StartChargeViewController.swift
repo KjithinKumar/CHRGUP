@@ -184,8 +184,12 @@ class StartChargeViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "Charging started")
+                        Task {
+                            ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress")
+                        }
                         let statusVc = ChargingStatusViewController()
                         statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
+                        statusVc.requestNotificationPermission()
                         self.navigationController?.setViewControllers([statusVc], animated: true)
                     }else{
                         self.showAlert(title: "Error", message: response.message ?? "Something went wrong")

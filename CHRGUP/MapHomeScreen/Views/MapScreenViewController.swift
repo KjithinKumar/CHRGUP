@@ -187,6 +187,7 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
         let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [200], backgroundColors: [ColorManager.primaryColor])
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        renderer.minimumClusterSize = 2
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
         renderer.delegate = self
         clusterManager?.setDelegate(self, mapDelegate: self)
@@ -209,7 +210,7 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
         let topCenterLocation = CLLocation(latitude: topCenter.latitude, longitude: topCenter.longitude)
 
         let distanceInMeters = centerLocation.distance(from: topCenterLocation)
-        return Int(distanceInMeters / 1000) // convert to kilometers if needed
+        return Int(distanceInMeters / 1000)
     }
     func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
         didTapCluster = true
@@ -236,11 +237,10 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
                 self.chargerDetailTableView.reloadData()
             }
             let location = CLLocation(latitude: marker.layer.latitude, longitude: marker.layer.longitude)
-            animateStepToUserLocation(location)
+            animateStepToLocation(location)
             if let icon = self.markerIcon(for: clusterItem.chargers?.chargerInfo) {
                 marker.icon = self.resizeMarkerImage(image: icon, scale: 1.3)
                 self.selectedCharger = nil
-                self.clusterManager?.cluster()
             }
             
             viewModel?.fetchLocationById(id: clusterItem.chargers?.id ?? "") { [weak self]result in
@@ -272,7 +272,6 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         hideBottomCard()
         selectedCharger = nil
-        clusterManager?.cluster()
     }
 }
 
@@ -281,23 +280,26 @@ extension MapScreenViewController : MapViewModelDelegate {
     func didUpdateUserLocation(_ location: CLLocation) {
         self.userLocation = location
         UserDefaultManager.shared.saveUserCurrentLocation(location.coordinate.latitude, location.coordinate.longitude)
-        animateStepToUserLocation(location)
+        animateStepToLocation(location, zoom: 14)
     }
     func didFailWithError(_ error: any Error) {
         debugPrint(error)
     }
-    func animateStepToUserLocation(_ location: CLLocation) {
+    func animateStepToLocation(_ location: CLLocation, zoom: Float? = nil) {
         guard let mapView = mapView else { return }
         let coord = location.coordinate
         CATransaction.begin()
         CATransaction.setValue(0.25, forKey: kCATransactionAnimationDuration)
         mapView.animate(toLocation: coord)
         CATransaction.commit()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-            CATransaction.begin()
-            CATransaction.setValue(0.5, forKey: kCATransactionAnimationDuration)
-            mapView.animate(toZoom: 14)
-            CATransaction.commit()
+
+        if let zoomLevel = zoom {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                CATransaction.begin()
+                CATransaction.setValue(0.5, forKey: kCATransactionAnimationDuration)
+                mapView.animate(toZoom: zoomLevel)
+                CATransaction.commit()
+            }
         }
     }
 }

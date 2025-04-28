@@ -7,6 +7,7 @@
 
 import UIKit
 import Lottie
+import UserNotifications
 
 class ChargingStatusViewController: UIViewController {
     @IBOutlet weak var dismissButton: UIButton!
@@ -27,14 +28,15 @@ class ChargingStatusViewController: UIViewController {
     var pingTimer : Timer?
     var labelUpdateTimer: Timer?
     var lastPingDate: Date?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
         setUpAnimations()
-        requestNotificationPermission()
         startPingTimer()
-        
+        requestNotificationPermission()
+        Task {
+            ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress")
+        }
     }
     deinit{
         pingTimer?.invalidate()
@@ -67,6 +69,10 @@ class ChargingStatusViewController: UIViewController {
                             receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
                             self.navigationController?.navigationBar.isHidden = false
                             self.navigationController?.setViewControllers([receiptVc], animated: true)
+                            self.pingTimer?.invalidate()
+                            Task {
+                                await ChargingLiveActivityManager.endActivity()
+                            }
                         }
                     }else{
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
@@ -183,23 +189,6 @@ class ChargingStatusViewController: UIViewController {
             self.fetchData()
         }
     }
-    
-    
-    func requestNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options: [.alert, .badge, .sound]) {
-            success, error in
-            if success {
-                print("Permission Granted")
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            } else if let error = error {
-                print("Permission Denied: \(error)")
-            }
-        }
-        
-    }
     @objc func fetchData(){
         lastPingDate = Date()
         viewModel?.fetchChargingStatus { [weak self] result in
@@ -215,6 +204,9 @@ class ChargingStatusViewController: UIViewController {
                             let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
                             self.eneryconsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
+                            Task {
+                                await ChargingLiveActivityManager.updateActivity(time: chargingTime?.string ?? "", energy: energyConsumed)
+                            }
                         }
                     }else{
                         self.showAlert(title: "Error", message: response.message)
@@ -287,5 +279,51 @@ class ChargingStatusViewController: UIViewController {
 
         let kilowattHours = wattHours / 1000
         return String(format: "%.4f kWh", kilowattHours)
+    }
+}
+
+extension ChargingStatusViewController : UNUserNotificationCenterDelegate {
+    func requestNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        center.requestAuthorization(options: [.alert, .badge, .sound]) {
+            success, error in
+            if success {
+                print("Permission Granted")
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                    self.sendChargingStartedNotification()
+                }
+            } else if let error = error {
+                print("Permission Denied: \(error)")
+            }
+        }
+    }
+    func sendChargingStartedNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Charging Started"
+        content.body = "Your vehicle charging has started successfully."
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
+        
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: content,
+            trigger: trigger
+        )
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                debugPrint("Error scheduling local notification: \(error.localizedDescription)")
+            } else {
+                debugPrint("Local notification scheduled.")
+            }
+        }
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                     willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .sound, .list])
     }
 }

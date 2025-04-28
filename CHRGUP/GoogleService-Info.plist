@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>665573547274-j6doccv8ju866h5f60s65f3bnd6svbsg.apps.googleusercontent.com</string>
+	<string>665573547274-nhnpdek1opjdqkr9nquprd6n9f13tg69.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.665573547274-j6doccv8ju866h5f60s65f3bnd6svbsg</string>
+	<string>com.googleusercontent.apps.665573547274-nhnpdek1opjdqkr9nquprd6n9f13tg69</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>665573547274-ujssuc9gdhpu8ul8alaa8vvssmcrj36o.apps.googleusercontent.com</string>
+	<string>665573547274-erc9bj1d9hoipqj2bsmc0j6vot1jsro8.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCMG0WLQVGOZAmKpMo0QDA1fIp3KccZmt0</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.consumer.CHRGUP</string>
+	<string>com.esyasoft.mobilityconsumerCHRGUP</string>
 	<key>PROJECT_ID</key>
 	<string>chrgup-india</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:665573547274:ios:4dab80cf2dbe53f658aef3</string>
+	<string>1:665573547274:ios:5be521bc3ef94f4458aef3</string>
 </dict>
 </plist>

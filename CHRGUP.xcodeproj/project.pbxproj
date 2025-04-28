@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		041554F52DB615A900475DD7 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 041554F42DB615A900475DD7 /* CryptoSwift */; };
+		043DE6A82DBA4BE3000E5461 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 043DE6A72DBA4BE3000E5461 /* FirebaseCore */; };
+		043DE6AA2DBA4BE3000E5461 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 043DE6A92DBA4BE3000E5461 /* FirebaseMessaging */; };
+		045021142DBB92CD00A48BD9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */; };
+		045021152DBB92CD00A48BD9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */; };
+		045021222DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 046D569F2D7C5AC100B6B654 /* SDWebImage */; };
 		046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */; };
 		047F6C0C2DB26B7B00AAC6D2 /* RazorpayCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 047F6C0B2DB26B7B00AAC6D2 /* RazorpayCheckout */; };
@@ -21,7 +26,34 @@
 		C1DF051A9902C3632A484231 /* Pods_CHRGUP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		045021202DBB92CD00A48BD9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04DAC9662D6DB3F800EB4FB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 045021122DBB92CD00A48BD9;
+			remoteInfo = ChargingStausLiveActivityExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04501CCF2DBB7A2600A48BD9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				045021222DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChargingStausLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHRGUP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32950A6D190C67D6354BB407 /* Pods-CHRGUP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.release.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.release.xcconfig"; sourceTree = "<group>"; };
 		70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.debug.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.debug.xcconfig"; sourceTree = "<group>"; };
@@ -29,6 +61,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		045021262DBB92CD00A48BD9 /* Exceptions for "ChargingStausLiveActivity" folder in "ChargingStausLiveActivityExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				Info.plist,
+			);
+			target = 045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */;
+		};
+		04A81EE92DBBA42A008C99A5 /* Exceptions for "ChargingStausLiveActivity" folder in "CHRGUP" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ChargingLiveActivityManager.swift,
+				ChargingStatusAttributes.swift,
+			);
+			target = 04DAC96D2D6DB3F800EB4FB8 /* CHRGUP */;
+		};
 		04DAC9802D6DB3FA00EB4FB8 /* Exceptions for "CHRGUP" folder in "CHRGUP" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -39,6 +87,15 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		045021162DBB92CD00A48BD9 /* ChargingStausLiveActivity */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				04A81EE92DBBA42A008C99A5 /* Exceptions for "ChargingStausLiveActivity" folder in "CHRGUP" target */,
+				045021262DBB92CD00A48BD9 /* Exceptions for "ChargingStausLiveActivity" folder in "ChargingStausLiveActivityExtension" target */,
+			);
+			path = ChargingStausLiveActivity;
+			sourceTree = "<group>";
+		};
 		04DAC9702D6DB3F800EB4FB8 /* CHRGUP */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -50,18 +107,29 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		045021102DBB92CD00A48BD9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				045021152DBB92CD00A48BD9 /* SwiftUI.framework in Frameworks */,
+				045021142DBB92CD00A48BD9 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DAC96B2D6DB3F800EB4FB8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				04BEF12F2D786CA9005A3979 /* GoogleSignIn in Frameworks */,
 				04BEF12A2D7861A5005A3979 /* FirebaseCrashlytics in Frameworks */,
+				043DE6AA2DBA4BE3000E5461 /* FirebaseMessaging in Frameworks */,
 				048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */,
 				04BEF1262D7861A5005A3979 /* FirebaseAnalytics in Frameworks */,
 				046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */,
 				041554F52DB615A900475DD7 /* CryptoSwift in Frameworks */,
 				04BEF1312D786CA9005A3979 /* GoogleSignInSwift in Frameworks */,
 				04BEF12C2D7861A5005A3979 /* FirebasePerformance in Frameworks */,
+				043DE6A82DBA4BE3000E5461 /* FirebaseCore in Frameworks */,
 				046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */,
 				04BEF1282D7861A5005A3979 /* FirebaseAuth in Frameworks */,
 				047F6C0C2DB26B7B00AAC6D2 /* RazorpayCheckout in Frameworks */,
@@ -76,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				04DAC9702D6DB3F800EB4FB8 /* CHRGUP */,
+				045021162DBB92CD00A48BD9 /* ChargingStausLiveActivity */,
 				04DAC96F2D6DB3F800EB4FB8 /* Products */,
 				06C4FE6238F0ACDF2478F1FA /* Pods */,
 				48A1D4C702373511978A2D0F /* Frameworks */,
@@ -86,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */,
+				045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +173,8 @@
 			isa = PBXGroup;
 			children = (
 				F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */,
+				04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */,
+				04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -110,6 +182,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 045021252DBB92CD00A48BD9 /* Build configuration list for PBXNativeTarget "ChargingStausLiveActivityExtension" */;
+			buildPhases = (
+				0450210F2DBB92CD00A48BD9 /* Sources */,
+				045021102DBB92CD00A48BD9 /* Frameworks */,
+				045021112DBB92CD00A48BD9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				045021162DBB92CD00A48BD9 /* ChargingStausLiveActivity */,
+			);
+			name = ChargingStausLiveActivityExtension;
+			packageProductDependencies = (
+			);
+			productName = ChargingStausLiveActivityExtension;
+			productReference = 045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		04DAC96D2D6DB3F800EB4FB8 /* CHRGUP */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04DAC9812D6DB3FA00EB4FB8 /* Build configuration list for PBXNativeTarget "CHRGUP" */;
@@ -119,10 +213,12 @@
 				04DAC96B2D6DB3F800EB4FB8 /* Frameworks */,
 				04DAC96C2D6DB3F800EB4FB8 /* Resources */,
 				1312D090DD39719C81AF5B1A /* [CP] Copy Pods Resources */,
+				04501CCF2DBB7A2600A48BD9 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				045021212DBB92CD00A48BD9 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				04DAC9702D6DB3F800EB4FB8 /* CHRGUP */,
@@ -140,6 +236,8 @@
 				048B05C62D7DFB9A00763C9C /* Lottie */,
 				047F6C0B2DB26B7B00AAC6D2 /* RazorpayCheckout */,
 				041554F42DB615A900475DD7 /* CryptoSwift */,
+				043DE6A72DBA4BE3000E5461 /* FirebaseCore */,
+				043DE6A92DBA4BE3000E5461 /* FirebaseMessaging */,
 			);
 			productName = CHRGUP;
 			productReference = 04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */;
@@ -152,9 +250,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
+					045021122DBB92CD00A48BD9 = {
+						CreatedOnToolsVersion = 16.3;
+					};
 					04DAC96D2D6DB3F800EB4FB8 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -183,11 +284,19 @@
 			projectRoot = "";
 			targets = (
 				04DAC96D2D6DB3F800EB4FB8 /* CHRGUP */,
+				045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		045021112DBB92CD00A48BD9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DAC96C2D6DB3F800EB4FB8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -244,6 +353,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0450210F2DBB92CD00A48BD9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DAC96A2D6DB3F800EB4FB8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -253,7 +369,71 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		045021212DBB92CD00A48BD9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */;
+			targetProxy = 045021202DBB92CD00A48BD9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		045021232DBB92CD00A48BD9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SC7AF9LK93;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChargingStausLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChargingStausLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esyasoft.mobilityconsumerCHRGUP.ChargingStausLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		045021242DBB92CD00A48BD9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SC7AF9LK93;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ChargingStausLiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ChargingStausLiveActivity;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esyasoft.mobilityconsumerCHRGUP.ChargingStausLiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		04DAC9822D6DB3FA00EB4FB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */;
@@ -263,12 +443,15 @@
 				CODE_SIGN_ENTITLEMENTS = CHRGUP/CHRGUP.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NTPZZ6GNZ3;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = SC7AF9LK93;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CHRGUP/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access to scan QR codes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This will help us to locate chargers near you";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -280,7 +463,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.consumer.CHRGUP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esyasoft.mobilityconsumerCHRGUP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -298,12 +481,14 @@
 				CODE_SIGN_ENTITLEMENTS = CHRGUP/CHRGUP.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = NTPZZ6GNZ3;
+				DEVELOPMENT_TEAM = SC7AF9LK93;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CHRGUP/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access to scan QR codes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This will help us to locate chargers near you";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -315,7 +500,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.consumer.CHRGUP;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esyasoft.mobilityconsumerCHRGUP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -448,6 +633,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		045021252DBB92CD00A48BD9 /* Build configuration list for PBXNativeTarget "ChargingStausLiveActivityExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				045021232DBB92CD00A48BD9 /* Debug */,
+				045021242DBB92CD00A48BD9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		04DAC9692D6DB3F800EB4FB8 /* Build configuration list for PBXProject "CHRGUP" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -524,6 +718,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 041554F32DB615A900475DD7 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
 			productName = CryptoSwift;
+		};
+		043DE6A72DBA4BE3000E5461 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04BEF1242D7861A5005A3979 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		043DE6A92DBA4BE3000E5461 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04BEF1242D7861A5005A3979 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		046D569F2D7C5AC100B6B654 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

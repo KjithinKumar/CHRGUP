@@ -89,7 +89,7 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
                 infoVc.delegate = self
             }
         }
-        self.present(infoVc, animated: true, completion: nil)
+        navigationController?.present(infoVc, animated: true, completion: nil)
         tableView.reloadRows(at: [indexPath], with: .none)
     }
     func didTapFavouriteButton(at indexPath: IndexPath) {

@@ -109,7 +109,7 @@ extension FavouriteDockViewController : UITableViewDataSource,UITableViewDelegat
                     infoVc.viewModel = LocationInfoViewModel(locationData: locationData,latitude: latitude, longitude: longitude)
                 }
         }
-        self.present(infoVc, animated: true, completion: nil)
+        navigationController?.present(infoVc, animated: true, completion: nil)
 
     }
 }

@@ -97,10 +97,10 @@ class HistoryInfoViewController: UIViewController {
         titleThreeLabel.textColor = ColorManager.subtitleTextColor
         titleThreeLabel.font = FontManager.regular()
         
+        subtitleThreeLabel.text = "N/A"
         if let transactionId = historyInfo?.transactionId{
             subtitleThreeLabel.text = transactionId
         }
-        subtitleThreeLabel.text = "N/A"
         subtitleThreeLabel.textColor = ColorManager.textColor
         subtitleThreeLabel.font = FontManager.regular()
         

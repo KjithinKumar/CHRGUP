@@ -22,6 +22,7 @@ class MobileNumberViewController: UIViewController {
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var termsLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var TermsStackView: UIStackView!
     
     var authMode: AuthMode = .SignIn
     private var isChecked : Bool = false
@@ -257,7 +258,8 @@ extension MobileNumberViewController{
     override func moveViewForKeyboard(yOffset: CGFloat) {
         signInButton.transform = CGAffineTransform(translationX: 0, y: yOffset)
         activityIndicator.transform = CGAffineTransform(translationX: 0, y: yOffset)
-        termsLabel.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
-        checkButton.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
+//        termsLabel.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
+//        checkButton.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
+        TermsStackView.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
     }
 }
