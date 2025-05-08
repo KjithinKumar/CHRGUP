@@ -36,6 +36,15 @@ extension SplashScreenViewController : SplashViewModelDelegate{
     func navigateToMap() {
         let MapVc = MapScreenViewController()
         MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isTranslucent = false
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = ColorManager.secondaryBackgroundColor
+        appearance.titleTextAttributes = [.foregroundColor: ColorManager.textColor]
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
         navigationController?.setViewControllers([MapVc], animated: true)
     }
     

@@ -59,3 +59,8 @@ struct PaymentDetailsResponse : Decodable{
     let message : String?
     let data : PaymentDetails?
 }
+
+struct PaymentStatusResponse : Decodable{
+    let status : Bool
+    let message : String?
+}

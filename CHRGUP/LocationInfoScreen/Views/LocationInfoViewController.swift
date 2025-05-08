@@ -201,7 +201,7 @@ extension LocationInfoViewController : UITableViewDelegate,UITableViewDataSource
         tableView.register(UINib(nibName: "ChargersTableViewCell", bundle: nil), forCellReuseIdentifier: ChargersTableViewCell.identifier)
         tableView.register(UINib(nibName: "TariffTableViewCell", bundle: nil), forCellReuseIdentifier: TariffTableViewCell.identifier)
         tableView.register(UINib(nibName: "facilitiesTableViewCell", bundle: nil), forCellReuseIdentifier: facilitiesTableViewCell.identifier)
-        tableView.register(UINib(nibName: "titleSubtitleTableViewCell", bundle: nil), forCellReuseIdentifier: titleSubtitleTableViewCell.identifier)
+        tableView.register(UINib(nibName: "LabelSublabelTableViewCell", bundle: nil), forCellReuseIdentifier: LabelSublabelTableViewCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
@@ -221,7 +221,7 @@ extension LocationInfoViewController : UITableViewDelegate,UITableViewDataSource
                         let sortedChargers = locationData.chargerInfo.sorted {
                             (statusPriority[$0.status ?? ""] ?? 1) < (statusPriority[$1.status ?? ""] ?? 1)
                         }
-                        cell.configure(chargerInfo: sortedChargers, pointsAvailable: pointsAvailable)
+                        cell.configure(chargerInfo: sortedChargers, pointsAvailable: pointsAvailable, delegate: self)
                         cell.backgroundColor = .clear
                     }
                 }
@@ -246,21 +246,19 @@ extension LocationInfoViewController : UITableViewDelegate,UITableViewDataSource
                 }
                 return cell
             }
-        case .titleSubTitle:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: titleSubtitleTableViewCell.identifier) as? titleSubtitleTableViewCell{
+        case .titleSubTitle(let subType):
+            if let cell = tableView.dequeueReusableCell(withIdentifier: LabelSublabelTableViewCell.identifier) as? LabelSublabelTableViewCell{
                 if let locationData = viewModel?.locationData{
-                    switch indexPath.row{
-                    case 3:
+                    switch subType{
+                    case .workingHours:
                         let openingHours = "\(locationData.workingDays) | \(locationData.workingHours)"
                         cell.configure(title: AppStrings.ChargerInfo.workingHoursText, subtitle: openingHours)
-                    case 4:
+                    case .address:
                         let address = locationData.address
                         cell.configure(title: AppStrings.ChargerInfo.AddressText, subtitle: address)
-                    case 5:
+                    case .contact:
                         let contact = locationData.salesManager?.phoneNumber ?? locationData.dealer?.phoneNumber ?? ""
                         cell.configure(title: AppStrings.ChargerInfo.contactText, subtitle: contact)
-                    default:
-                        break
                     }
                 }
                 cell.backgroundColor = .clear
@@ -270,5 +268,20 @@ extension LocationInfoViewController : UITableViewDelegate,UITableViewDataSource
             break
         }
         return UITableViewCell()
+    }
+}
+extension LocationInfoViewController: ChargersTableViewCellDelegate{
+    func didSelectRaiseTicket() {
+        if let presentingVC = presentingViewController as? UINavigationController,
+           let _ = presentingVC.viewControllers.first {
+            self.dismiss(animated: true) {
+                presentingVC.popToRootViewController(animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    let helpAndSupportVc = HelpandSupportViewController()
+                    helpAndSupportVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager(), delegate: nil)
+                    presentingVC.pushViewController(helpAndSupportVc, animated: true)
+                }
+            }
+        }
     }
 }

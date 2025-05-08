@@ -48,7 +48,7 @@ class GoogleSignInHelper{
                 let firstName = nameComponents.first?.trimmingCharacters(in: .whitespaces) ?? "No First Name"
                 let lastName = nameComponents.dropFirst().joined(separator: " ").trimmingCharacters(in: .whitespaces) // Join remaining words
 
-                let userDetails = UserProfile(firstName: firstName,
+                let userDetails = UserProfile(id: "", firstName: firstName,
                                               lastName: lastName,
                                               userVehicle: [],
                                               email: user.email ?? "No email",

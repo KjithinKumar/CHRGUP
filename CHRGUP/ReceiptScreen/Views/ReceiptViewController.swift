@@ -228,6 +228,9 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                             DispatchQueue.main.async {
                                 switch result {
                                 case .success(let response):
+                                    UserDefaultManager.shared.removeChargerId()
+                                    UserDefaultManager.shared.deleteSessionDetails()
+                                    UserDefaultManager.shared.deleteSessionStartTime()
                                     self.postPaymentToServer(details: response)
                                 case .failure(let error):
                                     AppErrorHandler.handle(error, in: self)
@@ -235,6 +238,9 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                             }
                         }
                     }else if response.status == "captured"{
+                        UserDefaultManager.shared.removeChargerId()
+                        UserDefaultManager.shared.deleteSessionDetails()
+                        UserDefaultManager.shared.deleteSessionStartTime()
                         self.postPaymentToServer(details: response)
                     }
                 case .failure(let error):
@@ -251,9 +257,6 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                     switch result {
                     case .success(let response):
                         if response.status{
-                            UserDefaultManager.shared.removeChargerId()
-                            UserDefaultManager.shared.deleteSessionDetails()
-                            UserDefaultManager.shared.deleteSessionStartTime()
                             self.checkIfReviewed()
                             ToastManager.shared.showToast(message: "Payment Successful")
                         }else{

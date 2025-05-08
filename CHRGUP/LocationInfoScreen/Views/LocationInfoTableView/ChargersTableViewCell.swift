@@ -6,17 +6,21 @@
 //
 
 import UIKit
+protocol ChargersTableViewCellDelegate : AnyObject {
+    func didSelectRaiseTicket()
+}
 
 class ChargersTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var raiseTicketButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var pointsStackView: UIStackView!
     @IBOutlet weak var pointsImageView: UIImageView!
     @IBOutlet weak var pointsLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var callUsLabel: UILabel!
     
     var chargersInfo : [ChargerInfo]?
+    weak var delegate : ChargersTableViewCellDelegate?
     
     static let identifier: String = "ChargersTableViewCell"
     override func awakeFromNib() {
@@ -27,7 +31,8 @@ class ChargersTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    func configure(chargerInfo: [ChargerInfo], pointsAvailable : String){
+    func configure(chargerInfo: [ChargerInfo], pointsAvailable : String, delegate : ChargersTableViewCellDelegate){
+        self.delegate = delegate
         self.chargersInfo = chargerInfo
         titleLabel.text = AppStrings.ChargerInfo.ChargersTitle
         titleLabel.textColor = ColorManager.placeholderColor
@@ -41,21 +46,23 @@ class ChargersTableViewCell: UITableViewCell {
         pointsLabel.text = pointsAvailable + " points available"
         pointsLabel.font = FontManager.light()
         
-        callUsLabel.text = AppStrings.ChargerInfo.issueText
-        callUsLabel.textColor = ColorManager.subtitleTextColor
-        callUsLabel.font = FontManager.light()
-        let callUsRange = (AppStrings.ChargerInfo.issueText as NSString).range(of: "call us")
+        let callUsRange = (AppStrings.ChargerInfo.issueText as NSString).range(of: "Raise a ticket")
         let attributedString = NSMutableAttributedString(
             string: AppStrings.ChargerInfo.issueText,
             attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue,]
         )
         attributedString.addAttribute(.foregroundColor, value: ColorManager.primaryColor, range: callUsRange)
-        callUsLabel.attributedText = attributedString
-        
+        raiseTicketButton.setAttributedTitle(attributedString, for: .normal)
+        raiseTicketButton.setTitleColor(ColorManager.subtitleTextColor, for: .normal)
+        raiseTicketButton.titleLabel?.font = FontManager.light()
+        raiseTicketButton.backgroundColor = .clear
         collectionView.backgroundColor = .clear
         collectionView.reloadData()
+        
     }
-    
+    @IBAction func raiseTicketButtonPressed(_ sender: Any) {
+        delegate?.didSelectRaiseTicket()
+    }
 }
 
 extension ChargersTableViewCell : UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
@@ -84,6 +91,4 @@ extension ChargersTableViewCell : UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: 110, height: 170)
     }
-    
-    
 }

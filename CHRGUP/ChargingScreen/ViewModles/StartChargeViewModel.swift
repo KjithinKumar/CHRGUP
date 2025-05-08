@@ -10,6 +10,7 @@ import Foundation
 protocol StartChargeViewModelInterface {
     func chargerDetails() -> ChargerLocationData?
     func startCharging(phoneNumber: String, qrpayload : QRPayload,completion : @escaping( Result<StartChargeResponseModel,Error>) -> Void)
+    func paymentStatus(completion : @escaping( Result<PaymentStatusResponse,Error>) -> Void)
 }
 
 class StartChargeViewModel: StartChargeViewModelInterface {
@@ -55,5 +56,19 @@ class StartChargeViewModel: StartChargeViewModelInterface {
                 }
             }
         }
+    }
+    func paymentStatus(completion : @escaping( Result<PaymentStatusResponse,Error>) -> Void){
+        let url = URLs.paymentStatusUrl
+        guard let sessionID = UserDefaultManager.shared.getSessionId() else { return }
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        let body : [String:Any] = ["sessionId":sessionID]
+        if let requset = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
+            networkManager?.request(requset, decodeTo: PaymentStatusResponse.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+        
     }
 }

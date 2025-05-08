@@ -22,3 +22,8 @@ struct ChargingStatusModel: Decodable {
     let startTimeIST : String?
     let costPerUnit : Cost?
 }
+
+struct RemoteNotificationsResponse : Decodable {
+    let status : Bool
+    let message : String
+}

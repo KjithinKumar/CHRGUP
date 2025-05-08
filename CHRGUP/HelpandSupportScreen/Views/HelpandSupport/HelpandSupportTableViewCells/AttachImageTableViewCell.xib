@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AttachImageTableViewCell" rowHeight="304" id="KGk-i7-Jjw" customClass="AttachImageTableViewCell" customModule="CHRGUP" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="634" height="304"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="634" height="304"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rSc-n1-biO">
+                        <rect key="frame" x="483" y="10" width="136" height="24"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="  Attach Image" image="paperclip" catalog="system"/>
+                        <connections>
+                            <action selector="attachImageButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="SXG-5M-9qc"/>
+                        </connections>
+                    </button>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="e1Q-QD-CMI">
+                        <rect key="frame" x="419" y="45.666666666666657" width="200" height="246.99999999999997"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="250" id="0D5-vT-GYN"/>
+                            <constraint firstAttribute="width" constant="200" id="geQ-Hb-PM6"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKa-bG-fbp">
+                        <rect key="frame" x="579" y="59" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="F7R-LO-VuP"/>
+                            <constraint firstAttribute="width" constant="25" id="pCp-GY-PEZ"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" image="trash.fill" catalog="system"/>
+                        <connections>
+                            <action selector="deleteImageButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="yPY-hF-nm0"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="e1Q-QD-CMI" firstAttribute="trailing" secondItem="bKa-bG-fbp" secondAttribute="trailing" constant="15" id="0OU-GV-AvG"/>
+                    <constraint firstAttribute="trailing" secondItem="rSc-n1-biO" secondAttribute="trailing" constant="15" id="9NC-D8-BDf"/>
+                    <constraint firstItem="rSc-n1-biO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="9oy-pd-pko"/>
+                    <constraint firstItem="e1Q-QD-CMI" firstAttribute="top" secondItem="rSc-n1-biO" secondAttribute="bottom" constant="10" id="FfY-ov-aht"/>
+                    <constraint firstItem="bKa-bG-fbp" firstAttribute="top" secondItem="e1Q-QD-CMI" secondAttribute="top" constant="15" id="d4n-lm-A3e"/>
+                    <constraint firstAttribute="bottom" secondItem="e1Q-QD-CMI" secondAttribute="bottom" constant="10" id="fRD-jh-TiZ"/>
+                    <constraint firstAttribute="trailing" secondItem="e1Q-QD-CMI" secondAttribute="trailing" constant="15" id="t4C-dD-k1C"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="attachImageButton" destination="rSc-n1-biO" id="T2n-Ui-lRi"/>
+                <outlet property="attachedImageView" destination="e1Q-QD-CMI" id="c2n-vK-xvz"/>
+                <outlet property="deleteImageButton" destination="bKa-bG-fbp" id="bIh-Pe-faM"/>
+                <outlet property="imageViewHeightConstraint" destination="0D5-vT-GYN" id="TCr-eG-fmk"/>
+            </connections>
+            <point key="canvasLocation" x="280.91603053435114" y="26.056338028169016"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="paperclip" catalog="system" width="121" height="128"/>
+        <image name="photo.fill" catalog="system" width="128" height="93"/>
+        <image name="trash.fill" catalog="system" width="117" height="128"/>
+    </resources>
+</document>

@@ -114,4 +114,22 @@ struct URLs{
     static func checkReviewExistUrl(mobileNumber : String, locationId : String) -> String{
         return "\(baseUrl)reviews/hasReviewed/\(mobileNumber)/\(locationId)"
     }
+    
+    static let ticketCategoryUrl = baseUrl + "ticket/category"
+    
+    static let createTicketUrl = baseUrl + "ticket/"
+    
+    static let getTicketUrl = baseUrl + "ticket/user"
+    
+    static let getMessageUrl = baseUrl + "message/"
+    
+    static func getAllMessagesUrl (ticketId : String) -> String{
+        return "\(baseUrl)ticket-message/\(ticketId)"
+    }
+    
+    static let socketUrl = "wss://cms.chrgup.in:8007"
+    
+    static let paymentStatusUrl = baseUrl + "payment/check-payment-status"
+    
+    static let pushNotificationUrl = baseUrl + "notification/register-token"
 }

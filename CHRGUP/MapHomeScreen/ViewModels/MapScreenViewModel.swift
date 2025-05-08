@@ -20,6 +20,7 @@ protocol MapScreenViewModelInterface : AnyObject{
     func fetchLocationById(id : String,completion : @escaping (Result<ChargerLocationResponseById,Error>) -> Void)
     func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void)
     func getFormattedTimeDifference(from dateString: String) -> String
+    func registerForRemoteNotifications(fcmToken: String, completion : @escaping( Result<RemoteNotificationsResponse,Error>) -> Void)
 }
 
 class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
@@ -143,5 +144,18 @@ extension MapScreenViewModel {
         // Format with leading zeros
         let formatted = String(format: "%02d h : %02d m", hours, minutes)
         return formatted
+    }
+    func registerForRemoteNotifications(fcmToken: String, completion : @escaping( Result<RemoteNotificationsResponse,Error>) -> Void) {
+        let url = URLs.pushNotificationUrl
+        guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        let body = ["phoneNumber": mobileNumber, "fcmToken": fcmToken]
+        if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: RemoteNotificationsResponse.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
     }
 }

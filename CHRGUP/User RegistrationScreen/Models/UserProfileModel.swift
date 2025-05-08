@@ -7,6 +7,7 @@
 
 import Foundation
 struct UserProfile: Codable {
+    var id : String
     var firstName: String
     var lastName: String
     var userVehicle: [VehicleModel]
@@ -20,7 +21,7 @@ struct UserProfile: Codable {
     var userFavouriteChargerLocations: [String]?
 
     enum CodingKeys: String, CodingKey {
-        case firstName, lastName, email, gender, dob, city, state, phoneNumber, profilePic
+        case firstName, lastName, email, gender, dob, city, state, phoneNumber, profilePic , id = "_id"
         case userVehicle = "user_vehicle"
         case userFavouriteChargerLocations = "user_favourite_charger_locations"
     }

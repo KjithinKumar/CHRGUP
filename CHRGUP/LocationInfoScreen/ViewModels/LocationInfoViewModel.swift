@@ -11,7 +11,12 @@ enum locationInfoCellType{
     case chargers
     case tarrif
     case facilities
-    case titleSubTitle
+    case titleSubTitle(TitleSubtitleType)
+}
+enum TitleSubtitleType {
+    case workingHours
+    case address
+    case contact
 }
 
 protocol LocationInfoViewModelInterface{
@@ -66,7 +71,7 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
         return locationData?.direction.longitude ?? 0
     }
     
-    var locationCellType : [locationInfoCellType] = [.chargers,.tarrif,.facilities,.titleSubTitle,.titleSubTitle,.titleSubTitle]
+    var locationCellType : [locationInfoCellType] = [.chargers,.tarrif,.facilities,.titleSubTitle(.workingHours),.titleSubTitle(.address),.titleSubTitle(.contact)]
     
     var pointsAvailable : String {
         return "\(locationData?.modpointsAvailable ?? 0)"

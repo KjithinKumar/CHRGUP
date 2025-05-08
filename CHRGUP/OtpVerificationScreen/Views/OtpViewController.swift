@@ -54,7 +54,6 @@ class OtpViewController: UIViewController {
         setVerifyButtonState(.verify)
     }
     deinit {
-        debugPrint("otp screen deinit")
         removeKeyboardNotifications()
     }
     
@@ -400,13 +399,30 @@ extension OtpViewController : OtpViewModelDelegate {
         UserDefaultManager.shared.saveUserProfile(userProfile)
         UserDefaultManager.shared.saveSelectedVehicle(userProfile.userVehicle[0])
         UserDefaultManager.shared.setJWTToken(token)
-        userProfile.userFavouriteChargerLocations?.forEach { (chargerLocation) in
-            UserDefaultManager.shared.saveFavouriteLocation(chargerLocation)
+        if let favouriteLocations = userProfile.userFavouriteChargerLocations{
+            favouriteLocations.forEach { id in
+                UserDefaultManager.shared.saveFavouriteLocation(id)
+            }
         }
         UserDefaultManager.shared.saveSessionId(sessionData?.sessionId)
+        if sessionData?.status == "Started"{
+            UserDefaultManager.shared.saveChargerId(sessionData?.chargerId ?? "")
+            UserDefaultManager.shared.saveSessionStatus(sessionData?.status)
+            UserDefaultManager.shared.saveSessionStartTime(sessionData?.startTime ?? "")
+            UserDefaultManager.shared.saveScannedLocation(sessionData?.locationId ?? "")
+        }
         DispatchQueue.main.async{
             let MapVc = MapScreenViewController()
             MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
+            self.navigationController?.navigationBar.isHidden = false
+            self.navigationController?.navigationBar.isTranslucent = false
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.backgroundColor = ColorManager.secondaryBackgroundColor
+            appearance.titleTextAttributes = [.foregroundColor: ColorManager.textColor]
+            self.navigationController?.navigationBar.standardAppearance = appearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            self.navigationController?.navigationBar.compactAppearance = appearance
             self.navigationController?.setViewControllers([MapVc], animated: true)
         }
     }

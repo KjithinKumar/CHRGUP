@@ -16,6 +16,7 @@ class HelpandSupportTableViewCell: UITableViewCell {
     @IBOutlet weak var settingsImageView: UIImageView!
     @IBOutlet weak var settingTitleLabel: UILabel!
     @IBOutlet weak var stackView: UIStackView!
+    @IBOutlet weak var backView: UIView!
     
     static let identifier = "HelpandSupportTableViewCell"
     private var type : HelpAndSupportType?
@@ -32,12 +33,14 @@ class HelpandSupportTableViewCell: UITableViewCell {
     
     func configure(title : String, image : String, type : HelpAndSupportType,delegate : HelpandSupportDelegate){
         
-        settingsImageView.tintColor = ColorManager.primaryColor
+        settingsImageView.tintColor = ColorManager.textColor
         self.type = type
+        settingTitleLabel.textColor = ColorManager.textColor
         settingTitleLabel.text = title
         settingsImageView.image = UIImage(systemName: image)
-        stackView.layer.cornerRadius = 10
-        stackView.backgroundColor = ColorManager.secondaryBackgroundColor
+        backView.layer.cornerRadius = 10
+        backView.backgroundColor = ColorManager.secondaryBackgroundColor
+        
     }
     
 }

@@ -22,6 +22,7 @@ class ScanQrViewController: UIViewController {
     private var cameraManager: CameraManager?
     var viewModel : ScanQrViewModelInterface?
     private var activityIndicator: UIActivityIndicatorView?
+    var isfromDeepLink : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,7 @@ class ScanQrViewController: UIViewController {
         cameraManager?.stopSession()
     }
     override func viewDidLayoutSubviews() {
+        guard !isfromDeepLink else { return }
         super.viewDidLayoutSubviews()
         cameraManager?.previewLayer?.frame = cameraView.bounds
         if cameraManager == nil {

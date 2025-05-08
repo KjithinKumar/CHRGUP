@@ -9,6 +9,7 @@ import UIKit
 import Lottie
 import UserNotifications
 
+
 class ChargingStatusViewController: UIViewController {
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
@@ -34,9 +35,6 @@ class ChargingStatusViewController: UIViewController {
         setUpAnimations()
         startPingTimer()
         requestNotificationPermission()
-        Task {
-            ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress")
-        }
     }
     deinit{
         pingTimer?.invalidate()
@@ -282,7 +280,7 @@ class ChargingStatusViewController: UIViewController {
     }
 }
 
-extension ChargingStatusViewController : UNUserNotificationCenterDelegate {
+extension ChargingStatusViewController : UNUserNotificationCenterDelegate  {
     func requestNotificationPermission() {
         let center = UNUserNotificationCenter.current()
         center.delegate = self

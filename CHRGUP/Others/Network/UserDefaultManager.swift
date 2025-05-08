@@ -72,6 +72,11 @@ class UserDefaultManager{
     //MARK: - Login Stats
     func setLoginStatus(_ status: Bool) {
         defaults.set(status, forKey: Keys.loggedInUserIdKey)
+        if !status{
+            resetFavouriteLocations()
+            removeChargerId()
+            deleteSessionDetails()
+        }
     }
     func isLoggedIn() -> Bool {
         return defaults.bool(forKey: Keys.loggedInUserIdKey)
@@ -100,8 +105,7 @@ class UserDefaultManager{
         // Append only if it's not already in the list
         if !favourites.contains(locationId) {
             favourites.append(locationId)
-            UserDefaults.standard.setValue(favourites, forKey: Keys.favouriteLocationskey)
-            UserDefaults.standard.synchronize()
+            UserDefaults.standard.set(favourites, forKey: Keys.favouriteLocationskey)
         }
     }
     func getFavouriteLocations() -> [String] {
@@ -125,6 +129,9 @@ class UserDefaultManager{
     }
     func getUserCurrentLocation() -> [Double]?{
         return UserDefaults.standard.array(forKey: Keys.userLocationKey) as? [Double]
+    }
+    func resetUserCurrentLocation() {
+        UserDefaults.standard.removeObject(forKey: Keys.userLocationKey)
     }
     //MARK: - RecentChargerLocation
     func saveRecentChargers(_ chargers: [ChargerLocation]) {
@@ -154,6 +161,10 @@ class UserDefaultManager{
     func saveTimestamp(){
         let currentTime = Date().timeIntervalSince1970
         UserDefaults.standard.setValue(currentTime, forKey: Keys.sessionStartTimeKey)
+        UserDefaults.standard.synchronize()
+    }
+    func saveSessionStartTime(_ timeStamp: String) {
+        UserDefaults.standard.setValue(timeStamp, forKey: Keys.sessionStartTimeKey)
         UserDefaults.standard.synchronize()
     }
     func getSessionStartTime() -> String? {
@@ -207,6 +218,8 @@ class UserDefaultManager{
     func deleteSessionDetails() {
         UserDefaults.standard.removeObject(forKey: Keys.sessionIdKey)
         UserDefaults.standard.removeObject(forKey: Keys.sessionStatusKey)
+        UserDefaults.standard.removeObject(forKey: Keys.scannedLocationId)
+        UserDefaults.standard.removeObject(forKey: Keys.sessionStartTimeKey)
     }
     
 }

@@ -10,6 +10,7 @@
 		041554F52DB615A900475DD7 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 041554F42DB615A900475DD7 /* CryptoSwift */; };
 		043DE6A82DBA4BE3000E5461 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 043DE6A72DBA4BE3000E5461 /* FirebaseCore */; };
 		043DE6AA2DBA4BE3000E5461 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 043DE6A92DBA4BE3000E5461 /* FirebaseMessaging */; };
+		043E2AE92DC5BF87007D4859 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 043E2AE82DC5BF87007D4859 /* SocketIO */; };
 		045021142DBB92CD00A48BD9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */; };
 		045021152DBB92CD00A48BD9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */; };
 		045021222DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -61,10 +62,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		045021262DBB92CD00A48BD9 /* Exceptions for "ChargingStausLiveActivity" folder in "ChargingStausLiveActivityExtension" target */ = {
+		043E2A9E2DBFA454007D4859 /* Exceptions for "ChargingStausLiveActivity" folder in "ChargingStausLiveActivityExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Assets.xcassets,
 				Info.plist,
 			);
 			target = 045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */;
@@ -91,7 +91,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				04A81EE92DBBA42A008C99A5 /* Exceptions for "ChargingStausLiveActivity" folder in "CHRGUP" target */,
-				045021262DBB92CD00A48BD9 /* Exceptions for "ChargingStausLiveActivity" folder in "ChargingStausLiveActivityExtension" target */,
+				043E2A9E2DBFA454007D4859 /* Exceptions for "ChargingStausLiveActivity" folder in "ChargingStausLiveActivityExtension" target */,
 			);
 			path = ChargingStausLiveActivity;
 			sourceTree = "<group>";
@@ -128,6 +128,7 @@
 				046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */,
 				041554F52DB615A900475DD7 /* CryptoSwift in Frameworks */,
 				04BEF1312D786CA9005A3979 /* GoogleSignInSwift in Frameworks */,
+				043E2AE92DC5BF87007D4859 /* SocketIO in Frameworks */,
 				04BEF12C2D7861A5005A3979 /* FirebasePerformance in Frameworks */,
 				043DE6A82DBA4BE3000E5461 /* FirebaseCore in Frameworks */,
 				046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */,
@@ -238,6 +239,7 @@
 				041554F42DB615A900475DD7 /* CryptoSwift */,
 				043DE6A72DBA4BE3000E5461 /* FirebaseCore */,
 				043DE6A92DBA4BE3000E5461 /* FirebaseMessaging */,
+				043E2AE82DC5BF87007D4859 /* SocketIO */,
 			);
 			productName = CHRGUP;
 			productReference = 04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */;
@@ -277,6 +279,7 @@
 				048B05C52D7DFB9A00763C9C /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				047F6C0A2DB26B7B00AAC6D2 /* XCRemoteSwiftPackageReference "razorpay-pod" */,
 				041554F32DB615A900475DD7 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
+				043E2AE72DC5BF87007D4859 /* XCRemoteSwiftPackageReference "socket" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04DAC96F2D6DB3F800EB4FB8 /* Products */;
@@ -671,6 +674,14 @@
 				minimumVersion = 1.8.4;
 			};
 		};
+		043E2AE72DC5BF87007D4859 /* XCRemoteSwiftPackageReference "socket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -728,6 +739,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04BEF1242D7861A5005A3979 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		043E2AE82DC5BF87007D4859 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 043E2AE72DC5BF87007D4859 /* XCRemoteSwiftPackageReference "socket" */;
+			productName = SocketIO;
 		};
 		046D569F2D7C5AC100B6B654 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -157,6 +157,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .helpandsupport:
             let helpAndSupportVc = HelpandSupportViewController()
+            helpAndSupportVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager(), delegate: nil)
             dismissView()
             DispatchQueue.main.async{
                 self.delegate?.didSelectMenuOption(helpAndSupportVc)

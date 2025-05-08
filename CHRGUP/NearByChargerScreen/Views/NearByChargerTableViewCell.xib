@@ -20,8 +20,8 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vIZ-LF-vbx">
                         <rect key="frame" x="15" y="5" width="401" height="236"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forum Mall, Kormangala" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HiH-S3-Uc8">
-                                <rect key="frame" x="20" y="25" width="183.66666666666666" height="20.333333333333329"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forum Mall, Kormangala" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="HiH-S3-Uc8">
+                                <rect key="frame" x="20" y="25" width="296" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -189,6 +189,7 @@
                             <constraint firstItem="HiH-S3-Uc8" firstAttribute="top" secondItem="vIZ-LF-vbx" secondAttribute="top" constant="25" id="jZY-uS-kvV"/>
                             <constraint firstAttribute="trailing" secondItem="qQn-L1-WCr" secondAttribute="trailing" constant="20" id="l46-lQ-lgQ"/>
                             <constraint firstItem="L3s-gv-s9l" firstAttribute="width" secondItem="vIZ-LF-vbx" secondAttribute="width" multiplier="0.55" id="mh4-Zs-d9x"/>
+                            <constraint firstItem="qQn-L1-WCr" firstAttribute="leading" secondItem="HiH-S3-Uc8" secondAttribute="trailing" constant="10" id="ylS-CK-efy"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -232,10 +233,10 @@
         <image name="p.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="separatorColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

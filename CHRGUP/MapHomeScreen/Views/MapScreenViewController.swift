@@ -10,6 +10,8 @@ import GoogleMaps
 import CoreLocation
 import GoogleMapsUtils
 import Lottie
+import FirebaseMessaging
+import UserNotifications
 
 class MapScreenViewController: UIViewController{
     
@@ -60,6 +62,7 @@ class MapScreenViewController: UIViewController{
             let visibleRadius = getVisibleRadius(from: mapView)
             setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
         }
+        navigationItem.title = "Map"
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = ""
@@ -82,6 +85,7 @@ class MapScreenViewController: UIViewController{
             let scanVc = ScanQrViewController()
             scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
             scanVc.modalPresentationStyle = .fullScreen
+            scanVc.isfromDeepLink = true
             scanVc.fetchChargerDetails(id: qRPayload.chargerId, scannedCode: qRPayload)
             let navController = UINavigationController(rootViewController: scanVc)
             navController.modalPresentationStyle = .fullScreen
@@ -104,19 +108,21 @@ class MapScreenViewController: UIViewController{
         scanQRButton.imageView?.tintColor = ColorManager.backgroundColor
         scanQRButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         scanQRButton.backgroundColor = ColorManager.primaryColor
-    }
+        
+        let imageView = UIImageView(image: UIImage(named: "AppLogo"))
+        imageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        imageView.tintColor = ColorManager.textColor
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        navigationItem.titleView = imageView
+        }
     
     func setUpNavBar(){
-        navigationController?.navigationBar.isHidden = false
-        navigationController?.view.backgroundColor = ColorManager.secondaryBackgroundColor
-        navigationController?.navigationBar.backgroundColor = ColorManager.secondaryBackgroundColor
-        navigationController?.navigationBar.tintColor = ColorManager.textColor
-        navigationController?.navigationBar.isTranslucent = false
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(leftMenuTapped))
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchMenuTapped))
     }
+    
     @IBAction func scanQRButtonPressed(_ sender: Any) {
         let scanVc = ScanQrViewController()
         scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
@@ -631,6 +637,9 @@ extension MapScreenViewController{
                                      horizontalStackView.bottomAnchor.constraint(equalTo: labelsView.bottomAnchor)])
     }
     func showNotificationCard(){
+        Task {
+            ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress")
+        }
         topCardConstraint?.constant = 20
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -656,10 +665,14 @@ extension MapScreenViewController{
                 case .success(let response):
                     if response.status{
                         if let chargingStatus = response.data, let startTime = chargingStatus.startTimeIST {
-                            self.timeConsumedLabel.text = self.viewModel?.getFormattedTimeDifference(from: startTime)
+                            let chargingTime = self.viewModel?.getFormattedTimeDifference(from: startTime)
+                            self.timeConsumedLabel.text = chargingTime
                             let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
                             self.unitsConsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
+                            Task {
+                                await ChargingLiveActivityManager.updateActivity(time: chargingTime ?? "", energy: energyConsumed)
+                            }
                         }
                     }else{
                         self.showAlert(title: "Error", message: response.message)
@@ -688,5 +701,39 @@ extension MapScreenViewController{
         navController.modalPresentationStyle = .fullScreen
         navController.navigationBar.tintColor = ColorManager.textColor
         navigationController?.present(navController, animated: true)
+    }
+}
+extension MapScreenViewController : UNUserNotificationCenterDelegate, MessagingDelegate  {
+    func requestNotificationPermission() {
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+        Messaging.messaging().delegate = self
+        center.requestAuthorization(options: [.alert, .badge, .sound]) {
+            success, error in
+            if success {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                     willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .sound, .list])
+    }
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        guard let fcmToken = fcmToken else { return }
+        viewModel?.registerForRemoteNotifications(fcmToken: fcmToken) { [weak self] result in
+            guard let _ = self else { return }
+            DispatchQueue.main.async {
+                switch result {
+                case .success(_):
+                    break
+                case .failure(let error):
+                    debugPrint("Failed to register for remote notifications: \(error)")
+                }
+            }
+        }
     }
 }

@@ -32,7 +32,7 @@ class StartChargeViewController: UIViewController {
         super.viewDidLoad()
         setUpUi()
         checkIfPopShouldShow()
-        
+        checkPaymentStatus()
     }
     func checkIfPopShouldShow(){
         if UserDefaultManager.shared.showPopUp(){
@@ -118,6 +118,42 @@ class StartChargeViewController: UIViewController {
     @objc func dismissPopup() {
         if let overlay = view.viewWithTag(9999) {
             overlay.removeFromSuperview()
+        }
+    }
+    func  checkPaymentStatus(){
+        guard let _ = UserDefaultManager.shared.getSessionId() else { return }
+        startButton.isUserInteractionEnabled = false
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = ColorManager.backgroundColor
+        startButton.imageView?.addSubview(indicator)
+        indicator.startAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: startButton.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: startButton.centerYAnchor)
+        ])
+        
+        viewModel?.paymentStatus { [weak self] result in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                switch result{
+                case.success(let response):
+                    if response.status{
+                        indicator.removeFromSuperview()
+                        self.startButton.isUserInteractionEnabled = true
+                    }else{
+                        ToastManager.shared.showToast(message: "Previous payment not completed")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                            let receiptVc = ReceiptViewController()
+                            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+                            self.navigationController?.navigationBar.isHidden = false
+                            self.navigationController?.setViewControllers([receiptVc], animated: true)
+                        }
+                    }
+                case .failure(let error):
+                    AppErrorHandler.handle(error, in: self)
+                }
+            }
         }
     }
     func showPopUp(sender : Any? = nil){

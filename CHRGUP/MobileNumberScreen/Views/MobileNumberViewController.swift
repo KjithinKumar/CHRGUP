@@ -36,7 +36,7 @@ class MobileNumberViewController: UIViewController {
         configureNavBar()
         observeKeyboardNotifications()
     }
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         mobileNumberTextField.becomeFirstResponder()
     }
     deinit {
@@ -258,8 +258,6 @@ extension MobileNumberViewController{
     override func moveViewForKeyboard(yOffset: CGFloat) {
         signInButton.transform = CGAffineTransform(translationX: 0, y: yOffset)
         activityIndicator.transform = CGAffineTransform(translationX: 0, y: yOffset)
-//        termsLabel.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
-//        checkButton.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
         TermsStackView.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
     }
 }

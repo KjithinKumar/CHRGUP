@@ -47,9 +47,9 @@ class AlertActions {
             UserDefaultManager.shared.setLoginStatus(false)
             GlobalAlertGuard.didShow401Alert = false
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
-             let navigationController = UINavigationController(rootViewController: welcomeVc)
-             navigationController.modalPresentationStyle = .fullScreen
-             navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
+            let navigationController = UINavigationController(rootViewController: welcomeVc)
+            navigationController.modalPresentationStyle = .fullScreen
+            navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
             let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
             sceneDelegate?.window?.rootViewController = navigationController
         }
@@ -58,16 +58,11 @@ class AlertActions {
         return UIAlertAction(title: "Logout", style: .destructive) { _ in
             UserDefaultManager.shared.setLoginStatus(false)
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
-            if let rootNav = UIApplication.shared.connectedScenes
-                        .compactMap({ ($0.delegate as? SceneDelegate)?.window?.rootViewController as? UINavigationController }) // safely cast
-                .first {
-                rootNav.navigationBar.isTranslucent = true
-                rootNav.view.backgroundColor = .clear
-                rootNav.navigationBar.backgroundColor = .clear
-                rootNav.setViewControllers([welcomeVc], animated: true)
-                
-            }
-            
+            let navigationController = UINavigationController(rootViewController: welcomeVc)
+            navigationController.modalPresentationStyle = .fullScreen
+            navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
+            let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+            sceneDelegate?.window?.rootViewController = navigationController
         }
     }
 }

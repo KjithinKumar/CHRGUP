@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,7 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HelpandSupportViewController" customModule="CHRGUP" customModuleProvider="target">
             <connections>
+                <outlet property="raiseTicketButton" destination="bXJ-pQ-TaL" id="sYv-eu-duR"/>
                 <outlet property="tableView" destination="2CO-W6-9Yb" id="a6w-kh-kTU"/>
+                <outlet property="trackTiccketButton" destination="6Ms-bM-D0p" id="XpO-ap-T80"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,22 +22,49 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="2CO-W6-9Yb">
-                    <rect key="frame" x="0.0" y="69" width="393" height="749"/>
+                    <rect key="frame" x="0.0" y="173" width="393" height="521"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ms-bM-D0p">
+                    <rect key="frame" x="247" y="133" width="131" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="08H-CW-Sgu"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="  Track ticket " image="iconticket"/>
+                    <connections>
+                        <action selector="trackTicketButtonPressed:" destination="-1" eventType="touchUpInside" id="1DS-9q-cGo"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXJ-pQ-TaL">
+                    <rect key="frame" x="25" y="709" width="343" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Lhj-F2-lMN"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <connections>
+                        <action selector="raiseTicketButtonPressed:" destination="-1" eventType="touchUpInside" id="RSq-zS-Hhs"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="2CO-W6-9Yb" secondAttribute="bottom" id="0PB-Zp-GrR"/>
+                <constraint firstItem="2CO-W6-9Yb" firstAttribute="top" secondItem="6Ms-bM-D0p" secondAttribute="bottom" constant="15" id="3Sk-kj-VzC"/>
+                <constraint firstItem="bXJ-pQ-TaL" firstAttribute="top" secondItem="2CO-W6-9Yb" secondAttribute="bottom" constant="15" id="LDf-2O-zYE"/>
+                <constraint firstItem="6Ms-bM-D0p" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="MJi-5i-ij3"/>
+                <constraint firstItem="bXJ-pQ-TaL" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" constant="-25" id="O7W-oS-Kj9"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2CO-W6-9Yb" secondAttribute="trailing" id="UcG-Dw-hlC"/>
                 <constraint firstItem="2CO-W6-9Yb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="cH5-T2-5yE"/>
-                <constraint firstItem="2CO-W6-9Yb" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="o2k-xM-34m"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bXJ-pQ-TaL" secondAttribute="trailing" constant="25" id="fsw-aL-HjR"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6Ms-bM-D0p" secondAttribute="trailing" constant="15" id="kxW-eb-olL"/>
+                <constraint firstItem="bXJ-pQ-TaL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="sdT-kt-3dY"/>
             </constraints>
             <point key="canvasLocation" x="-5.343511450381679" y="19.718309859154932"/>
         </view>
     </objects>
     <resources>
+        <image name="iconticket" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -80,7 +80,7 @@ struct AppStrings {
     }
     
     struct Map{
-        static let scanButtonTitle = " Scan QR"
+        static let scanButtonTitle = "   Scan QR"
     }
     
     struct leftMenu{
@@ -114,7 +114,7 @@ struct AppStrings {
     struct ChargerInfo{
         static let ChargersTitle = "CHARGERS"
         
-        static let issueText = "Any issue with the charger? call us"
+        static let issueText = "Any issue with the charger? Raise a ticket"
         
         static let chargingTariffText = "CHARGING TARIFF"
         
@@ -224,4 +224,33 @@ struct AppStrings {
         static let title = "Create an account to access more features"
     }
     
+    struct HelpandSupport{
+        static let title = "Help & Support"
+        
+        static let trackTicketText = "Track ticket"
+        
+        static let raiseTicketText = "Raise ticket"
+        
+        static let generalFaqText = "General FAQ"
+        
+        static let customerServiceText = "Customer Service"
+        
+        static let customerServiceSubText = "Please select the issue and report it"
+        
+        static let categoryText = "Category"
+        
+        static let categoryPlaceholderText = "Select category"
+        
+        static let sessionText = "Session"
+        
+        static let sessionPlaceholderText = "Select session"
+        
+        static let subjectText = "Subject"
+        
+        static let subjectPlaceholderText = "Enter subject"
+        
+        static let messageText = "Message"
+        
+        static let messagePlaceholderText = "Enter message"
+    }
 }

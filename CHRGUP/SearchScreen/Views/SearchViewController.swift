@@ -30,6 +30,9 @@ class SearchViewController: UIViewController {
         gesture.cancelsTouchesInView = false
         view.addGestureRecognizer(gesture)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        searchBar.becomeFirstResponder()
+    }
     func setUpUi(){
         view.backgroundColor = ColorManager.backgroundColor
         navigationItem.title = "Search Chargers"
@@ -88,7 +91,7 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     func setupSearchBar(){
-        searchBar.becomeFirstResponder()
+        
         searchBar.delegate = self
         searchBar.placeholder = "Search chargers"
     }

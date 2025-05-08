@@ -83,4 +83,5 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
             }
         }
     }
+  
 }

@@ -56,13 +56,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 if let rootNav = UIApplication.shared.connectedScenes
                             .compactMap({ ($0.delegate as? SceneDelegate)?.window?.rootViewController as? UINavigationController }) // safely cast
                     .first {
-                    let topMapVc = rootNav.viewControllers.first
-                    rootNav.popToRootViewController(animated: true)
-                    if let topMapVc = topMapVc as? MapScreenViewController {
-                        topMapVc.handleDeepLinkIfNeeded()
+                    if let presentedVC = rootNav.presentedViewController {
+                        presentedVC.dismiss(animated: true) {
+                            self.handleDeepLink(on: rootNav)
+                        }
+                    } else {
+                        handleDeepLink(on: rootNav)
                     }
                 }
             }
+        }
+    }
+    private func handleDeepLink(on navController: UINavigationController) {
+        let topMapVc = navController.viewControllers.first
+        navController.popToRootViewController(animated: true)
+        if let topMapVc = topMapVc as? MapScreenViewController {
+            topMapVc.handleDeepLinkIfNeeded()
         }
     }
 }
