@@ -50,11 +50,13 @@ class MapScreenViewController: UIViewController{
         setupUI()
         setupBottomCard()
         setUpNotificationCard()
+        requestNotificationPermission()
     }
     override func viewWillDisappear(_ animated: Bool) {
         selectedCharger = nil
         clusterManager?.cluster()
         hideBottomCard()
+        hideNotificationCard()
         if let mapView = mapView {
             let position = mapView.camera
             let centerLat = position.target.latitude
@@ -675,7 +677,17 @@ extension MapScreenViewController{
                             }
                         }
                     }else{
-                        self.showAlert(title: "Error", message: response.message)
+                        Task {
+                            await ChargingLiveActivityManager.endActivity()
+                        }
+                        self.showAlert(title: "Charging Stopped", message: response.message)
+                        self.chargingTimer?.invalidate()
+                        let receiptVc = ReceiptViewController()
+                        receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+                        let navController = UINavigationController(rootViewController: receiptVc)
+                        navController.modalPresentationStyle = .fullScreen
+                        navController.navigationBar.isHidden = true
+                        self.present(navController, animated: true)
                     }
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)

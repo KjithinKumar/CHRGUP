@@ -21,7 +21,6 @@ class MobileNumberViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var termsLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var TermsStackView: UIStackView!
     
     var authMode: AuthMode = .SignIn
@@ -35,8 +34,6 @@ class MobileNumberViewController: UIViewController {
         configureUi()
         configureNavBar()
         observeKeyboardNotifications()
-    }
-    override func viewWillAppear(_ animated: Bool) {
         mobileNumberTextField.becomeFirstResponder()
     }
     deinit {
@@ -45,8 +42,7 @@ class MobileNumberViewController: UIViewController {
     
     override func viewWillDisappear (_ animated: Bool) {
         view.endEditing(true)
-        activityIndicator.isHidden = true
-        signInButton.isEnabled = true
+        enableButtonAndRemoveIndicator(signInButton)
         isSendingOtp = false
         signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
     }
@@ -99,8 +95,8 @@ class MobileNumberViewController: UIViewController {
         signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
         signInButton.layer.cornerRadius = 20
         signInButton.isEnabled = false
-        
-        activityIndicator.isHidden = true
+
+        enableButtonAndRemoveIndicator(signInButton)
         
         termsLabel.isUserInteractionEnabled = true
         termsLabel.textColor = ColorManager.textColor
@@ -158,10 +154,7 @@ class MobileNumberViewController: UIViewController {
     @IBAction func signInButtonTapped(_ sender: Any) {
         isSendingOtp = true
         if isSendingOtp {
-            signInButton.isEnabled = false
-            signInButton.setTitleColor(ColorManager.textColor, for: .normal)
-            activityIndicator.isHidden = false
-            activityIndicator.startAnimating()
+            disableButtonWithActivityIndicator(signInButton)
         }
         let otpVc = OtpViewController()
         let mobileNumber = mobileNumberTextField.text!
@@ -257,7 +250,6 @@ extension MobileNumberViewController{
     }
     override func moveViewForKeyboard(yOffset: CGFloat) {
         signInButton.transform = CGAffineTransform(translationX: 0, y: yOffset)
-        activityIndicator.transform = CGAffineTransform(translationX: 0, y: yOffset)
         TermsStackView.transform = CGAffineTransform(translationX: 0, y: yOffset + 5)
     }
 }

@@ -103,6 +103,7 @@ class SettingsViewController: UIViewController {
         navigationItem.title = AppStrings.Settings.settings
         
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.tintColor = ColorManager.textColor
         if let profilePic = userData?.profilePic{
             profileImageView.sd_setImage(with: URL(string: profilePic),placeholderImage: UIImage(systemName: "person.crop.circle"))
         }

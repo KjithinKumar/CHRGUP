@@ -40,6 +40,9 @@ class HistoryTableViewCell: UITableViewCell {
         locationLabel.font = FontManager.bold(size: 17)
         
         vehicleLabel.text = chargingInfo.vehicle
+        if chargingInfo.vehicle == "undefined undefined undefined"{
+            vehicleLabel.text = "Vehicle not found"
+        }
         vehicleLabel.textColor = ColorManager.subtitleTextColor
         vehicleLabel.font = FontManager.regular(size: 14)
         

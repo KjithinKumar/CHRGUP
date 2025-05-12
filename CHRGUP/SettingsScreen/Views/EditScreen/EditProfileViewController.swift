@@ -44,6 +44,7 @@ class EditProfileViewController: UIViewController {
         removeKeyboardNotifications()
     }
     @IBAction func updateButtonPressed(_ sender: Any) {
+        disableButtonWithActivityIndicator(updateButton)
         guard let modifiedUserData = modifiedUserData else { return }
         viewModel?.updateUserProfile(userData: modifiedUserData, completion: { [weak self] result in
             guard let self = self else { return }

@@ -79,18 +79,7 @@ class ReceiptViewController: UIViewController {
         payButton.clipsToBounds = true
     }
     @IBAction func payButtonPressed(_ sender: Any) {
-        payButton.isUserInteractionEnabled = false
-        payButton.setTitleColor(ColorManager.primaryColor, for: .normal)
-        let indicator = UIActivityIndicatorView()
-        indicator.color = ColorManager.backgroundColor
-        view.addSubview(indicator)
-        indicator.startAnimating()
-        indicator.style = .medium
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            indicator.centerXAnchor.constraint(equalTo: payButton.centerXAnchor),
-            indicator.centerYAnchor.constraint(equalTo: payButton.centerYAnchor)
-        ])
+        disableButtonWithActivityIndicator(payButton)
         let amountInPaise = grandTotal ?? 00
         viewModel?.createOder(amount: amountInPaise) { [weak self] result in
             guard let self = self else { return }
@@ -228,9 +217,7 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                             DispatchQueue.main.async {
                                 switch result {
                                 case .success(let response):
-                                    UserDefaultManager.shared.removeChargerId()
-                                    UserDefaultManager.shared.deleteSessionDetails()
-                                    UserDefaultManager.shared.deleteSessionStartTime()
+                                    
                                     self.postPaymentToServer(details: response)
                                 case .failure(let error):
                                     AppErrorHandler.handle(error, in: self)
@@ -238,9 +225,6 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                             }
                         }
                     }else if response.status == "captured"{
-                        UserDefaultManager.shared.removeChargerId()
-                        UserDefaultManager.shared.deleteSessionDetails()
-                        UserDefaultManager.shared.deleteSessionStartTime()
                         self.postPaymentToServer(details: response)
                     }
                 case .failure(let error):
@@ -258,6 +242,9 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                     case .success(let response):
                         if response.status{
                             self.checkIfReviewed()
+                            UserDefaultManager.shared.removeChargerId()
+                            UserDefaultManager.shared.deleteSessionDetails()
+                            UserDefaultManager.shared.deleteSessionStartTime()
                             ToastManager.shared.showToast(message: "Payment Successful")
                         }else{
                             self.showAlert(title: "Error", message: response.message)
@@ -277,7 +264,9 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                 case.success(let response):
                     if response.success{
                         if response.hasReviewed ?? true{
-                            self.navigationController?.dismiss(animated: true)
+                            UserDefaultManager.shared.deleteScannedLocationId()
+                            self.dismiss(animated: true)
+                            //self.navigationController?.dismiss(animated: true)
                         }else{
                             let reviewVc = ReviewViewController()
                             reviewVc.viewModel = ReviewViewModel(networkManager: NetworkManager())

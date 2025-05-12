@@ -15,8 +15,6 @@ enum AppErrorHandler {
                     if code == 401 {
                         guard GlobalAlertGuard.didShow401Alert == false else { return }
                         GlobalAlertGuard.didShow401Alert = true
-//                        let actions = [AlertActions.loginAgainAction()]
-//                        viewController.showAlert(title: "Unauthorized", message: message, actions: actions)
                         let topVC = viewController.topMostViewController
                             topVC.dismissAlert {
                                 let actions = [AlertActions.loginAgainAction()]

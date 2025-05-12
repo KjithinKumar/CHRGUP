@@ -8,4 +8,13 @@ target 'CHRGUP' do
   # Pods for CHRGUP
 pod 'Google-Maps-iOS-Utils'
 
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+      config.build_settings['CODE_SIGNING_REQUIRED'] = 'NO'
+    end
+  end
+end
+
 end

@@ -8,9 +8,8 @@
 import UIKit
 
 protocol SignUpViewControllerDelegate: AnyObject {
-    func didSignUp(userProfile : UserProfile)
-    func didCancelSignUp()
-    func didfailedToSignUp(error: any Error)
+    func didTapGoogleSignUp()
+    func didTapAppleSignUp()
 }
 
 class SignUpViewController: UIViewController {
@@ -33,23 +32,15 @@ class SignUpViewController: UIViewController {
         
     }
     @IBAction func appleSignUpPressed(_ sender: Any) {
-
-    }
-    @IBAction func googleSignUpPressed(_ sender: Any) {
-        GoogleSignInHelper.shared.signIn(with: self) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let userProfile):
-                self.dismiss(animated: true) {
-                    self.delegate?.didSignUp(userProfile: userProfile)
-                }
-            case .failure(let error):
-                ToastManager.shared.showToast(message: error.localizedDescription)
-                self.delegate?.didfailedToSignUp(error: error)
-            }
+        dismiss(animated: true) {
+            self.delegate?.didTapAppleSignUp()
         }
     }
-    
+    @IBAction func googleSignUpPressed(_ sender: Any) {
+        dismiss(animated: true) {
+            self.delegate?.didTapGoogleSignUp()
+        }
+    }
     func setUpUI(){
         view.backgroundColor = .clear
         

@@ -18,7 +18,7 @@ struct ChargingLiveStausLiveActivity: Widget {
             // Lock screen/banner UI goes here
             VStack(alignment: .leading){
                 HStack(){
-                    Text(context.attributes.chargingTitle)
+                    Text(context.state.chargingTitle)
                         .font(.headline)
                     Spacer()
                     AppLogo(size: 30)
@@ -55,7 +55,7 @@ struct ChargingLiveStausLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack(alignment: .center){
                         HStack(){
-                            Text(context.attributes.chargingTitle)
+                            Text(context.state.chargingTitle)
                                 .font(.headline)
                                 .foregroundStyle(.green)
                             Spacer()
@@ -115,17 +115,17 @@ struct ChargingLiveStausLiveActivity: Widget {
 
 extension ChargingLiveActivityAttributes {
     fileprivate static var preview: ChargingLiveActivityAttributes {
-        ChargingLiveActivityAttributes(timeTitle: "Time Consumed", energyTitle: "Units Consumed", chargingTitle: "Charging is in Progress")
+        ChargingLiveActivityAttributes(timeTitle: "Time Consumed", energyTitle: "Units Consumed")
     }
 }
 
 extension ChargingLiveActivityAttributes.ContentState {
     fileprivate static var smiley: ChargingLiveActivityAttributes.ContentState {
-        ChargingLiveActivityAttributes.ContentState(time: "00h:00m",energy: "0.000kWH")
+        ChargingLiveActivityAttributes.ContentState(time: "00h:00m",energy: "0.000kWH", title: "Charging is in Progress")
      }
      
      fileprivate static var starEyes: ChargingLiveActivityAttributes.ContentState {
-         ChargingLiveActivityAttributes.ContentState(time : "00h:12m", energy: "0.001kWH")
+         ChargingLiveActivityAttributes.ContentState(time : "00h:12m", energy: "0.001kWH", title: "Charging is in Progress")
      }
 }
 

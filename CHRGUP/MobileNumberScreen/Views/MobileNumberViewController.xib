@@ -12,7 +12,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MobileNumberViewController" customModule="CHRGUP" customModuleProvider="target">
             <connections>
                 <outlet property="TermsStackView" destination="2fz-Kg-aYu" id="29h-fo-P81"/>
-                <outlet property="activityIndicator" destination="Yjx-n2-74e" id="7xA-8F-8mB"/>
                 <outlet property="checkButton" destination="oWD-Nm-awc" id="9TD-n2-bbE"/>
                 <outlet property="mobileNumberLabel" destination="NPn-zb-CO0" id="GB2-Y8-YKB"/>
                 <outlet property="mobileNumberTextField" destination="qk5-8F-Zao" id="aPT-Vo-kzK"/>
@@ -104,10 +103,6 @@
                         </label>
                     </subviews>
                 </stackView>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Yjx-n2-74e">
-                    <rect key="frame" x="186.66666666666666" y="699" width="20" height="20"/>
-                    <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -116,14 +111,12 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="5Fd-o4-rGT" secondAttribute="trailing" constant="25" id="EEo-HF-6L8"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="top" secondItem="0sk-MT-MCR" secondAttribute="top" multiplier="0.6" constant="1" id="Hww-Ge-qrd"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0sk-MT-MCR" secondAttribute="trailing" constant="25" id="Jn8-QT-ISD"/>
-                <constraint firstItem="Yjx-n2-74e" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Loo-N4-QCR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="5Fd-o4-rGT" secondAttribute="bottom" constant="50" id="Mmk-r2-C73"/>
                 <constraint firstItem="0sk-MT-MCR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="NVv-ZP-vOc"/>
                 <constraint firstItem="5Fd-o4-rGT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="U1R-Ra-bLy"/>
                 <constraint firstItem="5Fd-o4-rGT" firstAttribute="top" secondItem="2fz-Kg-aYu" secondAttribute="bottom" constant="15" id="c2u-Xu-qD0"/>
                 <constraint firstItem="2fz-Kg-aYu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="cwO-D6-oWM"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2fz-Kg-aYu" secondAttribute="trailing" constant="25" id="ddy-1T-L5E"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Yjx-n2-74e" secondAttribute="bottom" constant="65" id="nNR-Se-jk2"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="wGU-n6-2jd" secondAttribute="trailing" constant="25" id="sxs-sk-fMQ"/>
                 <constraint firstItem="wGU-n6-2jd" firstAttribute="top" secondItem="0sk-MT-MCR" secondAttribute="bottom" constant="65" id="tke-wk-Nko"/>
             </constraints>

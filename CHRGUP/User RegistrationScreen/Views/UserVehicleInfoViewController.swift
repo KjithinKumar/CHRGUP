@@ -98,6 +98,7 @@ class UserVehicleInfoViewController: UIViewController {
         switch screenType {
         case .registerNew:
             rangeVc.setRangeScreenType = .registerNew
+            rangeVc.delegate = self
         case .addNew:
             rangeVc.newVehicle = userSelecetedVechileData
             rangeVc.setRangeScreenType = .addNew
@@ -315,6 +316,10 @@ extension UserVehicleInfoViewController : UserVehicleInfoCellDelegate{
     
 }
 extension UserVehicleInfoViewController : setRangeViewControllerDelegate{
+    func showSetUpSuccess() {
+        let vc = SetupSuccessViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     func addedNewVehicle(message : String) {
         ToastManager.shared.showToast(message: message)

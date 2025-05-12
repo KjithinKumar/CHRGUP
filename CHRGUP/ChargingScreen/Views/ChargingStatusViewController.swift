@@ -34,26 +34,20 @@ class ChargingStatusViewController: UIViewController {
         setUpUI()
         setUpAnimations()
         startPingTimer()
-        requestNotificationPermission()
     }
     deinit{
         pingTimer?.invalidate()
         labelUpdateTimer?.invalidate()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        pingTimer?.invalidate()
+        labelUpdateTimer?.invalidate()
+    }
     @IBAction func stopButtonPressed(_ sender: Any) {
-        stopButton.isUserInteractionEnabled = false
-        stopButton.setTitleColor(ColorManager.primaryColor, for: .normal)
-        let indicator = UIActivityIndicatorView()
-        indicator.color = ColorManager.backgroundColor
-        view.addSubview(indicator)
-        indicator.startAnimating()
-        indicator.style = .medium
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            indicator.centerXAnchor.constraint(equalTo: stopButton.centerXAnchor),
-            indicator.centerYAnchor.constraint(equalTo: stopButton.centerYAnchor)
-        ])
-        
+        pingTimer?.invalidate()
+        labelUpdateTimer?.invalidate()
+        disableButtonWithActivityIndicator(stopButton)
         navigationController?.navigationBar.isHidden = true
         viewModel?.stopCharging { [weak self] result in
             guard let self = self else { return }
@@ -62,29 +56,14 @@ class ChargingStatusViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "Charging Stopped")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                            let receiptVc = ReceiptViewController()
-                            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
-                            self.navigationController?.navigationBar.isHidden = false
-                            self.navigationController?.setViewControllers([receiptVc], animated: true)
-                            self.pingTimer?.invalidate()
-                            Task {
-                                await ChargingLiveActivityManager.endActivity()
-                            }
-                        }
                     }else{
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                            let receiptVc = ReceiptViewController()
-                            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
-                            self.navigationController?.navigationBar.isHidden = false
-                            self.navigationController?.setViewControllers([receiptVc], animated: true)
-                        }
                         self.showAlert(title: "Error", message: response.message)
                         self.navigationController?.navigationBar.isHidden = false
                         self.stopButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
-                        indicator.removeFromSuperview()
-                        self.stopButton.isUserInteractionEnabled = true
+                        self.enableButtonAndRemoveIndicator(self.stopButton)
                     }
+                    self.sendChargingEndedNotification(message: response.message ?? "Your charging session has ended.")
+                    self.stopChargingForce()
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
                 }
@@ -188,7 +167,6 @@ class ChargingStatusViewController: UIViewController {
         }
     }
     @objc func fetchData(){
-        lastPingDate = Date()
         viewModel?.fetchChargingStatus { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
@@ -202,12 +180,14 @@ class ChargingStatusViewController: UIViewController {
                             let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
                             self.eneryconsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
+                            self.lastPingDate = Date()
                             Task {
                                 await ChargingLiveActivityManager.updateActivity(time: chargingTime?.string ?? "", energy: energyConsumed)
                             }
                         }
                     }else{
-                        self.showAlert(title: "Error", message: response.message)
+                        self.sendChargingEndedNotification(message: response.message ?? "Your charging session has ended.")
+                        self.stopChargingForce()
                     }
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
@@ -278,6 +258,19 @@ class ChargingStatusViewController: UIViewController {
         let kilowattHours = wattHours / 1000
         return String(format: "%.4f kWh", kilowattHours)
     }
+    func stopChargingForce() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+            Task {
+                await ChargingLiveActivityManager.endActivity()
+            }
+            self.pingTimer?.invalidate()
+            self.labelUpdateTimer?.invalidate()
+            let receiptVc = ReceiptViewController()
+            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+            self.navigationController?.navigationBar.isHidden = false
+            self.navigationController?.setViewControllers([receiptVc], animated: true)
+        }
+    }
 }
 
 extension ChargingStatusViewController : UNUserNotificationCenterDelegate  {
@@ -301,6 +294,28 @@ extension ChargingStatusViewController : UNUserNotificationCenterDelegate  {
         let content = UNMutableNotificationContent()
         content.title = "Charging Started"
         content.body = "Your vehicle charging has started successfully."
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
+        
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: content,
+            trigger: trigger
+        )
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                debugPrint("Error scheduling local notification: \(error.localizedDescription)")
+            } else {
+                debugPrint("Local notification scheduled.")
+            }
+        }
+    }
+    func sendChargingEndedNotification(message : String) {
+        let content = UNMutableNotificationContent()
+        content.title = "Charging Ended"
+        content.body = message
         content.sound = .default
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)

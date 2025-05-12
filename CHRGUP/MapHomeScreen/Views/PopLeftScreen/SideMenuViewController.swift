@@ -70,7 +70,7 @@ class SideMenuViewController: UIViewController {
         profileImageView.layer.cornerRadius = 25
         if let image = userProfile?.profilePic{
             let url = URL(string: image)
-            profileImageView.sd_setImage(with: url)
+            profileImageView.sd_setImage(with: url,placeholderImage: UIImage(systemName: "person.crop.circle"))
             profileImageView.clipsToBounds = true
         }
     }

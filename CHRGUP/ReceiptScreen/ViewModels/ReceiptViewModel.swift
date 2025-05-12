@@ -152,6 +152,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
         body.sessionId = sessionId
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
+        debugPrint(body)
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body.toDictionary(), encoding: .json, headers: header){
             networkManager?.request(request, decodeTo: PaymentDetailsResponse.self) { [weak self] result in
                 guard let _ = self else { return }

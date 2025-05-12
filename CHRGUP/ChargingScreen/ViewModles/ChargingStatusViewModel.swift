@@ -27,7 +27,12 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(request, decodeTo: ChargingStatusResponseModel.self) { [weak self] result in
                 guard let _ = self else { return }
-                completion(result)
+                switch result {
+                case .success(let response):
+                    completion(.success(response))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
     }

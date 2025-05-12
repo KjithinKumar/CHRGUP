@@ -67,6 +67,7 @@ class ManualCodeViewController: UIViewController {
         self.navigationController?.presentingViewController?.dismiss(animated: true)
     }
     @IBAction func submitButtonPressed(_ sender: Any) {
+        disableButtonWithActivityIndicator(submitButton)
         if let code = codeTextField.text?.replacingOccurrences(of: " ", with: ""){
             let payLoad = QRPayload(connectorId: 1, chargerId: code)
             viewModel?.fetchChargerDetails(id: code) { [weak self ]result in

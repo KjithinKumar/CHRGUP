@@ -160,6 +160,7 @@ class ReviewViewController: UIViewController {
         
     }
     @IBAction func submitButtonPressed(_ sender: Any) {
+        disableButtonWithActivityIndicator(submitButton)
         keyboardWillHide()
         let chargingExp = ratingViewOne.selectedIndex + 1
         let locationExp = ratingViewTwo.selectedIndex + 1
@@ -170,11 +171,13 @@ class ReviewViewController: UIViewController {
                 switch result {
                 case .success(let response):
                     ToastManager.shared.showToast(message: response.message ?? "Success")
+                    UserDefaultManager.shared.deleteScannedLocationId()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                         self.dismiss(animated: true)
                     }
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
+                    self.enableButtonAndRemoveIndicator(self.submitButton)
                 }
             }
         }

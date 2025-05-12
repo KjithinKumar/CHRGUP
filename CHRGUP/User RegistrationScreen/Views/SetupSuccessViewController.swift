@@ -29,6 +29,8 @@ class SetupSuccessViewController: UIViewController {
         
         subtitleLabel.textColor = ColorManager.textColor
         subtitleLabel.font  = FontManager.regular()
+        
+        navigationController?.isNavigationBarHidden = true
     }
     
     func setUpAnimation() {
@@ -54,11 +56,21 @@ class SetupSuccessViewController: UIViewController {
                 ])
         animationView2.play() // Start animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            animationView2.stop()
+            animationView2.removeFromSuperview()
             let MapVc = MapScreenViewController()
-            let navigationController = UINavigationController(rootViewController: MapVc)
-            navigationController.modalPresentationStyle = .fullScreen
-            self.present(navigationController, animated: true)
-            
+            MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
+            self.navigationController?.isNavigationBarHidden = false
+            self.navigationController?.navigationBar.isHidden = false
+            self.navigationController?.navigationBar.isTranslucent = false
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.backgroundColor = ColorManager.secondaryBackgroundColor
+            appearance.titleTextAttributes = [.foregroundColor: ColorManager.textColor]
+            self.navigationController?.navigationBar.standardAppearance = appearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            self.navigationController?.navigationBar.compactAppearance = appearance
+            self.navigationController?.setViewControllers([MapVc], animated: true)
         }
     }
 

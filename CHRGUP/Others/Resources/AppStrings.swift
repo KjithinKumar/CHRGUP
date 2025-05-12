@@ -221,7 +221,7 @@ struct AppStrings {
     }
     
     struct signUp{
-        static let title = "Create an account to access more features"
+        static let title = "Create an account to access\nmore features"
     }
     
     struct HelpandSupport{

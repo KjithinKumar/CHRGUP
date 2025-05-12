@@ -183,6 +183,9 @@ class UserDefaultManager{
     func getScannedLocationId() -> String? {
         return UserDefaults.standard.string(forKey: Keys.scannedLocationId)
     }
+    func deleteScannedLocationId() {
+        UserDefaults.standard.removeObject(forKey: Keys.scannedLocationId)
+    }
     
     //MARK: - PopUpTime
     func showPopUp() -> Bool {
@@ -218,7 +221,6 @@ class UserDefaultManager{
     func deleteSessionDetails() {
         UserDefaults.standard.removeObject(forKey: Keys.sessionIdKey)
         UserDefaults.standard.removeObject(forKey: Keys.sessionStatusKey)
-        UserDefaults.standard.removeObject(forKey: Keys.scannedLocationId)
         UserDefaults.standard.removeObject(forKey: Keys.sessionStartTimeKey)
     }
     

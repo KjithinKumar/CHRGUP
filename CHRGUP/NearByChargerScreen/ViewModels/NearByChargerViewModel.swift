@@ -31,7 +31,7 @@ class NearByChargerViewModel : NearByChargerViewModelInterface{
     func getNearByCharger(latitue: Double, longitude: Double, range : Int, mobileNumber: String, completion : @escaping (Result<ChargerLocationResponse, Error>) -> Void){
         let url = URLs.nearByChargersUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
-        let body = ["latitude": latitue, "longitude": longitude, "range": range, "mobileNumber": mobileNumber] as [String : Any]
+        let body = ["latitude": latitue, "longitude": longitude, "range": range, "mobileNumber": mobileNumber, "status" : "Active"] as [String : Any]
         let header = ["Authorization": "Bearer \(authToken)"]
         if let reqest = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(reqest, decodeTo: ChargerLocationResponse.self , completion: { [weak self] result in

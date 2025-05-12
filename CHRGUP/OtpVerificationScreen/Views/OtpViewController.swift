@@ -47,6 +47,7 @@ class OtpViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         otpTextField1.becomeFirstResponder()
+        setVerifyButtonState(.verify)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -283,9 +284,6 @@ extension OtpViewController{
         if isFilled {
             verifyButton.backgroundColor = ColorManager.primaryColor
             verifyButton.isEnabled = true
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                self.verifyButtonPressed(self.verifyButton ?? UIButton())
-//            }
         }else{
             verifyButton.isEnabled = false
             verifyButton.backgroundColor = ColorManager.secondaryBackgroundColor
@@ -371,25 +369,9 @@ extension OtpViewController : OtpViewModelDelegate {
     func didRequireGoogleSignIn() {
         DispatchQueue.main.async {
             self.navigationItem.leftBarButtonItem?.isHidden = true
-            self.verifyButton.tintColor = ColorManager.textColor
-            self.activityIndicator.startAnimating()
-            self.activityIndicator.isHidden = false
-//            GoogleSignInHelper.shared.signIn(with: self) { result in
-//                switch result{
-//                case .success(let newuser) :
-//                    let vehicleVc = UserVehicleInfoViewController()
-//                    vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
-//                    vehicleVc.screenType = .registerNew
-//                    vehicleVc.userData = newuser
-//                    vehicleVc.userData?.phoneNumber = self.mobileNumber ?? ""
-//                    self.navigationController?.pushViewController(vehicleVc, animated: true)
-//                case .failure(let error):
-//                    self.navigationItem.leftBarButtonItem?.isHidden = false
-//                    debugPrint(error.localizedDescription)
-//                    self.setVerifyButtonState(.verify)
-//                }
-//            }
+            self.setVerifyButtonState(.verifying)
             let helpVc = SignUpViewController()
+            helpVc.delegate = self
             helpVc.modalPresentationStyle = .overFullScreen
             self.navigationController?.present(helpVc, animated: true)
         }
@@ -427,32 +409,48 @@ extension OtpViewController : OtpViewModelDelegate {
         }
     }
     func didFailToRegister(error: String) {
-        
         debugPrint(error.description)
     }
 }
 
 extension OtpViewController : SignUpViewControllerDelegate {
-    func didSignUp(userProfile: UserProfile) {
-        let vehicleVc = UserVehicleInfoViewController()
-        vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
-        vehicleVc.screenType = .registerNew
-        vehicleVc.userData = userProfile
-        vehicleVc.userData?.phoneNumber = self.mobileNumber ?? ""
-        self.navigationController?.pushViewController(vehicleVc, animated: true)
+    func didTapGoogleSignUp() {
+        GoogleSignInHelper.shared.signIn(with: self) { [weak self] result in
+            guard let self = self else { return }
+            switch result{
+            case .success(let newuser) :
+                let vehicleVc = UserVehicleInfoViewController()
+                vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+                vehicleVc.screenType = .registerNew
+                vehicleVc.userData = newuser
+                vehicleVc.userData?.phoneNumber = self.mobileNumber ?? ""
+                self.navigationController?.pushViewController(vehicleVc, animated: true)
+            case .failure(let error):
+                self.navigationItem.leftBarButtonItem?.isHidden = false
+                debugPrint(error.localizedDescription)
+                self.setVerifyButtonState(.verify)
+            }
+        }
     }
     
-    func didCancelSignUp() {
-        //
+    func didTapAppleSignUp() {
+        AppleSignInHelper.shared.startSignInWithAppleFlow { [weak self] result in
+            guard let self = self else { return }
+            switch result{
+            case .success(let newuser) :
+                let vehicleVc = UserVehicleInfoViewController()
+                vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+                vehicleVc.screenType = .registerNew
+                vehicleVc.userData = newuser
+                vehicleVc.userData?.phoneNumber = self.mobileNumber ?? ""
+                self.navigationController?.pushViewController(vehicleVc, animated: true)
+            case .failure(let error):
+                self.navigationItem.leftBarButtonItem?.isHidden = false
+                debugPrint(error.localizedDescription)
+                self.setVerifyButtonState(.verify)
+            }
+        }
     }
-    
-    func didfailedToSignUp(error: any Error) {
-        self.navigationItem.leftBarButtonItem?.isHidden = false
-        self.setVerifyButtonState(.verify)
-        debugPrint(error)
-        //debugPrint(error.localizedDescription)
-        AppErrorHandler.handle(error, in: self)
-    }
-    
     
 }
+

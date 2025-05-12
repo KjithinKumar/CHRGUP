@@ -11,6 +11,7 @@ import SDWebImage
 protocol setRangeViewControllerDelegate : AnyObject {
     func addedNewVehicle(message: String)
     func failedToAddNewVehicle(_ error : String,_ code : Int)
+    func showSetUpSuccess()
 }
 
 class SetRangeViewController: UIViewController {
@@ -71,6 +72,8 @@ class SetRangeViewController: UIViewController {
         
         rangeTextField.placeholder = "Enter Range"
         rangeTextField.backgroundColor = ColorManager.secondaryBackgroundColor
+        rangeTextField.tintColor = ColorManager.primaryColor
+        rangeTextField.textColor = ColorManager.primaryColor
         rangeTextField.delegate = self
         rangeTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
@@ -100,6 +103,7 @@ class SetRangeViewController: UIViewController {
         self.dismiss(animated: true)
     }
     @IBAction func doneButtonPressed(_ sender: Any) {
+        disableButtonWithActivityIndicator(doneButton)
         switch setRangeScreenType {
         case .registerNew:
             userData?.userVehicle[0].range = rangeTextField.text ?? "0"
@@ -143,9 +147,9 @@ extension SetRangeViewController : UserRegistrationViewModelDelegate{
     func didSaveUserProfileSuccessfully(token: String?) {
         UserDefaultManager.shared.setJWTToken(token ?? "")        
         DispatchQueue.main.async{
-            let vc = SetupSuccessViewController()
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+            self.dismiss(animated: true) {
+                self.delegate?.showSetUpSuccess()
+            }
         }
     }
     func didAddedNewVehicleSuccessfully(message: String?) {

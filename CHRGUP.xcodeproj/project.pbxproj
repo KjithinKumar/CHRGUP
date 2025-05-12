@@ -24,7 +24,7 @@
 		04BEF12C2D7861A5005A3979 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF12B2D7861A5005A3979 /* FirebasePerformance */; };
 		04BEF12F2D786CA9005A3979 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF12E2D786CA9005A3979 /* GoogleSignIn */; };
 		04BEF1312D786CA9005A3979 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF1302D786CA9005A3979 /* GoogleSignInSwift */; };
-		C1DF051A9902C3632A484231 /* Pods_CHRGUP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */; };
+		3CAE42DE926D8A116E85ED53 /* Pods_CHRGUP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF0CA5751C2E1E2C329EA350 /* Pods_CHRGUP.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +56,9 @@
 		04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChargingStausLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHRGUP.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		32950A6D190C67D6354BB407 /* Pods-CHRGUP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.release.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.release.xcconfig"; sourceTree = "<group>"; };
-		70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.debug.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.debug.xcconfig"; sourceTree = "<group>"; };
-		F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CHRGUP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AB94416E79E17D772ED0777 /* Pods-CHRGUP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.debug.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.debug.xcconfig"; sourceTree = "<group>"; };
+		BAF99BC9D946B362E95711FA /* Pods-CHRGUP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.release.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.release.xcconfig"; sourceTree = "<group>"; };
+		BF0CA5751C2E1E2C329EA350 /* Pods_CHRGUP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CHRGUP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -134,7 +134,7 @@
 				046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */,
 				04BEF1282D7861A5005A3979 /* FirebaseAuth in Frameworks */,
 				047F6C0C2DB26B7B00AAC6D2 /* RazorpayCheckout in Frameworks */,
-				C1DF051A9902C3632A484231 /* Pods_CHRGUP.framework in Frameworks */,
+				3CAE42DE926D8A116E85ED53 /* Pods_CHRGUP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,8 +164,8 @@
 		06C4FE6238F0ACDF2478F1FA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */,
-				32950A6D190C67D6354BB407 /* Pods-CHRGUP.release.xcconfig */,
+				6AB94416E79E17D772ED0777 /* Pods-CHRGUP.debug.xcconfig */,
+				BAF99BC9D946B362E95711FA /* Pods-CHRGUP.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -173,9 +173,9 @@
 		48A1D4C702373511978A2D0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F4A0BDCA03DAA2B3DE8082C9 /* Pods_CHRGUP.framework */,
 				04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */,
 				04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */,
+				BF0CA5751C2E1E2C329EA350 /* Pods_CHRGUP.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -199,8 +199,6 @@
 				045021162DBB92CD00A48BD9 /* ChargingStausLiveActivity */,
 			);
 			name = ChargingStausLiveActivityExtension;
-			packageProductDependencies = (
-			);
 			productName = ChargingStausLiveActivityExtension;
 			productReference = 045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -209,12 +207,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04DAC9812D6DB3FA00EB4FB8 /* Build configuration list for PBXNativeTarget "CHRGUP" */;
 			buildPhases = (
-				5A847AB5380F44FD862EF201 /* [CP] Check Pods Manifest.lock */,
+				6BB256EA0FC6313A72FFDDF4 /* [CP] Check Pods Manifest.lock */,
 				04DAC96A2D6DB3F800EB4FB8 /* Sources */,
 				04DAC96B2D6DB3F800EB4FB8 /* Frameworks */,
 				04DAC96C2D6DB3F800EB4FB8 /* Resources */,
-				1312D090DD39719C81AF5B1A /* [CP] Copy Pods Resources */,
 				04501CCF2DBB7A2600A48BD9 /* Embed Foundation Extensions */,
+				EDE5991D4925F7E81105A812 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -310,28 +308,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1312D090DD39719C81AF5B1A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5A847AB5380F44FD862EF201 /* [CP] Check Pods Manifest.lock */ = {
+		6BB256EA0FC6313A72FFDDF4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -351,6 +328,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EDE5991D4925F7E81105A812 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CHRGUP/Pods-CHRGUP-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -439,7 +437,7 @@
 		};
 		04DAC9822D6DB3FA00EB4FB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70CF7BBA9A34804A6FB5DC46 /* Pods-CHRGUP.debug.xcconfig */;
+			baseConfigurationReference = 6AB94416E79E17D772ED0777 /* Pods-CHRGUP.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -477,7 +475,7 @@
 		};
 		04DAC9832D6DB3FA00EB4FB8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32950A6D190C67D6354BB407 /* Pods-CHRGUP.release.xcconfig */;
+			baseConfigurationReference = BAF99BC9D946B362E95711FA /* Pods-CHRGUP.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

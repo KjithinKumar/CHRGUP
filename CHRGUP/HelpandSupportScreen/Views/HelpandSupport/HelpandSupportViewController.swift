@@ -70,16 +70,7 @@ class HelpandSupportViewController: UIViewController {
     @IBAction func raiseTicketButtonPressed(_ sender: Any) {
         raiseTicketButton.isUserInteractionEnabled = false
         raiseTicketButton.setTitleColor(ColorManager.primaryColor, for: .normal)
-        let indicator = UIActivityIndicatorView()
-        indicator.color = ColorManager.backgroundColor
-        view.addSubview(indicator)
-        indicator.startAnimating()
-        indicator.style = .medium
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            indicator.centerXAnchor.constraint(equalTo: raiseTicketButton.centerXAnchor),
-            indicator.centerYAnchor.constraint(equalTo: raiseTicketButton.centerYAnchor)
-        ])
+        disableButtonWithActivityIndicator(raiseTicketButton)
         viewModel?.createTicket(parameters: textFieldValues, image: attachedImages , imageFieldName: "screenshots") { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
