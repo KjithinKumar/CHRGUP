@@ -36,7 +36,7 @@
                         </subviews>
                     </stackView>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="U3Q-Pp-4is">
-                        <rect key="frame" x="15" y="50.333333333333329" width="393" height="211.66666666666669"/>
+                        <rect key="frame" x="15" y="55.333333333333329" width="393" height="201.66666666666669"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="heA-re-aza">
                             <size key="itemSize" width="128" height="128"/>
@@ -52,7 +52,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ge-8a-uQT">
-                        <rect key="frame" x="15" y="267" width="393" height="34"/>
+                        <rect key="frame" x="15" y="262" width="393" height="34"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <connections>
                             <action selector="raiseTicketButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="8If-DP-jBB"/>
@@ -64,9 +64,9 @@
                     <constraint firstAttribute="trailing" secondItem="Gd9-fb-y6X" secondAttribute="trailing" constant="15" id="DXa-3w-xvy"/>
                     <constraint firstItem="Gd9-fb-y6X" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="J8F-8S-PRH"/>
                     <constraint firstItem="1ge-8a-uQT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Pfh-J8-qmR"/>
-                    <constraint firstAttribute="bottom" secondItem="1ge-8a-uQT" secondAttribute="bottom" constant="5" id="XU8-oN-R9m"/>
+                    <constraint firstAttribute="bottom" secondItem="1ge-8a-uQT" secondAttribute="bottom" constant="10" id="XU8-oN-R9m"/>
                     <constraint firstItem="pXD-Y1-hH5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="bjL-mb-VSF"/>
-                    <constraint firstItem="U3Q-Pp-4is" firstAttribute="top" secondItem="pXD-Y1-hH5" secondAttribute="bottom" constant="10" id="eqX-qz-d1t"/>
+                    <constraint firstItem="U3Q-Pp-4is" firstAttribute="top" secondItem="pXD-Y1-hH5" secondAttribute="bottom" constant="15" id="eqX-qz-d1t"/>
                     <constraint firstItem="pXD-Y1-hH5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hxL-EI-QJf"/>
                     <constraint firstItem="U3Q-Pp-4is" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jOy-mY-NA8"/>
                     <constraint firstAttribute="trailing" secondItem="U3Q-Pp-4is" secondAttribute="trailing" constant="15" id="vg0-uG-yoG"/>

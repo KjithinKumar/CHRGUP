@@ -37,7 +37,7 @@ class EditProfileViewController: UIViewController {
         updateButton.titleLabel?.font = FontManager.bold(size: 18)
         updateButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         updateButtonState()
-        updateButton.layer.cornerRadius = 10
+        updateButton.layer.cornerRadius = 20
         observeKeyboardNotifications()
     }
     deinit {
@@ -68,9 +68,11 @@ class EditProfileViewController: UIViewController {
         if dataChanged{
             updateButton.isEnabled = true
             updateButton.backgroundColor = ColorManager.primaryColor
+            updateButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         }else{
             updateButton.isEnabled = false
             updateButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            updateButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         }
     }
 }

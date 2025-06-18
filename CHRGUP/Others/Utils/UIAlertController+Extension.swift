@@ -16,23 +16,32 @@ extension UIViewController {
         actions: [UIAlertAction] = [UIAlertAction(title: AppStrings.Alert.ok, style: .default, handler: nil)]
     ) {
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.dismissAlert { [weak self] in
                 guard let self = self else { return }
                 let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
                 actions.forEach {
                     if $0.style == .default {
-                        $0.setValue(ColorManager.primaryColor, forKey: "titleTextColor")
+                        $0.setValue(ColorManager.primaryTextColor, forKey: "titleTextColor")
                     }
                     
                     alertController.addAction($0)
+                }
+                if UIDevice.current.userInterfaceIdiom == .pad && style == .actionSheet {
+                    if let popover = alertController.popoverPresentationController {
+                        popover.sourceView = self.view
+                        popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                        popover.permittedArrowDirections = []
+                    }
                 }
                 self.present(alertController, animated: true)
             }
         }
     }
     func dismissAlert(completion: (() -> Void)? = nil) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             if let presentedAlert = self.presentedViewController as? UIAlertController {
                 presentedAlert.dismiss(animated: true)
             }else{
@@ -44,23 +53,29 @@ extension UIViewController {
 class AlertActions {
     static func loginAgainAction() -> UIAlertAction {
         return UIAlertAction(title: "Login Again", style: .default) { _ in
-            UserDefaultManager.shared.setLoginStatus(false)
+            UserDefaultManager.shared.logoutUserProfile()
+            Task{
+                await ChargingLiveActivityManager.endActivity()
+            }
             GlobalAlertGuard.didShow401Alert = false
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
             let navigationController = UINavigationController(rootViewController: welcomeVc)
             navigationController.modalPresentationStyle = .fullScreen
-            navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
+            navigationController.navigationBar.tintColor = ColorManager.buttonTintColor
             let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
             sceneDelegate?.window?.rootViewController = navigationController
         }
     }
     static func logoutAction() -> UIAlertAction {
         return UIAlertAction(title: "Logout", style: .destructive) { _ in
-            UserDefaultManager.shared.setLoginStatus(false)
+            UserDefaultManager.shared.logoutUserProfile()
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
             let navigationController = UINavigationController(rootViewController: welcomeVc)
+            Task{
+                await ChargingLiveActivityManager.endActivity()
+            }
             navigationController.modalPresentationStyle = .fullScreen
-            navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
+            navigationController.navigationBar.tintColor = ColorManager.buttonTintColor
             let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
             sceneDelegate?.window?.rootViewController = navigationController
         }

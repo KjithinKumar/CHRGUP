@@ -99,11 +99,11 @@
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                         <view contentMode="scaleToFill" verticalHuggingPriority="247" verticalCompressionResistancePriority="747" translatesAutoresizingMaskIntoConstraints="NO" id="9qj-nV-EoK">
-                                            <rect key="frame" x="0.0" y="496.33333333333343" width="353" height="50.666666666666686"/>
+                                            <rect key="frame" x="0.0" y="496.33333333333343" width="353" height="51.666666666666686"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1tr-aL-BfO">
-                                            <rect key="frame" x="0.0" y="567" width="353" height="50"/>
+                                            <rect key="frame" x="0.0" y="568" width="353" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="50" id="5Bo-Iy-yy6"/>
                                             </constraints>
@@ -114,10 +114,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KFu-Wa-z58">
-                                            <rect key="frame" x="0.0" y="637" width="353" height="35"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="35" id="7vq-eC-CyK"/>
-                                            </constraints>
+                                            <rect key="frame" x="0.0" y="638" width="353" height="34"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             <state key="normal" title="Button"/>
                                             <connections>

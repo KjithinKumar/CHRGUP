@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 protocol FavouriteDockViewModelInterface: AnyObject {
-    var favouriteLocation : [ChargerLocation]? { get set }
+    var favouriteLocation : [LocationData]? { get set }
     func getUserFavouriteLocation(completion : @escaping (Result<GetFavouriteResponseModel, Error>) -> Void)
     func removeFavouriteLocation(locationId : String, completion : @escaping (Result<FavouriteResponseModel, Error>) -> Void)
     func addToFavourtie(at index : Int,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void)
@@ -23,7 +23,7 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    var favouriteLocation : [ChargerLocation]?
+    var favouriteLocation : [LocationData]?
     
     func getUserFavouriteLocation(completion : @escaping (Result<GetFavouriteResponseModel, Error>) -> Void){
         if let mobileNumber = mobileNumber{
@@ -93,7 +93,7 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
             }
         }
     }
-    func getProcessedFavouriteCharger(latitude : Double, longitude : Double, charger: ChargerLocation) -> ChargerLocation {
+    func getProcessedFavouriteCharger(latitude : Double, longitude : Double, charger: LocationData) -> LocationData {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         return ChargerLocationProcessor.process(charger, currentLocation: location)
     }

@@ -36,7 +36,11 @@ class SessionDropDownTableViewCell: UITableViewCell {
         titleLabel.textColor = ColorManager.textColor
         titleLabel.font = FontManager.regular()
         
-        vehicleLabel.text = chargingInfo.vehicle
+        if chargingInfo.vehicle == "undefined undefined undefined"{
+            vehicleLabel.text = "Vehicle not found"
+        }else{
+            vehicleLabel.text = chargingInfo.vehicle
+        }
         vehicleLabel.textColor = ColorManager.subtitleTextColor
         vehicleLabel.font = FontManager.regular(size: 14)
         

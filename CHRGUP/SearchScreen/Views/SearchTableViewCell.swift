@@ -37,13 +37,13 @@ class SearchTableViewCell: UITableViewCell {
             recentImageView.startShimmering()
             recentImageView.tintColor = .white
             
-            titleLabel.textColor = .white
-            titleLabel.backgroundColor = .white
+            titleLabel.textColor = .clear
+            titleLabel.backgroundColor = .label.withAlphaComponent(0.5)
             titleLabel.startShimmering()
             titleLabel.layer.cornerRadius = 8
             
-            subtitleLabel.textColor = .white
-            subtitleLabel.backgroundColor = .white
+            subtitleLabel.textColor = .clear
+            subtitleLabel.backgroundColor = .label.withAlphaComponent(0.5)
             subtitleLabel.startShimmering()
             subtitleLabel.layer.cornerRadius = 8
         }else{
@@ -57,7 +57,7 @@ class SearchTableViewCell: UITableViewCell {
             
         }
     }
-    func configure(chargerLocation : ChargerLocation,searchText : String,recents : Bool){
+    func configure(chargerLocation : LocationData,searchText : String,recents : Bool){
         configureUI()
         
         titleLabel.attributedText = highlightText(fullText: chargerLocation.locationName, searchText: searchText)
@@ -90,7 +90,7 @@ class SearchTableViewCell: UITableViewCell {
         }
         let range = (fullText as NSString).range(of: searchText, options: .caseInsensitive)
         if range.location != NSNotFound {
-            attributedString.addAttribute(.foregroundColor, value: ColorManager.primaryColor.cgColor, range: range) // Change text color
+            attributedString.addAttribute(.foregroundColor, value: ColorManager.primaryTextColor.cgColor, range: range) // Change text color
             attributedString.addAttribute(.font, value: FontManager.bold(size: 17), range: range) // Make it bold
         }
         return attributedString

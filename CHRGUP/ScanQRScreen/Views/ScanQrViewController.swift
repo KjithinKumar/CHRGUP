@@ -47,7 +47,7 @@ class ScanQrViewController: UIViewController {
         }
     }
     func fetchChargerDetails(id: String,scannedCode : QRPayload){
-        viewModel?.fetchChargerDetails(id: id) { [weak self] result in
+        viewModel?.fetchChargerDetails(id: id,connectorId: scannedCode.connectorId) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {

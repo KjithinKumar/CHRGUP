@@ -9,6 +9,7 @@ import UIKit
 
 protocol locationInfoViewControllerDelegate : AnyObject {
     func didTapFavouriteButton(at indexPath: IndexPath)
+    func didReserveCharger()
 }
 
 class LocationInfoViewController: UIViewController {
@@ -24,7 +25,12 @@ class LocationInfoViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var scanQrButton: UIButton!
     @IBOutlet weak var Middleview: UIView!
+    @IBOutlet weak var buttonStackView: UIStackView!
     let pageController = UIPageControl()
+    @IBOutlet weak var reseveButton: UIButton!
+    let popUpView = UIView()
+    private var popUpViewConstraint: NSLayoutConstraint!
+    private var shouldReloadParentView: Bool = false
     
     var viewModel : LocationInfoViewModelInterface?
     weak var delegate : locationInfoViewControllerDelegate?
@@ -35,7 +41,7 @@ class LocationInfoViewController: UIViewController {
         setUpCollectionView()
         configureUi()
         setUpTableView()
-        
+        self.presentationController?.delegate = self
     }
     func reloadUi(){
         tableView.reloadData()
@@ -55,11 +61,11 @@ class LocationInfoViewController: UIViewController {
         distanceLabel.textColor = ColorManager.textColor
         distanceLabel.font = FontManager.bold(size: 17)
         
-        dismissButton.tintColor = ColorManager.buttonColorwhite
+        dismissButton.tintColor = ColorManager.buttonTintColor
         
         if viewModel.isAvailable{
             statusLabel.text = "OPEN"
-            statusLabel.textColor = ColorManager.primaryColor
+            statusLabel.textColor = ColorManager.primaryTextColor
             statusLabel.font = FontManager.regular()
         }else{
             statusLabel.text = "CLOSED"
@@ -72,14 +78,31 @@ class LocationInfoViewController: UIViewController {
         scanQrButton.layer.cornerRadius = 25
         scanQrButton.setTitle(AppStrings.Map.scanButtonTitle, for: .normal)
         scanQrButton.titleLabel?.font = FontManager.bold(size: 17)
-        scanQrButton.imageView?.tintColor = ColorManager.backgroundColor
-        scanQrButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        scanQrButton.imageView?.tintColor = ColorManager.buttonTextColor
+        scanQrButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         scanQrButton.backgroundColor = ColorManager.primaryColor
+        
+        reseveButton.layer.cornerRadius = 25
+        reseveButton.setTitle(AppStrings.ChargerInfo.reserveButtonTitle, for: .normal)
+        reseveButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
+        reseveButton.titleLabel?.font = FontManager.bold(size: 16)
+        reseveButton.imageView?.tintColor = ColorManager.buttonTextColor
+        reseveButton.backgroundColor = ColorManager.primaryColor
+        if viewModel.pointsAvailable != "0"{
+            setReserveButtonState(isActive: true)
+            
+        }else{
+            setReserveButtonState(isActive: false)
+            buttonStackView.removeArrangedSubview(reseveButton)
+        }
         
         tableView.backgroundColor = ColorManager.secondaryBackgroundColor
         
     }
     @IBAction func dismissButtonPressed(_ sender: Any) {
+        if shouldReloadParentView{
+            delegate?.didReserveCharger()
+        }
         dismiss(animated: true)
     }
     @IBAction func addToFavouriteButtonPressed(_ sender: Any) {
@@ -107,8 +130,8 @@ class LocationInfoViewController: UIViewController {
         if favourite{
             addToFavouriteButton.setTitle(" Favourite", for: .normal)
             addToFavouriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            addToFavouriteButton.tintColor = ColorManager.primaryColor
-            addToFavouriteButton.setTitleColor(ColorManager.primaryColor, for: .normal)
+            addToFavouriteButton.tintColor = ColorManager.primaryTextColor
+            addToFavouriteButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
             addToFavouriteButton.isUserInteractionEnabled = false
         }else{
             addToFavouriteButton.setTitleColor(ColorManager.subtitleTextColor, for: .normal)
@@ -149,6 +172,33 @@ class LocationInfoViewController: UIViewController {
         pageController.addTarget(self, action: #selector(pageControlTapped(_:)), for: .valueChanged)
 
     }
+    @IBAction func reserveButtonPressed(_ sender: Any) {
+        if let locationDisplayData = viewModel?.connectorItems{
+            let availableConnectors = locationDisplayData.filter { $0.connector.status == "Available" }
+            let reserveVc = ReserveViewController(viewModel: ReserveChargerViewModel(connectorItems: availableConnectors , networkManger: NetworkManager()))
+            reserveVc.modalPresentationStyle = .popover
+            if let popoverController = reserveVc.popoverPresentationController {
+                popoverController.sourceView = sender as? UIView
+            }
+            reserveVc.onReservationSuccess = { [weak self] updatedConnector in
+                guard let self = self else { return }
+                viewModel?.updateConnectorStatus(updatedConnector)
+                tableView.reloadData()
+                shouldReloadParentView = true
+                if viewModel?.pointsAvailable == "0"{
+                    buttonStackView.removeArrangedSubview(reseveButton)
+                }
+            }
+            present(reserveVc, animated: true)
+        }
+    }
+    func setReserveButtonState(isActive : Bool){
+        if isActive{
+            reseveButton.backgroundColor = ColorManager.primaryColor
+        }else{
+            reseveButton.backgroundColor = ColorManager.secondaryBackgroundColor
+        }
+    }
 }
 extension LocationInfoViewController: UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UICollectionViewDelegate{
     func setUpCollectionView(){
@@ -164,8 +214,6 @@ extension LocationInfoViewController: UICollectionViewDataSource,UICollectionVie
         collectionView.register(UINib(nibName: "LocationImageCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: LocationImageCollectionViewCell.identifier)
         setUpPageControl()
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel?.locationImage.count ?? 0
@@ -204,7 +252,7 @@ extension LocationInfoViewController : UITableViewDelegate,UITableViewDataSource
         tableView.register(UINib(nibName: "LabelSublabelTableViewCell", bundle: nil), forCellReuseIdentifier: LabelSublabelTableViewCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
 
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -215,14 +263,10 @@ extension LocationInfoViewController : UITableViewDelegate,UITableViewDataSource
         switch viewModel?.locationCellType[indexPath.row]{
         case .chargers:
             if let cell = tableView.dequeueReusableCell(withIdentifier: ChargersTableViewCell.identifier) as? ChargersTableViewCell{
-                if let locationData = viewModel?.locationData{
+                if let connectorItems = viewModel?.connectorItems{
                     if let pointsAvailable = viewModel?.pointsAvailable{
-                        let statusPriority: [String: Int] = ["Available": 0, "Inactive": 2]
-                        let sortedChargers = locationData.chargerInfo.sorted {
-                            (statusPriority[$0.status ?? ""] ?? 1) < (statusPriority[$1.status ?? ""] ?? 1)
-                        }
-                        cell.configure(chargerInfo: sortedChargers, pointsAvailable: pointsAvailable, delegate: self)
-                        cell.backgroundColor = .clear
+                        cell.configure(connectorItems: connectorItems, pointsAvailable: pointsAvailable, delegate: self)
+                        cell.backgroundColor  = .clear
                     }
                 }
                 return cell
@@ -282,6 +326,13 @@ extension LocationInfoViewController: ChargersTableViewCellDelegate{
                     presentingVC.pushViewController(helpAndSupportVc, animated: true)
                 }
             }
+        }
+    }
+}
+extension LocationInfoViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        if shouldReloadParentView{
+            delegate?.didReserveCharger()
         }
     }
 }

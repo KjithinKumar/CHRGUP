@@ -36,7 +36,7 @@ class MessageTableViewCell: UITableViewCell {
         messageTextView.layer.cornerRadius = 8
         messageTextView.layer.borderWidth = 0.5
         messageTextView.layer.borderColor = ColorManager.thirdBackgroundColor.cgColor
-        messageTextView.textColor = ColorManager.primaryColor
+        messageTextView.textColor = ColorManager.primaryTextColor
         messageTextView.tintColor = ColorManager.primaryColor
         messageTextView.clipsToBounds = true
         

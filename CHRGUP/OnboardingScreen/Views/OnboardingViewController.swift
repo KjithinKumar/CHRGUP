@@ -55,16 +55,17 @@ class OnboardingViewController: UIViewController {
         descriptionLabel.textColor = ColorManager.subtitleTextColor
         descriptionLabel.numberOfLines = 0
         
-        nextButton.backgroundColor = ColorManager.buttonColor
+        nextButton.backgroundColor = ColorManager.buttonTintColor
         nextButton.layer.cornerRadius = 30
         nextButton.tintColor = ColorManager.backgroundColor
+        nextButton.imageView?.tintColor = ColorManager.backgroundColor
         
-        skipButton.imageView?.tintColor = ColorManager.buttonColor
+        skipButton.imageView?.tintColor = ColorManager.buttonTintColor
         
         pageController.numberOfPages = viewModel?.screenCount ?? 3
         pageController.isUserInteractionEnabled = false
         
-        previousButton.imageView?.tintColor = ColorManager.buttonColor
+        previousButton.imageView?.tintColor = ColorManager.buttonTintColor
         
     }
     func updateUi(){

@@ -15,7 +15,7 @@ class ToastManager {
     
     private init() {}
     
-    func showToast(message: String) {
+    func showToast(message: String, shouldConsiderKeyboard: Bool = false) {
         guard let window = UIApplication.shared.currentUIWindow() else { return }
         
         // Remove previous toast if exists
@@ -25,7 +25,7 @@ class ToastManager {
         toast.numberOfLines = 0
         toast.text = message
         toast.textAlignment = .center
-        toast.backgroundColor = ColorManager.thirdBackgroundColor.withAlphaComponent(0.8)
+        toast.backgroundColor = ColorManager.secondaryBackgroundColor.withAlphaComponent(0.8)
         toast.textColor = ColorManager.subtitleTextColor
         toast.layer.cornerRadius = 20
         toast.clipsToBounds = true
@@ -38,7 +38,12 @@ class ToastManager {
         
         let expectedSize = toast.sizeThatFits(maxSize)
         let toastHeight = max(expectedSize.height + 20, 40) // Add padding
-        let yPosition = window.frame.height - toastHeight - 50
+        let yPosition: CGFloat
+            if shouldConsiderKeyboard{
+                yPosition = window.frame.height/2
+            } else {
+                yPosition = window.frame.height - toastHeight - 50
+            }
         toast.frame = CGRect(x: 50, y: yPosition, width: maxWidth, height: toastHeight)
         
         window.addSubview(toast)

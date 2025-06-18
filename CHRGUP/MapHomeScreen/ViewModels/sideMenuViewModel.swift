@@ -18,7 +18,7 @@ enum sideMenuDestination{
     case history
     case helpandsupport
     case settings
-    
+    case reservations
 }
 
 protocol sideMenuDelegate : AnyObject{
@@ -35,11 +35,12 @@ protocol SideMenuViewModelInterface {
 
 class SideMenuViewModel: SideMenuViewModelInterface {
     let sideMenuItems = [
-        SideMenuItem(title: AppStrings.leftMenu.menuItem1, icon: AppStrings.leftMenu.menuItemImage1,sideMenuDestiantion: .mygarage),
-        SideMenuItem(title: AppStrings.leftMenu.menuItem2, icon: AppStrings.leftMenu.menuItemImage2,sideMenuDestiantion: .favouritedocks),
-        SideMenuItem(title: AppStrings.leftMenu.menuItem3, icon: AppStrings.leftMenu.menuItemImage3,sideMenuDestiantion: .history),
-        SideMenuItem(title: AppStrings.leftMenu.menuItem4, icon: AppStrings.leftMenu.menuItemImage4,sideMenuDestiantion: .helpandsupport),
-        SideMenuItem(title: AppStrings.leftMenu.menuItem5, icon: AppStrings.leftMenu.menuItemImage5,sideMenuDestiantion: .settings),
+        SideMenuItem(title: AppStrings.leftMenu.MyGarage, icon: AppStrings.leftMenu.GarageImage,sideMenuDestiantion: .mygarage),
+        SideMenuItem(title: AppStrings.leftMenu.Reservation, icon: AppStrings.leftMenu.ReservationImage, sideMenuDestiantion: .reservations),
+        SideMenuItem(title: AppStrings.leftMenu.FavouriteDocks, icon: AppStrings.leftMenu.FavouriteDockImage,sideMenuDestiantion: .favouritedocks),
+        SideMenuItem(title: AppStrings.leftMenu.History, icon: AppStrings.leftMenu.HistoryImage,sideMenuDestiantion: .history),
+        SideMenuItem(title: AppStrings.leftMenu.HelpandSupport, icon: AppStrings.leftMenu.HelpandSupportImage,sideMenuDestiantion: .helpandsupport),
+        SideMenuItem(title: AppStrings.leftMenu.Settings, icon: AppStrings.leftMenu.SettingsImage,sideMenuDestiantion: .settings),
     ]
     var userData : UserProfile?
     var vehicleData : [VehicleModel]?

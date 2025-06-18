@@ -27,3 +27,8 @@ struct RemoteNotificationsResponse : Decodable {
     let status : Bool
     let message : String
 }
+
+struct apnTokenResponse : Decodable {
+    let success : Bool
+    let message : String?
+}

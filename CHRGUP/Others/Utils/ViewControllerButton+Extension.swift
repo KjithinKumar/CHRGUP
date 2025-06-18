@@ -28,7 +28,7 @@ extension UIViewController {
     }
 
     func enableButtonAndRemoveIndicator(_ button: UIButton,
-                                        titleColor: UIColor = ColorManager.backgroundColor) {
+                                        titleColor: UIColor = ColorManager.buttonTextColor) {
         button.isUserInteractionEnabled = true
         button.setTitleColor(titleColor, for: .normal)
 

@@ -20,7 +20,7 @@ enum TitleSubtitleType {
 }
 
 protocol LocationInfoViewModelInterface{
-    var locationData : ChargerLocation? {get}
+    var locationData : LocationData? {get}
     var userLocationlatitude : Double? {get}
     var userLocationlongitude : Double? {get}
     var locationName : String {get}
@@ -33,19 +33,20 @@ protocol LocationInfoViewModelInterface{
     func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void)
     var locationLatitude : Double {get}
     var locationLongitude : Double {get}
-    
+    func updateConnectorStatus (_ updatedConnector: ConnectorDisplayItem)
+    var connectorItems : [ConnectorDisplayItem] { get} 
 }
 
 class LocationInfoViewModel : LocationInfoViewModelInterface{
-    
-    
-    var locationData : ChargerLocation?
+    var locationData : LocationData?
     var userLocationlatitude : Double?
     var userLocationlongitude : Double?
-    init(locationData: ChargerLocation,latitude : Double,longitude : Double) {
+    var connectorItems : [ConnectorDisplayItem] = []
+    init(locationData: LocationData,latitude : Double,longitude : Double) {
         self.locationData = locationData
         self.userLocationlatitude = latitude
         self.userLocationlongitude = longitude
+        loadConnectors()
     }
     
     var locationName : String {
@@ -76,6 +77,22 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
     var pointsAvailable : String {
         return "\(locationData?.modpointsAvailable ?? 0)"
     }
+    func loadConnectors(){
+        if let chargerData = locationData?.chargerInfo{
+            for charger in chargerData{
+                if let connectors = charger.connectors{
+                    for connector in connectors{
+                        connectorItems.append(ConnectorDisplayItem(chargerInfo: charger, connector: connector))
+                    }
+                }
+            }
+        }
+        let statusPriority: [String: Int] = ["Available": 0, "Inactive": 2]
+        connectorItems = connectorItems.sorted {
+            (statusPriority[$0.connector.status] ?? 1) < (statusPriority[$1.connector.status] ?? 1)
+        }
+    }
+    
     func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void){
         let locationId = locationData?.id ?? ""
         let userDetails = UserDefaultManager.shared.getUserProfile()
@@ -97,6 +114,13 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
                     completion(.failure(error))
                 }
             }
+        }
+    }
+
+    func updateConnectorStatus (_ updatedConnector: ConnectorDisplayItem) {
+        if let index = connectorItems.firstIndex(where: { $0.connector.connectorId == updatedConnector.connector.connectorId}) {
+            connectorItems[index].connector.status = "InUse"
+            locationData?.modpointsAvailable = connectorItems.filter({ $0.connector.status == "Available" }).count
         }
     }
     

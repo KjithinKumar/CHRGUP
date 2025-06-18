@@ -14,6 +14,7 @@ class GrandTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupStackView()
     }
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -21,7 +22,6 @@ class GrandTableViewCell: UITableViewCell {
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        setupStackView()
     }
     func configure(total : String) {
         let titleLabel = UILabel()

@@ -132,4 +132,14 @@ struct URLs{
     static let paymentStatusUrl = baseUrl + "payment/check-payment-status"
     
     static let pushNotificationUrl = baseUrl + "notification/register-token"
+    
+    static let reservationUrl = baseUrl + "reservations/"
+    
+    static let reservationsByUserUrl = baseUrl + "reservations/user"
+    
+    static func cancelReservationUrl(reservationId : Int) -> String{
+        return baseUrl + "reservations/\(reservationId)/cancel"
+    }
+    
+    static let apnUrl = baseUrl + "apn"
 }

@@ -20,6 +20,8 @@ struct AppIdentifications{
     struct RazorPay{
         static let key = "rzp_test_VqEUdibo7SvawM"
         static let secret = "9QBEFUXxlTJHOr2YlTZeHzjA"
+//        static let key = "rzp_live_nS8i4ndgBzfNUz"
+//        static let secret = "oTEzszEM2rG5Carbbvr7ujjR"
     }
 }
 

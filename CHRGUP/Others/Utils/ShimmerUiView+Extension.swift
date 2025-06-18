@@ -16,9 +16,9 @@ extension UIView {
     func startShimmering() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
-            UIColor(white: 1.0, alpha: 0.65).cgColor,
-            UIColor(white: 1.0, alpha: 1.0).cgColor,
-            UIColor(white: 1.0, alpha: 0.65).cgColor
+            ColorManager.textColor.withAlphaComponent(0.65).cgColor,
+            ColorManager.textColor.withAlphaComponent(0.80).cgColor,
+            ColorManager.textColor.withAlphaComponent(0.65).cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)

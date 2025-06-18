@@ -7,7 +7,7 @@
 
 import Foundation
 struct ChargerInfo : Codable {
-    let status : String?
+    var status : String?
     let type : String?
     let subType : String?
     let powerOutput : String?
@@ -15,6 +15,9 @@ struct ChargerInfo : Codable {
     let costPerUnit : Cost?
     let name : String?
     let energyConsumptions : String?
+    let noOfConnector: Int?
+    let connectors: [Connector]?
+    let otherDatas: OtherData?
     enum CodingKeys : String, CodingKey {
         case status
         case type
@@ -24,9 +27,9 @@ struct ChargerInfo : Codable {
         case costPerUnit
         case name
         case energyConsumptions
+        case noOfConnector
+        case connectors
+        case otherDatas
     }
 }
-struct Cost : Codable {
-    let amount : Double?
-    let currency : String?
-}
+

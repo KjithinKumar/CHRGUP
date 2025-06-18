@@ -44,7 +44,7 @@ class MobileNumberViewController: UIViewController {
         view.endEditing(true)
         enableButtonAndRemoveIndicator(signInButton)
         isSendingOtp = false
-        signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        signInButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
     }
     
     func configureAuth() {
@@ -80,9 +80,9 @@ class MobileNumberViewController: UIViewController {
         mobileNumberTextField.backgroundColor = ColorManager.secondaryBackgroundColor
         mobileNumberTextField.layer.cornerRadius = 8
         mobileNumberTextField.layer.masksToBounds = true
-        mobileNumberTextField.textColor = ColorManager.primaryColor
+        mobileNumberTextField.textColor = ColorManager.primaryTextColor
         mobileNumberTextField.tintColor = ColorManager.primaryColor
-        mobileNumberTextField.font = FontManager.bold(size: 17)
+        mobileNumberTextField.font = FontManager.bold(size: 18)
         mobileNumberTextField.keyboardType = .numberPad
         mobileNumberTextField.tag = 0
         mobileNumberTextField.layer.borderWidth = 1
@@ -95,8 +95,6 @@ class MobileNumberViewController: UIViewController {
         signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
         signInButton.layer.cornerRadius = 20
         signInButton.isEnabled = false
-
-        enableButtonAndRemoveIndicator(signInButton)
         
         termsLabel.isUserInteractionEnabled = true
         termsLabel.textColor = ColorManager.textColor
@@ -106,9 +104,9 @@ class MobileNumberViewController: UIViewController {
         let privacyRange = (text as NSString).range(of: "Privacy\nPolicy")
         let cancelationRange = (text as NSString).range(of: "Cancelation & Refund Policy")
         let AttributedString = NSMutableAttributedString(string: AppStrings.Auth.terms)
-        AttributedString.addAttribute(.foregroundColor, value: ColorManager.primaryColor, range: termsRange)
-        AttributedString.addAttribute(.foregroundColor, value: ColorManager.primaryColor, range: privacyRange)
-        AttributedString.addAttribute(.foregroundColor, value: ColorManager.primaryColor, range: cancelationRange)
+        AttributedString.addAttribute(.foregroundColor, value: ColorManager.primaryTextColor, range: termsRange)
+        AttributedString.addAttribute(.foregroundColor, value: ColorManager.primaryTextColor, range: privacyRange)
+        AttributedString.addAttribute(.foregroundColor, value: ColorManager.primaryTextColor, range: cancelationRange)
         termsLabel.attributedText = AttributedString
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTermsTap))
         termsLabel.addGestureRecognizer(tapGesture)
@@ -144,10 +142,11 @@ class MobileNumberViewController: UIViewController {
         if isChecked && isValidMobileNumber{
             signInButton.isEnabled = true
             signInButton.backgroundColor = ColorManager.primaryColor
-
+            signInButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         }else{
             signInButton.isEnabled = false
             signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
 
         }
     }
@@ -203,7 +202,6 @@ extension MobileNumberViewController : UITextFieldDelegate {
         }
         isValidMobileNumber = (newLength == 14)
         updateSignInButtonState()
-        // Limit total length to 14 (including "+91 " prefix)
         return true
     }
 }

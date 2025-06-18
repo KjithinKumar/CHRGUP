@@ -33,7 +33,7 @@ class SubjectTableViewCell: UITableViewCell {
         subjectTextfield.placeholder = placeHolder
         subjectTextfield.backgroundColor = ColorManager.secondaryBackgroundColor
         subjectTextfield.tintColor = ColorManager.primaryColor
-        subjectTextfield.textColor = ColorManager.primaryColor
+        subjectTextfield.textColor = ColorManager.primaryTextColor
         subjectTextfield.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
     }
     @objc func textFieldChanged(){

@@ -41,9 +41,6 @@ struct ChargingLiveStausLiveActivity: Widget {
                 .padding()
             }
             .padding()
-            .activityBackgroundTint(Color(.systemBackground))
-            .activitySystemActionForegroundColor(Color.blue)
-
         } dynamicIsland: { context in
             DynamicIsland {
                 // Expanded UI goes here.  Compose the expanded UI through
@@ -79,10 +76,6 @@ struct ChargingLiveStausLiveActivity: Widget {
                         .padding()
                         
                     }
-                    
-                    .activityBackgroundTint(Color.gray)
-                    .activitySystemActionForegroundColor(Color.black)
-                    // more content
                 }
             } compactLeading: {
                 AppLogo(size: 20)
@@ -121,11 +114,11 @@ extension ChargingLiveActivityAttributes {
 
 extension ChargingLiveActivityAttributes.ContentState {
     fileprivate static var smiley: ChargingLiveActivityAttributes.ContentState {
-        ChargingLiveActivityAttributes.ContentState(time: "00h:00m",energy: "0.000kWH", title: "Charging is in Progress")
+        ChargingLiveActivityAttributes.ContentState(time: "00h:00m",energy: "0.000kWH", chargingTitle: "Charging is in Progress")
      }
      
      fileprivate static var starEyes: ChargingLiveActivityAttributes.ContentState {
-         ChargingLiveActivityAttributes.ContentState(time : "00h:12m", energy: "0.001kWH", title: "Charging is in Progress")
+         ChargingLiveActivityAttributes.ContentState(time : "00h:12m", energy: "0.001kWH", chargingTitle: "Charging is in Progress")
      }
 }
 

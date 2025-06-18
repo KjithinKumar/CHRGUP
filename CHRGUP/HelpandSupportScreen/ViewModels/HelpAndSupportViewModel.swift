@@ -23,6 +23,7 @@ protocol HelpAndSupportViewModelInterface {
     func fetchHistory(completion : @escaping (Result<HistoryResponseModel,Error>)-> Void)
     var history : [HistoryModel]? {get set}
     func createTicket(parameters : [String : String], image: UIImage?,imageFieldName: String,completion : @escaping (Result<createTicketResponseModel ,Error>) -> Void)
+    func reset()
 }
 class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
     var networkManager : NetworkManagerProtocol?
@@ -33,7 +34,15 @@ class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
         self.delegate = delegate
     }
     var faqCategories : [String]?
-    
+    func reset(){
+        fields = [HelpAndSupportDataModel.generalFaq(title: AppStrings.HelpandSupport.generalFaqText, image: "chevron.right", type: .faq),
+                  HelpAndSupportDataModel.customerServiceTitle(title: AppStrings.HelpandSupport.customerServiceText, subTitle: AppStrings.HelpandSupport.customerServiceSubText),
+                  HelpAndSupportDataModel.selectCategory(title: AppStrings.HelpandSupport.categoryText, placeHolder: AppStrings.HelpandSupport.categoryPlaceholderText, image: "chevron.down"),
+                  HelpAndSupportDataModel.selectSession(title: AppStrings.HelpandSupport.sessionText, placeHolder: AppStrings.HelpandSupport.sessionPlaceholderText, image: "chevron.down"),
+                  HelpAndSupportDataModel.subject(title: AppStrings.HelpandSupport.subjectText, placeHolder: AppStrings.HelpandSupport.subjectPlaceholderText),
+                  HelpAndSupportDataModel.message(title: AppStrings.HelpandSupport.messageText, placeHolder: AppStrings.HelpandSupport.messagePlaceholderText),
+                  HelpAndSupportDataModel.attachImage]
+    }
     var fields : [HelpAndSupportDataModel] = [HelpAndSupportDataModel.generalFaq(title: AppStrings.HelpandSupport.generalFaqText, image: "chevron.right", type: .faq),
                                               HelpAndSupportDataModel.customerServiceTitle(title: AppStrings.HelpandSupport.customerServiceText, subTitle: AppStrings.HelpandSupport.customerServiceSubText),
                                               HelpAndSupportDataModel.selectCategory(title: AppStrings.HelpandSupport.categoryText, placeHolder: AppStrings.HelpandSupport.categoryPlaceholderText, image: "chevron.down"),

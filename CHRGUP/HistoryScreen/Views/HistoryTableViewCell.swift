@@ -59,13 +59,13 @@ class HistoryTableViewCell: UITableViewCell {
     func setShimmer(isShimmering : Bool){
         if isShimmering{
             locationLabel.textColor = .clear
-            locationLabel.backgroundColor = .white
+            locationLabel.backgroundColor = .label.withAlphaComponent(0.5)
             locationLabel.layer.cornerRadius = 8
             vehicleLabel.textColor = .clear
-            vehicleLabel.backgroundColor = .white
+            vehicleLabel.backgroundColor = .label.withAlphaComponent(0.5)
             vehicleLabel.layer.cornerRadius = 8
             timeLabel.textColor = .clear
-            timeLabel.backgroundColor = .white
+            timeLabel.backgroundColor = .label.withAlphaComponent(0.5)
             timeLabel.layer.cornerRadius = 8
             locationLabel.startShimmering()
             vehicleLabel.startShimmering()

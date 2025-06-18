@@ -52,7 +52,7 @@ class TicketChatViewController: UIViewController {
         messageTextView.layer.cornerRadius = 20
         messageTextView.layer.masksToBounds = true
         messageTextView.font = FontManager.regular()
-        messageTextView.textColor = ColorManager.primaryColor
+        messageTextView.textColor = ColorManager.primaryTextColor
         messageTextView.delegate = self
         messageTextViewHeightConstraint.constant = 40
         messageTextView.backgroundColor = ColorManager.secondaryBackgroundColor
@@ -60,6 +60,11 @@ class TicketChatViewController: UIViewController {
         messageTextView.translatesAutoresizingMaskIntoConstraints = false
         messageTextView.textContainerInset = UIEdgeInsets(top: 11, left: 12, bottom: 11, right: 12)
         messageTextView.isScrollEnabled = false
+        
+        sendMessageButton.imageView?.tintColor = ColorManager.primaryTextColor
+        sendMessageButton.backgroundColor = ColorManager.secondaryBackgroundColor
+        sendMessageButton.layer.cornerRadius = sendMessageButton.frame.height/2
+        sendMessageButton.clipsToBounds = true
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(gesture)
@@ -69,7 +74,7 @@ class TicketChatViewController: UIViewController {
         statusLabel.textColor = ColorManager.subtitleTextColor
         statusLabel.font = FontManager.regular(size: 14)
         if ticket?.status == "In Progress"{
-            statusLabel.textColor = ColorManager.primaryColor
+            statusLabel.textColor = ColorManager.primaryTextColor
         }
         
         categoryLabel.text = ticket?.category
@@ -192,11 +197,13 @@ extension TicketChatViewController: UITableViewDataSource, UITableViewDelegate{
         return label
     }
     func scrollToBottom() {
-        DispatchQueue.main.async {
-            guard let section = self.tableView.numberOfSections > 0 ? self.tableView.numberOfSections - 1 : nil,
-                  let row = self.tableView.numberOfRows(inSection: section) > 0 ? self.tableView.numberOfRows(inSection: section) - 1 : nil else { return }
-            
-            let indexPath = IndexPath(row: row, section: section)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tableView.layoutIfNeeded()
+            let lastSection = max(self.tableView.numberOfSections - 1, 0)
+            let lastRow = max(self.tableView.numberOfRows(inSection: lastSection) - 1, 0)
+            guard lastRow >= 0 else { return }
+            let indexPath = IndexPath(row: lastRow, section: lastSection)
             self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
         }
     }
@@ -214,7 +221,7 @@ extension TicketChatViewController: UITableViewDataSource, UITableViewDelegate{
         sendMessageButton.isHidden = !isEnabled
         if isEnabled{
             statusLabel.text = "In Progress"
-            statusLabel.textColor = ColorManager.primaryColor
+            statusLabel.textColor = ColorManager.primaryTextColor
         }else{
             statusLabel.text = "Resolved"
             statusLabel.textColor = ColorManager.subtitleTextColor

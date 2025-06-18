@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 class NearByChargerCellViewModel{
-    var chargerLocationData : ChargerLocation
+    var chargerLocationData : LocationData
     var networkManager : NetworkManagerProtocol?
-    init (chargerLocationData : ChargerLocation) {
+    init (chargerLocationData : LocationData) {
         self.chargerLocationData = chargerLocationData
     }
     var locationName : String {
@@ -22,7 +22,7 @@ class NearByChargerCellViewModel{
     }
 
     var parkingTypeColor: UIColor {
-        return chargerLocationData.freePaid.parking ? ColorManager.primaryColor : ColorManager.subtitleTextColor
+        return chargerLocationData.freePaid.parking ? ColorManager.primaryTextColor : ColorManager.subtitleTextColor
     }
 
     var chargingTypeText: String {
@@ -30,7 +30,7 @@ class NearByChargerCellViewModel{
     }
 
     var chargingTypeColor: UIColor {
-        return chargerLocationData.freePaid.charging ? ColorManager.primaryColor : ColorManager.subtitleTextColor
+        return chargerLocationData.freePaid.charging ? ColorManager.primaryTextColor : ColorManager.subtitleTextColor
     }
     
     var distance : String {

@@ -37,14 +37,15 @@ class SearchViewController: UIViewController {
         view.backgroundColor = ColorManager.backgroundColor
         navigationItem.title = "Search Chargers"
         searchLabel.textColor = ColorManager.subtitleTextColor
-        searchBar.tintColor = ColorManager.primaryColor
+        searchBar.tintColor = ColorManager.primaryTextColor
     }
     func fetchData(query : String){
         isLoading = true
         tableView.reloadData()
         self.searchText = query
         viewModel?.fetchChargers(string: query) { result in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 switch result{
                 case .success(let response):
                     if response.success{
@@ -54,7 +55,7 @@ class SearchViewController: UIViewController {
                     }else{
                         self.isLoading = false
                         self.tableView.isHidden = true
-                        ToastManager.shared.showToast(message: response.message ?? "Something went wrong")
+                        ToastManager.shared.showToast(message: response.message ?? "Something went wrong",shouldConsiderKeyboard: true)
                     }
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
@@ -91,7 +92,6 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     func setupSearchBar(){
-        
         searchBar.delegate = self
         searchBar.placeholder = "Search chargers"
     }
@@ -103,13 +103,16 @@ extension SearchViewController: UISearchBarDelegate {
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         debounceSearch(text: searchText)
+        isLoading = true
         if searchText.isEmpty{
+            isLoading = false
             showRecentChargers()
         }
     }
     
     func searchLabelAnimated(ishidden: Bool) {
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
             self.searchLabelHeightConstraint?.constant = ishidden ? 0 : 25
             self.searchLabel.alpha = ishidden ? 0 : 1 // Optional: smooth fade effect
             self.view.layoutIfNeeded()
@@ -118,6 +121,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+        isLoading = false
         searchBar.resignFirstResponder()
         debounceTimer?.invalidate()
         searchLabelAnimated(ishidden: false)
@@ -136,7 +140,7 @@ extension SearchViewController : UITableViewDataSource,UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isLoading{
-            return 5
+            return 10
         }
         return searchBar.text?.isEmpty ?? true ? viewModel?.recentChargers.count ?? 0 : viewModel?.chargers?.count ?? 0
     }
@@ -144,7 +148,8 @@ extension SearchViewController : UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier) as? SearchTableViewCell ?? SearchTableViewCell()
         if searchBar.text?.isEmpty ?? true {
-            if let location = viewModel?.recentChargers[indexPath.row] {
+            if let recentChargers = viewModel?.recentChargers, indexPath.row < recentChargers.count{
+                let location = recentChargers[indexPath.row]
                 cell.configure(chargerLocation: location, searchText: "",recents: true)
                 cell.setShimmering(isShimmering: false)
             }
@@ -191,7 +196,8 @@ extension SearchViewController : UITableViewDataSource,UITableViewDelegate {
             }
         }
         self.present(infoVc, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) { [weak self] in
+            guard let self = self else { return }
             self.tableView.reloadData()
         }
         

@@ -65,7 +65,7 @@ class FavouriteDockViewController: UIViewController {
                             self.checkForEmptyState()
                             self.tableView.reloadData()
                     }else{
-                        self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
+                        self.showAlert(title: "Alert", message: response.message ?? "Something went wrong")
                     }
                     
                 case .failure(let error):

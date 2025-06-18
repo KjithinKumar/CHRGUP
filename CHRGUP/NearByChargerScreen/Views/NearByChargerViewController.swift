@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import Lottie
 
 class NearByChargerViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -14,12 +15,18 @@ class NearByChargerViewController: UIViewController {
     var viewModel : NearByChargerViewModelInterface?
     var userLocation : CLLocation?
     var isLoading : Bool = true
-    
+    var reloadReservation : (()->Void)?
+    private var animationView: LottieAnimationView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUi()
         setUpTableView()
+        fetchLocationData()
+    }
+    
+    func fetchLocationData(){
+        self.isLoading = true
         if let lat = userLocation?.coordinate.latitude, let long = userLocation?.coordinate.longitude {
             if let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber{
                 viewModel?.getNearByCharger(latitue: lat, longitude: long, range: 15, mobileNumber: mobileNumber){ [weak self] result in
@@ -29,16 +36,45 @@ class NearByChargerViewController: UIViewController {
                         case .success(let response):
                             if response.success{
                                 self.isLoading = false
-                                self.tableView.reloadData()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    self.tableView.reloadData()
+                                }
                             }else{
-                                self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
+                                self.showAlert(title: "Alert", message: response.message ?? "Something went wrong")
                             }
                         case .failure(let error):
                             AppErrorHandler.handle(error, in: self)
                         }
+                        self.setupLottieAnimation()
+                        self.checkForEmptyState()
                     }
                 }
             }
+        }
+    }
+    func setupLottieAnimation() {
+        animationView = LottieAnimationView(name: "no_data_anim")
+        animationView?.translatesAutoresizingMaskIntoConstraints = false
+        animationView?.contentMode = .scaleAspectFit
+        animationView?.loopMode = .loop
+        animationView?.play()
+        
+        view.addSubview(animationView!)
+        NSLayoutConstraint.activate([
+            animationView!.centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: 10),
+            animationView!.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: -50),
+                animationView!.widthAnchor.constraint(equalToConstant: 300),
+                animationView!.heightAnchor.constraint(equalToConstant: 300)
+        ])
+    }
+       
+    func checkForEmptyState() {
+        if viewModel?.nearByChargerData().count == 0 {
+            tableView.isHidden = true
+            animationView?.isHidden = false
+        } else {
+            tableView.isHidden = false
+            animationView?.isHidden = true
         }
     }
     
@@ -94,6 +130,10 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
     }
     func didTapFavouriteButton(at indexPath: IndexPath) {
         tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    func didReserveCharger() {
+        fetchLocationData()
+        reloadReservation?()
     }
 }
 extension NearByChargerViewController : NearByChargerViewModelDelegate {

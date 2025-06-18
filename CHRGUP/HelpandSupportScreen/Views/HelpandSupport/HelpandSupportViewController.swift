@@ -23,6 +23,8 @@ class HelpandSupportViewController: UIViewController {
     var selectedHistory : HistoryModel?
     var selectedCategory : String?
     var requiredFields = 4
+    var subject : String?
+    var message : String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,9 @@ class HelpandSupportViewController: UIViewController {
     deinit {
         removeKeyboardNotifications()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        enableButtonAndRemoveIndicator(raiseTicketButton)
+    }
     
     func setUpUI(){
         view.backgroundColor = ColorManager.backgroundColor
@@ -40,7 +45,7 @@ class HelpandSupportViewController: UIViewController {
         
         trackTiccketButton.backgroundColor = ColorManager.backgroundColor
         trackTiccketButton.setTitleColor(ColorManager.subtitleTextColor, for: .normal)
-        trackTiccketButton.imageView?.tintColor = ColorManager.primaryColor
+        trackTiccketButton.imageView?.tintColor = ColorManager.primaryTextColor
         
         raiseTicketButtonState(isEnabled: false)
         
@@ -80,7 +85,8 @@ class HelpandSupportViewController: UIViewController {
                         ToastManager.shared.showToast(message: response.message ?? "")
                         let trackTicketVc = TrackTicketViewController()
                         trackTicketVc.viewModel = TrackTicketViewModel(networkManager: NetworkManager())
-                        self.navigationController?.popViewController(animated: true)
+                        self.resetData()
+                        self.navigationController?.pushViewController(trackTicketVc, animated: true)
                     }else{
                         self.showAlert(title: "Error", message: response.message)
                     }
@@ -89,6 +95,18 @@ class HelpandSupportViewController: UIViewController {
                 }
             }
         }
+    }
+    func resetData(){
+        requiredFields = 4
+        attachImageIndexPath = nil
+        attachedImages = nil
+        textFieldValues.removeAll()
+        selectedHistory = nil
+        selectedCategory = nil
+        viewModel?.reset()
+        subject = nil
+        message = nil
+        tableView.reloadData()
     }
     @IBAction func trackTicketButtonPressed(_ sender: Any) {
         let trackTicketVc = TrackTicketViewController()
@@ -99,13 +117,15 @@ class HelpandSupportViewController: UIViewController {
     func raiseTicketButtonState(isEnabled: Bool){
         raiseTicketButton.isEnabled = isEnabled
         raiseTicketButton.setTitle("Raise ticket", for: .normal)
-        raiseTicketButton.titleLabel?.font = FontManager.bold(size: 18)
         raiseTicketButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        raiseTicketButton.titleLabel?.font = FontManager.bold(size: 18)
         raiseTicketButton.layer.cornerRadius = 20
         if isEnabled{
             raiseTicketButton.backgroundColor = ColorManager.primaryColor
+            raiseTicketButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         }else{
             raiseTicketButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            raiseTicketButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         }
     }
 }
@@ -175,12 +195,14 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
         case .subject(let title,let placeHolder):
             let cell = tableView.dequeueReusableCell(withIdentifier: SubjectTableViewCell.identifier) as? SubjectTableViewCell
             cell?.configure(title: title, placeHolder: placeHolder,delegate: self)
+            cell?.subjectTextfield.text = subject ?? ""
             cell?.selectionStyle = .none
             cell?.backgroundColor = .clear
             return cell ?? UITableViewCell()
         case .message(let title,let placeHolder):
             let cell = tableView.dequeueReusableCell(withIdentifier: MessageTableViewCell.identifier) as? MessageTableViewCell
             cell?.configure(title: title, placeHolder: placeHolder, delegate: self)
+            cell?.messageTextView.text = message ?? ""
             cell?.selectionStyle = .none
             cell?.backgroundColor = .clear
             return cell ?? UITableViewCell()
@@ -357,7 +379,7 @@ extension HelpandSupportViewController : AttachImageCellDelegate, UIImagePickerC
         picker.dismiss(animated: true)
         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
             self.attachedImages = selectedImage
-            tableView.reloadData()
+            self.tableView.reloadData()
         }
     }
     func showImagePickerOptions() {
@@ -398,8 +420,10 @@ extension HelpandSupportViewController : textFieldsdidChangeDelegate{
         case .selectSession:
             self.textFieldValues["sessionId"] = selectedHistory?.sessionId
         case .subject:
+            self.subject = newText
             self.textFieldValues["title"] = newText
         case .message:
+            self.message = newText
             self.textFieldValues["description"] = newText
         default : break
         }

@@ -52,7 +52,7 @@ class EditProfileTableViewCell: UITableViewCell {
         titleLabel.textColor = ColorManager.textColor
         titleLabel.font = FontManager.regular()
         
-        textField.textColor = ColorManager.primaryColor
+        textField.textColor = ColorManager.primaryTextColor
         textField.backgroundColor = ColorManager.secondaryBackgroundColor
         textField.font = FontManager.regular()
         
@@ -70,7 +70,7 @@ class EditProfileTableViewCell: UITableViewCell {
             }else if title == AppStrings.EditProfile.emailText{
                 textField.text = userdata.email
                 textField.isEnabled = false
-                textField.textColor = ColorManager.primaryColor.withAlphaComponent(0.5)
+                textField.textColor = ColorManager.primaryTextColor.withAlphaComponent(0.5)
             }
             textField.tintColor = ColorManager.primaryColor
         case .dropDown(title: let title, placeholder: let placeholder):

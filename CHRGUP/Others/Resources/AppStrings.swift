@@ -84,23 +84,26 @@ struct AppStrings {
     }
     
     struct leftMenu{
-        static let Title = "What am i\ndriving today?"
-        static let highlihtedTitle = "driving"
+        static let Title = "What am i\nDriving today?"
+        static let highlihtedTitle = "Driving"
         
-        static let menuItem1 = "My Garage"
-        static let menuItemImage1 = "car"
+        static let MyGarage = "My Garage"
+        static let GarageImage = "car"
         
-        static let menuItem2 = "Favourite Docks"
-        static let menuItemImage2 = "heart"
+        static let FavouriteDocks = "Favourite Docks"
+        static let FavouriteDockImage = "heart"
         
-        static let menuItem3 = "History"
-        static let menuItemImage3 = "clock"
+        static let History = "History"
+        static let HistoryImage = "clock"
         
-        static let menuItem4 = "Help & Support"
-        static let menuItemImage4 = "phone.connection"
+        static let HelpandSupport = "Help & Support"
+        static let HelpandSupportImage = "phone.connection"
         
-        static let menuItem5 = "Settings"
-        static let menuItemImage5 = "gear"
+        static let Settings = "Settings"
+        static let SettingsImage = "gear"
+        
+        static let Reservation = "Reservations"
+        static let ReservationImage = "calendar.badge.clock"
     }
     
     struct Garage{
@@ -127,6 +130,8 @@ struct AppStrings {
         static let AddressText = "ADDRESS"
         
         static let contactText = "CONTACT"
+        
+        static let reserveButtonTitle = " Reserve"
     }
     
     struct Settings{
@@ -163,6 +168,8 @@ struct AppStrings {
     
     struct ScanQr{
         static let manualQrTitle = "Please enter the code\ndisplayed on the charger"
+        
+        static let connectorIdText = "Select Connector ID"
     }
     
     struct StartCharging{
@@ -252,5 +259,27 @@ struct AppStrings {
         static let messageText = "Message"
         
         static let messagePlaceholderText = "Enter message"
+    }
+    
+    struct reserveCharger{
+        static let reservationTitleText = "Reservations"
+        
+        static let reserveChargerTitleText = "Reserve Charger"
+        
+        static let reserveChargerText = "Choose the connector type"
+        
+        static let selectTimeText = "Select time to reserve (max 15 mins)"
+        
+        static let reserveButtonText = "Reserve"
+        
+        static let timeSubtitleText = "Charger will be reserved until : "
+        
+        static let allButtonText = "All"
+        
+        static let reservedButtonText = "  Reserved"
+        
+        static let completedButtonText = "  Completed"
+        
+        static let failedButtonText = "  Failed"
     }
 }

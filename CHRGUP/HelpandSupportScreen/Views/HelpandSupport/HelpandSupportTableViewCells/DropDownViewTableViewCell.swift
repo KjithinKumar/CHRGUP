@@ -33,7 +33,7 @@ class DropDownViewTableViewCell: UITableViewCell {
         valuetextField.placeholder = placeholder
         valuetextField.tintColor = .clear
         valuetextField.isUserInteractionEnabled = false
-        valuetextField.textColor = ColorManager.primaryColor
+        valuetextField.textColor = ColorManager.primaryTextColor
         
         dropDownImageView.image = UIImage(systemName: image)
         dropDownImageView.tintColor = ColorManager.textColor

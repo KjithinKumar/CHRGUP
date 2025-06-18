@@ -16,11 +16,11 @@ class LocationImageCollectionViewCell: UICollectionViewCell {
     static let identifier: String = "LocationImageCollectionViewCell"
     override func awakeFromNib() {
         super.awakeFromNib()
-        setupSpinner()
     }
     func configure(with image: String) {
         let urlString = URLs.baseUrls3+image
         let url = URL(string: urlString)
+        setupSpinner()
         locationImageView.sd_setImage(with: url) { [weak self] _, _, _, _ in
             guard let self else { return }
             self.spinner.stopAnimating()

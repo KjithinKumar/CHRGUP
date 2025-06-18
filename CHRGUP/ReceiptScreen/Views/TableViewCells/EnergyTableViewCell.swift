@@ -14,7 +14,7 @@ class EnergyTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        setUpStackView()
     }
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -23,7 +23,7 @@ class EnergyTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        setUpStackView()
+        //setUpStackView()
     }
     func configure(energy: energyDetailsModel) {
         setUpDataInStackView(data: energy)

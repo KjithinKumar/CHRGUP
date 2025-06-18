@@ -9,6 +9,6 @@ import Foundation
 
 struct ChargerLocationUpdateResopnse : Decodable{
     let success: Bool
-    let data : ChargerLocation?
+    let data : LocationData?
     let message: String?
 }

@@ -34,10 +34,10 @@ class CustomDeleteAlertController: UIViewController {
     }
 
     private func setupUI() {
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
 
         let alertView = UIView()
-        alertView.backgroundColor = ColorManager.thirdBackgroundColor
+        alertView.backgroundColor = ColorManager.backgroundColor
         alertView.layer.cornerRadius = 10
         alertView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -49,6 +49,7 @@ class CustomDeleteAlertController: UIViewController {
         if let url = URL(string: vehicleImageURL) {
             vehicleImageView.sd_setImage(with: url)
         }
+        vehicleImageView.contentMode = .scaleAspectFit
 
         let titleLabel = UILabel()
         titleLabel.text = "Delete Vehicle"
@@ -71,7 +72,7 @@ class CustomDeleteAlertController: UIViewController {
         let cancelButton = UIButton()
         cancelButton.setTitle("Cancel", for: .normal)
         cancelButton.backgroundColor = ColorManager.primaryColor
-        cancelButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        cancelButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         cancelButton.layer.cornerRadius = 20
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.addTarget(self, action: #selector(dismissMyAlert), for: .touchUpInside)
@@ -79,7 +80,7 @@ class CustomDeleteAlertController: UIViewController {
         let deleteButton = UIButton()
         deleteButton.setTitle("Delete", for: .normal)
         deleteButton.backgroundColor = .red
-        deleteButton.setTitleColor(.white, for: .normal)
+        deleteButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         deleteButton.layer.cornerRadius = 20
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.addTarget(self, action: #selector(deleteVehicle), for: .touchUpInside)
@@ -103,8 +104,12 @@ class CustomDeleteAlertController: UIViewController {
             titleLabel.leadingAnchor.constraint(equalTo: alertView.leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: alertView.trailingAnchor),
 
+            vehicleImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             vehicleImageView.bottomAnchor.constraint(equalTo: vehicleLabel.topAnchor, constant: -10),
             vehicleImageView.centerXAnchor.constraint(equalTo: alertView.centerXAnchor),
+            vehicleImageView.heightAnchor.constraint(equalToConstant: 150),
+            vehicleImageView.leadingAnchor.constraint(equalTo: alertView.leadingAnchor,constant: 20),
+            vehicleImageView.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -20),
 
             vehicleLabel.bottomAnchor.constraint(equalTo: buttonStack.topAnchor, constant: -20),
             vehicleLabel.leadingAnchor.constraint(equalTo: alertView.leadingAnchor),

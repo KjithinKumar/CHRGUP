@@ -36,7 +36,7 @@ class TrackTicketTableViewCell: UITableViewCell {
         createLabel.text = convertDateString(ticket.createdAt)
         
         if ticket.status == "In Progress"{
-            statusLabel.textColor = ColorManager.primaryColor
+            statusLabel.textColor = ColorManager.primaryTextColor
         }
         statusLabel.text = ticket.status
         
@@ -49,21 +49,21 @@ class TrackTicketTableViewCell: UITableViewCell {
             backView.backgroundColor = ColorManager.secondaryBackgroundColor
             backView.layer.cornerRadius = 8
             backView.layer.masksToBounds = true
-            createLabel.textColor = .white
+            createLabel.textColor = .clear
             createLabel.startShimmering()
             createLabel.layer.cornerRadius = 8
-            createLabel.backgroundColor = .white
+            createLabel.backgroundColor = .label.withAlphaComponent(0.5)
             ticketNumberLabel.textColor = .clear
-            titleLabel.textColor = .white
+            titleLabel.textColor = .clear
             titleLabel.layer.cornerRadius = 8
-            titleLabel.backgroundColor = .white
+            titleLabel.backgroundColor = .label.withAlphaComponent(0.5)
             titleLabel.startShimmering()
-            statusLabel.textColor = .white
+            statusLabel.textColor = .clear
             statusLabel.startShimmering()
             statusLabel.layer.cornerRadius = 8
-            statusLabel.backgroundColor = .white
-            categoryLabel.textColor = .white
-            categoryLabel.backgroundColor = .white
+            statusLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            categoryLabel.textColor = .clear
+            categoryLabel.backgroundColor = .label.withAlphaComponent(0.5)
             categoryLabel.startShimmering()
             categoryLabel.layer.cornerRadius = 8
         }else{

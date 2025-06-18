@@ -55,6 +55,7 @@
 		04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChargingStausLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0459D6412DD4B6F40082E5D8 /* ChargingStausLiveActivityExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChargingStausLiveActivityExtension.entitlements; sourceTree = "<group>"; };
 		04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHRGUP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB94416E79E17D772ED0777 /* Pods-CHRGUP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.debug.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.debug.xcconfig"; sourceTree = "<group>"; };
 		BAF99BC9D946B362E95711FA /* Pods-CHRGUP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.release.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.release.xcconfig"; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		04DAC9652D6DB3F800EB4FB8 = {
 			isa = PBXGroup;
 			children = (
+				0459D6412DD4B6F40082E5D8 /* ChargingStausLiveActivityExtension.entitlements */,
 				04DAC9702D6DB3F800EB4FB8 /* CHRGUP */,
 				045021162DBB92CD00A48BD9 /* ChargingStausLiveActivity */,
 				04DAC96F2D6DB3F800EB4FB8 /* Products */,
@@ -384,6 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ChargingStausLiveActivityExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SC7AF9LK93;
@@ -412,6 +415,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ChargingStausLiveActivityExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SC7AF9LK93;

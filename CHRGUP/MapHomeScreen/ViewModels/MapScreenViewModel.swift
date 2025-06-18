@@ -21,6 +21,7 @@ protocol MapScreenViewModelInterface : AnyObject{
     func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void)
     func getFormattedTimeDifference(from dateString: String) -> String
     func registerForRemoteNotifications(fcmToken: String, completion : @escaping( Result<RemoteNotificationsResponse,Error>) -> Void)
+    func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void)
 }
 
 class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
@@ -118,7 +119,7 @@ extension MapScreenViewModel {
         let header = ["Authorization": "Bearer \(authToken)"]
         guard let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
         let body : [String:Any] = ["userPhone":phoneNumber,
-                                   "timezone":"Asia/Kolkata"]
+                                   "timezone": AppConstants.timeZone]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(request, decodeTo: ChargingStatusResponseModel.self) { [weak self] result in
                 guard let _ = self else { return }
@@ -153,6 +154,21 @@ extension MapScreenViewModel {
         let body = ["phoneNumber": mobileNumber, "fcmToken": fcmToken]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(request, decodeTo: RemoteNotificationsResponse.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
+    func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void) {
+        let url = URLs.apnUrl
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header: [String: String] = ["Authorization": "Bearer \(authToken)"]
+        guard let sessionId = UserDefaultManager.shared.getSessionId() else {return}
+        let body : [String:Any] = ["deviceToken":apnToken,
+                                   "sessionId" : sessionId,
+                                   "event" : event]
+        if let requset = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
+            networkManager?.request(requset, decodeTo: apnTokenResponse.self) { [weak self] result in
                 guard let _ = self else { return }
                 completion(result)
             }

@@ -73,7 +73,7 @@ class SetRangeViewController: UIViewController {
         rangeTextField.placeholder = "Enter Range"
         rangeTextField.backgroundColor = ColorManager.secondaryBackgroundColor
         rangeTextField.tintColor = ColorManager.primaryColor
-        rangeTextField.textColor = ColorManager.primaryColor
+        rangeTextField.textColor = ColorManager.primaryTextColor
         rangeTextField.delegate = self
         rangeTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
@@ -108,8 +108,6 @@ class SetRangeViewController: UIViewController {
         case .registerNew:
             userData?.userVehicle[0].range = rangeTextField.text ?? "0"
             guard let userData = userData else { return }
-            UserDefaultManager.shared.saveUserProfile(userData)
-            UserDefaultManager.shared.saveSelectedVehicle(userData.userVehicle[0])
             viewModel?.saveUserProfile(userProfile: userData)
         case .addNew:
             guard let mobileNumeber = userData?.phoneNumber else { return }
@@ -137,8 +135,10 @@ extension SetRangeViewController : UITextFieldDelegate {
         doneButton.isEnabled = !(textField.text?.isEmpty ?? true)
         if doneButton.isEnabled {
             doneButton.backgroundColor = ColorManager.primaryColor
+            doneButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         }else{
             doneButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            doneButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         }
     }
 }

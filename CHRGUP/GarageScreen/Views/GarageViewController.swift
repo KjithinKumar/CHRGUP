@@ -40,7 +40,7 @@ class GarageViewController: UIViewController {
         addnewButton.layer.cornerRadius = addnewButton.frame.height/2
         addnewButton.layer.masksToBounds = true
         addnewButton.backgroundColor = ColorManager.primaryColor
-        addnewButton.tintColor = ColorManager.backgroundColor
+        addnewButton.tintColor = ColorManager.buttonTextColor
         addnewButton.isHidden = isLoading
     }
 

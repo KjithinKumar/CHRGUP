@@ -88,7 +88,7 @@ class ChargingStatusViewController: UIViewController {
         stopButton.backgroundColor = ColorManager.primaryColor
         stopButton.setTitle(AppStrings.chargingStatus.stopChargingText, for: .normal)
         stopButton.titleLabel?.font = FontManager.bold(size: 18)
-        stopButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        stopButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         stopButton.layer.cornerRadius = 20
         
         priceLabel.text = "₹ 0.000/Unit"
@@ -105,7 +105,7 @@ class ChargingStatusViewController: UIViewController {
         
         titleLabel.text = AppStrings.chargingStatus.title
         titleLabel.font = FontManager.bold(size: 25)
-        titleLabel.textColor = ColorManager.primaryColor
+        titleLabel.textColor = ColorManager.primaryTextColor
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -133,7 +133,7 @@ class ChargingStatusViewController: UIViewController {
     func setUpAnimations(){
         let backView = UIView()
         backView.translatesAutoresizingMaskIntoConstraints = false
-        backView.backgroundColor = ColorManager.primaryColor.withAlphaComponent(0.15)
+        backView.backgroundColor = ColorManager.primaryTextColor.withAlphaComponent(0.2)
         backView.layer.cornerRadius = lottieView.frame.width / 2
         backView.clipsToBounds = true
         lottieView.addSubview(backView)
@@ -161,10 +161,10 @@ class ChargingStatusViewController: UIViewController {
         RunLoop.main.add(pingTimer!, forMode: .common)
         labelUpdateTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateLastPingLabel), userInfo: nil, repeats: true)
         RunLoop.main.add(labelUpdateTimer!, forMode: .common)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){ [weak self] in
-            guard let self = self else { return }
-            self.fetchData()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0){ [weak self] in
+//            guard let self = self else { return }
+//            self.fetchData()
+//        }
     }
     @objc func fetchData(){
         viewModel?.fetchChargingStatus { [weak self] result in
@@ -182,7 +182,18 @@ class ChargingStatusViewController: UIViewController {
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                             self.lastPingDate = Date()
                             Task {
-                                await ChargingLiveActivityManager.updateActivity(time: chargingTime?.string ?? "", energy: energyConsumed)
+                                let token = await ChargingLiveActivityManager.updateActivity(time: chargingTime?.string ?? "", energy: energyConsumed,chargingTitle: "charging is in progress")
+                                if let token = token {
+                                    self.viewModel?.pushLiveApnToken(apnToken: token,event: "update") { [weak self] result in
+                                        guard let _ = self else { return }
+                                        switch result {
+                                        case .success(let response):
+                                            debugPrint(response)
+                                        case .failure(let error):
+                                            debugPrint(error)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }else{
@@ -259,9 +270,20 @@ class ChargingStatusViewController: UIViewController {
         return String(format: "%.4f kWh", kilowattHours)
     }
     func stopChargingForce() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){ [weak self] in
+            guard let self = self else { return }
             Task {
-                await ChargingLiveActivityManager.endActivity()
+                if let token = await ChargingLiveActivityManager.endActivity(){
+                    self.viewModel?.pushLiveApnToken(apnToken: token,event: "stop") { [weak self] result in
+                        guard let _ = self else { return }
+                        switch result {
+                        case .success(let response):
+                            debugPrint(response)
+                        case .failure(let error):
+                            debugPrint(error)
+                        }
+                    }
+                }
             }
             self.pingTimer?.invalidate()
             self.labelUpdateTimer?.invalidate()
@@ -275,64 +297,13 @@ class ChargingStatusViewController: UIViewController {
 
 extension ChargingStatusViewController : UNUserNotificationCenterDelegate  {
     func requestNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        center.delegate = self
-        center.requestAuthorization(options: [.alert, .badge, .sound]) {
-            success, error in
-            if success {
-                print("Permission Granted")
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                    self.sendChargingStartedNotification()
-                }
-            } else if let error = error {
-                print("Permission Denied: \(error)")
-            }
-        }
+        sendChargingStartedNotification()
     }
     func sendChargingStartedNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "Charging Started"
-        content.body = "Your vehicle charging has started successfully."
-        content.sound = .default
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
-        
-        let request = UNNotificationRequest(
-            identifier: UUID().uuidString,
-            content: content,
-            trigger: trigger
-        )
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                debugPrint("Error scheduling local notification: \(error.localizedDescription)")
-            } else {
-                debugPrint("Local notification scheduled.")
-            }
-        }
+        NotificationManager.shared.sendChargingStartedNotification()
     }
     func sendChargingEndedNotification(message : String) {
-        let content = UNMutableNotificationContent()
-        content.title = "Charging Ended"
-        content.body = message
-        content.sound = .default
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.5, repeats: false)
-        
-        let request = UNNotificationRequest(
-            identifier: UUID().uuidString,
-            content: content,
-            trigger: trigger
-        )
-        
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                debugPrint("Error scheduling local notification: \(error.localizedDescription)")
-            } else {
-                debugPrint("Local notification scheduled.")
-            }
-        }
+        NotificationManager.shared.sendChargingEndedNotification(message: message)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                      willPresent notification: UNNotification,

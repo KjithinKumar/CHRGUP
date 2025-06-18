@@ -83,7 +83,9 @@ class StartChargeViewController: UIViewController {
         
         closeButton.tintColor = ColorManager.textColor
         
-        infoButton.tintColor = ColorManager.textColor
+        infoButton.tintColor = ColorManager.placeholderColor
+        infoButton.setTitle(" Legends", for: .normal)
+        infoButton.setTitleColor(ColorManager.placeholderColor, for: .normal)
         
         setUpData()
         configureNavBar()
@@ -221,7 +223,16 @@ class StartChargeViewController: UIViewController {
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "Charging started")
                         Task {
-                            ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress")
+                            if let token = await ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress"){
+                                self.viewModel?.pushLiveApnToken(apnToken: token,event: "update") { result in
+                                    switch result {
+                                    case.success(let response):
+                                        debugPrint(response)
+                                    case .failure(let error):
+                                        debugPrint(error)
+                                    }
+                                }
+                            }
                         }
                         let statusVc = ChargingStatusViewController()
                         statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())

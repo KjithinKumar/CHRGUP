@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import os
+
+private let logger = Logger(subsystem: "com.esyasoft.CHRGUP", category: "NetworkManager")
 
 enum NetworkRequestType : String {
     case get = "GET"
@@ -57,34 +60,47 @@ protocol NetworkManagerProtocol : AnyObject {
 
 class NetworkManager: NetworkManagerProtocol {
     func request<T>(_ urlRequest: URLRequest, decodeTo type: T.Type, completion: @escaping (Result<T, any Error>) -> Void) where T : Decodable {
+        logger.debug("Requesting: \(urlRequest.url?.absoluteString ?? "nil")")
+        logger.debug("Method: \(urlRequest.httpMethod ?? "nil")")
+        if let headers = urlRequest.allHTTPHeaderFields {
+            logger.debug("Headers: \(headers.description)")
+        }
+        
+        if let body = urlRequest.httpBody,
+           let bodyString = String(data: body, encoding: .utf8) {
+            logger.debug("Body: \(bodyString)")
+        }
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error{
+                logger.error("❌ Network error: \(error.localizedDescription)")
                 completion(.failure(NetworkManagerError.serverError(message: error.localizedDescription, code: 0)))
                 return
             }
             guard let data = data else{
+                logger.error("❌ No data received")
                 completion(.failure(NetworkManagerError.noData))
+                return
+            }
+            guard let httpResponse = response as? HTTPURLResponse else {
+                return
+            }
+            if !(200...299).contains(httpResponse.statusCode) {
+                let errorMessage = self.parseErrorMessage(from: data)
+                completion(.failure(NetworkManagerError.serverError(message: errorMessage, code: httpResponse.statusCode)))
                 return
             }
             
             do {
                 let decodedObject = try JSONDecoder().decode(T.self, from: data)
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    return
+                if let responseString = String(data: data, encoding: .utf8) {
+                    logger.debug("⬅️ Response Body: \(responseString)")
                 }
-                if !(200...299).contains(httpResponse.statusCode) {
-                    let errorMessage = self.parseErrorMessage(from: data)
-                    completion(.failure(NetworkManagerError.serverError(message: errorMessage, code: httpResponse.statusCode)))
-                    return
-                }
+                logger.info("⬅️ Status Code: \(httpResponse.statusCode)")
                 completion(.success(decodedObject))
-                
             }catch(let error){
                 debugPrint(error, urlRequest.url ?? "decodingFailed")
                 completion(.failure(NetworkManagerError.decodingFailed))
             }
-            
-            
         }
         task.resume()
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class TrackTicketViewController: UIViewController {
     
@@ -13,6 +14,7 @@ class TrackTicketViewController: UIViewController {
     
     var viewModel : TrackTicketViewModelInterface?
     var isLoading = true
+    private var animationView: LottieAnimationView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +31,14 @@ class TrackTicketViewController: UIViewController {
         viewModel?.getAllTickets(completeion: { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
+                self.checkIfEmpty()
                 switch result{
                 case .success(let response):
                     if response.success{
                         self.isLoading = false
                         self.tableView.reloadData()
                     }else{
+                        guard response.message != "No tickets found for your account." else { return }
                         self.showAlert(title: "Error", message: response.message)
                     }
                 case .failure(let error):
@@ -43,7 +47,31 @@ class TrackTicketViewController: UIViewController {
             }
         })
     }
-
+    func checkIfEmpty(){
+        if viewModel?.userTickets == nil{
+            tableView.isHidden = true
+            animationView?.isHidden = false
+            setupLottieAnimation()
+        }else{
+            tableView.isHidden = false
+            animationView?.isHidden = true
+        }
+    }
+    func setupLottieAnimation() {
+        animationView = LottieAnimationView(name: "no_data_anim")
+        animationView?.translatesAutoresizingMaskIntoConstraints = false
+        animationView?.contentMode = .scaleAspectFit
+        animationView?.loopMode = .loop
+        animationView?.play()
+        
+        view.addSubview(animationView!)
+        NSLayoutConstraint.activate([
+            animationView!.centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: 10),
+            animationView!.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: -50),
+                animationView!.widthAnchor.constraint(equalToConstant: 300),
+                animationView!.heightAnchor.constraint(equalToConstant: 300)
+        ])
+    }
 }
 extension TrackTicketViewController:UITableViewDelegate,UITableViewDataSource{
     func setUpTableView(){

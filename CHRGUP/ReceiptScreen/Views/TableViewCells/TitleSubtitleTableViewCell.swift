@@ -14,6 +14,7 @@ class TitleSubtitleTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        setupStackView()
     }
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -21,7 +22,6 @@ class TitleSubtitleTableViewCell: UITableViewCell {
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        setupStackView()
     }
     func configure(details : [[String : String]]){
         addKeyValuePairsToStackView(data: details)
@@ -60,7 +60,7 @@ class TitleSubtitleTableViewCell: UITableViewCell {
             valueLabel.font = FontManager.regular()
             valueLabel.textColor = ColorManager.textColor
             if valueLabel.text == "FREE" || valueLabel.text == "₹ 0.00"{
-                valueLabel.textColor = ColorManager.primaryColor
+                valueLabel.textColor = ColorManager.primaryTextColor
             }
             valueLabel.textAlignment = .right
             

@@ -112,7 +112,7 @@ class OtpViewController: UIViewController {
             .applyingSymbolConfiguration(UIImage.SymbolConfiguration(weight: .bold))
         button.setImage(backImage, for: .normal)
         button.backgroundColor = .clear
-        button.tintColor = ColorManager.buttonColorwhite
+        button.tintColor = ColorManager.buttonTintColor
         button.contentHorizontalAlignment = .left
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
         button.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
@@ -125,13 +125,13 @@ extension OtpViewController : UITextFieldDelegate{
         otpTextField1.textContentType = .oneTimeCode
         for i in otpTextFields{
             i.backgroundColor = ColorManager.secondaryBackgroundColor
-            i.textColor = ColorManager.primaryColor
-            i.tintColor = ColorManager.primaryColor
+            i.textColor = ColorManager.primaryTextColor
+            i.tintColor = ColorManager.primaryTextColor
             i.keyboardType = .numberPad
             i.delegate = self
-            i.layer.borderWidth = 1
-            i.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor
-            i.font = FontManager.bold(size: 17)
+            i.layer.borderWidth = 0
+            i.layer.borderColor = ColorManager.primaryTextColor.cgColor
+            i.font = FontManager.bold(size: 20)
             i.layer.cornerRadius = 8
             i.layer.masksToBounds = true
             i.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
@@ -186,7 +186,7 @@ extension OtpViewController : UITextFieldDelegate{
         checkIfOTPIsEntered()
     }
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.layer.borderColor = ColorManager.primaryColor.cgColor
+        textField.layer.borderWidth = 1
     }
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if let index = otpTextFields.firstIndex(of: textField) {
@@ -199,9 +199,9 @@ extension OtpViewController : UITextFieldDelegate{
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
-            textField.layer.borderColor = ColorManager.primaryColor.cgColor
+            textField.layer.borderWidth = 1
         } else {
-            textField.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor
+            textField.layer.borderWidth = 0
         }
     }
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -253,7 +253,7 @@ extension OtpViewController{
         } else {
             timer?.invalidate()
             resendOtpTextField.text = "Resend OTP"
-            resendOtpTextField.textColor = ColorManager.primaryColor
+            resendOtpTextField.textColor = ColorManager.primaryTextColor
             isResendEnabled = true
             resendOtpTextField.isUserInteractionEnabled = isResendEnabled
         }
@@ -288,6 +288,7 @@ extension OtpViewController{
             verifyButton.isEnabled = false
             verifyButton.backgroundColor = ColorManager.secondaryBackgroundColor
         }
+        setVerifyButtonState(.verify)
     }
     
 }
@@ -302,12 +303,19 @@ extension OtpViewController{
     }
     
     func setVerifyButtonState(_ state: VerifyState) {
-        DispatchQueue.main.async {
+        let titleState = otpTextFields.allSatisfy { $0.text?.count == 1 }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
             let title: String
-            let attributes: [NSAttributedString.Key: Any] = [
+            var attributes: [NSAttributedString.Key: Any] = [
                 .font: FontManager.bold(size: 17),
-                .foregroundColor: ColorManager.backgroundColor
+                .foregroundColor: ColorManager.buttonTextColor
             ]
+            if titleState {
+                attributes[.foregroundColor] = ColorManager.buttonTextColor
+            }else{
+                attributes[.foregroundColor] = ColorManager.backgroundColor
+            }
             
             switch state {
             case .verify:
@@ -393,7 +401,8 @@ extension OtpViewController : OtpViewModelDelegate {
             UserDefaultManager.shared.saveSessionStartTime(sessionData?.startTime ?? "")
             UserDefaultManager.shared.saveScannedLocation(sessionData?.locationId ?? "")
         }
-        DispatchQueue.main.async{
+        DispatchQueue.main.async{ [weak self] in
+            guard let self = self else { return }
             let MapVc = MapScreenViewController()
             MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
             self.navigationController?.navigationBar.isHidden = false

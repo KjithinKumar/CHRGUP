@@ -14,7 +14,7 @@ func createCustomBackButton(target: Any?, action: Selector?) -> UIButton {
         .applyingSymbolConfiguration(UIImage.SymbolConfiguration(weight: .bold)) // Make it bold
     
     button.setImage(backImage, for: .normal)
-    button.tintColor = ColorManager.buttonColorwhite
+    button.tintColor = ColorManager.buttonTintColor
     button.contentHorizontalAlignment = .left
     button.frame = CGRect(x: 0, y: 0, width: 44, height: 44) // Match system size
     

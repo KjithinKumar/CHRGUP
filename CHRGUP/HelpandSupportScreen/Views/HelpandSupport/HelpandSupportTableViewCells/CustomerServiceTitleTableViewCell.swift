@@ -24,7 +24,7 @@ class CustomerServiceTitleTableViewCell: UITableViewCell {
     func configure(title : String, subtitle : String){
         titleLabel.text = title
         titleLabel.font = FontManager.bold(size: 18)
-        titleLabel.textColor = ColorManager.primaryColor
+        titleLabel.textColor = ColorManager.primaryTextColor
         
         subtitleLabel.text = subtitle
         subtitleLabel.textColor = ColorManager.subtitleTextColor

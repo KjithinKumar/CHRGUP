@@ -29,7 +29,8 @@ extension UIViewController {
         let safeAreaBottom = view.safeAreaInsets.bottom
         let offset = keyboardHeight - safeAreaBottom - 20
         
-        UIView.animate(withDuration: duration) {
+        UIView.animate(withDuration: duration) {[weak self] in
+            guard let self else { return }
             self.moveViewForKeyboard(yOffset: -offset)
         }
     }
@@ -38,7 +39,8 @@ extension UIViewController {
         guard let userInfo = notification.userInfo,
               let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
         
-        UIView.animate(withDuration: duration) {
+        UIView.animate(withDuration: duration) { [weak self] in
+            guard let self else { return }
             self.moveViewForKeyboard(yOffset: 0)
         }
     }

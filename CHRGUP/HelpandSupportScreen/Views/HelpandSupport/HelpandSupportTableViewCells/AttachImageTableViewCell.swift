@@ -42,14 +42,14 @@ class AttachImageTableViewCell: UITableViewCell {
         self.delegate = delegate
         attachImageButton.setTitle("  Attach Image", for: .normal)
         attachImageButton.setTitleColor(ColorManager.textColor, for: .normal)
-        attachImageButton.imageView?.tintColor = ColorManager.primaryColor
+        attachImageButton.imageView?.tintColor = ColorManager.primaryTextColor
         attachImageButton.backgroundColor = .clear
         
-        deleteImageButton.imageView?.tintColor = ColorManager.backgroundColor
+        deleteImageButton.imageView?.tintColor = .red
         
         attachedImageView.tintColor = ColorManager.subtitleTextColor
         attachedImageView.layer.borderWidth = 1
-        attachedImageView.layer.borderColor = ColorManager.primaryColor.cgColor
+        attachedImageView.layer.borderColor = ColorManager.primaryTextColor.cgColor
         attachedImageView.layer.cornerRadius = 8
         attachedImageView.clipsToBounds = true
         
@@ -65,5 +65,8 @@ class AttachImageTableViewCell: UITableViewCell {
         attachedImageView.isHidden = isHidden
         deleteImageButton.isHidden = isHidden
         attachImageButton.isHidden = !isHidden
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
 }

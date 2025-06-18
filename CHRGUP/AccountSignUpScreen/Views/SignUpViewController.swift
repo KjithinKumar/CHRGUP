@@ -55,18 +55,18 @@ class SignUpViewController: UIViewController {
         googleButton.layer.cornerRadius = 20
         googleButton.backgroundColor = ColorManager.primaryColor
         googleButton.setTitle(" Sign Up with Google", for: .normal)
-        googleButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        googleButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         googleButton.setImage(UIImage(named: "GoogleIcon"), for: .normal)
         googleButton.imageView?.contentMode = .redraw
-        googleButton.imageView?.tintColor = ColorManager.backgroundColor
+        googleButton.imageView?.tintColor = ColorManager.buttonTextColor
         googleButton.titleLabel?.font = FontManager.bold(size: 18)
         
         appleButton.layer.cornerRadius = 20
         appleButton.backgroundColor = ColorManager.primaryColor
         appleButton.setTitle("  Sign Up with Apple", for: .normal)
-        appleButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        appleButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         appleButton.setImage(UIImage(systemName: "apple.logo"), for: .normal)
-        appleButton.imageView?.tintColor = ColorManager.backgroundColor
+        appleButton.imageView?.tintColor = ColorManager.buttonTextColor
         appleButton.titleLabel?.font = FontManager.bold(size: 18)
     }
 }

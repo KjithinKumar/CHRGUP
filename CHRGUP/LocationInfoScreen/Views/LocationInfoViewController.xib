@@ -13,11 +13,13 @@
             <connections>
                 <outlet property="Middleview" destination="qoR-0c-BbJ" id="HxP-6P-Vts"/>
                 <outlet property="addToFavouriteButton" destination="VQW-CE-qfa" id="G1b-gO-Ssf"/>
+                <outlet property="buttonStackView" destination="PFV-kc-55C" id="qYf-FW-hRM"/>
                 <outlet property="collectionView" destination="Say-b2-U3i" id="bJ0-vr-HgM"/>
                 <outlet property="dismissButton" destination="3LB-H5-Cu8" id="chI-hh-KCn"/>
                 <outlet property="distanceLabel" destination="o90-J5-ZR4" id="3Cq-hm-5rt"/>
                 <outlet property="favouriteStackView" destination="xQJ-pE-Vdf" id="EaH-si-LVa"/>
                 <outlet property="navigateButton" destination="O5k-TC-T0K" id="vE1-3G-xdF"/>
+                <outlet property="reseveButton" destination="h1s-nU-ytb" id="1Ue-8K-aaC"/>
                 <outlet property="scanQrButton" destination="QoM-yR-R0z" id="YYL-I7-f58"/>
                 <outlet property="statusLabel" destination="uuC-vS-xeF" id="PmW-pE-mI7"/>
                 <outlet property="tableView" destination="AIV-gZ-O9z" id="xla-tr-zvC"/>
@@ -56,14 +58,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qoR-0c-BbJ">
-                            <rect key="frame" x="43" y="0.0" width="50" height="20"/>
+                            <rect key="frame" x="43" y="0.0" width="51" height="20"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="dtl-1r-QhV"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQW-CE-qfa">
-                            <rect key="frame" x="98" y="0.0" width="118" height="20"/>
+                            <rect key="frame" x="99" y="0.0" width="117" height="20"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="Add to Favourites" image="plus" catalog="system"/>
@@ -92,13 +94,15 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3LB-H5-Cu8">
-                    <rect key="frame" x="15" y="133" width="30" height="30"/>
+                    <rect key="frame" x="348" y="133" width="30" height="30"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="Kbl-t5-k3B"/>
                         <constraint firstAttribute="height" constant="30" id="sUd-ma-XZY"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal">
+                        <color key="titleShadowColor" systemColor="labelColor"/>
                         <imageReference key="image" image="chevron.down" catalog="system" symbolScale="large"/>
                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
                     </state>
@@ -110,21 +114,36 @@
                     <rect key="frame" x="0.0" y="489" width="393" height="295"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QoM-yR-R0z">
-                    <rect key="frame" x="129" y="739" width="135" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="9OK-H0-jsz"/>
-                        <constraint firstAttribute="width" constant="135" id="VbR-t5-EhV"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal">
-                        <imageReference key="image" image="qrcode.viewfinder" catalog="system" symbolScale="medium"/>
-                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
-                    </state>
-                    <connections>
-                        <action selector="scanQrButtonPressed:" destination="-1" eventType="touchUpInside" id="Oud-la-wJ7"/>
-                    </connections>
-                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="PFV-kc-55C">
+                    <rect key="frame" x="25" y="752" width="343" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1s-nU-ytb">
+                            <rect key="frame" x="0.0" y="0.0" width="118" height="50"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal">
+                                <imageReference key="image" image="calendar.badge.clock" catalog="system" symbolScale="medium"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="medium"/>
+                            </state>
+                            <connections>
+                                <action selector="reserveButtonPressed:" destination="-1" eventType="touchUpInside" id="F7y-8W-mzW"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QoM-yR-R0z">
+                            <rect key="frame" x="133" y="0.0" width="210" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="9OK-H0-jsz"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal">
+                                <imageReference key="image" image="qrcode.viewfinder" catalog="system" symbolScale="medium"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
+                            </state>
+                            <connections>
+                                <action selector="scanQrButtonPressed:" destination="-1" eventType="touchUpInside" id="Oud-la-wJ7"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -132,22 +151,24 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="AIV-gZ-O9z" secondAttribute="bottom" id="41D-tI-QCF"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="O5k-TC-T0K" secondAttribute="trailing" constant="15" id="6Xs-6W-VWI"/>
                 <constraint firstItem="xQJ-pE-Vdf" firstAttribute="top" secondItem="fl2-0R-wLO" secondAttribute="bottom" constant="20" id="8df-Jb-YgJ"/>
+                <constraint firstItem="PFV-kc-55C" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="EEm-jl-iQO"/>
                 <constraint firstItem="AIV-gZ-O9z" firstAttribute="top" secondItem="xQJ-pE-Vdf" secondAttribute="bottom" constant="25" id="MUa-Si-hjp"/>
                 <constraint firstItem="AIV-gZ-O9z" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Oeq-UZ-OnY"/>
                 <constraint firstItem="3LB-H5-Cu8" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="P1x-2s-FAN"/>
                 <constraint firstItem="O5k-TC-T0K" firstAttribute="leading" secondItem="fl2-0R-wLO" secondAttribute="trailing" constant="20" id="RQu-EF-uOO"/>
                 <constraint firstItem="Say-b2-U3i" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="RoB-lv-wJV"/>
-                <constraint firstAttribute="bottom" secondItem="QoM-yR-R0z" secondAttribute="bottom" multiplier="1.08" id="UOi-Gf-yIy"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="3LB-H5-Cu8" secondAttribute="trailing" constant="15" id="SOq-gN-oGD"/>
                 <constraint firstItem="O5k-TC-T0K" firstAttribute="top" secondItem="Say-b2-U3i" secondAttribute="bottom" constant="22" id="VFf-NS-c4U"/>
                 <constraint firstItem="Say-b2-U3i" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Vug-Pi-UXs"/>
                 <constraint firstItem="xQJ-pE-Vdf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="Xju-Og-Nim"/>
                 <constraint firstItem="Say-b2-U3i" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.3" id="YR6-bY-iub"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="AIV-gZ-O9z" secondAttribute="trailing" id="ZHj-8a-5on"/>
-                <constraint firstItem="3LB-H5-Cu8" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="dhx-R0-6JD"/>
+                <constraint firstAttribute="bottom" secondItem="PFV-kc-55C" secondAttribute="bottom" constant="50" id="d32-E3-PZE"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="PFV-kc-55C" secondAttribute="trailing" constant="25" id="eHU-qD-5G1"/>
                 <constraint firstItem="xQJ-pE-Vdf" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.55" id="f3g-gj-8v5"/>
                 <constraint firstItem="o90-J5-ZR4" firstAttribute="top" secondItem="O5k-TC-T0K" secondAttribute="bottom" constant="10" id="jO6-kP-PFF"/>
-                <constraint firstItem="QoM-yR-R0z" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="l0Y-5F-qDd"/>
                 <constraint firstItem="fl2-0R-wLO" firstAttribute="top" secondItem="Say-b2-U3i" secondAttribute="bottom" constant="30" id="lYS-2l-CeI"/>
+                <constraint firstItem="h1s-nU-ytb" firstAttribute="width" secondItem="AIV-gZ-O9z" secondAttribute="width" multiplier="0.3" id="q3g-2r-PjV"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="o90-J5-ZR4" secondAttribute="trailing" constant="15" id="r8B-Gh-b9E"/>
                 <constraint firstItem="fl2-0R-wLO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="uJL-ST-TUO"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Say-b2-U3i" secondAttribute="trailing" id="zUS-Kd-qqo"/>
@@ -157,9 +178,13 @@
     </objects>
     <resources>
         <image name="Square" width="51" height="51"/>
+        <image name="calendar.badge.clock" catalog="system" width="128" height="109"/>
         <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="qrcode.viewfinder" catalog="system" width="128" height="115"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

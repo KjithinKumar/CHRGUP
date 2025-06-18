@@ -15,5 +15,5 @@ struct FavouriteResponseModel: Decodable {
 struct GetFavouriteResponseModel: Decodable {
     let status: Bool
     let message: String?
-    let data: [ChargerLocation]
+    let data: [LocationData]
 }

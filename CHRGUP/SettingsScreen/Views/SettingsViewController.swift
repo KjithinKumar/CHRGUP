@@ -16,6 +16,9 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var secondBackView: UIView!
+    @IBOutlet weak var displayLabel: UILabel!
+    @IBOutlet weak var segmentedControll: UISegmentedControl!
     
     var userData : UserProfile?
     var viewModel : settingsViewModelInterface?
@@ -46,11 +49,12 @@ class SettingsViewController: UIViewController {
                                 }
                             }else{
                                 DispatchQueue.main.async {
+                                    UserDefaultManager.shared.deleteUserProfile()
                                     ToastManager.shared.showToast(message: response.message)
                                     let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
                                     let navigationController = UINavigationController(rootViewController: welcomeVc)
                                     navigationController.modalPresentationStyle = .fullScreen
-                                    navigationController.navigationBar.tintColor = ColorManager.buttonColorwhite
+                                    navigationController.navigationBar.tintColor = ColorManager.buttonTintColor
                                     let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
                                     sceneDelegate?.window?.rootViewController = navigationController
                                 }
@@ -80,7 +84,7 @@ class SettingsViewController: UIViewController {
         let editText = AppStrings.Settings.editProfileText
         let attributeEditText = NSAttributedString(string: editText, attributes: attributes)
         editButton.setAttributedTitle(attributeEditText, for: .normal)
-        editButton.setTitleColor(ColorManager.primaryColor, for: .normal)
+        editButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
         editButton.titleLabel?.font = FontManager.light()
         
         let deleteText = AppStrings.Settings.deleteAccountText
@@ -92,7 +96,7 @@ class SettingsViewController: UIViewController {
         logoutButton.setTitleColor(ColorManager.textColor, for: .normal)
         logoutButton.imageView?.tintColor = ColorManager.textColor
         logoutButton.backgroundColor = ColorManager.secondaryBackgroundColor
-        logoutButton.layer.cornerRadius = 8
+        logoutButton.layer.cornerRadius = 20
         
         titleLabel.font = FontManager.bold(size: 18)
         if let userName = userData?.phoneNumber {
@@ -108,6 +112,35 @@ class SettingsViewController: UIViewController {
             profileImageView.sd_setImage(with: URL(string: profilePic),placeholderImage: UIImage(systemName: "person.crop.circle"))
         }
         
+        secondBackView.backgroundColor = ColorManager.secondaryBackgroundColor
+        secondBackView.layer.cornerRadius = 8
+        
+        displayLabel.textColor = ColorManager.textColor
+        displayLabel.font = FontManager.regular()
+        
+        let mode = AppSettings.appearanceMode
+        switch mode {
+        case .light:
+            segmentedControll.selectedSegmentIndex = 0
+        case .dark:
+            segmentedControll.selectedSegmentIndex = 1
+        case .system:
+            segmentedControll.selectedSegmentIndex = 2
+        }
+        
     }
     
+    @IBAction func segmentControllChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            AppSettings.appearanceMode = .light
+        case 1:
+            AppSettings.appearanceMode = .dark
+        case 2:
+            AppSettings.appearanceMode = .system
+        default:
+            AppSettings.appearanceMode = .light
+        }
+        AppSettings.applyAppearance()
+    }
 }

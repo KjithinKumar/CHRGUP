@@ -13,14 +13,16 @@ class ManualCodeViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var backStackView: UIStackView!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var connectorIdLabel: UILabel!
+    @IBOutlet weak var segmentedController: UISegmentedControl!
     
     var viewModel : ScanQrViewModelInterface?
-
+    var connectorId = 1
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
     }
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         codeTextField.becomeFirstResponder()
     }
     
@@ -30,10 +32,16 @@ class ManualCodeViewController: UIViewController {
         titleLabel.textColor = ColorManager.textColor
         titleLabel.font = FontManager.bold(size: 17)
         
+        connectorIdLabel.text = AppStrings.ScanQr.connectorIdText
+        connectorIdLabel.textColor = ColorManager.textColor
+        connectorIdLabel.font = FontManager.regular()
+        
+        segmentedController.selectedSegmentTintColor = ColorManager.primaryColor
+        
         codeTextField.backgroundColor = ColorManager.secondaryBackgroundColor
         codeTextField.layer.cornerRadius = 8
         codeTextField.layer.masksToBounds = true
-        codeTextField.textColor = ColorManager.primaryColor
+        codeTextField.textColor = ColorManager.primaryTextColor
         codeTextField.tintColor = ColorManager.primaryColor
         codeTextField.font = FontManager.bold(size: 17)
         codeTextField.delegate = self
@@ -48,6 +56,17 @@ class ManualCodeViewController: UIViewController {
         closeButton.tintColor = ColorManager.textColor
         configureNavBar()
     }
+    @IBAction func segmentControlChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+            case 0:
+            connectorId = 1
+             case 1:
+            connectorId = 2
+        default:
+            break
+        }
+    }
+    
     func configureNavBar(){
         navigationItem.title = "Enter Code"
         
@@ -57,9 +76,11 @@ class ManualCodeViewController: UIViewController {
     func setButtonState(enable : Bool){
         if enable{
             submitButton.backgroundColor = ColorManager.primaryColor
+            submitButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
             submitButton.isUserInteractionEnabled = true
         }else{
             submitButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            submitButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
             submitButton.isUserInteractionEnabled = false
         }
     }
@@ -69,8 +90,8 @@ class ManualCodeViewController: UIViewController {
     @IBAction func submitButtonPressed(_ sender: Any) {
         disableButtonWithActivityIndicator(submitButton)
         if let code = codeTextField.text?.replacingOccurrences(of: " ", with: ""){
-            let payLoad = QRPayload(connectorId: 1, chargerId: code)
-            viewModel?.fetchChargerDetails(id: code) { [weak self ]result in
+            let payLoad = QRPayload(connectorId: connectorId, chargerId: code)
+            viewModel?.fetchChargerDetails(id: code, connectorId: connectorId) { [weak self ]result in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch result{
@@ -83,6 +104,9 @@ class ManualCodeViewController: UIViewController {
                                 self.navigationController?.setViewControllers([startChargeVc], animated: true)
                             }
                         }else{
+                            self.enableButtonAndRemoveIndicator(self.submitButton)
+                            self.codeTextField.text = ""
+                            self.setButtonState(enable: false)
                             self.showAlert(title: "Error", message: response.message)
                         }
                     case .failure(let error):
@@ -98,7 +122,6 @@ extension ManualCodeViewController : UITextFieldDelegate{
         guard let currentText = textField.text else { return false }
         let newText = (currentText as NSString).replacingCharacters(in: range, with: string.uppercased())
         let rawText = newText.replacingOccurrences(of: "[^A-Z0-9]", with: "", options: .regularExpression)
-//        if rawText.count > 10 { return false }
         var formatted = ""
         for (index, char) in rawText.enumerated() {
             if index != 0 && index % 1 == 0 {

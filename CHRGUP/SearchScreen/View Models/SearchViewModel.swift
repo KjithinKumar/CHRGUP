@@ -9,11 +9,11 @@ import Foundation
 import CoreLocation
 
 protocol SearchViewModelInterface {
-    var chargers : [ChargerLocation]? { get set }
+    var chargers : [LocationData]? { get set }
     func fetchChargers(string : String ,completion : @escaping (Result<ChargerLocationResponse, Error>) -> Void)
-    var recentChargers: [ChargerLocation] { get }
-    func addRecentCharger(_ charger: ChargerLocation)
-    func refreshLocationData(id : String,completion : @escaping (Result<ChargerLocation, Error>) -> Void)
+    var recentChargers: [LocationData] { get }
+    func addRecentCharger(_ charger: LocationData)
+    func refreshLocationData(id : String,completion : @escaping (Result<LocationData, Error>) -> Void)
 }
 
 class SearchViewModel: SearchViewModelInterface {
@@ -23,8 +23,8 @@ class SearchViewModel: SearchViewModelInterface {
         self.networkManager = networkManager
     }
     
-    var chargers : [ChargerLocation]?
-    var recentChargers: [ChargerLocation] {
+    var chargers : [LocationData]?
+    var recentChargers: [LocationData] {
         get {
             guard let storedChargers = UserDefaultManager.shared.getRecentChargers(),
                   let currentLocation = UserDefaultManager.shared.getUserCurrentLocation() else {
@@ -64,7 +64,7 @@ class SearchViewModel: SearchViewModelInterface {
             })
         }
     }
-    func addRecentCharger(_ charger: ChargerLocation) {
+    func addRecentCharger(_ charger: LocationData) {
         if let index = recentChargers.firstIndex(where: { $0.id == charger.id }) {
             recentChargers.remove(at: index) // Remove if already present to move it to top
         }
@@ -73,7 +73,7 @@ class SearchViewModel: SearchViewModelInterface {
             recentChargers.removeLast() // Keep only last 5
         }
     }
-    func refreshLocationData(id : String,completion : @escaping (Result<ChargerLocation, Error>) -> Void){
+    func refreshLocationData(id : String,completion : @escaping (Result<LocationData, Error>) -> Void){
         let url = URLs.getChargerByIdUrl(chargerId: id)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]

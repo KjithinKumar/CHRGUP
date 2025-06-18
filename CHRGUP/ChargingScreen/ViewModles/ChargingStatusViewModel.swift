@@ -10,6 +10,7 @@ protocol ChargingStatusViewModelInterface{
     func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void)
     func getFormattedTimeDifference(from dateString: String) -> NSAttributedString
     func stopCharging(completion : @escaping( Result<StopChargingResponseModel,Error>) -> Void)
+    func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void)
 }
 class ChargingStatusViewModel: ChargingStatusViewModelInterface {
     var networkManager: NetworkManagerProtocol?
@@ -23,7 +24,7 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
         let header = ["Authorization": "Bearer \(authToken)"]
         guard let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
         let body : [String:Any] = ["userPhone":phoneNumber,
-                                   "timezone":"Asia/Kolkata"]
+                                   "timezone":AppConstants.timeZone]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(request, decodeTo: ChargingStatusResponseModel.self) { [weak self] result in
                 guard let _ = self else { return }
@@ -88,5 +89,19 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
             }
         }
     }
-  
+    func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void) {
+        let url = URLs.apnUrl
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header: [String: String] = ["Authorization": "Bearer \(authToken)"]
+        guard let sessionId = UserDefaultManager.shared.getSessionId() else {return}
+        let body : [String:Any] = ["deviceToken":apnToken,
+                                   "sessionId" : sessionId,
+                                   "event" : event]
+        if let requset = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
+            networkManager?.request(requset, decodeTo: apnTokenResponse.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
 }

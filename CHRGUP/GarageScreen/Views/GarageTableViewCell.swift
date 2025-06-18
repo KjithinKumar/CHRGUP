@@ -24,6 +24,7 @@ class GarageTableViewCell: UITableViewCell {
     @IBOutlet weak var vehicleNameLabel: UILabel!
     @IBOutlet weak var vehicleYearLabel: UILabel!
     @IBOutlet weak var vehicleVariantLabel: UILabel!
+    private let spinner = UIActivityIndicatorView(style: .medium)
     
     weak var delegate: GarageTableViewCellDelegate?
     var indexPath : IndexPath?
@@ -53,15 +54,31 @@ class GarageTableViewCell: UITableViewCell {
         vehicleVariantLabel.text = vehicle.variant
         let imageString = URLs.imageUrl(vehicle.vehicleImg)
         let url = URL(string: imageString)
-        vehicleImageView.sd_setImage(with: url)
+        vehicleImageView.sd_setImage(with: url){ [weak self] _, _, _, _ in
+            guard let self else { return }
+            self.spinner.stopAnimating()
+        }
+        
     }
+    private func setupSpinner() {
+        spinner.hidesWhenStopped = true
+        spinner.color = ColorManager.primaryColor
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        vehicleImageView.addSubview(spinner)
+        spinner.startAnimating()
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: vehicleImageView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: vehicleImageView.centerYAnchor)
+        ])
+    }
+
     
     func setShimmering(_ isShimmering: Bool) {
         backgroundViewTop.layer.cornerRadius = 10
         backgroundViewTop.clipsToBounds = true
         backgroundViewTop.backgroundColor = ColorManager.secondaryBackgroundColor
         backgroundViewBottom.backgroundColor = ColorManager.thirdBackgroundColor
-        
+        setupSpinner()
         if isShimmering {
             backgroundViewTop.startShimmering()
             backgroundViewBottom.startShimmering()
@@ -69,15 +86,18 @@ class GarageTableViewCell: UITableViewCell {
             
             deleteButton.isHidden = true
             
-            vehicleNameLabel.backgroundColor = .white
+            vehicleNameLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            vehicleNameLabel.textColor = .clear
             vehicleNameLabel.layer.cornerRadius = 5
             vehicleNameLabel.startShimmering()
             
-            vehicleYearLabel.backgroundColor = .white
+            vehicleYearLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            vehicleYearLabel.textColor = .clear
             vehicleYearLabel.layer.cornerRadius = 5
             vehicleYearLabel.startShimmering()
             
-            vehicleVariantLabel.backgroundColor = .white
+            vehicleVariantLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            vehicleVariantLabel.textColor = .clear
             vehicleVariantLabel.layer.cornerRadius = 5
             vehicleVariantLabel.startShimmering()
             
@@ -85,17 +105,17 @@ class GarageTableViewCell: UITableViewCell {
             
             
         } else {
-            vehicleNameLabel.tintColor = ColorManager.textColor
+            vehicleNameLabel.textColor = ColorManager.textColor
             vehicleNameLabel.font = FontManager.regular()
             vehicleNameLabel.stopShimmering()
             vehicleNameLabel.backgroundColor = .clear
             
-            vehicleYearLabel.tintColor = ColorManager.textColor
+            vehicleYearLabel.textColor = ColorManager.textColor
             vehicleYearLabel.font = FontManager.regular(size: 12)
             vehicleYearLabel.stopShimmering()
             vehicleYearLabel.backgroundColor = .clear
             
-            vehicleVariantLabel.tintColor = ColorManager.textColor
+            vehicleVariantLabel.textColor = ColorManager.textColor
             vehicleVariantLabel.font = FontManager.regular(size: 12)
             vehicleVariantLabel.stopShimmering()
             vehicleVariantLabel.backgroundColor = .clear

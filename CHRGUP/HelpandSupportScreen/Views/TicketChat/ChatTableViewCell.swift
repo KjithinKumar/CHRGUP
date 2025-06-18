@@ -16,7 +16,8 @@ class ChatTableViewCell: UITableViewCell {
     @IBOutlet weak var leftTimeLabel: UILabel!
     @IBOutlet weak var rightTimeLabel: UILabel!
     @IBOutlet weak var spacerView: UIView!
-    @IBOutlet weak var screenshotImageView: UIImageView!
+    @IBOutlet weak var rightstackView: UIStackView!
+    let screenshotImageView = UIImageView()
     
     static let identifier = "ChatTableViewCell"
     
@@ -27,6 +28,8 @@ class ChatTableViewCell: UITableViewCell {
         super.prepareForReuse()
         screenshotImageView.image = nil
         screenshotImageView.isHidden = true
+        rightstackView.removeArrangedSubview(screenshotImageView)
+        screenshotImageView.removeFromSuperview()
         leftMessageLabel.text = ""
         rightMessageLabel.text = ""
     }
@@ -37,8 +40,6 @@ class ChatTableViewCell: UITableViewCell {
     
     func configure(message : MessageModel){
         spacerView.backgroundColor = .clear
-        screenshotImageView.isHidden = true
-        screenshotImageView.translatesAutoresizingMaskIntoConstraints = false
         if message.senderModel == "User"{
             leftMessageView.isHidden = true
             rightMessageView.isHidden = false
@@ -49,16 +50,16 @@ class ChatTableViewCell: UITableViewCell {
             rightMessageLabel.text = messageText
             
             if let imageUrl = self.extractImageURL(from: message.message){
+                screenshotImageView.isHidden = false
+                screenshotImageView.translatesAutoresizingMaskIntoConstraints = false
                 screenshotImageView.sd_setImage(with: imageUrl,placeholderImage: UIImage(systemName: "photo.fill"))
                 screenshotImageView.tintColor = ColorManager.backgroundColor
-                screenshotImageView.isHidden = false
                 screenshotImageView.layer.cornerRadius = 10
                 screenshotImageView.clipsToBounds = true
                 screenshotImageView.contentMode = .scaleAspectFit
-                screenshotImageView.heightAnchor.constraint(equalToConstant: 225).isActive = true
                 screenshotImageView.widthAnchor.constraint(equalToConstant: 175).isActive = true
-            }else{
-                screenshotImageView.isHidden = true
+                screenshotImageView.heightAnchor.constraint(equalToConstant: 225).isActive = true
+                rightstackView.addArrangedSubview(screenshotImageView)
             }
             
             rightMessageView.layer.cornerRadius = 20

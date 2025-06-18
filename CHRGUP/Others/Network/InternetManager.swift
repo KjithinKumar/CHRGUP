@@ -17,7 +17,7 @@ class InternetManager{
     private var isShowingAlert = false
     
     private var debounceWorkItem: DispatchWorkItem? // For debounce timer
-    
+    private var alertController: UIAlertController?
     private init() {
         monitor.pathUpdateHandler = { path in
             DispatchQueue.main.async {
@@ -26,23 +26,38 @@ class InternetManager{
         }
         monitor.start(queue: queue)
     }
-    
-    var topVC : UIViewController?
     private func showNoInternetAlert() {
-        topVC = UIApplication.shared.getCurrentViewController()
-        topVC?.showAlert(title: AppStrings.Alert.noInternetTitle,
-                        message: AppStrings.Alert.noInternetMessage,
-                        actions: [UIAlertAction(title: AppStrings.Alert.settings, style: .default) { _ in
+        guard let topVC = UIApplication.shared.getCurrentViewController() else {
+            return
+        }
+        if self.isShowingAlert {
+            return
+        }
+        let alert = UIAlertController(
+            title: AppStrings.Alert.noInternetTitle,
+            message: AppStrings.Alert.noInternetMessage,
+            preferredStyle: .alert
+        )
+
+        let settingsAction = UIAlertAction(title: AppStrings.Alert.settings, style: .default) { _ in
             if let url = URL(string: URLs.mobileDataSettingsUrl) {
                 UIApplication.shared.open(url)
             }
-        }]
-        )
+        }
+        settingsAction.setValue(ColorManager.primaryTextColor, forKey: "titleTextColor")
+
+        alert.addAction(settingsAction)
+        topVC.present(alert, animated: true)
+        self.alertController = alert
         isShowingAlert = true
     }
     private func dismissNoInternetAlert() {
-        topVC?.dismissAlert()
-        isShowingAlert = false
+        if let alert = alertController {
+            alert.dismiss(animated: true) {
+                self.isShowingAlert = false
+                self.alertController = nil
+            }
+        }
     }
     private func debouncedVerifyInternetConnection() {
         debounceWorkItem?.cancel() // Cancel any pending task

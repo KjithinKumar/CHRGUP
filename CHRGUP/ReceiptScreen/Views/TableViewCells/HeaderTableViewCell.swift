@@ -33,7 +33,7 @@ class HeaderTableViewCell: UITableViewCell {
         }
         if let type = headerDetails.type, let powerOutput = headerDetails.powerOutput{
             typeLabel.text = "\(type) \(powerOutput)"
-            typeLabel.textColor = ColorManager.primaryColor
+            typeLabel.textColor = ColorManager.primaryTextColor
             typeLabel.font = FontManager.regular()
         }
         

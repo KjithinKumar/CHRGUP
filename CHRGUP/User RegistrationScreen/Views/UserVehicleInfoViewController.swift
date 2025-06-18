@@ -52,9 +52,11 @@ class UserVehicleInfoViewController: UIViewController {
     func configureNextButton() {
         if isNextEnabled {
             nextButton.backgroundColor = ColorManager.primaryColor
+            nextButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
             nextButton.isEnabled = true
         }else{
             nextButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            nextButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
             nextButton.isEnabled = false
         }
     }
@@ -66,27 +68,31 @@ class UserVehicleInfoViewController: UIViewController {
         guard let selectedType = selectedType,
               let selectedMake = selectedMake,
               let selectedModel = selectedModel,
-              let selectedVariant = selectedVariant else {
+              let selectedVariant = selectedVariant,
+              viewModel?.getVehicleTypes().contains(selectedType) == true,
+              viewModel?.getMakes(for: selectedType).contains(selectedMake) == true,
+              viewModel?.getModels(for: selectedType, make: selectedMake).contains(selectedModel) == true,
+              viewModel?.getVariants(for: selectedType, make: selectedMake, model: selectedModel).contains(where: { $0.variant == selectedVariant }) == true else {
+            self.showAlert(title: "Incomplete Selection", message: "Please select all valid vehicle fields.")
             return
         }
         let variantDetails = viewModel?.getVariants(for: selectedType, make: selectedMake, model: selectedModel).first(where: { variant in
             variant.variant == selectedVariant
         })
         userSelecetedVechileData = VehicleModel(type: selectedType,
-                                                    make: selectedMake,
-                                                    model: selectedModel,
-                                                    variant: selectedVariant,
-                                                    vehicleReg: registrationNumber ?? "",
-                                                    range: userSelecetedVechileData?.range ?? "",
-                                                    id: userSelecetedVechileData?.id ?? "",
-                                                    vehicleImg: variantDetails?.image ?? "" )
+                                                make: selectedMake,
+                                                model: selectedModel,
+                                                variant: selectedVariant,
+                                                vehicleReg: registrationNumber ?? "",
+                                                range: userSelecetedVechileData?.range ?? "",
+                                                id: userSelecetedVechileData?.id ?? "",
+                                                vehicleImg: variantDetails?.image ?? "" )
         guard let userSelecetedVechileData = userSelecetedVechileData else {
             return
         }
         
-        
         let rangeVc = SetRangeViewController()
-        userData?.userVehicle.insert(userSelecetedVechileData, at: 0)
+        userData?.userVehicle = [userSelecetedVechileData]
         rangeVc.userData = userData
         rangeVc.selectedVehicleVariant = variantDetails
         rangeVc.setRangeScreenType = screenType
@@ -158,7 +164,7 @@ class UserVehicleInfoViewController: UIViewController {
         let backImage = UIImage(systemName: "xmark")
         button.setImage(backImage, for: .normal)
         button.backgroundColor = .clear
-        button.tintColor = ColorManager.buttonColorwhite
+        button.tintColor = ColorManager.buttonTintColor
         button.contentHorizontalAlignment = .left
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
         button.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
@@ -210,6 +216,10 @@ extension UserVehicleInfoViewController: UITableViewDataSource{
     }
 }
 extension UserVehicleInfoViewController : UserVehicleInfoViewModelDelegateProtocol{
+    func didFailtoLoadVehicleData(error: any Error) {
+        AppErrorHandler.handle(error, in: self)
+    }
+    
     func didLoadVehicleData() {
         tableView.reloadData()
     }

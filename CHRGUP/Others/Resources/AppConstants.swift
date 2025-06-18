@@ -12,5 +12,5 @@ struct AppConstants{
     static let currentAppVersion = "1.0.0"
     static let splashScreenInterval = 2.0
     static let isLoggedInKey = "loggedUser"
-      
+    static let timeZone = "Asia/Kolkata"
 }

@@ -29,6 +29,7 @@ class UserDefaultManager{
         static let showPopupKey = "showPopupKey"
         static let sessionIdKey = "sessionIdKey"
         static let sessionStatusKey = "sessionStatusKey"
+        static let appearanceKey = "AppAppearance"
     }
     
     // MARK: - User Profile
@@ -45,7 +46,24 @@ class UserDefaultManager{
         return nil
     }
     func removeUserProfile() { defaults.removeObject(forKey: Keys.userProfile) }
-    
+    func deleteUserProfile() {
+        removeJWTToken()
+        removeUserProfile()
+        removeRecentChargers()
+        resetLoginStatus()
+        resetFavouriteLocations()
+        resetSelectedVehicle()
+    }
+    func logoutUserProfile() {
+        resetLoginStatus()
+        resetFavouriteLocations()
+        resetSelectedVehicle()
+        removeJWTToken()
+        removeUserProfile()
+        removeRecentChargers()
+        removeChargerId()
+        deleteSessionDetails()
+    }
     // MARK: - Onboarding Completion Status
        func setOnboardingCompleted(_ completed: Bool) {
            defaults.set(completed, forKey: Keys.isOnboardingCompleted)
@@ -68,7 +86,9 @@ class UserDefaultManager{
     func getJWTToken() -> String? {
         return defaults.string(forKey: Keys.jwtTokenKey)
     }
-    
+    func removeJWTToken() {
+        defaults.removeObject(forKey: Keys.jwtTokenKey)
+    }
     //MARK: - Login Stats
     func setLoginStatus(_ status: Bool) {
         defaults.set(status, forKey: Keys.loggedInUserIdKey)
@@ -96,6 +116,9 @@ class UserDefaultManager{
             return decoded
         }
         return nil
+    }
+    func resetSelectedVehicle() {
+        defaults.removeObject(forKey: Keys.selectedVehicle)
     }
     //MARK: - FavouriteLocation
     func saveFavouriteLocation(_ locationId: String ) {
@@ -134,17 +157,20 @@ class UserDefaultManager{
         UserDefaults.standard.removeObject(forKey: Keys.userLocationKey)
     }
     //MARK: - RecentChargerLocation
-    func saveRecentChargers(_ chargers: [ChargerLocation]) {
+    func saveRecentChargers(_ chargers: [LocationData]) {
         if let encoded = try? JSONEncoder().encode(chargers) {
             UserDefaults.standard.set(encoded, forKey: Keys.recentSearchHistoryKey)
         }
     }
-    func getRecentChargers() -> [ChargerLocation]? {
+    func getRecentChargers() -> [LocationData]? {
         if let data = UserDefaults.standard.data(forKey: Keys.recentSearchHistoryKey),
-           let decoded = try? JSONDecoder().decode([ChargerLocation].self, from: data) {
+           let decoded = try? JSONDecoder().decode([LocationData].self, from: data) {
             return decoded
         }
         return []
+    }
+    func removeRecentChargers() {
+        UserDefaults.standard.removeObject(forKey: Keys.recentSearchHistoryKey)
     }
     //MARK: -  ChargerId
     func saveChargerId(_ chargerId: String) {
@@ -223,5 +249,16 @@ class UserDefaultManager{
         UserDefaults.standard.removeObject(forKey: Keys.sessionStatusKey)
         UserDefaults.standard.removeObject(forKey: Keys.sessionStartTimeKey)
     }
-    
+    static var appAppearance: AppAppearance {
+        get {
+            if let rawValue = UserDefaults.standard.string(forKey: Keys.appearanceKey),
+               let mode = AppAppearance(rawValue: rawValue) {
+                return mode
+            }
+            return .system
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Keys.appearanceKey)
+        }
+    }
 }

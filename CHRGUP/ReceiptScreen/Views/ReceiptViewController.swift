@@ -61,7 +61,6 @@ class ReceiptViewController: UIViewController {
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
                 }
-                
             }
         }
     }
@@ -71,7 +70,7 @@ class ReceiptViewController: UIViewController {
         tableView.backgroundColor = .clear
     
         payButton.setTitle("Pay ₹0.00/-", for: .normal)
-        payButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        payButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         payButton.titleLabel?.font = FontManager.bold(size: 17)
         
         payButton.backgroundColor = ColorManager.primaryColor
@@ -86,7 +85,6 @@ class ReceiptViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    debugPrint(response)
                     if let amount = response.amount, let orderId = response.id{
                         self.openCheckout(amount: String(amount), orderId: orderId)
                     }
@@ -101,7 +99,7 @@ extension ReceiptViewController : UITableViewDataSource,UITableViewDelegate{
     func setUpTableView(){
         tableView.separatorStyle = .none
         tableView.register(UINib(nibName: "HeaderTableViewCell", bundle: nil), forCellReuseIdentifier: HeaderTableViewCell.identifier)
-        tableView.register(TitleSubtitleTableViewCell.self, forCellReuseIdentifier: TitleSubtitleTableViewCell.identifier)
+        tableView.register(UINib(nibName: "TitleSubtitleTableViewCell", bundle: nil), forCellReuseIdentifier: TitleSubtitleTableViewCell.identifier)
         tableView.register(UINib(nibName: "EnergyTableViewCell", bundle: nil), forCellReuseIdentifier: EnergyTableViewCell.identfiier)
         tableView.register(UINib(nibName: "GrandTableViewCell", bundle: nil), forCellReuseIdentifier: GrandTableViewCell.identifier)
         tableView.register(UINib(nibName: "DividerTableViewCell", bundle: nil), forCellReuseIdentifier: DividerTableViewCell.identifier)
@@ -190,20 +188,19 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                 "email": email
             ]
         ]
-        
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.razorpay.open(options, displayController: self)
         }
     }
-
-        func onPaymentSuccess(_ payment_id: String) {
-            print("Success: \(payment_id)")
-            fetchPaymentDetails(paymentId: payment_id)
-        }
-
-        func onPaymentError(_ code: Int32, description str: String) {
-            print("Error: \(code) | \(str)")
-        }
+    func onPaymentSuccess(_ payment_id: String) {
+        print("Success: \(payment_id)")
+        fetchPaymentDetails(paymentId: payment_id)
+    }
+    
+    func onPaymentError(_ code: Int32, description str: String) {
+        print("Error: \(code) | \(str)")
+    }
     func fetchPaymentDetails(paymentId : String) {
         viewModel?.fetchPaymentDetails(paymentId: paymentId) { [weak self] result in
             guard let self = self else { return }
@@ -217,7 +214,6 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                             DispatchQueue.main.async {
                                 switch result {
                                 case .success(let response):
-                                    
                                     self.postPaymentToServer(details: response)
                                 case .failure(let error):
                                     AppErrorHandler.handle(error, in: self)
@@ -266,7 +262,6 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                         if response.hasReviewed ?? true{
                             UserDefaultManager.shared.deleteScannedLocationId()
                             self.dismiss(animated: true)
-                            //self.navigationController?.dismiss(animated: true)
                         }else{
                             let reviewVc = ReviewViewController()
                             reviewVc.viewModel = ReviewViewModel(networkManager: NetworkManager())

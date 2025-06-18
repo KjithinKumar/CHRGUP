@@ -18,9 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let splashVC = SplashScreenViewController()// Your splash screen view controller
         splashVC.viewModel = SplashScreenViewModel(networkManager: NetworkManager(), delegate : splashVC)
         let navController = UINavigationController(rootViewController: splashVC)
-        navController.navigationBar.tintColor = ColorManager.buttonColorwhite
+        navController.navigationBar.tintColor = ColorManager.buttonTintColor
         window.rootViewController = navController
-        window.overrideUserInterfaceStyle = .dark
+        window.overrideUserInterfaceStyle = AppSettings.appearanceMode.interfaceStyle
         self.window = window
         window.makeKeyAndVisible()
         if let url = connectionOptions.urlContexts.first?.url {

@@ -27,10 +27,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOC-E0-8T1">
-                    <rect key="frame" x="0.0" y="565.66666666666663" width="393" height="286.33333333333337"/>
+                    <rect key="frame" x="0.0" y="562" width="393" height="290"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ClL-y0-mi0">
-                            <rect key="frame" x="25" y="133.33333333333337" width="343" height="118"/>
+                            <rect key="frame" x="25" y="138.33333333333337" width="343" height="101.66666666666669"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eh9-0S-JI1">
                                     <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
@@ -39,7 +39,7 @@
                                         <constraint firstAttribute="height" constant="50" id="FQy-ps-Zuq"/>
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" title="  Continue with phone" image="fi-rr-smartphone">
+                                    <state key="normal" title="  Continue with phone" image="iphone.gen2" catalog="system">
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
                                     </state>
                                     <connections>
@@ -47,15 +47,15 @@
                                     </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labellllllllll" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ghg-d0-8Qz">
-                                    <rect key="frame" x="0.0" y="60" width="343" height="58"/>
+                                    <rect key="frame" x="0.0" y="60" width="343" height="41.666666666666657"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="GCa-fc-wxm">
-                            <rect key="frame" x="25" y="30.000000000000004" width="343" height="53.333333333333343"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="GCa-fc-wxm">
+                            <rect key="frame" x="25" y="30.000000000000004" width="343" height="58.333333333333343"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3X-C6-ZEG">
                                     <rect key="frame" x="0.0" y="0.0" width="343" height="20.333333333333332"/>
@@ -64,7 +64,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vvZ-Fw-lHM">
-                                    <rect key="frame" x="0.0" y="35.333333333333371" width="343" height="18"/>
+                                    <rect key="frame" x="0.0" y="40.333333333333371" width="343" height="18"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -76,7 +76,7 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="ClL-y0-mi0" secondAttribute="trailing" constant="25" id="CyS-ZM-dbT"/>
                         <constraint firstItem="ClL-y0-mi0" firstAttribute="top" secondItem="GCa-fc-wxm" secondAttribute="bottom" constant="50" id="EQX-95-0N0"/>
-                        <constraint firstAttribute="bottom" secondItem="ClL-y0-mi0" secondAttribute="bottom" constant="35" id="EuA-vw-Nhj"/>
+                        <constraint firstAttribute="bottom" secondItem="ClL-y0-mi0" secondAttribute="bottom" constant="50" id="EuA-vw-Nhj"/>
                         <constraint firstAttribute="trailing" secondItem="GCa-fc-wxm" secondAttribute="trailing" constant="25" id="Mka-F9-3sn"/>
                         <constraint firstItem="ClL-y0-mi0" firstAttribute="leading" secondItem="bOC-E0-8T1" secondAttribute="leading" constant="25" id="PYu-6C-Ox7"/>
                         <constraint firstItem="GCa-fc-wxm" firstAttribute="leading" secondItem="bOC-E0-8T1" secondAttribute="leading" constant="25" id="reL-MC-6vV"/>
@@ -101,7 +101,7 @@
     </objects>
     <resources>
         <image name="Welcome page 1 1" width="365" height="616"/>
-        <image name="fi-rr-smartphone" width="22" height="22.333333969116211"/>
+        <image name="iphone.gen2" catalog="system" width="112" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

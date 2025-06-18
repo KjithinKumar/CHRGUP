@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class HistoryViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -13,7 +14,7 @@ class HistoryViewController: UIViewController {
     @IBOutlet weak var allButton: UIButton!
     @IBOutlet weak var acButton: UIButton!
     @IBOutlet weak var dcButton: UIButton!
-    
+    private var animationView: LottieAnimationView?
     var viewModel : HistoryViewModelInterface?
     private var isLoading = true
     
@@ -23,6 +24,8 @@ class HistoryViewController: UIViewController {
         setUpTableView()
         fetchData()
         configureButtonState(uiButton: allButton)
+        setupLottieAnimation()
+        animationView?.isHidden = true
     }
     @IBAction func allButtonPressed(_ sender: Any) {
         configureButtonState(uiButton: allButton)
@@ -57,7 +60,7 @@ class HistoryViewController: UIViewController {
         acButton.backgroundColor = ColorManager.secondaryBackgroundColor
         acButton.layer.cornerRadius = 10
         acButton.clipsToBounds = true
-        acButton.layer.borderColor = ColorManager.textColor.cgColor
+        acButton.layer.borderColor = ColorManager.acbulletColor.cgColor
         acButton.titleLabel?.font = FontManager.light()
         
         let dcBullet = UIView()
@@ -77,7 +80,7 @@ class HistoryViewController: UIViewController {
         dcButton.backgroundColor = ColorManager.secondaryBackgroundColor
         dcButton.layer.cornerRadius = 10
         dcButton.clipsToBounds = true
-        dcButton.layer.borderColor = ColorManager.textColor.cgColor
+        dcButton.layer.borderColor = ColorManager.dcbulletColor.cgColor
         dcButton.titleLabel?.font = FontManager.light()
         
         allButton.setTitle("    All    ", for: .normal)
@@ -109,6 +112,7 @@ class HistoryViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.isLoading = false
                 self?.tableView.reloadData()
+                self?.checkForEmptyState()
             }
         }
         viewModel?.fetchHistory { [weak self] result in
@@ -119,11 +123,39 @@ class HistoryViewController: UIViewController {
                     if response.status{
                         self.isLoading = false
                         self.tableView.reloadData()
+                    }else{
+                        self.checkForEmptyState()
+                        self.showAlert(title: "Error", message: response.message)
                     }
                 case.failure(let error):
                     AppErrorHandler.handle(error, in: self)
                 }
             }
+        }
+    }
+    func setupLottieAnimation() {
+        animationView = LottieAnimationView(name: "no_data_anim")
+        animationView?.translatesAutoresizingMaskIntoConstraints = false
+        animationView?.contentMode = .scaleAspectFit
+        animationView?.loopMode = .loop
+        animationView?.play()
+        
+        view.addSubview(animationView!)
+        NSLayoutConstraint.activate([
+            animationView!.centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: 10),
+            animationView!.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: -50),
+                animationView!.widthAnchor.constraint(equalToConstant: 300),
+                animationView!.heightAnchor.constraint(equalToConstant: 300)
+        ])
+    }
+       
+    func checkForEmptyState() {
+        if viewModel?.filteredChargers.count == 0 {
+            tableView.isHidden = true
+            animationView?.isHidden = false
+        } else {
+            tableView.isHidden = false
+            animationView?.isHidden = true
         }
     }
 }

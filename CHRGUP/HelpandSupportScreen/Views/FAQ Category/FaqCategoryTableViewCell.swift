@@ -35,10 +35,9 @@ class FaqCategoryTableViewCell: UITableViewCell {
     }
     func setShimmering(isShimmering : Bool){
         if isShimmering{
-            
             stackeView.backgroundColor = ColorManager.secondaryBackgroundColor
             stackeView.layer.cornerRadius = 10
-            categoryLabel.backgroundColor = .white
+            categoryLabel.backgroundColor = .label.withAlphaComponent(0.5)
             categoryLabel.layer.cornerRadius = 8
             categoryLabel.textColor = .clear
             categoryLabel.startShimmering()

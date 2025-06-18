@@ -21,7 +21,7 @@ typealias Model = [String : [Variant]]
 
 struct Variant: Decodable {
     let variant : String
-    let ARAI_range : String
-    let claimed_range : String
+    let ARAI_range : String?
+    let claimed_range : String?
     let image : String
 }

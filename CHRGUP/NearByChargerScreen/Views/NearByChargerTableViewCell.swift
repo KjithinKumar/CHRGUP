@@ -70,7 +70,7 @@ class NearByChargerTableViewCell: UITableViewCell {
         
         if viewModel.chargerLocationAvailable{
             statusLabel.text = "OPEN"
-            statusLabel.textColor = ColorManager.primaryColor
+            statusLabel.textColor = ColorManager.primaryTextColor
         }else{
             statusLabel.text = "CLOSED"
             statusLabel.textColor = .red
@@ -105,61 +105,55 @@ class NearByChargerTableViewCell: UITableViewCell {
             pointsLabel.textColor = ColorManager.thirdBackgroundColor
         }else{
             pointsLabel.text = "\(pointsAvailable) Points Available"
-            pointsLabel.textColor = ColorManager.primaryColor
+            pointsLabel.textColor = ColorManager.primaryTextColor
         }
     }
     func setShimmer(isShimmering : Bool){
         if isShimmering{
             configureUi()
-            
             cellbackgroundView.startShimmering()
-            cellbackgroundView.backgroundColor = .gray.withAlphaComponent(0.5)
+            cellbackgroundView.backgroundColor = ColorManager.secondaryBackgroundColor
             
-            locationLabel.backgroundColor = .white
-            locationLabel.textColor = .white
+            locationLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            locationLabel.textColor = .clear
             locationLabel.startShimmering()
             locationLabel.layer.cornerRadius = 5
             
-            pointsLabel.backgroundColor = .white
-            pointsLabel.textColor = .white
+            pointsLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            pointsLabel.textColor = .clear
             pointsLabel.startShimmering()
             pointsLabel.layer.cornerRadius = 5
             
-            statusLabel.backgroundColor = .white
-            statusLabel.textColor = .white
+            statusLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            statusLabel.textColor = .clear
             statusLabel.startShimmering()
             statusLabel.layer.cornerRadius = 5
             
+            nearByOneLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            nearByOneLabel.textColor = .clear
+            nearByTwoLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            nearByTwoLabel.textColor = .clear
+            nearByThreeLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            nearByThreeLabel.textColor = .clear
             
-            nearByStackView.backgroundColor = .white
-            nearByStackView.startShimmering()
-            nearByStackView.layer.cornerRadius = 5
-            
-            nearByOneLabel.backgroundColor = .white
-            nearByOneLabel.textColor = .white
-            nearByTwoLabel.backgroundColor = .white
-            nearByTwoLabel.textColor = .white
-            nearByThreeLabel.backgroundColor = .white
-            nearByThreeLabel.textColor = .white
-            
-            addToFavouriteButton.backgroundColor = .white
-            addToFavouriteButton.imageView?.tintColor = .white
-            addToFavouriteButton.setTitleColor(.white, for: .normal)
+            addToFavouriteButton.backgroundColor = .label.withAlphaComponent(0.5)
+            addToFavouriteButton.imageView?.tintColor = .label
+            addToFavouriteButton.setTitleColor(.clear, for: .normal)
             addToFavouriteButton.startShimmering()
             addToFavouriteButton.layer.cornerRadius = 5
             
-            parkingTypeLabel.backgroundColor = .white
+            parkingTypeLabel.backgroundColor = .label.withAlphaComponent(0.5)
             parkingTypeLabel.startShimmering()
             parkingTypeLabel.layer.cornerRadius = 5
-            parkingTypeLabel.textColor = .white
+            parkingTypeLabel.textColor = .clear
             
-            chargingTypeLabel.backgroundColor = .white
+            chargingTypeLabel.backgroundColor = .label.withAlphaComponent(0.5)
             chargingTypeLabel.startShimmering()
             chargingTypeLabel.layer.cornerRadius = 5
-            chargingTypeLabel.textColor = .white
+            chargingTypeLabel.textColor = .clear
             
-            distanceLabel.backgroundColor = .white
-            distanceLabel.textColor = .white
+            distanceLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            distanceLabel.textColor = .clear
             distanceLabel.startShimmering()
             distanceLabel.layer.cornerRadius = 5
             
@@ -187,9 +181,6 @@ class NearByChargerTableViewCell: UITableViewCell {
             statusLabel.stopShimmering()
             statusLabel.backgroundColor = .clear
             
-            nearByStackView.backgroundColor = .clear
-            nearByStackView.stopShimmering()
-            
             addToFavouriteButton.backgroundColor = .clear
             addToFavouriteButton.stopShimmering()
             
@@ -213,18 +204,16 @@ class NearByChargerTableViewCell: UITableViewCell {
         }
     }
     func configureUi(){
-        
-        
         cellbackgroundView.layer.cornerRadius = 8
         cellbackgroundView.backgroundColor = ColorManager.secondaryBackgroundColor
         
         locationLabel.font = FontManager.bold(size: 20)
         locationLabel.textColor = ColorManager.textColor
         
-        pointsLabel.textColor = ColorManager.primaryColor
+        pointsLabel.textColor = ColorManager.primaryTextColor
         pointsLabel.font = FontManager.light()
         
-        statusLabel.textColor = ColorManager.primaryColor
+        statusLabel.textColor = ColorManager.primaryTextColor
         statusLabel.font = FontManager.light()
         
         nearByOneLabel.backgroundColor = ColorManager.thirdBackgroundColor
@@ -281,7 +270,8 @@ class NearByChargerTableViewCell: UITableViewCell {
             }
         
         })
-        DispatchQueue.main.async{
+        DispatchQueue.main.async{ [weak self] in
+            guard let self = self else { return }
             self.updateFavouriteButton(favourite: true)
         }
     }
@@ -289,8 +279,8 @@ class NearByChargerTableViewCell: UITableViewCell {
         if favourite{
             addToFavouriteButton.setTitle(" Favourite", for: .normal)
             addToFavouriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            addToFavouriteButton.setTitleColor(ColorManager.primaryColor, for: .normal)
-            addToFavouriteButton.imageView?.tintColor = ColorManager.primaryColor
+            addToFavouriteButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
+            addToFavouriteButton.imageView?.tintColor = ColorManager.primaryTextColor
             addToFavouriteButton.isUserInteractionEnabled = false
         }else{
             addToFavouriteButton.setTitle(" Add to favourite", for: .normal)

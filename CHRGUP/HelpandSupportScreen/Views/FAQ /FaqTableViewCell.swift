@@ -37,6 +37,8 @@ class FaqTableViewCell: UITableViewCell {
         answerLabel.textColor = ColorManager.subtitleTextColor
         answerLabel.backgroundColor = .clear
         
+        chevronImageView.tintColor = ColorManager.textColor
+        
         if isExpanded {
             chevronImageView.image = UIImage(systemName: "chevron.up")
         }else{
@@ -49,10 +51,10 @@ class FaqTableViewCell: UITableViewCell {
         if isShimmer {
             backView.backgroundColor = ColorManager.secondaryBackgroundColor
             backView.layer.cornerRadius = 8
-            questionLabel.backgroundColor = .white
+            questionLabel.backgroundColor = .label.withAlphaComponent(0.5)
             questionLabel.textColor = .clear
             questionLabel.layer.cornerRadius = 8
-            answerLabel.backgroundColor = .white
+            answerLabel.backgroundColor = .label.withAlphaComponent(0.5)
             answerLabel.textColor = .clear
             answerLabel.layer.cornerRadius = 8
             questionLabel.startShimmering()

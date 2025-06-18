@@ -40,7 +40,7 @@ class FavouriteDockTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
     }
-    func configure(chargerLocation : ChargerLocation, indexPath : IndexPath,delegate : FavouriteDockTableViewCellDelegate){
+    func configure(chargerLocation : LocationData, indexPath : IndexPath,delegate : FavouriteDockTableViewCellDelegate){
         self.indexPath = indexPath
         self.delegate = delegate
         let favourites = UserDefaultManager.shared.getFavouriteLocations()
@@ -63,7 +63,7 @@ class FavouriteDockTableViewCell: UITableViewCell {
         pointsLabel.text = "\(pointsAvailableCount) points available"
         
         if pointsAvailableCount > 0 {
-            pointsLabel.textColor = ColorManager.primaryColor
+            pointsLabel.textColor = ColorManager.primaryTextColor
         }else{
             pointsLabel.textColor = ColorManager.thirdBackgroundColor
         }
@@ -71,23 +71,24 @@ class FavouriteDockTableViewCell: UITableViewCell {
     func setShimmering(isShimmering : Bool){
         if isShimmering{
             
-            titleLabel.backgroundColor = .white
-            titleLabel.textColor = .white
+            titleLabel.backgroundColor = .label.withAlphaComponent(0.5)
+            titleLabel.textColor = .clear
             titleLabel.startShimmering()
             titleLabel.layer.cornerRadius = 8
             
             addressLabel.startShimmering()
-            addressLabel.textColor = .white
-            addressLabel.backgroundColor = .white
+            addressLabel.textColor = .clear
+            addressLabel.backgroundColor = .label.withAlphaComponent(0.5)
             addressLabel.layer.cornerRadius = 8
             
             pointsLabel.layer.cornerRadius = 8
             pointsLabel.startShimmering()
-            pointsLabel.textColor = .white
-            pointsLabel.backgroundColor = .white
+            pointsLabel.textColor = .clear
+            pointsLabel.backgroundColor = .label.withAlphaComponent(0.5)
             
+            
+            backView.backgroundColor = ColorManager.secondaryBackgroundColor
             backView.startShimmering()
-            backView.backgroundColor = .gray.withAlphaComponent(0.5)
             
             favouriteButton.startShimmering()
             

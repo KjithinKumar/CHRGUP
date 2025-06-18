@@ -43,7 +43,7 @@ class ReviewViewController: UIViewController {
         backView.backgroundColor = ColorManager.backgroundColor
         
         titleLabel.text = AppStrings.Review.title
-        titleLabel.textColor = ColorManager.primaryColor
+        titleLabel.textColor = ColorManager.primaryTextColor
         titleLabel.font = FontManager.bold(size: 24)
         
         subtitleLabel.text = AppStrings.Review.subtitle
@@ -100,8 +100,8 @@ class ReviewViewController: UIViewController {
         commentsTextView.layer.cornerRadius = 8
         commentsTextView.layer.borderWidth = 2
         commentsTextView.layer.borderColor = ColorManager.thirdBackgroundColor.cgColor
-        commentsTextView.textColor = ColorManager.primaryColor
-        commentsTextView.tintColor = ColorManager.primaryColor
+        commentsTextView.textColor = ColorManager.primaryTextColor
+        commentsTextView.tintColor = ColorManager.primaryTextColor
         commentsTextView.clipsToBounds = true
         
         submitButton.titleLabel?.font = FontManager.bold(size: 18)
@@ -112,7 +112,7 @@ class ReviewViewController: UIViewController {
         configureSubmitButton(isEnable: false)
         
         skipButton.setTitle("Skip", for: .normal)
-        skipButton.setTitleColor(ColorManager.primaryColor, for: .normal)
+        skipButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
         skipButton.backgroundColor = .clear
         skipButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
@@ -128,9 +128,11 @@ class ReviewViewController: UIViewController {
         if isEnable{
             submitButton.isEnabled = true
             submitButton.backgroundColor = ColorManager.primaryColor
+            submitButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         }else{
             submitButton.isEnabled = false
             submitButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            submitButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         }
     }
     private func checkIfBothRatingsSelected() {

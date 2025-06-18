@@ -54,7 +54,7 @@ class HistoryInfoViewController: UIViewController {
         if historyInfo?.paymentStatus == "captured"{
             statusImageView.image = UIImage(named: "Completed")
             paymentStatusLabel.text = AppStrings.History.completedText
-            paymentStatusLabel.textColor = ColorManager.primaryColor
+            paymentStatusLabel.textColor = ColorManager.primaryTextColor
             
         }else{
             statusImageView.image = UIImage(named: "Pending")

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ScanQrViewModelInterface {
-    func fetchChargerDetails(id : String,completion : @escaping (Result<ChargerNameResponse,Error>) -> Void)
+    func fetchChargerDetails(id : String, connectorId : Int ,completion : @escaping (Result<ChargerNameResponse,Error>) -> Void)
 }
 
 class ScanQrViewModel: ScanQrViewModelInterface {
@@ -17,11 +17,12 @@ class ScanQrViewModel: ScanQrViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    func fetchChargerDetails(id : String,completion : @escaping (Result<ChargerNameResponse,Error>) -> Void){
+    func fetchChargerDetails(id : String, connectorId : Int ,completion : @escaping (Result<ChargerNameResponse,Error>) -> Void){
         let url = URLs.getChargerByName
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
-        let body = ["chargerName" : id]
+        let body = ["chargerName" : id,
+                    "connectorId" : connectorId] as [String : Any]
         if let reqest = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(reqest, decodeTo: ChargerNameResponse.self , completion: { [weak self] result in
                 guard let _ = self else { return }

@@ -44,6 +44,10 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
             switch result {
             case .success(let userResponse):
                 debugPrint(userResponse)
+                if let userProfile = userResponse.data {
+                    UserDefaultManager.shared.saveUserProfile(userProfile)
+                    UserDefaultManager.shared.saveSelectedVehicle(userProfile.userVehicle[0])
+                }
                 self.delegate?.didSaveUserProfileSuccessfully(token: userResponse.token)
             case .failure(let error) :
                 self.delegate?.didFailToSaveUserProfile(error: error.localizedDescription)

@@ -14,14 +14,12 @@ struct ChargingLiveActivityAttributes: ActivityAttributes {
         var energy : String
         var chargingTitle : String
         
-        init(time: String, energy: String, title: String) {
+        init(time: String, energy: String, chargingTitle: String) {
             self.time = time
             self.energy = energy
-            self.chargingTitle = title
+            self.chargingTitle = chargingTitle
         }
     }
-
-    // Fixed non-changing properties about your activity go here!
     var timeTitle : String
     var energyTitle : String
     

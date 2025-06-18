@@ -40,9 +40,10 @@ class SideMenuViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.view.frame.origin.x = -self.view.frame.width // Start off-screen
-        UIView.animate(withDuration: 0.3) {
-            self.view.frame.origin.x = 0 // Slide in
+        self.view.frame.origin.x = -self.view.frame.width
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            self.view.frame.origin.x = 0
         }
     }
     @IBAction func closeButtonPressed(_ sender: Any) {
@@ -56,7 +57,7 @@ class SideMenuViewController: UIViewController {
         swipeGesture.direction = .left
         view.addGestureRecognizer(swipeGesture)
         
-        titleLabel.attributedText = setHighlightedText(fullText: AppStrings.leftMenu.Title, highlightedWord: AppStrings.leftMenu.highlihtedTitle, highlightColor: ColorManager.primaryColor)
+        titleLabel.attributedText = setHighlightedText(fullText: AppStrings.leftMenu.Title, highlightedWord: AppStrings.leftMenu.highlihtedTitle, highlightColor: ColorManager.primaryTextColor)
         
         closeButton.imageView?.tintColor = ColorManager.textColor
         
@@ -73,6 +74,7 @@ class SideMenuViewController: UIViewController {
             profileImageView.sd_setImage(with: url,placeholderImage: UIImage(systemName: "person.crop.circle"))
             profileImageView.clipsToBounds = true
         }
+        vehicleButton.setTitleColor(ColorManager.textColor, for: .normal)
     }
     
     func setUpPopoverView(){
@@ -111,7 +113,7 @@ class SideMenuViewController: UIViewController {
         }
         vehicleButton.layer.borderWidth = 1
         vehicleButton.layer.cornerRadius = 5
-        vehicleButton.layer.borderColor = ColorManager.primaryColor.cgColor
+        vehicleButton.layer.borderColor = ColorManager.primaryTextColor.cgColor
         vehicleButton.backgroundColor = ColorManager.secondaryBackgroundColor
         let vehicle = UserDefaultManager.shared.getSelectedVehicle()
         if let make = vehicle?.make ,let model = vehicle?.model ,let variant = vehicle?.variant{
@@ -152,36 +154,49 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             let myGarageVc = GarageViewController()
             myGarageVc.viewModel = GarageViewModel(networkManager: NetworkManager(), delegate: myGarageVc)
             dismissView()
-            DispatchQueue.main.async{
+            DispatchQueue.main.async{  [weak self] in
+                guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(myGarageVc)
             }
         case .helpandsupport:
             let helpAndSupportVc = HelpandSupportViewController()
             helpAndSupportVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager(), delegate: nil)
             dismissView()
-            DispatchQueue.main.async{
+            DispatchQueue.main.async{  [weak self] in
+                guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(helpAndSupportVc)
             }
         case .favouritedocks:
             let favouriteDocksVc = FavouriteDockViewController()
             favouriteDocksVc.viewModel = FavouriteDockViewModel(networkManager: NetworkManager())
             dismissView()
-            DispatchQueue.main.async{
+            DispatchQueue.main.async{  [weak self] in
+                guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(favouriteDocksVc)
             }
         case .settings:
             let settingsVc = SettingsViewController()
             settingsVc.viewModel = settingsViewModel(networkManager: NetworkManager())
             dismissView()
-            DispatchQueue.main.async{
+            DispatchQueue.main.async{  [weak self] in
+                guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(settingsVc)
             }
         case .history:
             let historyVc = HistoryViewController()
             historyVc.viewModel = HistoryViewModel(networkManager: NetworkManager())
             dismissView()
-            DispatchQueue.main.async{
+            DispatchQueue.main.async{  [weak self] in
+                guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(historyVc)
+            }
+        case .reservations:
+            let reservationVc = ReservationViewController()
+            reservationVc.viewModel = ReservationViewModel(networkManager: NetworkManager())
+            dismissView()
+            DispatchQueue.main.async {  [weak self] in
+                guard let self = self else { return }
+                self.delegate?.didSelectMenuOption(reservationVc)
             }
         default:
             break
@@ -191,9 +206,11 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SideMenuViewController {
     func dismissToLeft() {
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {  [weak self] in
+            guard let self = self else { return }
             self.view.frame.origin.x = -self.view.frame.width // Slide out
-        }) { _ in
+        }) { [weak self] _ in
+            guard let self = self else { return }
             self.dismiss(animated: false)
         }
     }
@@ -222,30 +239,35 @@ extension SideMenuViewController : sideMenuDelegate {
             let variant = vehicle.variant
             let Vehiclename = "\(make) \(model) \(variant)"
             if userSelectedVehicle?.id == vehicle.id {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
                     self.vehicleButton.setTitle("\u{2003}\(Vehiclename)\u{2003}\u{2003}", for: .normal)
                 }
             }
-            let action = UIAction(title : Vehiclename) { _ in
+            let action = UIAction(title : Vehiclename) { [weak self] _ in
+                guard let self = self else { return }
                 self.vehicleButton.setTitle("\u{2003}\(Vehiclename)\u{2003}\u{2003}", for: .normal)
                 UserDefaultManager.shared.saveSelectedVehicle(vehicle)
             }
             menuItems.append(action)
         }
-        let addVehicleAttributedString = NSAttributedString(string: "+ Add Vehicle", attributes: [.foregroundColor: ColorManager.primaryColor])
-        let addVehicleAction = UIAction(title: "+ Add Vehicle", handler: { _ in
+        let addVehicleAttributedString = NSAttributedString(string: "+ Add Vehicle", attributes: [.foregroundColor: ColorManager.primaryTextColor])
+        let addVehicleAction = UIAction(title: "+ Add Vehicle", handler: { [weak self]_ in
+            guard let self = self else { return }
             let vehicleVc = UserVehicleInfoViewController()
             vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
             vehicleVc.userData = UserDefaultManager.shared.getUserProfile()
             vehicleVc.screenType = .addNew
             self.dismissView()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){ [weak self] in
+                guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(vehicleVc)
             }
         })
         addVehicleAction.setValue(addVehicleAttributedString, forKey: "attributedTitle")
         menuItems.append(addVehicleAction)
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.vehicleButton.menu = UIMenu(title: "", options: [], children: menuItems)
             self.vehicleButton.showsMenuAsPrimaryAction = true
             self.isLoading = false
@@ -253,14 +275,17 @@ extension SideMenuViewController : sideMenuDelegate {
         }
     }
     func didFailWithError(_ message: String, _ code: Int) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             if code == 401{
                 let actions = [AlertActions.loginAgainAction()]
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
                     self.showAlert(title: "Unauthorized", message: message,actions: actions)
                 }
             }else{
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
                     self.showAlert(title: "Error", message: message)
                 }
             }

@@ -15,6 +15,8 @@ class ChargersCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var chargerIdLabel: UILabel!
+    @IBOutlet weak var connectorIdLabel: UILabel!
     
     
     static let identifier = "ChargersCollectionViewCell"
@@ -22,24 +24,38 @@ class ChargersCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
     }
-    func configure(chargerInfo: ChargerInfo){
+    func configure(itemsDisplay : ConnectorDisplayItem){
         firstBackgroundView.layer.cornerRadius = 8
-        if chargerInfo.status == "Available"{
+        let chargerInfo = itemsDisplay.chargerInfo
+        let connector = itemsDisplay.connector
+        if connector.status == "Available"{
             firstBackgroundView.backgroundColor = ColorManager.primaryColor
-            statusLabel.textColor = ColorManager.backgroundColor
-            statusLabel.text = chargerInfo.status
-        }else if chargerInfo.status == "Inactive"{
+            statusLabel.textColor = ColorManager.buttonTextColor
+            statusLabel.text = connector.status
+            chargerIdLabel.textColor = ColorManager.primaryTextColor
+            connectorIdLabel.textColor = ColorManager.primaryTextColor
+        }else if connector.status == "Inactive"{
             firstBackgroundView.backgroundColor = ColorManager.thirdBackgroundColor
             statusLabel.textColor = ColorManager.backgroundColor
-            statusLabel.text = chargerInfo.status
+            statusLabel.text = connector.status
+            chargerIdLabel.textColor = ColorManager.textColor
+            connectorIdLabel.textColor = ColorManager.textColor
         }else{
             firstBackgroundView.backgroundColor = ColorManager.inUseColor
             statusLabel.text = "In Use"
-            statusLabel.textColor = ColorManager.backgroundColor
+            statusLabel.textColor = ColorManager.buttonTextColor
+            chargerIdLabel.textColor = ColorManager.inUseColor
+            connectorIdLabel.textColor = ColorManager.inUseColor
         }
+    
+        chargerIdLabel.text = chargerInfo.name
+        chargerIdLabel.font = FontManager.regular(size: 14)
+    
+        connectorIdLabel.text = "Connector ID: \(connector.connectorId)"
+        connectorIdLabel.font = FontManager.regular(size: 12)
         
         titleLabel.text = chargerInfo.subType
-        titleLabel.font = FontManager.bold(size: 14)
+        titleLabel.font = FontManager.bold(size: 12)
         titleLabel.textColor = ColorManager.textColor
         
         if chargerInfo.subType == "CCS2"{
@@ -62,12 +78,20 @@ class ChargersCollectionViewCell: UICollectionViewCell {
             attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
             typeLabel.attributedText = attributedString
         }
-        
         priceLabel.text = "Rs \(chargerInfo.costPerUnit?.amount ?? 0) /Unit"
         priceLabel.textColor = ColorManager.textColor
-
-        
         secondBackgroundView.backgroundColor = ColorManager.secondaryBackgroundColor
+    }
+    func setSelected(_ selected: Bool) {
+        if selected {
+            firstBackgroundView.backgroundColor = ColorManager.primaryColor
+            chargerIdLabel.textColor = ColorManager.primaryTextColor
+            connectorIdLabel.textColor = ColorManager.primaryTextColor
+        } else {
+            firstBackgroundView.backgroundColor = ColorManager.primaryColor.withAlphaComponent(0.5)
+            chargerIdLabel.textColor = ColorManager.primaryTextColor.withAlphaComponent(0.5)
+            connectorIdLabel.textColor = ColorManager.primaryTextColor.withAlphaComponent(0.5)
+        }
     }
 
 }

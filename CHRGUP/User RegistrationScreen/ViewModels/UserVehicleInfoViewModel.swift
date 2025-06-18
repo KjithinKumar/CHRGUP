@@ -9,6 +9,7 @@ import Foundation
 
 protocol UserVehicleInfoViewModelDelegateProtocol : AnyObject{
     func didLoadVehicleData()
+    func didFailtoLoadVehicleData(error: Error)
 }
 protocol UserVehicleInfoViewModelInterface {
     func loadVehicleData()
@@ -39,6 +40,7 @@ class UserVehicleInfoViewModel : UserVehicleInfoViewModelInterface {
                 case .success(let vehicles) :
                     self.vehicleResponse = vehicles
                 case .failure(let error):
+                    delegate?.didFailtoLoadVehicleData(error: error)
                     debugPrint(error)
                 }
             })

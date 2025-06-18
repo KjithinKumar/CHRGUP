@@ -18,8 +18,6 @@ class SplashScreenViewController: UIViewController {
     }
     private func setUp(){
         logoImageView.startShimmering()
-        gridImageView.tintColor = ColorManager.textColor
-        view.backgroundColor = ColorManager.backgroundColor
     }
 }
 extension SplashScreenViewController : SplashViewModelDelegate{

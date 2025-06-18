@@ -8,18 +8,18 @@
 import Foundation
 struct ChargerLocationResponse : Decodable{
     let success: Bool
-    let data : [ChargerLocation]?
+    let data : [LocationData]?
     let message: String?
     let sessionInfo : SessionData?
 }
 struct ChargerLocationResponseById: Decodable{
     let success: Bool
-    let data : ChargerLocation?
+    let data : LocationData?
     let message: String?
     let sessionInfo : SessionData?
 }
 
-struct ChargerLocation : Codable{
+struct LocationData : Codable{
     let id: String
     let locationName: String
     let locationType: String
@@ -31,7 +31,7 @@ struct ChargerLocation : Codable{
     let dealer: Person?
     let facilities: [Facility]?
     let status: String
-    let chargerInfo: [ChargerInfo]
+    var chargerInfo: [ChargerInfo]
     let workingHours: String
     let workingDays: String
     let locationImage: [String]
@@ -44,6 +44,8 @@ struct ChargerLocation : Codable{
     var modpointsAvailable : Int?
     var modLocationAvailble : Bool?
     let freePaid: FreePaid
+    let parkingCost : Cost?
+    let stats: Stats?
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -67,6 +69,8 @@ struct ChargerLocation : Codable{
         case version = "__v"
         case distance
         case freePaid = "freepaid"
+        case parkingCost
+        case stats
     }
 }
 

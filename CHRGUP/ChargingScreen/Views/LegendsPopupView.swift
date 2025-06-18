@@ -33,6 +33,9 @@ class LegendsPopupView: UIView {
     private func setupView() {
         backgroundColor = ColorManager.secondaryBackgroundColor
         layer.cornerRadius = 16
+        layer.maskedCorners = [.layerMinXMinYCorner,
+                               .layerMaxXMaxYCorner,
+                               .layerMinXMaxYCorner]
         translatesAutoresizingMaskIntoConstraints = false
 
         // Title
@@ -124,7 +127,7 @@ class LegendsPopupView: UIView {
     private func animate(_ imageView: UIImageView) {
         imageView.alpha = 0.2
         UIView.animate(withDuration: 0.8, delay: 0, options: [.repeat, .autoreverse], animations: {
-            imageView.alpha = 1.0
+            imageView.alpha = 1.5
         })
     }
 }

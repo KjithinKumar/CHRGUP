@@ -32,7 +32,7 @@ class WelcomeViewController: UIViewController {
     }
     func configureUi() {
         overlayView.layer.cornerRadius = 20
-        overlayView.backgroundColor = ColorManager.backgroundColor.withAlphaComponent(0.95)
+        overlayView.backgroundColor = ColorManager.backgroundColor
         UIView.animate(withDuration: 0.25) {
             self.overlayView.center.y -= self.overlayView.frame.height
         }
@@ -40,10 +40,12 @@ class WelcomeViewController: UIViewController {
         continueButton.layer.cornerRadius = 20
         continueButton.translatesAutoresizingMaskIntoConstraints = false
         continueButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        continueButton.backgroundColor = ColorManager.buttonColorwhite
+        continueButton.backgroundColor = ColorManager.buttonTintColor
         continueButton.setTitle(AppStrings.Welcome.continueButtonTitle, for: .normal)
         continueButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         continueButton.titleLabel?.font = FontManager.bold(size: 18)
+        
+        continueButton.imageView?.tintColor = ColorManager.backgroundColor
         
         welcomeLabel.text = AppStrings.Welcome.welcomeTitle
         welcomeLabel.textColor = ColorManager.textColor
@@ -61,7 +63,7 @@ class WelcomeViewController: UIViewController {
         let attributedText = NSMutableAttributedString(string: text)
         let boldFont = FontManager.bold(size: 14)
         attributedText.addAttribute(.font, value: boldFont, range: (text as NSString).range(of: "Sign Up"))
-        attributedText.addAttribute(.foregroundColor, value: ColorManager.primaryColor, range: (text as NSString).range(of: "Sign Up"))
+        attributedText.addAttribute(.foregroundColor, value: ColorManager.primaryTextColor, range: (text as NSString).range(of: "Sign Up"))
 
         signUpLabel.attributedText = attributedText
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SignUplabelTapped))
@@ -74,7 +76,7 @@ class WelcomeViewController: UIViewController {
     }
     
     func navigateToSignIn(with : AuthMode){
-        navigationController?.navigationBar.tintColor = ColorManager.buttonColorwhite
+        navigationController?.navigationBar.tintColor = ColorManager.buttonTintColor
         switch with {
         case .SignIn:
             let signInVc = MobileNumberViewController()

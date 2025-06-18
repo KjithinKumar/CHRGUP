@@ -31,7 +31,7 @@ class MapScreenViewController: UIViewController{
     private var topCardConstraint: NSLayoutConstraint!
     private var chargerDetailContainer: UIView!
     private var chargerDetailTableView: UITableView!
-    private var selectedCharger: ChargerLocation?
+    private var selectedCharger: LocationData?
     private var isLoading = true
     
     var unitsConsumedLabel: UILabel!
@@ -42,7 +42,7 @@ class MapScreenViewController: UIViewController{
     override func viewDidLoad() {
         GMSServices.provideAPIKey(AppIdentifications.GoolgeMaps.ApiKey)
         super.viewDidLoad()
-        setUpMaps()
+        view.backgroundColor = .white
         setUpNavBar()
         viewModel?.delegate = self
         UserDefaultManager.shared.setLoginStatus(true)
@@ -51,26 +51,28 @@ class MapScreenViewController: UIViewController{
         setupBottomCard()
         setUpNotificationCard()
         requestNotificationPermission()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){ [weak self] in
+            guard let self = self else { return }
+            self.setUpMaps()
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         selectedCharger = nil
         clusterManager?.cluster()
         hideBottomCard()
         hideNotificationCard()
-        if let mapView = mapView {
-            let position = mapView.camera
-            let centerLat = position.target.latitude
-            let centerLng = position.target.longitude
-            let visibleRadius = getVisibleRadius(from: mapView)
-            setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
-        }
         navigationItem.title = "Map"
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.title = ""
     }
     deinit{
+        mapView?.delegate = nil
+        clusterManager?.setDelegate(nil, mapDelegate: nil)
+        clusterManager?.clearItems()
         mapView?.removeFromSuperview()
+        chargingTimer?.invalidate()
+        chargingTimer = nil
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -96,19 +98,19 @@ class MapScreenViewController: UIViewController{
         }
     }
     func setupUI(){
-        listButton.backgroundColor = .black
+        listButton.backgroundColor = .systemBackground
         listButton.tintColor = ColorManager.textColor
         listButton.layer.cornerRadius = 10
         
-        locateButton.backgroundColor = .black
+        locateButton.backgroundColor = .systemBackground
         locateButton.tintColor = ColorManager.textColor
         locateButton.layer.cornerRadius = 10
         
         scanQRButton.layer.cornerRadius = 25
         scanQRButton.setTitle(AppStrings.Map.scanButtonTitle, for: .normal)
         scanQRButton.titleLabel?.font = FontManager.bold(size: 17)
-        scanQRButton.imageView?.tintColor = ColorManager.backgroundColor
-        scanQRButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
+        scanQRButton.imageView?.tintColor = ColorManager.buttonTextColor
+        scanQRButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         scanQRButton.backgroundColor = ColorManager.primaryColor
         
         let imageView = UIImageView(image: UIImage(named: "AppLogo"))
@@ -140,18 +142,18 @@ class MapScreenViewController: UIViewController{
         leftPopVc.viewModel = SideMenuViewModel(networkManager: NetworkManager(),delegate: leftPopVc)
         leftPopVc.delegate = self
         leftPopVc.modalPresentationStyle = .overFullScreen
-        navigationController?.present(leftPopVc, animated: false)
+        self.present(leftPopVc, animated: false)
     }
     @objc func searchMenuTapped(){
         let searchVc = SearchViewController()
         searchVc.viewModel = SearchViewModel(networkManager: NetworkManager())
         navigationController?.pushViewController(searchVc, animated: true)
-        
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
         viewModel?.requestLocationPermissionIfNeeded()
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
+        
         let listViewVc = NearByChargerViewController()
         listViewVc.userLocation = userLocation
         listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager(),delegate: listViewVc)
@@ -163,42 +165,48 @@ class MapScreenViewController: UIViewController{
 //MARK: - MapviewDelegate,ClusterManagerDelegate
 extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegate  {
     func setUpMaps(){
+        if self.mapView != nil { return }
         viewModel?.requestLocationPermissionIfNeeded()
         let camera = GMSCameraPosition.camera(withLatitude: 12.9716, longitude: 77.5946, zoom: 14)
         let options = GMSMapViewOptions()
         options.camera = camera
-        mapView = GMSMapView.init(options: options)
-        mapView?.delegate = self
-        guard let mapView = mapView else {return}
-        mapView.frame = view.bounds
+        self.mapView = GMSMapView.init(options: options)
+        self.mapView?.delegate = self
+        guard let mapView = self.mapView else {return}
+        mapView.frame = self.view.bounds
         mapView.autoresizingMask = [.flexibleHeight,.flexibleWidth]
+        updateMapStyle(for: traitCollection)
+        registerForTraitChanges([UITraitUserInterfaceStyle.self], handler: { (self: Self, previousTraitCollection: UITraitCollection) in
+            self.updateMapStyle(for: self.traitCollection)
+        })
+        self.mapView?.isMyLocationEnabled = true
+        self.mapScreen.addSubview(mapView)
+        self.mapScreen.addSubview(self.listButton)
+        self.mapScreen.addSubview(self.locateButton)
+        self.mapView?.addSubview(self.scanQRButton)
+        updateCluster()
+    }
+    func updateCluster(){
+        guard let mapView = mapView else { return }
+        let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [200], backgroundColors: [ColorManager.primaryTextColor])
+        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        renderer.minimumClusterSize = 2
+        self.clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
+        renderer.delegate = self
+        self.clusterManager?.setDelegate(self, mapDelegate: self)
+    }
+    func updateMapStyle(for traitCollection: UITraitCollection) {
+        let styleName = traitCollection.userInterfaceStyle == .dark ? "Mapstyle" : "MapstyleLight"
         do {
-            if let styleURL = Bundle.main.url(forResource: "Mapstyle", withExtension: "json") {
-                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+            if let styleURL = Bundle.main.url(forResource: styleName, withExtension: "json") {
+                mapView?.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+            } else {
+                print("Map style not found: \(styleName).json")
             }
         } catch {
             print("Failed to load map style: \(error)")
         }
-        mapView.isMyLocationEnabled = true
-        mapScreen.addSubview(mapView)
-        mapScreen.addSubview(listButton)
-        mapScreen.addSubview(locateButton)
-        mapView.addSubview(scanQRButton)
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            mapView.topAnchor.constraint(equalTo: view.topAnchor),
-            mapView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        
-        let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [200], backgroundColors: [ColorManager.primaryColor])
-        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
-        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
-        renderer.minimumClusterSize = 2
-        clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
-        renderer.delegate = self
-        clusterManager?.setDelegate(self, mapDelegate: self)
     }
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         if didTapCluster {
@@ -240,7 +248,8 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
             if clusterItem.chargers?.id != selectedCharger?.id{
                 hideBottomCard()
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+                guard let self = self else { return }
                 self.showBottomCard()
                 self.chargerDetailTableView.reloadData()
             }
@@ -251,7 +260,7 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
                 self.selectedCharger = nil
             }
             
-            viewModel?.fetchLocationById(id: clusterItem.chargers?.id ?? "") { [weak self]result in
+            viewModel?.fetchLocationById(id: clusterItem.chargers?.id ?? "") { [weak self] result in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     switch result {
@@ -280,6 +289,7 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         hideBottomCard()
         selectedCharger = nil
+        clusterManager?.cluster()
     }
 }
 
@@ -302,7 +312,8 @@ extension MapScreenViewController : MapViewModelDelegate {
         CATransaction.commit()
 
         if let zoomLevel = zoom {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+                guard let _ = self else { return }
                 CATransaction.begin()
                 CATransaction.setValue(0.5, forKey: kCATransactionAnimationDuration)
                 mapView.animate(toZoom: zoomLevel)
@@ -361,8 +372,15 @@ extension MapScreenViewController {
                   let oldLon = charger.direction?.longitude,
                   let newLat = new[index].direction?.latitude,
                   let newLon = new[index].direction?.longitude,
-                  charger.id == new[index].id else {
+                  let newChargers = new[index].chargerInfo,
+                  let oldChargers = charger.chargerInfo,
+                  charger.id == new[index].id else{
                 return true
+            }
+            for i in 0..<newChargers.count {
+                if newChargers[i].status != oldChargers[i].status {
+                    return true
+                }
             }
             if abs(oldLat - newLat) > 0.0001 || abs(oldLon - newLon) > 0.0001 {
                 return true
@@ -409,7 +427,6 @@ extension MapScreenViewController: GMUClusterRendererDelegate {
             }
         }
     }
-    
 }
 
 extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
@@ -492,7 +509,8 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
     func showBottomCard() {
         bottomCardConstraint.constant = -30
         buttonButtomConstraint.constant = 265
-        UIView.animate() {
+        UIView.animate() { [weak self] in
+            guard let self = self else { return }
             self.view.layoutIfNeeded()
         }
     }
@@ -500,7 +518,8 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
     func hideBottomCard() {
         bottomCardConstraint.constant = 250
         buttonButtomConstraint.constant = 15
-        UIView.animate() {
+        UIView.animate() { [weak self] in
+            guard let self = self else { return }
             self.view.layoutIfNeeded()
         }
         isLoading = true
@@ -509,17 +528,20 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
 extension MapScreenViewController : NearByChargerTableViewCellDelegate{
     func addedTofavouriteResponse(response: FavouriteResponseModel?, error: (any Error)?) {
         if let error = error {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async {[weak self] in
+                guard let self = self else { return }
                 self.showAlert(title: "Error", message: error.localizedDescription)
             }
         }
         if let response = response {
             if !response.status{
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
+                    guard let self = self else { return }
                     self.showAlert(title: "Failed to add", message: response.message)
                 }
             }else{
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
+                    guard let _ = self else { return }
                     ToastManager.shared.showToast(message: response.message ?? "Location added to favourite")
                 }
             }
@@ -527,6 +549,9 @@ extension MapScreenViewController : NearByChargerTableViewCellDelegate{
     }
 }
 extension MapScreenViewController : locationInfoViewControllerDelegate {
+    func didReserveCharger() {
+        hideBottomCard()
+    }
     func didTapFavouriteButton(at indexPath: IndexPath) {
         chargerDetailTableView.reloadData()
     }
@@ -616,7 +641,7 @@ extension MapScreenViewController{
             let label = UILabel()
             label.text = "CHARGING"
             label.font = FontManager.bold(size: 17)
-            label.textColor = ColorManager.primaryColor
+            label.textColor = ColorManager.primaryTextColor
             label.textAlignment = .left
             return label
         }()
@@ -640,10 +665,21 @@ extension MapScreenViewController{
     }
     func showNotificationCard(){
         Task {
-            ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress")
+            if let token = await ChargingLiveActivityManager.startActivity(timeTitle: "Time Consumed", energyTitle: "Energy Consumed", chargingTitle: "Charging is in progress"){
+                viewModel?.pushLiveApnToken(apnToken: token,event: "update") { [weak self] result in
+                    guard let _ = self else { return }
+                    switch result {
+                    case .success(let response):
+                        debugPrint(response)
+                    case .failure(let error):
+                        debugPrint(error)
+                    }
+                }
+            }
         }
         topCardConstraint?.constant = 20
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.3) {[weak self] in
+            guard let self = self else { return }
             self.view.layoutIfNeeded()
         }
         chargingStartTime = Date()
@@ -653,7 +689,8 @@ extension MapScreenViewController{
     }
     func hideNotificationCard(){
         topCardConstraint?.constant = -240
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.3) {[weak self] in
+            guard let self = self else { return }
             self.view.layoutIfNeeded()
         }
         chargingTimer?.invalidate()
@@ -673,12 +710,32 @@ extension MapScreenViewController{
                             self.unitsConsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                             Task {
-                                await ChargingLiveActivityManager.updateActivity(time: chargingTime ?? "", energy: energyConsumed)
+                                if let token = await ChargingLiveActivityManager.updateActivity(time: chargingTime ?? "", energy: energyConsumed, chargingTitle: "Charging is in progress"){
+                                    self.viewModel?.pushLiveApnToken(apnToken: token,event: "update") { [weak self] result in
+                                        guard let _ = self else { return }
+                                        switch result {
+                                        case .success(let response):
+                                            debugPrint(response)
+                                        case .failure(let error):
+                                            debugPrint(error)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }else{
                         Task {
-                            await ChargingLiveActivityManager.endActivity()
+                            if let token = await ChargingLiveActivityManager.endActivity(){
+                                self.viewModel?.pushLiveApnToken(apnToken: token,event: "stop") { [weak self] result in
+                                    guard let _ = self else { return }
+                                    switch result {
+                                    case .success(let response):
+                                        debugPrint(response)
+                                    case .failure(let error):
+                                        debugPrint(error)
+                                    }
+                                }
+                            }
                         }
                         self.showAlert(title: "Charging Stopped", message: response.message)
                         self.chargingTimer?.invalidate()
@@ -715,24 +772,10 @@ extension MapScreenViewController{
         navigationController?.present(navController, animated: true)
     }
 }
-extension MapScreenViewController : UNUserNotificationCenterDelegate, MessagingDelegate  {
+extension MapScreenViewController : MessagingDelegate  {
     func requestNotificationPermission() {
-        let center = UNUserNotificationCenter.current()
-        center.delegate = self
+        NotificationManager.shared.configure()
         Messaging.messaging().delegate = self
-        center.requestAuthorization(options: [.alert, .badge, .sound]) {
-            success, error in
-            if success {
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-            }
-        }
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                     willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound, .list])
     }
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         guard let fcmToken = fcmToken else { return }
@@ -746,6 +789,15 @@ extension MapScreenViewController : UNUserNotificationCenterDelegate, MessagingD
                     debugPrint("Failed to register for remote notifications: \(error)")
                 }
             }
+        }
+    }
+}
+extension MapScreenViewController {
+    func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?, in trait: Any) {
+        if trait is UITraitUserInterfaceStyle {
+            updateMapStyle(for: traitCollection)
+            updateCluster()
+            updateMapWithChargers(lastFetchedChargers)
         }
     }
 }
