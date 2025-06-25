@@ -19,7 +19,7 @@ struct ChargerLocationResponseById: Decodable{
     let sessionInfo : SessionData?
 }
 
-struct LocationData : Codable{
+struct LocationData : Codable, Identifiable{
     let id: String
     let locationName: String
     let locationType: String

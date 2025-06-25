@@ -8,7 +8,7 @@
 import Foundation
 protocol ChargingStatusViewModelInterface{
     func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void)
-    func getFormattedTimeDifference(from dateString: String) -> NSAttributedString
+    //func getFormattedTimeDifference(from dateString: String) -> NSAttributedString
     func stopCharging(completion : @escaping( Result<StopChargingResponseModel,Error>) -> Void)
     func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void)
 }
@@ -36,39 +36,6 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
                 }
             }
         }
-    }
-    func getFormattedTimeDifference(from dateString: String) -> NSAttributedString {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone.current
-
-        guard let pastDate = dateFormatter.date(from: dateString) else {
-            return NSAttributedString(string: "Invalid date")
-        }
-
-        let currentDate = Date()
-        let components = Calendar.current.dateComponents([.hour, .minute], from: pastDate, to: currentDate)
-
-        let hours = components.hour ?? 0
-        let minutes = components.minute ?? 0
-
-        // Colors and fonts
-        let numberColor = ColorManager.textColor
-        let unitColor = ColorManager.thirdBackgroundColor
-        let font = FontManager.bold(size: 35)
-
-        // Build attributed string
-        let attributed = NSMutableAttributedString()
-        attributed.append(NSAttributedString(string: String(format: "%02d", hours),
-                                             attributes: [.foregroundColor: numberColor, .font: font]))
-        attributed.append(NSAttributedString(string: " h : ",
-                                             attributes: [.foregroundColor: unitColor, .font: font]))
-        attributed.append(NSAttributedString(string: String(format: "%02d", minutes),
-                                             attributes: [.foregroundColor: numberColor, .font: font]))
-        attributed.append(NSAttributedString(string: " m",
-                                             attributes: [.foregroundColor: unitColor, .font: font]))
-
-        return attributed
     }
     func stopCharging(completion : @escaping( Result<StopChargingResponseModel,Error>) -> Void){
         let chargerId = UserDefaultManager.shared.getChargerId() ?? ""

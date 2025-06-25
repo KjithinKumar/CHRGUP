@@ -97,7 +97,7 @@ class ReservationViewController: UIViewController {
             self.fetchData()
         }
         listViewVc.userLocation = userLocation
-        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager(),delegate: listViewVc)
+        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager())
         navigationController?.pushViewController(listViewVc, animated: true)
     }
     func configureButtonState(uiButton: UIButton){

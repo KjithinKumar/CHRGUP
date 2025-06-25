@@ -8,11 +8,6 @@
 import Foundation
 import CoreLocation
 
-protocol NearByChargerViewModelDelegate: AnyObject {
-    
-    
-}
-
 protocol NearByChargerViewModelInterface{
     func getNearByCharger(latitue: Double, longitude: Double, range : Int, mobileNumber: String, completion : @escaping (Result<ChargerLocationResponse, Error>) -> Void)
     func nearByChargerData() -> [LocationData]
@@ -20,14 +15,12 @@ protocol NearByChargerViewModelInterface{
 }
 class NearByChargerViewModel : NearByChargerViewModelInterface{
     var networkManager: NetworkManagerProtocol?
-    weak var delegate : NearByChargerViewModelDelegate?
     var chargerLocationResponse : ChargerLocationResponse?
     var sortedChargers : [LocationData]?
     var nearByChargers : [LocationData]?
     
-    init(networkManager: NetworkManagerProtocol, delegate: NearByChargerViewModelDelegate) {
+    init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
-        self.delegate = delegate
     }
     
     func getNearByCharger(latitue: Double, longitude: Double, range : Int, mobileNumber: String, completion : @escaping (Result<ChargerLocationResponse, Error>) -> Void){

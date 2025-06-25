@@ -200,6 +200,7 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
     
     func onPaymentError(_ code: Int32, description str: String) {
         print("Error: \(code) | \(str)")
+        enableButtonAndRemoveIndicator(payButton)
     }
     func fetchPaymentDetails(paymentId : String) {
         viewModel?.fetchPaymentDetails(paymentId: paymentId) { [weak self] result in
@@ -242,6 +243,7 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                             UserDefaultManager.shared.deleteSessionDetails()
                             UserDefaultManager.shared.deleteSessionStartTime()
                             ToastManager.shared.showToast(message: "Payment Successful")
+                            iOSWatchSessionManger.shared.sendStatusToWatch()
                         }else{
                             self.showAlert(title: "Error", message: response.message)
                         }

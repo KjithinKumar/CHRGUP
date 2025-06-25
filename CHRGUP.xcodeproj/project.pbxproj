@@ -14,9 +14,13 @@
 		045021142DBB92CD00A48BD9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */; };
 		045021152DBB92CD00A48BD9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */; };
 		045021222DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0466CD222E0AB7F100DB28F8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 0466CD212E0AB7F100DB28F8 /* SDWebImage */; };
 		046D56A02D7C5AC100B6B654 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 046D569F2D7C5AC100B6B654 /* SDWebImage */; };
 		046D56A22D7C5AC100B6B654 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 046D56A12D7C5AC100B6B654 /* SDWebImageMapKit */; };
 		047F6C0C2DB26B7B00AAC6D2 /* RazorpayCheckout in Frameworks */ = {isa = PBXBuildFile; productRef = 047F6C0B2DB26B7B00AAC6D2 /* RazorpayCheckout */; };
+		048310F72E06C146003F12CA /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048310F62E06C146003F12CA /* WatchConnectivity.framework */; };
+		048310F92E06C158003F12CA /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048310F82E06C157003F12CA /* WatchConnectivity.framework */; };
+		048313AC2E06E811003F12CA /* WatchCHRGUP Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 048310E72E06BE10003F12CA /* WatchCHRGUP Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		048B05C72D7DFB9A00763C9C /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 048B05C62D7DFB9A00763C9C /* Lottie */; };
 		04BEF1262D7861A5005A3979 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF1252D7861A5005A3979 /* FirebaseAnalytics */; };
 		04BEF1282D7861A5005A3979 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 04BEF1272D7861A5005A3979 /* FirebaseAuth */; };
@@ -35,6 +39,13 @@
 			remoteGlobalIDString = 045021122DBB92CD00A48BD9;
 			remoteInfo = ChargingStausLiveActivityExtension;
 		};
+		048313AD2E06E8AE003F12CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04DAC9662D6DB3F800EB4FB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 048310E62E06BE10003F12CA;
+			remoteInfo = "WatchCHRGUP Watch App";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +60,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		048310F22E06BE12003F12CA /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				048313AC2E06E811003F12CA /* WatchCHRGUP Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +78,9 @@
 		04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ChargingStausLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0459D6412DD4B6F40082E5D8 /* ChargingStausLiveActivityExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChargingStausLiveActivityExtension.entitlements; sourceTree = "<group>"; };
+		048310E72E06BE10003F12CA /* WatchCHRGUP Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WatchCHRGUP Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		048310F62E06C146003F12CA /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
+		048310F82E06C157003F12CA /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS11.5.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CHRGUP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB94416E79E17D772ED0777 /* Pods-CHRGUP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.debug.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.debug.xcconfig"; sourceTree = "<group>"; };
 		BAF99BC9D946B362E95711FA /* Pods-CHRGUP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CHRGUP.release.xcconfig"; path = "Target Support Files/Pods-CHRGUP/Pods-CHRGUP.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,6 +94,43 @@
 				Info.plist,
 			);
 			target = 045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */;
+		};
+		048311072E06C999003F12CA /* Exceptions for "CHRGUP" folder in "WatchCHRGUP Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ChargingScreen/Models/ChargingStatusResponseModel.swift,
+				ChargingScreen/Models/StartChargeResponseModel.swift,
+				ChargingScreen/Models/StopChargingResponseModel.swift,
+				ChargingScreen/ViewModles/ChargingStatusViewModel.swift,
+				ChargingScreen/ViewModles/StartChargeViewModel.swift,
+				LocationInfoScreen/Models/ConnectorDisplayModel.swift,
+				NearByChargerScreen/Models/ChargerInfoModel.swift,
+				NearByChargerScreen/Models/ChargerLocationResponse.swift,
+				NearByChargerScreen/Models/ConnectorModel.swift,
+				NearByChargerScreen/Models/CostModel.swift,
+				NearByChargerScreen/Models/DirectionModel.swift,
+				NearByChargerScreen/Models/FacilitiesModel.swift,
+				NearByChargerScreen/Models/FreePaidModel.swift,
+				NearByChargerScreen/Models/OtherDataModel.swift,
+				NearByChargerScreen/Models/PersonModel.swift,
+				NearByChargerScreen/Models/StatsModel.swift,
+				NearByChargerScreen/ViewModels/NearByChargerViewModel.swift,
+				Others/Network/NetworkManager.swift,
+				Others/Network/UserDefaultManager.swift,
+				Others/Resources/AppConstants.swift,
+				Others/Resources/AppIdentifications.swift,
+				Others/Resources/URLs.swift,
+				Others/Themes/AppAppearance.swift,
+				ReceiptScreen/Models/PaymentDetailsModel.swift,
+				ScanQRScreen/Models/ChargerNameResponse.swift,
+				ScanQRScreen/Models/QRPayloadModel.swift,
+				ScanQRScreen/ViewModels/ScanQrViewModel.swift,
+				"User RegistrationScreen/Models/SessionData.swift",
+				"User RegistrationScreen/Models/UserProfileModel.swift",
+				"User RegistrationScreen/Models/VehicleModel.swift",
+				WatchConnectivity/MessageKeys.swift,
+			);
+			target = 048310E62E06BE10003F12CA /* WatchCHRGUP Watch App */;
 		};
 		04A81EE92DBBA42A008C99A5 /* Exceptions for "ChargingStausLiveActivity" folder in "CHRGUP" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -97,10 +159,16 @@
 			path = ChargingStausLiveActivity;
 			sourceTree = "<group>";
 		};
+		048310E82E06BE10003F12CA /* WatchCHRGUP Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "WatchCHRGUP Watch App";
+			sourceTree = "<group>";
+		};
 		04DAC9702D6DB3F800EB4FB8 /* CHRGUP */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				04DAC9802D6DB3FA00EB4FB8 /* Exceptions for "CHRGUP" folder in "CHRGUP" target */,
+				048311072E06C999003F12CA /* Exceptions for "CHRGUP" folder in "WatchCHRGUP Watch App" target */,
 			);
 			path = CHRGUP;
 			sourceTree = "<group>";
@@ -117,10 +185,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		048310E42E06BE10003F12CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0466CD222E0AB7F100DB28F8 /* SDWebImage in Frameworks */,
+				048310F92E06C158003F12CA /* WatchConnectivity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DAC96B2D6DB3F800EB4FB8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				048310F72E06C146003F12CA /* WatchConnectivity.framework in Frameworks */,
 				04BEF12F2D786CA9005A3979 /* GoogleSignIn in Frameworks */,
 				04BEF12A2D7861A5005A3979 /* FirebaseCrashlytics in Frameworks */,
 				043DE6AA2DBA4BE3000E5461 /* FirebaseMessaging in Frameworks */,
@@ -148,6 +226,7 @@
 				0459D6412DD4B6F40082E5D8 /* ChargingStausLiveActivityExtension.entitlements */,
 				04DAC9702D6DB3F800EB4FB8 /* CHRGUP */,
 				045021162DBB92CD00A48BD9 /* ChargingStausLiveActivity */,
+				048310E82E06BE10003F12CA /* WatchCHRGUP Watch App */,
 				04DAC96F2D6DB3F800EB4FB8 /* Products */,
 				06C4FE6238F0ACDF2478F1FA /* Pods */,
 				48A1D4C702373511978A2D0F /* Frameworks */,
@@ -159,6 +238,7 @@
 			children = (
 				04DAC96E2D6DB3F800EB4FB8 /* CHRGUP.app */,
 				045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */,
+				048310E72E06BE10003F12CA /* WatchCHRGUP Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,6 +255,8 @@
 		48A1D4C702373511978A2D0F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				048310F62E06C146003F12CA /* WatchConnectivity.framework */,
+				048310F82E06C157003F12CA /* WatchConnectivity.framework */,
 				04501CB62DBB7A2400A48BD9 /* WidgetKit.framework */,
 				04501CB82DBB7A2400A48BD9 /* SwiftUI.framework */,
 				BF0CA5751C2E1E2C329EA350 /* Pods_CHRGUP.framework */,
@@ -205,6 +287,29 @@
 			productReference = 045021132DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		048310E62E06BE10003F12CA /* WatchCHRGUP Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 048310F52E06BE12003F12CA /* Build configuration list for PBXNativeTarget "WatchCHRGUP Watch App" */;
+			buildPhases = (
+				048310E32E06BE10003F12CA /* Sources */,
+				048310E42E06BE10003F12CA /* Frameworks */,
+				048310E52E06BE10003F12CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				048310E82E06BE10003F12CA /* WatchCHRGUP Watch App */,
+			);
+			name = "WatchCHRGUP Watch App";
+			packageProductDependencies = (
+				0466CD212E0AB7F100DB28F8 /* SDWebImage */,
+			);
+			productName = "WatchCHRGUP Watch App";
+			productReference = 048310E72E06BE10003F12CA /* WatchCHRGUP Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		04DAC96D2D6DB3F800EB4FB8 /* CHRGUP */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04DAC9812D6DB3FA00EB4FB8 /* Build configuration list for PBXNativeTarget "CHRGUP" */;
@@ -215,11 +320,13 @@
 				04DAC96C2D6DB3F800EB4FB8 /* Resources */,
 				04501CCF2DBB7A2600A48BD9 /* Embed Foundation Extensions */,
 				EDE5991D4925F7E81105A812 /* [CP] Copy Pods Resources */,
+				048310F22E06BE12003F12CA /* Embed Watch Content */,
 				048302312E054BCD003F12CA /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				048313AE2E06E8AE003F12CA /* PBXTargetDependency */,
 				045021212DBB92CD00A48BD9 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -253,11 +360,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1630;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					045021122DBB92CD00A48BD9 = {
 						CreatedOnToolsVersion = 16.3;
+					};
+					048310E62E06BE10003F12CA = {
+						CreatedOnToolsVersion = 16.4;
 					};
 					04DAC96D2D6DB3F800EB4FB8 = {
 						CreatedOnToolsVersion = 16.2;
@@ -289,12 +399,20 @@
 			targets = (
 				04DAC96D2D6DB3F800EB4FB8 /* CHRGUP */,
 				045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */,
+				048310E62E06BE10003F12CA /* WatchCHRGUP Watch App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		045021112DBB92CD00A48BD9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		048310E52E06BE10003F12CA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -388,6 +506,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		048310E32E06BE10003F12CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04DAC96A2D6DB3F800EB4FB8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -402,6 +527,11 @@
 			isa = PBXTargetDependency;
 			target = 045021122DBB92CD00A48BD9 /* ChargingStausLiveActivityExtension */;
 			targetProxy = 045021202DBB92CD00A48BD9 /* PBXContainerItemProxy */;
+		};
+		048313AE2E06E8AE003F12CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 048310E62E06BE10003F12CA /* WatchCHRGUP Watch App */;
+			targetProxy = 048313AD2E06E8AE003F12CA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -464,6 +594,74 @@
 			};
 			name = Release;
 		};
+		048310F32E06BE12003F12CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "WatchCHRGUP Watch App/WatchCHRGUP Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = SC7AF9LK93;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WatchCHRGUP-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = WatchCHRGUP;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need your location access to show nearby chargers";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.esyasoft.mobilityconsumerCHRGUP;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esyasoft.mobilityconsumerCHRGUP.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		048310F42E06BE12003F12CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = "WatchCHRGUP Watch App/WatchCHRGUP Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = SC7AF9LK93;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WatchCHRGUP-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = WatchCHRGUP;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need your location access to show nearby chargers";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.esyasoft.mobilityconsumerCHRGUP;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.esyasoft.mobilityconsumerCHRGUP.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
 		04DAC9822D6DB3FA00EB4FB8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6AB94416E79E17D772ED0777 /* Pods-CHRGUP.debug.xcconfig */;
@@ -511,6 +709,7 @@
 				CODE_SIGN_ENTITLEMENTS = CHRGUP/CHRGUP.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = SC7AF9LK93;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -672,6 +871,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		048310F52E06BE12003F12CA /* Build configuration list for PBXNativeTarget "WatchCHRGUP Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				048310F32E06BE12003F12CA /* Debug */,
+				048310F42E06BE12003F12CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		04DAC9692D6DB3F800EB4FB8 /* Build configuration list for PBXProject "CHRGUP" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -771,6 +979,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 043E2AE72DC5BF87007D4859 /* XCRemoteSwiftPackageReference "socket" */;
 			productName = SocketIO;
+		};
+		0466CD212E0AB7F100DB28F8 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 046D569E2D7C5AC100B6B654 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 		046D569F2D7C5AC100B6B654 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

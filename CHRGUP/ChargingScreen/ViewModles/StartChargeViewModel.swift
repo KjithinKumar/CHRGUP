@@ -8,25 +8,18 @@
 import Foundation
 
 protocol StartChargeViewModelInterface {
-    func chargerDetails() -> ChargerLocationData?
+    var chargerDetails: ChargerLocationData? { get }
     func startCharging(phoneNumber: String, qrpayload : QRPayload,completion : @escaping( Result<StartChargeResponseModel,Error>) -> Void)
     func paymentStatus(completion : @escaping( Result<PaymentStatusResponse,Error>) -> Void)
     func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void)
 }
 
 class StartChargeViewModel: StartChargeViewModelInterface {
-    var chargerInfo : ChargerLocationData?
     var networkManager : NetworkManagerProtocol?
-    
+    var chargerDetails: ChargerLocationData?
     init(chargerInfo: ChargerLocationData, networkManager: NetworkManagerProtocol) {
-        self.chargerInfo = chargerInfo
         self.networkManager = networkManager
-    }
-    func chargerDetails() -> ChargerLocationData? {
-        guard let chargerInfo = chargerInfo else {
-            return nil
-        }
-        return chargerInfo 
+        self.chargerDetails = chargerInfo
     }
     func startCharging(phoneNumber: String, qrpayload : QRPayload,completion : @escaping( Result<StartChargeResponseModel,Error>) -> Void){
         let vehicleId = UserDefaultManager.shared.getSelectedVehicle()?.id ?? ""

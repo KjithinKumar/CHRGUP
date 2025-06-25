@@ -16,9 +16,15 @@ enum ChargingLiveActivityManager {
     static var liveActivityId: String?
     
     static func startActivity(timeTitle: String, energyTitle: String, chargingTitle: String, initialTime: String = "00h : 00m", initialEnergy: String = "0.0000 kWh") async -> String?{
-        if let _ = activity {
+        if let activity = activity {
             //print("A live activity instance exists. Skipping start.")
-            return nil
+            if activity.activityState == .active {
+                print("Live Activity already running.")
+                return nil
+            } else {
+                print("Found stale Live Activity, clearing reference.")
+                self.activity = nil
+            }
         }
         if #available(iOS 16.2, *) {
             let existingActivities = Activity<ChargingLiveActivityAttributes>.activities
@@ -78,9 +84,14 @@ enum ChargingLiveActivityManager {
             )
             
             let updatedContent = ActivityContent(state: updatedContentState, staleDate: nil)
+            if activity.activityState == .active{
+                await activity.update(updatedContent)
+                print("Live activity updated.")
+            }else {
+                print("Inactive activity, starting new one.")
+                self.activity = nil
+            }
             
-            await activity.update(updatedContent)
-            print("Live activity updated.")
         } else {
             print("No live activity found. Restarting...")
             

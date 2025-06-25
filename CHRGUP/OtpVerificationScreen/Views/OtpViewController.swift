@@ -400,10 +400,12 @@ extension OtpViewController : OtpViewModelDelegate {
             UserDefaultManager.shared.saveSessionStatus(sessionData?.status)
             UserDefaultManager.shared.saveSessionStartTime(sessionData?.startTime ?? "")
             UserDefaultManager.shared.saveScannedLocation(sessionData?.locationId ?? "")
+            
         }
         DispatchQueue.main.async{ [weak self] in
             guard let self = self else { return }
             let MapVc = MapScreenViewController()
+            iOSWatchSessionManger.shared.sendStatusToWatch()
             MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.navigationBar.isTranslucent = false

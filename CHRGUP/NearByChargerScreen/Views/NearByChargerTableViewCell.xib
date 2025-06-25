@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vIZ-LF-vbx">
                         <rect key="frame" x="15" y="5" width="401" height="236"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forum Mall, Kormangala" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="HiH-S3-Uc8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Forum Mall, Kormangala" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="HiH-S3-Uc8">
                                 <rect key="frame" x="20" y="25" width="296" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -57,7 +57,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2 Kms" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ly6-5A-pci">
-                                <rect key="frame" x="316.66666666666669" y="95" width="59.333333333333314" height="20.333333333333329"/>
+                                <rect key="frame" x="316.66666666666669" y="88" width="59.333333333333314" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -93,24 +93,24 @@
                                     <constraint firstAttribute="height" constant="20" id="fXi-5t-Vdu"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="L3s-gv-s9l">
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="L3s-gv-s9l">
                                 <rect key="frame" x="14.999999999999986" y="191" width="240.66666666666663" height="20"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopping" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="bLc-eV-5bV">
-                                        <rect key="frame" x="0.0" y="0.0" width="79" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="-1" height="-1"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RestRooms" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eLn-hu-QSV">
-                                        <rect key="frame" x="84" y="0.0" width="79.333333333333314" height="20"/>
+                                        <rect key="frame" x="82" y="0.0" width="76.666666666666686" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Parking" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="Ber-Nu-tfj">
-                                        <rect key="frame" x="168.33333333333334" y="0.0" width="72.333333333333343" height="20"/>
+                                        <rect key="frame" x="163.66666666666666" y="0.0" width="77" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -184,7 +184,7 @@
                             <constraint firstItem="VgT-Sg-kyh" firstAttribute="leading" secondItem="vIZ-LF-vbx" secondAttribute="leading" constant="20" id="N0I-qV-fnn"/>
                             <constraint firstItem="8sw-j7-Wo0" firstAttribute="leading" secondItem="l4v-ps-pOQ" secondAttribute="trailing" constant="10" id="RB2-vq-qDp"/>
                             <constraint firstItem="L3s-gv-s9l" firstAttribute="top" secondItem="fXM-lN-lpZ" secondAttribute="bottom" constant="15" id="SEm-it-zNH"/>
-                            <constraint firstItem="ly6-5A-pci" firstAttribute="top" secondItem="qQn-L1-WCr" secondAttribute="bottom" constant="15" id="cik-1E-EtN"/>
+                            <constraint firstItem="ly6-5A-pci" firstAttribute="top" secondItem="qQn-L1-WCr" secondAttribute="bottom" constant="8" id="cik-1E-EtN"/>
                             <constraint firstItem="l4v-ps-pOQ" firstAttribute="leading" secondItem="L3s-gv-s9l" secondAttribute="trailing" constant="15" id="fV0-Wr-z6M"/>
                             <constraint firstItem="HiH-S3-Uc8" firstAttribute="top" secondItem="vIZ-LF-vbx" secondAttribute="top" constant="25" id="jZY-uS-kvV"/>
                             <constraint firstAttribute="trailing" secondItem="qQn-L1-WCr" secondAttribute="trailing" constant="20" id="l46-lQ-lgQ"/>
@@ -233,10 +233,10 @@
         <image name="p.circle.fill" catalog="system" width="128" height="123"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="separatorColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

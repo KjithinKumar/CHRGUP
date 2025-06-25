@@ -69,6 +69,7 @@ class AlertActions {
     static func logoutAction() -> UIAlertAction {
         return UIAlertAction(title: "Logout", style: .destructive) { _ in
             UserDefaultManager.shared.logoutUserProfile()
+            iOSWatchSessionManger.shared.sendStatusToWatch()
             let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
             let navigationController = UINavigationController(rootViewController: welcomeVc)
             Task{

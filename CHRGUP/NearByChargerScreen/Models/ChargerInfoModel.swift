@@ -8,12 +8,12 @@
 import Foundation
 struct ChargerInfo : Codable {
     var status : String?
-    let type : String?
-    let subType : String?
-    let powerOutput : String?
+    var type : String?
+    var subType : String?
+    var powerOutput : String?
     let id : String?
     let costPerUnit : Cost?
-    let name : String?
+    var name : String?
     let energyConsumptions : String?
     let noOfConnector: Int?
     let connectors: [Connector]?

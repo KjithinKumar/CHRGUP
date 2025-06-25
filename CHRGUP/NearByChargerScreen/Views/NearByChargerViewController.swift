@@ -136,9 +136,7 @@ extension NearByChargerViewController: UITableViewDataSource, UITableViewDelegat
         reloadReservation?()
     }
 }
-extension NearByChargerViewController : NearByChargerViewModelDelegate {
-    
-}
+
 
 extension NearByChargerViewController : NearByChargerTableViewCellDelegate {
     func addedTofavouriteResponse(response: FavouriteResponseModel?, error: (any Error)?) {

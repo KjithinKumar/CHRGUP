@@ -51,6 +51,7 @@ class MapScreenViewController: UIViewController{
         setupBottomCard()
         setUpNotificationCard()
         requestNotificationPermission()
+        iOSWatchSessionManger.shared.sendStatusToWatch()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){ [weak self] in
             guard let self = self else { return }
             self.setUpMaps()
@@ -151,12 +152,12 @@ class MapScreenViewController: UIViewController{
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
         viewModel?.requestLocationPermissionIfNeeded()
+        iOSWatchSessionManger.shared.sendStatusToWatch()
     }
     @IBAction func listViewButtonTapped(_ sender: Any) {
-        
         let listViewVc = NearByChargerViewController()
         listViewVc.userLocation = userLocation
-        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager(),delegate: listViewVc)
+        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager())
         navigationController?.pushViewController(listViewVc, animated: true)
     }
     

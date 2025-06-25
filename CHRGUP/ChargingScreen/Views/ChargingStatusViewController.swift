@@ -56,6 +56,7 @@ class ChargingStatusViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "Charging Stopped")
+                        iOSWatchSessionManger.shared.sendStatusToWatch()
                     }else{
                         self.showAlert(title: "Error", message: response.message)
                         self.navigationController?.navigationBar.isHidden = false
@@ -110,9 +111,7 @@ class ChargingStatusViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let currentTimeString = dateFormatter.string(from: Date())
-        if let chargingTime = viewModel?.getFormattedTimeDifference(from: currentTimeString){
-            chargingTimeLabel.attributedText = chargingTime
-        }
+        chargingTimeLabel.attributedText = self.getFormattedTimeDifference(from: currentTimeString)
         
         eneryconsumedLabel.text = " 0.0000 kWh"
         eneryconsumedLabel.textColor = ColorManager.textColor
@@ -161,10 +160,6 @@ class ChargingStatusViewController: UIViewController {
         RunLoop.main.add(pingTimer!, forMode: .common)
         labelUpdateTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateLastPingLabel), userInfo: nil, repeats: true)
         RunLoop.main.add(labelUpdateTimer!, forMode: .common)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0){ [weak self] in
-//            guard let self = self else { return }
-//            self.fetchData()
-//        }
     }
     @objc func fetchData(){
         viewModel?.fetchChargingStatus { [weak self] result in
@@ -174,15 +169,16 @@ class ChargingStatusViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         if let chargingStatus = response.data, let startTime = chargingStatus.startTimeIST, let cost = chargingStatus.costPerUnit {
-                            let chargingTime = self.viewModel?.getFormattedTimeDifference(from: startTime)
+                            let chargingTime = self.getFormattedTimeDifference(from: startTime)
                             self.chargingTimeLabel.attributedText =  chargingTime
                             self.priceLabel.text = "₹ \(cost.amount ?? 0)/Unit"
                             let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
                             self.eneryconsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
+                            iOSWatchSessionManger.shared.sendStatusToWatch()
                             self.lastPingDate = Date()
                             Task {
-                                let token = await ChargingLiveActivityManager.updateActivity(time: chargingTime?.string ?? "", energy: energyConsumed,chargingTitle: "charging is in progress")
+                                let token = await ChargingLiveActivityManager.updateActivity(time: chargingTime.string, energy: energyConsumed,chargingTitle: "charging is in progress")
                                 if let token = token {
                                     self.viewModel?.pushLiveApnToken(apnToken: token,event: "update") { [weak self] result in
                                         guard let _ = self else { return }
@@ -292,6 +288,37 @@ class ChargingStatusViewController: UIViewController {
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.setViewControllers([receiptVc], animated: true)
         }
+    }
+    func getFormattedTimeDifference(from dateString: String) -> NSAttributedString {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+
+        guard let pastDate = dateFormatter.date(from: dateString) else {
+            return NSAttributedString(string: "Invalid date")
+        }
+
+        let currentDate = Date()
+        let components = Calendar.current.dateComponents([.hour, .minute], from: pastDate, to: currentDate)
+
+        let hours = components.hour ?? 0
+        let minutes = components.minute ?? 0
+        // Colors and fonts
+        let numberColor = ColorManager.textColor
+        let unitColor = ColorManager.thirdBackgroundColor
+        let font = FontManager.bold(size: 35)
+        
+        // Build attributed string
+        let attributed = NSMutableAttributedString()
+        attributed.append(NSAttributedString(string: String(format: "%02d", hours),
+                                             attributes: [.foregroundColor: numberColor, .font: font]))
+        attributed.append(NSAttributedString(string: " h : ",
+                                             attributes: [.foregroundColor: unitColor, .font: font]))
+        attributed.append(NSAttributedString(string: String(format: "%02d", minutes),
+                                             attributes: [.foregroundColor: numberColor, .font: font]))
+        attributed.append(NSAttributedString(string: " m",
+                                             attributes: [.foregroundColor: unitColor, .font: font]))
+        return attributed
     }
 }
 

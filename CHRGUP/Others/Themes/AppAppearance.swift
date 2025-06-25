@@ -23,7 +23,7 @@ class AppSettings {
             UserDefaultManager.appAppearance = newValue
         }
     }
-
+    #if os(iOS)
     static func applyAppearance() {
         guard let window = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
@@ -40,16 +40,10 @@ class AppSettings {
             rootWindow.overrideUserInterfaceStyle = .unspecified
         }
     }
+    #endif
 }
 extension AppAppearance {
-//    var isDarkMode: Bool {
-//        switch self {
-//        case .dark: return true
-//        case .light: return false
-//        case .system:
-//            return UITraitCollection.current.userInterfaceStyle == .dark
-//        }
-//    }
+    #if os(iOS)
     var interfaceStyle: UIUserInterfaceStyle {
         switch self {
         case .light: return .light
@@ -57,16 +51,5 @@ extension AppAppearance {
         case .system: return .unspecified
         }
     }
+#endif
 }
-//extension AppSettings {
-//    static func resolvedInterfaceStyle(_ traitCollection: UITraitCollection) -> UIUserInterfaceStyle {
-//        switch AppSettings.appearanceMode {
-//        case .system:
-//            return traitCollection.userInterfaceStyle
-//        case .dark:
-//            return .dark
-//        case .light:
-//            return .light
-//        }
-//    }
-//}

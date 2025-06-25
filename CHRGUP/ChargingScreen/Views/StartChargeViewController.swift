@@ -91,13 +91,13 @@ class StartChargeViewController: UIViewController {
         configureNavBar()
     }
     func setUpData(){
-        subtitleOneLabel.text = viewModel?.chargerDetails()?.chargerInfo?.name
-        subtitleTwoLabel.text = viewModel?.chargerDetails()?.location?.locationName
-        subtitleFourLabel.text = viewModel?.chargerDetails()?.location?.freePaid?.charging ?? false ? "FREE" : "PAID"
-        subtitleFiveLabel.text = viewModel?.chargerDetails()?.location?.freePaid?.parking ?? false ? "FREE" : "PAID"
+        subtitleOneLabel.text = viewModel?.chargerDetails?.chargerInfo?.name
+        subtitleTwoLabel.text = viewModel?.chargerDetails?.location?.locationName
+        subtitleFourLabel.text = viewModel?.chargerDetails?.location?.freePaid?.charging ?? false ? "FREE" : "PAID"
+        subtitleFiveLabel.text = viewModel?.chargerDetails?.location?.freePaid?.parking ?? false ? "FREE" : "PAID"
         let bulletPoint = "• "
-        let text = "\(viewModel?.chargerDetails()?.chargerInfo?.type ?? "") - \(viewModel?.chargerDetails()?.chargerInfo?.powerOutput ?? "")"
-        if viewModel?.chargerDetails()?.chargerInfo?.type == "DC"{
+        let text = "\(viewModel?.chargerDetails?.chargerInfo?.type ?? "") - \(viewModel?.chargerDetails?.chargerInfo?.powerOutput ?? "")"
+        if viewModel?.chargerDetails?.chargerInfo?.type == "DC"{
             let attributedString = NSMutableAttributedString(string: bulletPoint, attributes: [.foregroundColor: ColorManager.dcbulletColor,.font : FontManager.bold()])
             attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
             subtitleThreeLabel.attributedText = attributedString
@@ -234,6 +234,7 @@ class StartChargeViewController: UIViewController {
                                 }
                             }
                         }
+                        iOSWatchSessionManger.shared.sendStatusToWatch()
                         let statusVc = ChargingStatusViewController()
                         statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
                         statusVc.requestNotificationPermission()

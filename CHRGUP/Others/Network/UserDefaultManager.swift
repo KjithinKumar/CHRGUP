@@ -97,6 +97,7 @@ class UserDefaultManager{
             removeChargerId()
             deleteSessionDetails()
         }
+        defaults.synchronize()
     }
     func isLoggedIn() -> Bool {
         return defaults.bool(forKey: Keys.loggedInUserIdKey)
@@ -123,118 +124,118 @@ class UserDefaultManager{
     //MARK: - FavouriteLocation
     func saveFavouriteLocation(_ locationId: String ) {
         // Retrieve existing favorites or initialize an empty array
-        var favourites = UserDefaults.standard.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
+        var favourites = defaults.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
         
         // Append only if it's not already in the list
         if !favourites.contains(locationId) {
             favourites.append(locationId)
-            UserDefaults.standard.set(favourites, forKey: Keys.favouriteLocationskey)
+            defaults.set(favourites, forKey: Keys.favouriteLocationskey)
         }
     }
     func getFavouriteLocations() -> [String] {
-        return UserDefaults.standard.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
+        return defaults.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
     }
     func removeFavouriteLocation(_ locationId: String) {
-        var favourites = UserDefaults.standard.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
+        var favourites = defaults.array(forKey: Keys.favouriteLocationskey) as? [String] ?? []
         if let index = favourites.firstIndex(of: locationId) {
             favourites.remove(at: index)
         }
-        UserDefaults.standard.setValue(favourites, forKey: Keys.favouriteLocationskey)
+        defaults.setValue(favourites, forKey: Keys.favouriteLocationskey)
     }
     func resetFavouriteLocations() {
-        UserDefaults.standard.removeObject(forKey: Keys.favouriteLocationskey)
+        defaults.removeObject(forKey: Keys.favouriteLocationskey)
     }
     
     //MARK: - CurrentLocation
     func saveUserCurrentLocation(_ latitude : Double,_ longitude : Double){
-        UserDefaults.standard.setValue([latitude,longitude], forKey: Keys.userLocationKey)
-        UserDefaults.standard.synchronize()
+        defaults.setValue([latitude,longitude], forKey: Keys.userLocationKey)
+        defaults.synchronize()
     }
     func getUserCurrentLocation() -> [Double]?{
-        return UserDefaults.standard.array(forKey: Keys.userLocationKey) as? [Double]
+        return defaults.array(forKey: Keys.userLocationKey) as? [Double]
     }
     func resetUserCurrentLocation() {
-        UserDefaults.standard.removeObject(forKey: Keys.userLocationKey)
+        defaults.removeObject(forKey: Keys.userLocationKey)
     }
     //MARK: - RecentChargerLocation
     func saveRecentChargers(_ chargers: [LocationData]) {
         if let encoded = try? JSONEncoder().encode(chargers) {
-            UserDefaults.standard.set(encoded, forKey: Keys.recentSearchHistoryKey)
+            defaults.set(encoded, forKey: Keys.recentSearchHistoryKey)
         }
     }
     func getRecentChargers() -> [LocationData]? {
-        if let data = UserDefaults.standard.data(forKey: Keys.recentSearchHistoryKey),
+        if let data = defaults.data(forKey: Keys.recentSearchHistoryKey),
            let decoded = try? JSONDecoder().decode([LocationData].self, from: data) {
             return decoded
         }
         return []
     }
     func removeRecentChargers() {
-        UserDefaults.standard.removeObject(forKey: Keys.recentSearchHistoryKey)
+        defaults.removeObject(forKey: Keys.recentSearchHistoryKey)
     }
     //MARK: -  ChargerId
     func saveChargerId(_ chargerId: String) {
-        UserDefaults.standard.setValue(chargerId, forKey: Keys.chargerIdKey)
-        UserDefaults.standard.synchronize()
+        defaults.setValue(chargerId, forKey: Keys.chargerIdKey)
+        defaults.synchronize()
     }
     func getChargerId() -> String? {
-        return UserDefaults.standard.string(forKey: Keys.chargerIdKey)
+        return defaults.string(forKey: Keys.chargerIdKey)
     }
     func removeChargerId() {
-        UserDefaults.standard.removeObject(forKey: Keys.chargerIdKey)
+        defaults.removeObject(forKey: Keys.chargerIdKey)
     }
     
     func saveTimestamp(){
         let currentTime = Date().timeIntervalSince1970
-        UserDefaults.standard.setValue(currentTime, forKey: Keys.sessionStartTimeKey)
-        UserDefaults.standard.synchronize()
+        defaults.setValue(currentTime, forKey: Keys.sessionStartTimeKey)
+        defaults.synchronize()
     }
     func saveSessionStartTime(_ timeStamp: String) {
-        UserDefaults.standard.setValue(timeStamp, forKey: Keys.sessionStartTimeKey)
-        UserDefaults.standard.synchronize()
+        defaults.setValue(timeStamp, forKey: Keys.sessionStartTimeKey)
+        defaults.synchronize()
     }
     func getSessionStartTime() -> String? {
-        return UserDefaults.standard.string(forKey: Keys.sessionStartTimeKey)
+        return defaults.string(forKey: Keys.sessionStartTimeKey)
     }
     func deleteSessionStartTime() {
-        UserDefaults.standard.removeObject(forKey: Keys.sessionStartTimeKey)
+        defaults.removeObject(forKey: Keys.sessionStartTimeKey)
     }
     
     //MARK: - ScannedLocation
     func saveScannedLocation(_ locationId: String) {
-        UserDefaults.standard.setValue(locationId, forKey: Keys.scannedLocationId)
-        UserDefaults.standard.synchronize()
+        defaults.setValue(locationId, forKey: Keys.scannedLocationId)
+        defaults.synchronize()
     }
     
     func getScannedLocationId() -> String? {
-        return UserDefaults.standard.string(forKey: Keys.scannedLocationId)
+        return defaults.string(forKey: Keys.scannedLocationId)
     }
     func deleteScannedLocationId() {
-        UserDefaults.standard.removeObject(forKey: Keys.scannedLocationId)
+        defaults.removeObject(forKey: Keys.scannedLocationId)
     }
     
     //MARK: - PopUpTime
     func showPopUp() -> Bool {
-        let currentValue = UserDefaults.standard.integer(forKey: Keys.showPopupKey)
-        UserDefaults.standard.set(currentValue + 1, forKey: Keys.showPopupKey)
-        return UserDefaults.standard.integer(forKey: Keys.showPopupKey) <= 2
+        let currentValue = defaults.integer(forKey: Keys.showPopupKey)
+        defaults.set(currentValue + 1, forKey: Keys.showPopupKey)
+        return defaults.integer(forKey: Keys.showPopupKey) <= 2
     }
     func resetPopUp() {
-        UserDefaults.standard.removeObject(forKey: Keys.showPopupKey)
+        defaults.removeObject(forKey: Keys.showPopupKey)
     }
     
     //MARK: - SessionId
     func saveSessionId(_ sessionId: String?) {
-        UserDefaults.standard.setValue(sessionId, forKey: Keys.sessionIdKey)
+        defaults.setValue(sessionId, forKey: Keys.sessionIdKey)
     }
     func saveSessionStatus(_ sessionStatus : String?) {
-        UserDefaults.standard.set(sessionStatus, forKey: Keys.sessionStatusKey)
+        defaults.set(sessionStatus, forKey: Keys.sessionStatusKey)
     }
     func getSessionId() -> String? {
-        return UserDefaults.standard.string(forKey: Keys.sessionIdKey)
+        return defaults.string(forKey: Keys.sessionIdKey)
     }
     func getSessionStatus() -> String? {
-        return UserDefaults.standard.string(forKey: Keys.sessionStatusKey)
+        return defaults.string(forKey: Keys.sessionStatusKey)
     }
     func IsSessionActive() -> Bool {
         let sessionStatus = getSessionStatus()
@@ -245,20 +246,20 @@ class UserDefaultManager{
         }
     }
     func deleteSessionDetails() {
-        UserDefaults.standard.removeObject(forKey: Keys.sessionIdKey)
-        UserDefaults.standard.removeObject(forKey: Keys.sessionStatusKey)
-        UserDefaults.standard.removeObject(forKey: Keys.sessionStartTimeKey)
+        defaults.removeObject(forKey: Keys.sessionIdKey)
+        defaults.removeObject(forKey: Keys.sessionStatusKey)
+        defaults.removeObject(forKey: Keys.sessionStartTimeKey)
     }
     static var appAppearance: AppAppearance {
         get {
-            if let rawValue = UserDefaults.standard.string(forKey: Keys.appearanceKey),
+            if let rawValue = UserDefaultManager.shared.defaults.string(forKey: Keys.appearanceKey),
                let mode = AppAppearance(rawValue: rawValue) {
                 return mode
             }
             return .system
         }
         set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: Keys.appearanceKey)
+            UserDefaultManager.shared.defaults.set(newValue.rawValue, forKey: Keys.appearanceKey)
         }
     }
 }

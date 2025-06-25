@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct ConnectorDisplayItem {
-    let chargerInfo: ChargerInfo
+struct ConnectorDisplayItem : Identifiable {
+    let id = UUID()
+    var chargerInfo: ChargerInfo
     var connector: Connector
 }
