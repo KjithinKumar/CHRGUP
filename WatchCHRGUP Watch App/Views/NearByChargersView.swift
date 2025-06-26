@@ -84,7 +84,7 @@ struct NearByChargersView: View {
         let lat = currentLocation?.first ?? 0.0
         let long = currentLocation?.last ?? 0.0
         let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber ?? ""
-        ViewModel.getNearByCharger(latitue: lat, longitude: long, range: 25000, mobileNumber: mobileNumber) { result in
+        ViewModel.getNearByCharger(latitue: lat, longitude: long, range: 15, mobileNumber: mobileNumber) { result in
             switch result {
             case .success(_) :
                 self.locations = ViewModel.sortedNearByChargerData(currentLocation: location)

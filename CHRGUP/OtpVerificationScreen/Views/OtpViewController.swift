@@ -63,16 +63,15 @@ class OtpViewController: UIViewController {
         guard let mobileNumber = mobileNumber else { return }
         debugPrint("Entered OTP: \(otp)")
         setVerifyButtonState(.verifying)
-//        viewModel?.verifyOtp(phoneNumber: mobileNumber, otp: otp){ message,result in
-//            if result{
-//                self.setVerifyButtonState(.verified)
-//                self.viewModel?.checkUserRegistration(phoneNumber: mobileNumber)
-//            }else{
-//                self.showToast(message: message)
-//                self.setVerifyButtonState(.verify)
-//            }
-//        }
-        self.viewModel?.checkUserRegistration(phoneNumber: mobileNumber)
+        viewModel?.verifyOtp(phoneNumber: mobileNumber, otp: otp){ message,result in
+            if result{
+                self.setVerifyButtonState(.verified)
+                self.viewModel?.checkUserRegistration(phoneNumber: mobileNumber)
+            }else{
+                self.showToast(message: message)
+                self.setVerifyButtonState(.verify)
+            }
+        }
     }
     
     func setUpUI(){

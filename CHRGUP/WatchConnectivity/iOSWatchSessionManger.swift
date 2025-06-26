@@ -10,7 +10,6 @@ import WatchConnectivity
 
 class iOSWatchSessionManger: NSObject, WCSessionDelegate,ObservableObject {
 
-    
     static let shared = iOSWatchSessionManger()
     
     override init() {
@@ -22,11 +21,9 @@ class iOSWatchSessionManger: NSObject, WCSessionDelegate,ObservableObject {
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        print("iOS: Received message from watch: \(message)")
         if let request = message[MessageKeys.requestStatus] as? String {
             if request == MessageValues.getLoginStatus {
                 let status = UserDefaultManager.shared.isLoggedIn()
-                print("iOS: Responding with login status: \(status)")
                 replyHandler([MessageKeys.loginStatus : status])
             } else {
                 replyHandler([:])
@@ -63,13 +60,12 @@ class iOSWatchSessionManger: NSObject, WCSessionDelegate,ObservableObject {
                 print(error.localizedDescription)
             }
         }
-        print("sending info to watch \(infoTOsend)")
+
         WCSession.default.transferUserInfo(infoTOsend)
     }
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: (any Error)?) {
         if activationState == .activated {
             sendStatusToWatch()
-            print("iOS: WCSession activated.")
         } else {
             print("iOS: WCSession activation failed with state: \(activationState) and error: \(String(describing: error?.localizedDescription))")
         }
