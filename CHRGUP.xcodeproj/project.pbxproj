@@ -676,6 +676,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CHRGUP/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access to scan QR codes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This will help us to locate chargers near you";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
@@ -714,6 +715,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CHRGUP/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need camera access to scan QR codes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This will help us to locate chargers near you";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
