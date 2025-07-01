@@ -15,21 +15,16 @@ class ReserveViewController: UIViewController {
     @IBOutlet weak var ChargercollectionView: UICollectionView!
     @IBOutlet weak var popUpView: UIView!
     @IBOutlet weak var timeSubTitle: UILabel!
-    @IBOutlet weak var countTimer: UIDatePicker!
     @IBOutlet weak var reserveButton: UIButton!
     var viewModel : ReserveChargerViewModelInterface?
     var selectedIndexPath: IndexPath?
     var selectedConnector : ConnectorDisplayItem?
-    var selectedTime : String?
     var onReservationSuccess: ((ConnectorDisplayItem) -> Void)?
     @IBOutlet weak var dismissButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUi()
-        countTimer.date = Date().addingTimeInterval(60)
-        selectedTime = formatDateToISO8601(date: countTimer.date)
-        countTimer.addTarget(self, action: #selector(datePickerChanged(_:)), for: .valueChanged)
         configureCollectionView()
     }
     init(viewModel : ReserveChargerViewModelInterface){
@@ -85,45 +80,25 @@ class ReserveViewController: UIViewController {
     @IBAction func reserverButtonPressed(_ sender: Any) {
         disableButtonWithActivityIndicator(reserveButton)
         if let selectedConnector = selectedConnector {
-            if let selectedTime = selectedTime {
-                Task{
-                    do {
-                        if let response = try await viewModel?.makeReservation(for: selectedConnector, endTime: selectedTime){
-                            if response.status{
-                                ToastManager.shared.showToast(message: response.message)
-                                self.onReservationSuccess?(selectedConnector)
-                                self.dismiss(animated: true)
-                            }else{
-                                self.showAlert(title: "Error", message: response.message)
-                            }
+            Task{
+                do {
+                    if let response = try await viewModel?.makeReservation(for: selectedConnector){
+                        if response.status{
+                            ToastManager.shared.showToast(message: response.message)
+                            self.onReservationSuccess?(selectedConnector)
+                            self.dismiss(animated: true)
+                        }else{
+                            self.showAlert(title: "Error", message: response.message)
                         }
-                    }catch(let error) {
-                        AppErrorHandler.handle(error, in: self)
-                        enableButtonAndRemoveIndicator(reserveButton)
                     }
+                }catch(let error) {
+                    AppErrorHandler.handle(error, in: self)
+                    enableButtonAndRemoveIndicator(reserveButton)
                 }
             }
-            
         }
     }
-    @objc func datePickerChanged(_ sender: UIDatePicker) {
-        let now = Date()
-            let maxAllowed = Calendar.current.date(byAdding: .minute, value: 15, to: now)!
-        let minAllowed = Calendar.current.date(byAdding: .minute, value: 1, to: now)!
-            if sender.date > maxAllowed {
-                sender.setDate(maxAllowed, animated: true)
-            }
-        if sender.date < minAllowed {
-            sender.setDate(minAllowed, animated: true)
-        }
-        selectedTime = formatDateToISO8601(date: sender.date)
-    }
-    func formatDateToISO8601(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        formatter.timeZone = TimeZone(identifier: AppConstants.timeZone) // Optional, set if needed
-        return formatter.string(from: date)
-    }
+
     func setReserveButtonState(isEnable : Bool){
         if isEnable {
             reserveButton.backgroundColor = ColorManager.primaryColor

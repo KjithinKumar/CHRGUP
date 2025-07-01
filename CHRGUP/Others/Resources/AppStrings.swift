@@ -268,11 +268,11 @@ struct AppStrings {
         
         static let reserveChargerText = "Choose the connector type"
         
-        static let selectTimeText = "Select time to reserve (max 15 mins)"
+        static let selectTimeText = "Reserve (max 15 mins)"
         
         static let reserveButtonText = "Reserve"
         
-        static let timeSubtitleText = "Charger will be reserved until : "
+        static let timeSubtitleText = "Charger will be reserved for 15 minutes "
         
         static let allButtonText = "All"
         

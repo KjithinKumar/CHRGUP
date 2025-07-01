@@ -22,7 +22,11 @@ class ChargingStatusViewController: UIViewController {
     @IBOutlet weak var chargingTimeLabel: UILabel!
     @IBOutlet weak var lastPingLabel: UILabel!
     @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var timeStackView: UIStackView!
     
+    private let progressLayer = CAShapeLayer()
+    private let backView = UIView()
+    private let batteryPercentageLabel: UILabel = UILabel()
     
     var viewModel : ChargingStatusViewModelInterface?
     var payLoad : QRPayload?
@@ -34,6 +38,7 @@ class ChargingStatusViewController: UIViewController {
         setUpUI()
         setUpAnimations()
         startPingTimer()
+        setupProgressLayer()
     }
     deinit{
         pingTimer?.invalidate()
@@ -130,7 +135,6 @@ class ChargingStatusViewController: UIViewController {
     }
     
     func setUpAnimations(){
-        let backView = UIView()
         backView.translatesAutoresizingMaskIntoConstraints = false
         backView.backgroundColor = ColorManager.primaryTextColor.withAlphaComponent(0.2)
         backView.layer.cornerRadius = lottieView.frame.width / 2
@@ -153,7 +157,43 @@ class ChargingStatusViewController: UIViewController {
                 backView.widthAnchor.constraint(equalTo: lottieView.widthAnchor),
                 backView.heightAnchor.constraint(equalTo: lottieView.heightAnchor)
             ])
-        
+    }
+    func setupProgressLayer() {
+        lottieView.layoutIfNeeded()
+        backView.layer.cornerRadius = backView.frame.width / 2
+        let radius = backView.frame.width / 2 - 5
+        let centerPoint = CGPoint(x: backView.bounds.midX, y: backView.bounds.midY)
+        let circlePath = UIBezierPath(
+            arcCenter: centerPoint,
+            radius: radius,
+            startAngle: -.pi / 2,
+            endAngle: 1.5 * .pi,
+            clockwise: true
+        )
+        progressLayer.path = circlePath.cgPath
+        progressLayer.strokeColor = ColorManager.primaryTextColor.cgColor
+        progressLayer.fillColor = UIColor.clear.cgColor
+        progressLayer.lineWidth = 8
+        progressLayer.lineCap = .round
+        progressLayer.strokeEnd = 0
+        lottieView.layer.addSublayer(progressLayer)
+    }
+    func updateBatteryProgress(_ batteryPercentage: Int) {
+        guard batteryPercentage > 0 else {
+            progressLayer.isHidden = true
+            batteryPercentageLabel.removeFromSuperview()
+            return
+        }
+        let clamped = max(0, min(100, batteryPercentage))
+        let progress = CGFloat(clamped) / 100.0
+        timeStackView.insertArrangedSubview(batteryPercentageLabel, at: 0)
+        batteryPercentageLabel.text = "\(clamped)% Charged"
+        batteryPercentageLabel.font = FontManager.bold(size: 20)
+        batteryPercentageLabel.textColor = ColorManager.primaryTextColor
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.3)
+        progressLayer.strokeEnd = progress
+        CATransaction.commit()
     }
     func startPingTimer() {
         pingTimer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(fetchData), userInfo: nil, repeats: true)
@@ -169,6 +209,7 @@ class ChargingStatusViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         if let chargingStatus = response.data, let startTime = chargingStatus.startTimeIST, let cost = chargingStatus.costPerUnit {
+                            self.updateBatteryProgress(chargingStatus.batterypercentage ?? 0)
                             let chargingTime = self.getFormattedTimeDifference(from: startTime)
                             self.chargingTimeLabel.attributedText =  chargingTime
                             self.priceLabel.text = "₹ \(cost.amount ?? 0)/Unit"

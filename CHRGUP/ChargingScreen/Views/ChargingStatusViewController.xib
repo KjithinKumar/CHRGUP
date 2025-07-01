@@ -20,6 +20,7 @@
                 <outlet property="priceLabel" destination="sKq-zw-I6u" id="F3s-YU-uxR"/>
                 <outlet property="stopButton" destination="dtl-Me-Pj7" id="Pfk-KS-whi"/>
                 <outlet property="timeLabel" destination="SwK-pu-RL9" id="ISk-DN-S3I"/>
+                <outlet property="timeStackView" destination="SoJ-DM-w6h" id="r0f-8M-zO9"/>
                 <outlet property="titleLabel" destination="oyN-fH-KVH" id="xuc-jZ-hRc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

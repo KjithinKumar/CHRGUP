@@ -8,7 +8,7 @@
 import Foundation
 protocol ReserveChargerViewModelInterface {
     var connectorItems : [ConnectorDisplayItem] {get set}
-    func makeReservation(for connector : ConnectorDisplayItem, endTime : String) async throws -> ReservationResponseModel
+    func makeReservation(for connector : ConnectorDisplayItem) async throws -> ReservationResponseModel
 }
 class ReserveChargerViewModel: ReserveChargerViewModelInterface {
     var chargersInfo : [ChargerInfo]?
@@ -18,7 +18,7 @@ class ReserveChargerViewModel: ReserveChargerViewModelInterface {
         self.connectorItems = connectorItems
         self.networkManger = networkManger
     }
-    func makeReservation(for connector : ConnectorDisplayItem, endTime : String) async throws -> ReservationResponseModel{
+    func makeReservation(for connector : ConnectorDisplayItem) async throws -> ReservationResponseModel{
         let url = URLs.reservationUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { throw NetworkManagerError.invalidRequest }
         guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { throw NetworkManagerError.invalidRequest }
@@ -28,7 +28,6 @@ class ReserveChargerViewModel: ReserveChargerViewModelInterface {
         let requestBody : [String : Any] = ["idTag" : mobileNumber ,
                                             "chargerId" : chargerId,
                                             "connectorId" : connectorId,
-                                            "endTime" : endTime,
                                             "timezone" : AppConstants.timeZone]
         guard let request = networkManger?.createRequest(urlString: url, method: .post, body: requestBody, encoding: .json, headers: header)else {throw NetworkManagerError.invalidRequest}
         

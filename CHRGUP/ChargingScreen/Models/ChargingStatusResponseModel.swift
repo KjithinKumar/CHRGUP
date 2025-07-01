@@ -20,6 +20,7 @@ struct ChargingStatusModel: Decodable {
     let status : String?
     let reason : String?
     let startTimeIST : String?
+    let batterypercentage : Int?
     let costPerUnit : Cost?
 }
 
