@@ -94,8 +94,6 @@ enum ChargingLiveActivityManager {
             
         } else {
             print("No live activity found. Restarting...")
-            
-            // START a new activity if none exists
             if let token = await startActivity(
                 timeTitle: "Time Consumed",
                 energyTitle: "Units Consumed",
@@ -138,24 +136,10 @@ enum ChargingLiveActivityManager {
             }
         }
     }
-//    @MainActor
-//    private static func restartLiveActivity() async {
-//        print("Attempting to restart Live Activity...")
-//        
-//        // Provide default values or store the previous titles somewhere if needed
-//        let _ = await startActivity(
-//            timeTitle: "Time Consumed",
-//            energyTitle: "Units Consumed",
-//            chargingTitle: "Charging is in Progress",
-//            initialTime: lastInitialTime,
-//            initialEnergy: lastInitialEnergy
-//        )
-//    }
     static func reconnect(to existingActivity: Activity<ChargingLiveActivityAttributes>) {
         debugPrint("reconnecting to existing live activity...")
         self.activity = existingActivity
         observeActivityEnd(activity: existingActivity)
-        
         // Optionally restore token
         Task {
             for await tokenData in existingActivity.pushTokenUpdates {
