@@ -142,6 +142,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             title: viewModel?.sideMenuItems[indexPath.row].title ?? "" ,
             leftImage: viewModel?.sideMenuItems[indexPath.row].icon ?? "")
         cell.backgroundColor = ColorManager.secondaryBackgroundColor
+        cell.selectionStyle = .none
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

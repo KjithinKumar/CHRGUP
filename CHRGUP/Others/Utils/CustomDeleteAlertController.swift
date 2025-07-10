@@ -37,7 +37,7 @@ class CustomDeleteAlertController: UIViewController {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
 
         let alertView = UIView()
-        alertView.backgroundColor = ColorManager.backgroundColor
+        alertView.backgroundColor = ColorManager.secondaryBackgroundColor
         alertView.layer.cornerRadius = 10
         alertView.translatesAutoresizingMaskIntoConstraints = false
 

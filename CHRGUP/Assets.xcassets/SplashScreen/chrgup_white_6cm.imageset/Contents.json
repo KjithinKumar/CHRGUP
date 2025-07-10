@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "logoBlack@2x 2.png",
+      "filename" : "Group@1x 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,7 +12,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "logoBlack@2x 1.png",
+      "filename" : "Group@1x 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -23,12 +23,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "chrgup_white_6cm@2x 1.png",
+      "filename" : "Group@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "logoBlack@2x 3.png",
+      "filename" : "Group@2x 2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -39,7 +39,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "logoBlack@2x.png",
+      "filename" : "Group@2x 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -50,12 +50,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "chrgup_white_6cm@2x.png",
+      "filename" : "Group@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "logoBlack@3x 1.png",
+      "filename" : "Group@3x 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -66,7 +66,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "logoBlack@3x.png",
+      "filename" : "Group@3x 1.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -77,7 +77,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "chrgup_white_6cm@3x.png",
+      "filename" : "Group@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

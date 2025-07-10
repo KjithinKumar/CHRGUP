@@ -15,12 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
+        window.overrideUserInterfaceStyle = AppSettings.appearanceMode.interfaceStyle
         let splashVC = SplashScreenViewController()// Your splash screen view controller
         splashVC.viewModel = SplashScreenViewModel(networkManager: NetworkManager(), delegate : splashVC)
         let navController = UINavigationController(rootViewController: splashVC)
         navController.navigationBar.tintColor = ColorManager.buttonTintColor
         window.rootViewController = navController
-        window.overrideUserInterfaceStyle = AppSettings.appearanceMode.interfaceStyle
         self.window = window
         window.makeKeyAndVisible()
         if let url = connectionOptions.urlContexts.first?.url {

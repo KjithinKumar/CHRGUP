@@ -13,8 +13,6 @@ enum AppAppearance: String {
 }
 
 class AppSettings {
-    private static let appearanceKey = "AppAppearance"
-
     static var appearanceMode: AppAppearance {
         get {
             return UserDefaultManager.appAppearance

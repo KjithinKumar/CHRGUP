@@ -20,7 +20,7 @@ class DeepLinkManager {
               let payload = components.queryItems?.first(where: { $0.name == "payload" })?.value else {
             return nil
         }
-        if let decrypted = decryptPayload(encryptedBase64: payload, password: "Ankit@Sinha"){
+        if let decrypted = decryptPayload(encryptedBase64: payload, password: AppIdentifications.payload.password){
             if let payload = decodeDecryptedPayload(decryptedText: decrypted){
                 return payload
             }

@@ -113,15 +113,7 @@ class MapScreenViewController: UIViewController{
         scanQRButton.imageView?.tintColor = ColorManager.buttonTextColor
         scanQRButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         scanQRButton.backgroundColor = ColorManager.primaryColor
-        
-        let imageView = UIImageView(image: UIImage(named: "AppLogo"))
-        imageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        imageView.tintColor = ColorManager.textColor
-        view.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        navigationItem.titleView = imageView
-        }
+    }
     
     func setUpNavBar(){
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(leftMenuTapped))

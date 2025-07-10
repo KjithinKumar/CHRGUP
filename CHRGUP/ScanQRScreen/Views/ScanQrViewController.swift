@@ -17,12 +17,15 @@ class ScanQrViewController: UIViewController {
     @IBOutlet weak var orLabel: UILabel!
     @IBOutlet weak var codeManualButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var nfcButton: UIButton!
     private var torch = false
     private var scannerAnimationView: LottieAnimationView?
     private var cameraManager: CameraManager?
     var viewModel : ScanQrViewModelInterface?
     private var activityIndicator: UIActivityIndicatorView?
     var isfromDeepLink : Bool = false
+    
+    var nfcReader: NFCReaderViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,14 +112,22 @@ class ScanQrViewController: UIViewController {
         
         orLabel.textColor = ColorManager.textColor
         
-        codeManualButton.setTitle("Enter Code Manually", for: .normal)
+        codeManualButton.setTitle("  Enter Code", for: .normal)
         codeManualButton.setTitleColor(ColorManager.textColor, for: .normal)
         codeManualButton.titleLabel?.font = FontManager.bold(size: 18)
         codeManualButton.backgroundColor = ColorManager.thirdBackgroundColor
+        codeManualButton.imageView?.tintColor = ColorManager.textColor
         codeManualButton.layer.cornerRadius = 20
         
         closeButton.tintColor = ColorManager.textColor
         configureNavBar()
+        
+        nfcButton.setTitleColor(ColorManager.textColor, for: .normal)
+        nfcButton.setTitle("  Scan NFC", for: .normal)
+        nfcButton.titleLabel?.font = FontManager.bold(size: 18)
+        nfcButton.backgroundColor = ColorManager.thirdBackgroundColor
+        nfcButton.imageView?.tintColor = ColorManager.textColor
+        nfcButton.layer.cornerRadius = 20
     }
     func configureNavBar(){
         navigationItem.title = "Scan QR"
@@ -173,5 +184,17 @@ class ScanQrViewController: UIViewController {
     @IBAction func closeButtonPressed(_ sender: Any) {
         dismiss(animated: true)
     }
+    @IBAction func scanNFCButtonTapped(_ sender: Any) {
+        nfcReader = NFCReaderViewController()
+        nfcReader?.beginScanning()
+        nfcReader?.delegate = self
+    }
     
 }
+extension ScanQrViewController : NFCReaderViewControllerDelegate {
+    func nfcReader(_ reader: NFCReaderViewController, didReadPayload payload: QRPayload) {
+        fetchChargerDetails(id: payload.chargerId, scannedCode: payload)
+    }
+    
+}
+

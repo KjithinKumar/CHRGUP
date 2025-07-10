@@ -78,8 +78,11 @@ class DropdownTableViewCell: UITableViewCell, UITextFieldDelegate {
         
         if let savedValue = selectedValue {
             textField.text = savedValue
+            textField.layer.borderWidth = 1
+            textField.layer.borderColor = ColorManager.primaryColor.cgColor
         } else {
             textField.text = nil
+            textField.layer.borderWidth = 0
         }
         textField.isUserInteractionEnabled = isEnabled// ✅ Enable/Disable Field
         textField.alpha = isEnabled ? 1.0 : 0.5 // Dim when disabled

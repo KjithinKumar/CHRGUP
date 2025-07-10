@@ -51,15 +51,8 @@ class FavouriteDockTableViewCell: UITableViewCell {
         }
         titleLabel.text = chargerLocation.locationName
         addressLabel.text = chargerLocation.address
-        
-        
-        let chargersStatus = chargerLocation.chargerInfo.map { $0.status }
-        var pointsAvailableCount = 0
-        for status in chargersStatus {
-            if status == "Available" {
-                pointsAvailableCount += 1
-            }
-        }
+
+        let pointsAvailableCount = chargerLocation.modpointsAvailable ?? 0
         pointsLabel.text = "\(pointsAvailableCount) points available"
         
         if pointsAvailableCount > 0 {

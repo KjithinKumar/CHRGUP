@@ -73,7 +73,7 @@ class CameraManager: NSObject, AVCaptureMetadataOutputObjectsDelegate {
               let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
               let encryptedPayload = components.queryItems?.first(where: { $0.name == "data" })?.value
         else {return nil}
-        guard let decryptedText = DeepLinkManager.shared.decryptPayload(encryptedBase64: encryptedPayload, password: "Ankit@Sinha") else {return nil}
+        guard let decryptedText = DeepLinkManager.shared.decryptPayload(encryptedBase64: encryptedPayload, password: AppIdentifications.payload.password) else {return nil}
         guard let payload = DeepLinkManager.shared.decodeDecryptedPayload(decryptedText: decryptedText) else {return nil}
         return payload
     }
