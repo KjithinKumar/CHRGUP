@@ -71,14 +71,14 @@ class SearchViewController: UIViewController {
     // MARK: - Debounce API Call
        private func debounceSearch(text: String?) {
            debounceTimer?.invalidate() // Cancel previous timer if exists
-           
-           guard let searchText = text, !searchText.isEmpty else {
+           let trimmedText = text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+           guard !trimmedText.isEmpty else {
                searchLabelAnimated(ishidden: false)
                return
            }
            searchLabelAnimated(ishidden: true)
            debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
-               self?.fetchData(query: searchText)
+               self?.fetchData(query: trimmedText)
            }
        }
     private func setupConstraints() {
@@ -96,8 +96,9 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.placeholder = "Search chargers"
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchLabelAnimated(ishidden: true)
-        if searchBar.text != nil, let text = searchBar.text{
+        let trimmedText = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if !trimmedText.isEmpty, let text = searchBar.text{
+            searchLabelAnimated(ishidden: true)
             fetchData(query: text)
         }
     }
@@ -163,6 +164,7 @@ extension SearchViewController : UITableViewDataSource,UITableViewDelegate {
                 }
             }
         }
+        cell.selectionStyle = .none
         cell.backgroundColor = .clear
         return cell
     }

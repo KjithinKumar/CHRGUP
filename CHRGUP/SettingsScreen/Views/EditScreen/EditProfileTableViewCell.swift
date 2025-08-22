@@ -57,6 +57,7 @@ class EditProfileTableViewCell: UITableViewCell {
         textField.font = FontManager.regular()
         
         textField.layer.cornerRadius = 8
+        textField.clipsToBounds = true
         
         textField.addTarget(self, action: #selector(textFieldChanged), for: .editingDidEnd)
         switch type {

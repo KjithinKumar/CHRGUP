@@ -97,6 +97,15 @@ class SetRangeViewController: UIViewController {
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(gesture)
+        switch setRangeScreenType {
+        case .edit:
+            if newVehicle?.range != ""{
+                rangeTextField.text = newVehicle?.range
+                textFieldDidChange(rangeTextField)
+            }
+        default:
+            break
+        }
     
     }
     @IBAction func closeButtonPressed(_ sender: Any) {
@@ -146,14 +155,16 @@ extension SetRangeViewController : UITextFieldDelegate {
 extension SetRangeViewController : UserRegistrationViewModelDelegate{
     func didSaveUserProfileSuccessfully(token: String?) {
         UserDefaultManager.shared.setJWTToken(token ?? "")        
-        DispatchQueue.main.async{
+        DispatchQueue.main.async{ [weak self] in
+            guard let self = self else {return}
             self.dismiss(animated: true) {
                 self.delegate?.showSetUpSuccess()
             }
         }
     }
     func didAddedNewVehicleSuccessfully(message: String?) {
-        DispatchQueue.main.async{
+        DispatchQueue.main.async{[weak self] in
+            guard let self = self else {return}
             self.dismiss(animated: true)
             self.delegate?.addedNewVehicle(message: message ?? "Added Vehicle Successfully")
         }
@@ -162,14 +173,16 @@ extension SetRangeViewController : UserRegistrationViewModelDelegate{
         debugPrint(error)
     }
     func failedToAddNewVehicle(_ error: String, _ code: Int) {
-        DispatchQueue.main.async{
+        DispatchQueue.main.async{[weak self] in
+            guard let self = self else {return}
             self.dismiss(animated: true)
             self.delegate?.failedToAddNewVehicle(error, code)
         }
         
     }
     func didUpdateVehicleSuccessfully(message: String?) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async {[weak self] in
+            guard let self = self else {return}
             self.dismiss(animated: true)
             self.delegate?.addedNewVehicle(message: message ?? "Updated Vehicle Successfully")
         }

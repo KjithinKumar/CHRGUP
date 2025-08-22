@@ -96,6 +96,10 @@ class LocationInfoViewController: UIViewController {
             buttonStackView.removeArrangedSubview(reseveButton)
         }
         
+        navigateButton.backgroundColor = ColorManager.primaryColor
+        navigateButton.layer.cornerRadius = 10
+        navigateButton.imageView?.tintColor = ColorManager.buttonTextColor
+        
         tableView.backgroundColor = ColorManager.secondaryBackgroundColor
         
     }
@@ -106,7 +110,7 @@ class LocationInfoViewController: UIViewController {
         dismiss(animated: true)
     }
     @IBAction func addToFavouriteButtonPressed(_ sender: Any) {
-        viewModel?.addToFavourtie(networkManager: NetworkManager(), completion: { [weak self] result in
+        viewModel?.addToFavourtie(networkManager: NetworkManager.shared, completion: { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result{
@@ -143,7 +147,7 @@ class LocationInfoViewController: UIViewController {
     }
     @IBAction func scanQrButtonPressed(_ sender: Any) {
         let scanVc = ScanQrViewController()
-        scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
+        scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager.shared)
         scanVc.modalPresentationStyle = .fullScreen
         let navController = UINavigationController(rootViewController: scanVc)
         navController.modalPresentationStyle = .fullScreen
@@ -175,7 +179,7 @@ class LocationInfoViewController: UIViewController {
     @IBAction func reserveButtonPressed(_ sender: Any) {
         if let locationDisplayData = viewModel?.connectorItems{
             let availableConnectors = locationDisplayData.filter { $0.connector.status == "Available" }
-            let reserveVc = ReserveViewController(viewModel: ReserveChargerViewModel(connectorItems: availableConnectors , networkManger: NetworkManager()))
+            let reserveVc = ReserveViewController(viewModel: ReserveChargerViewModel(connectorItems: availableConnectors , networkManger: NetworkManager.shared))
             reserveVc.modalPresentationStyle = .popover
             if let popoverController = reserveVc.popoverPresentationController {
                 popoverController.sourceView = sender as? UIView
@@ -322,7 +326,7 @@ extension LocationInfoViewController: ChargersTableViewCellDelegate{
                 presentingVC.popToRootViewController(animated: true)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     let helpAndSupportVc = HelpandSupportViewController()
-                    helpAndSupportVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager(), delegate: nil)
+                    helpAndSupportVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager.shared, delegate: nil)
                     presentingVC.pushViewController(helpAndSupportVc, animated: true)
                 }
             }

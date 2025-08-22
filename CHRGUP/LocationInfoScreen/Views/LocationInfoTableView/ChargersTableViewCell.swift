@@ -39,7 +39,7 @@ class ChargersTableViewCell: UITableViewCell {
         titleLabel.textColor = ColorManager.placeholderColor
         titleLabel.font = FontManager.bold(size: 17)
         if pointsAvailable == "0"{
-            pointsLabel.textColor = ColorManager.thirdBackgroundColor
+            pointsLabel.textColor = ColorManager.placeholderColor
         }else{
             pointsLabel.textColor = ColorManager.primaryTextColor
         }
@@ -89,6 +89,6 @@ extension ChargersTableViewCell : UICollectionViewDataSource, UICollectionViewDe
         return cell ?? ChargersCollectionViewCell()
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 110, height: 180)
+        CGSize(width: 125, height: 180)
     }
 }

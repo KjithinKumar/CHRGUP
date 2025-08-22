@@ -25,7 +25,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l8J-WR-oTp">
-                    <rect key="frame" x="25" y="714" width="343" height="50"/>
+                    <rect key="frame" x="16" y="714" width="361" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="32P-Qp-yti"/>
                     </constraints>
@@ -39,9 +39,9 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="l8J-WR-oTp" secondAttribute="trailing" constant="25" id="4KR-Pc-LWW"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="l8J-WR-oTp" secondAttribute="trailing" constant="16" id="4KR-Pc-LWW"/>
                 <constraint firstItem="wLk-f2-ab5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="AKE-Q6-cjC"/>
-                <constraint firstItem="l8J-WR-oTp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="OsU-nN-5I2"/>
+                <constraint firstItem="l8J-WR-oTp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="OsU-nN-5I2"/>
                 <constraint firstItem="l8J-WR-oTp" firstAttribute="top" secondItem="wLk-f2-ab5" secondAttribute="bottom" constant="25" id="ReT-7r-J5j"/>
                 <constraint firstItem="wLk-f2-ab5" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="dh6-vv-Wo1"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="l8J-WR-oTp" secondAttribute="bottom" constant="20" id="iey-Nd-6Mf"/>

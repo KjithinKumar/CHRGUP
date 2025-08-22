@@ -79,6 +79,7 @@ class iOSWatchSessionManger: NSObject, WCSessionDelegate,ObservableObject {
         WCSession.default.activate()
     }
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        debugPrint(userInfo)
         if let locationId = userInfo[MessageKeys.locationId] as? String {
             if locationId != ""{
                 UserDefaultManager.shared.saveScannedLocation(locationId)

@@ -84,6 +84,28 @@ class DeepLinkManager {
         }
     }
 }
-extension Notification.Name {
-    static let DeepLinkPayloadReceived = Notification.Name("DeepLinkPayloadReceived")
+
+extension DeepLinkManager {
+
+    func encryptMobileNumber(_ mobileNumber: String, password: String) -> String? {
+        guard let mobileData = mobileNumber.data(using: .utf8) else { return nil }
+        // Generate random 8-byte salt
+        let salt = AES.randomIV(8)
+        // Derive key and IV using EVP_BytesToKey
+        guard let keyAndIV = evpBytesToKey(password: password, salt: Data(salt), keyLength: 32, ivLength: 16) else {
+            return nil
+        }
+        do {
+            let aes = try AES(key: keyAndIV.key, blockMode: CBC(iv: keyAndIV.iv), padding: .pkcs7)
+            let encryptedBytes = try aes.encrypt(mobileData.bytes)
+            // Prepend "Salted__" + salt like OpenSSL format
+            let prefix = "Salted__".data(using: .utf8)!
+            let encryptedData = prefix + Data(salt) + Data(encryptedBytes)
+            // Return base64 encoded string
+            return encryptedData.base64EncodedString()
+        } catch {
+            print("Encryption failed: \(error)")
+            return nil
+        }
+    }
 }

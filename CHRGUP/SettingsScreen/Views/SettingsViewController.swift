@@ -71,7 +71,7 @@ class SettingsViewController: UIViewController {
     }
     @IBAction func editButtonPressed(_ sender: Any) {
         let editVc = EditProfileViewController()
-        editVc.viewModel = EditProfileViewModel(networkManager: NetworkManager())
+        editVc.viewModel = EditProfileViewModel(networkManager: NetworkManager.shared)
         navigationController?.pushViewController(editVc, animated: true)
     }
     func setUpUi() {

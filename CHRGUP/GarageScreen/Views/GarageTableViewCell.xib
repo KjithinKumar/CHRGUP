@@ -18,20 +18,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eci-VT-plH">
-                        <rect key="frame" x="15" y="10" width="353" height="237"/>
+                        <rect key="frame" x="16" y="6" width="351" height="240"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m4p-qF-CoH">
-                                <rect key="frame" x="0.0" y="177.66666666666666" width="353" height="59.333333333333343"/>
+                                <rect key="frame" x="0.0" y="180" width="351" height="60"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="car.side" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NQF-zK-lQf">
-                                <rect key="frame" x="53" y="84.333333333333329" width="247" height="130.33333333333331"/>
+                                <rect key="frame" x="52.666666666666671" y="87.333333333333329" width="245.66666666666663" height="130.33333333333331"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="135" id="ijZ-DE-P5A"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oh9-D4-0an">
-                                <rect key="frame" x="285" y="15" width="19" height="19"/>
+                                <rect key="frame" x="283" y="15" width="19" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="19" id="BGT-kn-hXd"/>
                                     <constraint firstAttribute="width" constant="19" id="iGZ-cK-NyE"/>
@@ -43,7 +43,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYY-F1-wUY">
-                                <rect key="frame" x="319" y="15" width="19" height="19"/>
+                                <rect key="frame" x="317" y="15" width="19" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="19" id="RPE-dh-Biz"/>
                                     <constraint firstAttribute="height" constant="19" id="qEm-cu-ZZT"/>
@@ -106,10 +106,10 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="eci-VT-plH" secondAttribute="bottom" constant="5" id="BVL-fX-Asq"/>
-                    <constraint firstAttribute="trailing" secondItem="eci-VT-plH" secondAttribute="trailing" constant="15" id="IdA-GE-0nn"/>
-                    <constraint firstItem="eci-VT-plH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Nnt-au-TVN"/>
-                    <constraint firstItem="eci-VT-plH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="aha-b5-Kxa"/>
+                    <constraint firstAttribute="bottom" secondItem="eci-VT-plH" secondAttribute="bottom" constant="6" id="BVL-fX-Asq"/>
+                    <constraint firstAttribute="trailing" secondItem="eci-VT-plH" secondAttribute="trailing" constant="16" id="IdA-GE-0nn"/>
+                    <constraint firstItem="eci-VT-plH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Nnt-au-TVN"/>
+                    <constraint firstItem="eci-VT-plH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="aha-b5-Kxa"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

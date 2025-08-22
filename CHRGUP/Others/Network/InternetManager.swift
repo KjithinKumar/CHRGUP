@@ -20,11 +20,21 @@ class InternetManager{
     private var alertController: UIAlertController?
     private init() {
         monitor.pathUpdateHandler = { path in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else {return}
                  self.debouncedVerifyInternetConnection()
             }
         }
         monitor.start(queue: queue)
+        NotificationCenter.default.addObserver(
+               self,
+               selector: #selector(appDidEnterForeground),
+               name: UIApplication.willEnterForegroundNotification,
+               object: nil
+           )
+    }
+    @objc private func appDidEnterForeground() {
+        debouncedVerifyInternetConnection()
     }
     private func showNoInternetAlert() {
         guard let topVC = UIApplication.shared.getCurrentViewController() else {
@@ -71,7 +81,8 @@ class InternetManager{
         guard let url = URL(string: URLs.appleTestUrl) else { return }
         let request = URLRequest(url: url)
                 let task = URLSession.shared.dataTask(with: request) { _, response, error in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
                 if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
                     if self.isShowingAlert {
                         self.dismissNoInternetAlert()

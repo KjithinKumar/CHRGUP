@@ -59,7 +59,7 @@ class SetupSuccessViewController: UIViewController {
             animationView2.stop()
             animationView2.removeFromSuperview()
             let MapVc = MapScreenViewController()
-            MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
+            MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager.shared)
             self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.navigationBar.isTranslucent = false

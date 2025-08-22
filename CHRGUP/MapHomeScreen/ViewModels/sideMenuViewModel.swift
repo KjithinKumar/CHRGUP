@@ -19,6 +19,7 @@ enum sideMenuDestination{
     case helpandsupport
     case settings
     case reservations
+    case notifications
 }
 
 protocol sideMenuDelegate : AnyObject{
@@ -38,6 +39,7 @@ class SideMenuViewModel: SideMenuViewModelInterface {
         SideMenuItem(title: AppStrings.leftMenu.MyGarage, icon: AppStrings.leftMenu.GarageImage,sideMenuDestiantion: .mygarage),
         SideMenuItem(title: AppStrings.leftMenu.Reservation, icon: AppStrings.leftMenu.ReservationImage, sideMenuDestiantion: .reservations),
         SideMenuItem(title: AppStrings.leftMenu.FavouriteDocks, icon: AppStrings.leftMenu.FavouriteDockImage,sideMenuDestiantion: .favouritedocks),
+        SideMenuItem(title: AppStrings.leftMenu.Notification, icon: AppStrings.leftMenu.NotificationImage, sideMenuDestiantion: .notifications),
         SideMenuItem(title: AppStrings.leftMenu.History, icon: AppStrings.leftMenu.HistoryImage,sideMenuDestiantion: .history),
         SideMenuItem(title: AppStrings.leftMenu.HelpandSupport, icon: AppStrings.leftMenu.HelpandSupportImage,sideMenuDestiantion: .helpandsupport),
         SideMenuItem(title: AppStrings.leftMenu.Settings, icon: AppStrings.leftMenu.SettingsImage,sideMenuDestiantion: .settings),

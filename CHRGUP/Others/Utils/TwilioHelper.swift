@@ -29,7 +29,7 @@ struct TwilioHelper {
             "To": phoneNumber,
             "Channel": "sms" // or "whatsapp"
         ]
-        let networkManager = NetworkManager()
+        let networkManager = NetworkManager.shared
         let authString = "\(accountSid):\(authToken)"
         guard let authData = authString.data(using: .utf8) else {
             return
@@ -38,7 +38,6 @@ struct TwilioHelper {
         let request = networkManager.createRequest(urlString: urlString, method: .post, body: bodyParams, encoding: .urlEncoded, headers: headers)
         if let request = request{
             networkManager.postRequest(request: request) { results in
-                debugPrint(results as? String ?? "sent")
                 completion(results as? String)
             }
         }
@@ -48,7 +47,7 @@ struct TwilioHelper {
         let urlString = URLs.TwilioUrlVerifyCode
         
         // Prepare the request
-        let networkManager = NetworkManager()
+        let networkManager = NetworkManager.shared
         let bodyParams = ["To" : phoneNumber, "Code" : code]
         let authString = "\(accountSid):\(authToken)"
         guard let authData = authString.data(using: .utf8) else {

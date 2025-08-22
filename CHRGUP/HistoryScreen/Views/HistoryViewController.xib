@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="nXJ-hS-q0S">
-                    <rect key="frame" x="15" y="133" width="192" height="34"/>
+                    <rect key="frame" x="16" y="133" width="192" height="34"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="paq-El-5XA">
                             <rect key="frame" x="0.0" y="0.0" width="54" height="34"/>
@@ -61,7 +61,7 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="SQb-Oz-Jpm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Axh-r0-yvQ"/>
-                <constraint firstItem="nXJ-hS-q0S" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="HKy-Dc-VJS"/>
+                <constraint firstItem="nXJ-hS-q0S" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="HKy-Dc-VJS"/>
                 <constraint firstItem="nXJ-hS-q0S" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="OAt-FB-2OE"/>
                 <constraint firstItem="SQb-Oz-Jpm" firstAttribute="top" secondItem="nXJ-hS-q0S" secondAttribute="bottom" constant="15" id="ZIm-Ck-3Mp"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="SQb-Oz-Jpm" secondAttribute="bottom" id="fdV-M4-g2Z"/>

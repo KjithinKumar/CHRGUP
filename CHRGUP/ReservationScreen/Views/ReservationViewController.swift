@@ -97,7 +97,7 @@ class ReservationViewController: UIViewController {
             self.fetchData()
         }
         listViewVc.userLocation = userLocation
-        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager())
+        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager.shared)
         navigationController?.pushViewController(listViewVc, animated: true)
     }
     func configureButtonState(uiButton: UIButton){
@@ -201,6 +201,9 @@ extension ReservationViewController: UITableViewDataSource, UITableViewDelegate{
         }
         cell.backgroundColor = ColorManager.backgroundColor
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }
 extension ReservationViewController: ReservationTableViewCellDelegate{

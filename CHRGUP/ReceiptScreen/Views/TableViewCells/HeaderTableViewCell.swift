@@ -43,7 +43,7 @@ class HeaderTableViewCell: UITableViewCell {
         
         chargerIdTitleLabel.text = "Charger ID"
         chargerIdTitleLabel.textColor = ColorManager.placeholderColor
-        chargerIdTitleLabel.font = FontManager.regular()
+        chargerIdTitleLabel.font = FontManager.regular(size: 14)
         
         chargeridLabel.text = headerDetails.chargerId
         chargeridLabel.textColor = ColorManager.textColor

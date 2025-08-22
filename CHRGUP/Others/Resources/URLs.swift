@@ -142,4 +142,8 @@ struct URLs{
     }
     
     static let apnUrl = baseUrl + "apn"
+    
+    static func notificationUrl(mobileNumber : String) -> String{
+        "\(baseUrl)notification/by-phone/\(mobileNumber)"
+    }
 }

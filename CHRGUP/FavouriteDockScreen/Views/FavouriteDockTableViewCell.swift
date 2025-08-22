@@ -58,7 +58,7 @@ class FavouriteDockTableViewCell: UITableViewCell {
         if pointsAvailableCount > 0 {
             pointsLabel.textColor = ColorManager.primaryTextColor
         }else{
-            pointsLabel.textColor = ColorManager.thirdBackgroundColor
+            pointsLabel.textColor = ColorManager.placeholderColor
         }
     }
     func setShimmering(isShimmering : Bool){

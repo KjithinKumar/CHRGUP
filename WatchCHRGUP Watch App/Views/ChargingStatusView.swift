@@ -183,5 +183,5 @@ struct ChargingStatusView: View {
 }
 
 #Preview {
-    ChargingStatusView(viewModel: ChargingStatusViewModel(networkManager: NetworkManager()))
+    ChargingStatusView(viewModel: ChargingStatusViewModel(networkManager: NetworkManager.shared))
 }

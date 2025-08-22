@@ -26,6 +26,7 @@
                 <outlet property="titleOneLabel" destination="D5G-N0-pnB" id="zWW-Pv-QFA"/>
                 <outlet property="titleThreeLabel" destination="lF3-9V-pMQ" id="OcH-g5-uCG"/>
                 <outlet property="titletwoLabel" destination="w3S-gG-Ztg" id="Nkz-9a-awX"/>
+                <outlet property="typeImageView" destination="GVP-uA-NYT" id="QNS-wn-MAp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -83,7 +84,7 @@
                                 </label>
                             </subviews>
                         </stackView>
-                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4NV-LC-Eo0">
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="4NV-LC-Eo0">
                             <rect key="frame" x="0.0" y="60.666666666666664" width="295" height="20.333333333333336"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lF3-9V-pMQ">
@@ -95,12 +96,20 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOT-f8-2kd">
-                                    <rect key="frame" x="145" y="0.0" width="150" height="20.333333333333332"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Wid-rB-Ndt">
+                                    <rect key="frame" x="237.66666666666671" y="0.0" width="57.333333333333343" height="20.333333333333332"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ac" translatesAutoresizingMaskIntoConstraints="NO" id="GVP-uA-NYT">
+                                            <rect key="frame" x="0.0" y="0.0" width="10" height="20.333333333333332"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOT-f8-2kd">
+                                            <rect key="frame" x="16.000000000000004" y="0.0" width="41.333333333333343" height="20.333333333333332"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
                             </subviews>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3o-OL-Lid">
@@ -164,7 +173,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ztA-3o-GRi">
-                    <rect key="frame" x="25" y="143" width="30" height="30"/>
+                    <rect key="frame" x="16" y="143" width="30" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="30" id="6lc-Ao-O2F"/>
                         <constraint firstAttribute="height" constant="30" id="MjC-Yz-3bt"/>
@@ -186,7 +195,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KMI-yi-Ntn">
-                    <rect key="frame" x="279" y="143" width="89" height="30"/>
+                    <rect key="frame" x="288" y="143" width="89" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="APF-aZ-Svw"/>
                     </constraints>
@@ -204,7 +213,7 @@
             <constraints>
                 <constraint firstItem="eo5-Wq-Obu" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="2AJ-5p-xrk"/>
                 <constraint firstItem="KMI-yi-Ntn" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="4lN-Ya-5T7"/>
-                <constraint firstItem="ztA-3o-GRi" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="5vB-hd-zH1"/>
+                <constraint firstItem="ztA-3o-GRi" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="5vB-hd-zH1"/>
                 <constraint firstItem="0ID-IS-Muv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="BVC-TG-Y1F"/>
                 <constraint firstItem="ztA-3o-GRi" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="GFI-IJ-A74"/>
                 <constraint firstAttribute="bottom" secondItem="7dw-Gx-oxR" secondAttribute="bottom" constant="55" id="K9u-5m-nYG"/>
@@ -216,7 +225,7 @@
                 <constraint firstItem="eo5-Wq-Obu" firstAttribute="top" secondItem="0ID-IS-Muv" secondAttribute="bottom" constant="45" id="Wrg-el-oIy"/>
                 <constraint firstItem="25S-vk-yr9" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="jOd-6W-FIW"/>
                 <constraint firstItem="0ID-IS-Muv" firstAttribute="top" secondItem="25S-vk-yr9" secondAttribute="bottom" constant="45" id="oFP-OZ-6rs"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="KMI-yi-Ntn" secondAttribute="trailing" constant="25" id="qVk-I7-6k7"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="KMI-yi-Ntn" secondAttribute="trailing" constant="16" id="qVk-I7-6k7"/>
                 <constraint firstItem="0ID-IS-Muv" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.75" id="qf5-Eo-yE2"/>
                 <constraint firstItem="25S-vk-yr9" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.75" id="y0d-tu-BaD"/>
             </constraints>
@@ -224,6 +233,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ac" width="10" height="10"/>
         <image name="exclamationmark.circle" catalog="system" width="128" height="123"/>
         <image name="startbutton" width="228" height="228"/>
         <image name="xmark" catalog="system" width="128" height="113"/>

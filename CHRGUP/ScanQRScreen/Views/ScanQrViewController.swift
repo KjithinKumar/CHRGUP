@@ -58,7 +58,7 @@ class ScanQrViewController: UIViewController {
                     if response.status{
                         if let data = response.data{
                             let startChargeVc = StartChargeViewController()
-                            startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
+                            startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager.shared)
                             startChargeVc.payLoad = scannedCode
                             self.navigationController?.setViewControllers([startChargeVc], animated: true)
                         }
@@ -99,9 +99,9 @@ class ScanQrViewController: UIViewController {
         }
     }
     func setupUI(){
-        view.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
         
-        cameraView.backgroundColor = ColorManager.secondaryBackgroundColor
+        cameraView.backgroundColor = ColorManager.backgroundColor
         cameraView.layer.borderWidth = 5
         cameraView.layer.borderColor = ColorManager.thirdBackgroundColor.cgColor
         cameraView.layer.cornerRadius = 8
@@ -178,7 +178,7 @@ class ScanQrViewController: UIViewController {
     @IBAction func enterCodePressed(_ sender: Any) {
         let manualCodeVc = ManualCodeViewController()
         manualCodeVc.modalPresentationStyle = .fullScreen
-        manualCodeVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
+        manualCodeVc.viewModel = ScanQrViewModel(networkManager: NetworkManager.shared)
         navigationController?.pushViewController(manualCodeVc, animated: true)
     }
     @IBAction func closeButtonPressed(_ sender: Any) {

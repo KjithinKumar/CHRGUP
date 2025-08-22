@@ -27,7 +27,7 @@ class ManualCodeViewController: UIViewController {
     }
     
     func setUpUI(){
-        view.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
         titleLabel.text = AppStrings.ScanQr.manualQrTitle
         titleLabel.textColor = ColorManager.textColor
         titleLabel.font = FontManager.bold(size: 17)
@@ -38,7 +38,7 @@ class ManualCodeViewController: UIViewController {
         
         segmentedController.selectedSegmentTintColor = ColorManager.primaryColor
         
-        codeTextField.backgroundColor = ColorManager.secondaryBackgroundColor
+        codeTextField.backgroundColor = ColorManager.backgroundColor
         codeTextField.layer.cornerRadius = 8
         codeTextField.layer.masksToBounds = true
         codeTextField.textColor = ColorManager.primaryTextColor
@@ -52,6 +52,7 @@ class ManualCodeViewController: UIViewController {
         submitButton.setTitle("Submit", for: .normal)
         submitButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         submitButton.titleLabel?.font = FontManager.bold(size: 18)
+        submitButton.backgroundColor = ColorManager.thirdBackgroundColor
         
         closeButton.tintColor = ColorManager.textColor
         configureNavBar()
@@ -79,7 +80,7 @@ class ManualCodeViewController: UIViewController {
             submitButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
             submitButton.isUserInteractionEnabled = true
         }else{
-            submitButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            submitButton.backgroundColor = ColorManager.thirdBackgroundColor
             submitButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
             submitButton.isUserInteractionEnabled = false
         }
@@ -99,7 +100,7 @@ class ManualCodeViewController: UIViewController {
                         if response.status{
                             if let data = response.data{
                                 let startChargeVc = StartChargeViewController()
-                                startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager())
+                                startChargeVc.viewModel = StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager.shared)
                                 startChargeVc.payLoad = payLoad
                                 self.navigationController?.setViewControllers([startChargeVc], animated: true)
                             }

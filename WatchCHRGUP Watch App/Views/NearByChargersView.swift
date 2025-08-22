@@ -96,5 +96,5 @@ struct NearByChargersView: View {
 }
 
 #Preview {
-    NearByChargersView(ViewModel: NearByChargerViewModel(networkManager: NetworkManager()))
+    NearByChargersView(ViewModel: NearByChargerViewModel(networkManager: NetworkManager.shared))
 }

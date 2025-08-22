@@ -109,10 +109,11 @@ class HistoryViewController: UIViewController {
     }
     func fetchData(){
         viewModel?.onDataChanged = { [weak self] in
+            guard let self = self else {return}
             DispatchQueue.main.async {
-                self?.isLoading = false
-                self?.tableView.reloadData()
-                self?.checkForEmptyState()
+                self.isLoading = false
+                self.tableView.reloadData()
+                self.checkForEmptyState()
             }
         }
         viewModel?.fetchHistory { [weak self] result in
@@ -182,6 +183,7 @@ extension HistoryViewController : UITableViewDataSource, UITableViewDelegate {
             }
         }
         cell.backgroundColor = ColorManager.backgroundColor
+        cell.selectionStyle = .none
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

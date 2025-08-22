@@ -14,7 +14,7 @@ struct WatchCHRGUP_Watch_AppApp: App {
         WindowGroup {
             if sessionManager.isLoggedIn {
                 if sessionManager.isSessionActive {
-                    ChargingStatusView(viewModel: ChargingStatusViewModel(networkManager: NetworkManager()))
+                    ChargingStatusView(viewModel: ChargingStatusViewModel(networkManager: NetworkManager.shared))
                 }else{
                     MainWatchNavigationView()
                 }

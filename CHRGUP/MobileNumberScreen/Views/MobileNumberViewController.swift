@@ -67,7 +67,7 @@ class MobileNumberViewController: UIViewController {
         }
     }
     func configureUi(){
-        view.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
         
         welcomeLabel.font = FontManager.bold()
         welcomeLabel.textColor = ColorManager.textColor
@@ -77,7 +77,7 @@ class MobileNumberViewController: UIViewController {
         
         mobileNumberTextField.translatesAutoresizingMaskIntoConstraints = false
         mobileNumberTextField.delegate = self
-        mobileNumberTextField.backgroundColor = ColorManager.secondaryBackgroundColor
+        mobileNumberTextField.backgroundColor = ColorManager.backgroundColor
         mobileNumberTextField.layer.cornerRadius = 8
         mobileNumberTextField.layer.masksToBounds = true
         mobileNumberTextField.textColor = ColorManager.primaryTextColor
@@ -86,13 +86,13 @@ class MobileNumberViewController: UIViewController {
         mobileNumberTextField.keyboardType = .numberPad
         mobileNumberTextField.tag = 0
         mobileNumberTextField.layer.borderWidth = 1
-        mobileNumberTextField.layer.borderColor = ColorManager.secondaryBackgroundColor.cgColor
+        mobileNumberTextField.layer.borderColor = ColorManager.thirdBackgroundColor.cgColor
 
         mobileNumberLabel.textColor = ColorManager.textColor
         mobileNumberLabel.font = FontManager.regular()
         
         signInButton.translatesAutoresizingMaskIntoConstraints = false
-        signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
+        signInButton.backgroundColor = ColorManager.thirdBackgroundColor
         signInButton.layer.cornerRadius = 20
         signInButton.isEnabled = false
         
@@ -145,7 +145,7 @@ class MobileNumberViewController: UIViewController {
             signInButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         }else{
             signInButton.isEnabled = false
-            signInButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            signInButton.backgroundColor = ColorManager.thirdBackgroundColor
             signInButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
 
         }
@@ -160,7 +160,7 @@ class MobileNumberViewController: UIViewController {
         let validNumber = mobileNumber.trimmingCharacters(in: .whitespacesAndNewlines)
         let number = validNumber.replacingOccurrences(of: " ", with: "")
         otpVc.mobileNumber = number
-        let viewModel = OtpViewModel(delegate: otpVc, networkManager: NetworkManager())
+        let viewModel = OtpViewModel(delegate: otpVc, networkManager: NetworkManager.shared)
         otpVc.viewModel = viewModel
         
         TwilioHelper.sendVerificationCode(to: number) { isValid in

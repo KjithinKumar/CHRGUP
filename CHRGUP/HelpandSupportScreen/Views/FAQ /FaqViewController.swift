@@ -55,6 +55,7 @@ extension FaqViewController : UITableViewDelegate, UITableViewDataSource {
             }
             
         }
+        cell.selectionStyle = .none
         cell.backgroundColor = ColorManager.backgroundColor
         return cell
     }

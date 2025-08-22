@@ -31,8 +31,8 @@ class TitleSubtitleTableViewCell: UITableViewCell {
         contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
@@ -52,6 +52,7 @@ class TitleSubtitleTableViewCell: UITableViewCell {
             
             let keyLabel = UILabel()
             keyLabel.text = key
+            keyLabel.numberOfLines = 0
             keyLabel.font = FontManager.regular()
             keyLabel.textColor = ColorManager.subtitleTextColor
             

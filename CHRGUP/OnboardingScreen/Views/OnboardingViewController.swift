@@ -45,7 +45,7 @@ class OnboardingViewController: UIViewController {
     }
     
     func configureUi(){
-        view.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
         
         titleLabel.font = FontManager.bold()
         titleLabel.textColor = ColorManager.textColor

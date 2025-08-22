@@ -88,7 +88,7 @@ class MapScreenViewController: UIViewController{
         if let qRPayload = DeepLinkManager.shared.pendingPayload{
             DeepLinkManager.shared.pendingPayload = nil
             let scanVc = ScanQrViewController()
-            scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
+            scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager.shared)
             scanVc.modalPresentationStyle = .fullScreen
             scanVc.isfromDeepLink = true
             scanVc.fetchChargerDetails(id: qRPayload.chargerId, scannedCode: qRPayload)
@@ -122,7 +122,7 @@ class MapScreenViewController: UIViewController{
     
     @IBAction func scanQRButtonPressed(_ sender: Any) {
         let scanVc = ScanQrViewController()
-        scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager())
+        scanVc.viewModel = ScanQrViewModel(networkManager: NetworkManager.shared)
         scanVc.modalPresentationStyle = .fullScreen
         let navController = UINavigationController(rootViewController: scanVc)
         navController.modalPresentationStyle = .fullScreen
@@ -132,14 +132,14 @@ class MapScreenViewController: UIViewController{
     
     @objc func leftMenuTapped(){
         let leftPopVc = SideMenuViewController()
-        leftPopVc.viewModel = SideMenuViewModel(networkManager: NetworkManager(),delegate: leftPopVc)
+        leftPopVc.viewModel = SideMenuViewModel(networkManager: NetworkManager.shared,delegate: leftPopVc)
         leftPopVc.delegate = self
         leftPopVc.modalPresentationStyle = .overFullScreen
         self.present(leftPopVc, animated: false)
     }
     @objc func searchMenuTapped(){
         let searchVc = SearchViewController()
-        searchVc.viewModel = SearchViewModel(networkManager: NetworkManager())
+        searchVc.viewModel = SearchViewModel(networkManager: NetworkManager.shared)
         navigationController?.pushViewController(searchVc, animated: true)
     }
     @IBAction func UpdateLocationButtonTapped(_ sender: Any) {
@@ -149,7 +149,7 @@ class MapScreenViewController: UIViewController{
     @IBAction func listViewButtonTapped(_ sender: Any) {
         let listViewVc = NearByChargerViewController()
         listViewVc.userLocation = userLocation
-        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager())
+        listViewVc.viewModel = NearByChargerViewModel(networkManager: NetworkManager.shared)
         navigationController?.pushViewController(listViewVc, animated: true)
     }
     
@@ -422,6 +422,7 @@ extension MapScreenViewController: GMUClusterRendererDelegate {
     }
 }
 
+//MARK: - Bottom Card
 extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
     
     func setupBottomCard() {
@@ -447,15 +448,15 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
         bottomCardConstraint = chargerDetailContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 240)
         
         NSLayoutConstraint.activate([
-            chargerDetailContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
-            chargerDetailContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
+            chargerDetailContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 4),
+            chargerDetailContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -4),
             bottomCardConstraint,
             chargerDetailContainer.heightAnchor.constraint(equalToConstant: 240),
             
             chargerDetailTableView.topAnchor.constraint(equalTo: chargerDetailContainer.topAnchor),
             chargerDetailTableView.bottomAnchor.constraint(equalTo: chargerDetailContainer.bottomAnchor),
-            chargerDetailTableView.leadingAnchor.constraint(equalTo: chargerDetailContainer.leadingAnchor,constant: -10),
-            chargerDetailTableView.trailingAnchor.constraint(equalTo: chargerDetailContainer.trailingAnchor,constant: 10),
+            chargerDetailTableView.leadingAnchor.constraint(equalTo: chargerDetailContainer.leadingAnchor,constant: -4),
+            chargerDetailTableView.trailingAnchor.constraint(equalTo: chargerDetailContainer.trailingAnchor,constant: 4),
         ])
     }
     
@@ -479,6 +480,7 @@ extension MapScreenViewController : UITableViewDelegate,UITableViewDataSource {
                 tableView.allowsSelection = true
             }
         }
+        cell.selectionStyle = .none
         return cell
         
     }
@@ -699,7 +701,8 @@ extension MapScreenViewController{
                         if let chargingStatus = response.data, let startTime = chargingStatus.startTimeIST {
                             let chargingTime = self.viewModel?.getFormattedTimeDifference(from: startTime)
                             self.timeConsumedLabel.text = chargingTime
-                            let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
+                            //let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference) for kWh
+                            let energyConsumed = chargingStatus.meterValueDifference
                             self.unitsConsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                             Task {
@@ -733,10 +736,9 @@ extension MapScreenViewController{
                         self.showAlert(title: "Charging Stopped", message: response.message)
                         self.chargingTimer?.invalidate()
                         let receiptVc = ReceiptViewController()
-                        receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+                        receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager.shared)
                         let navController = UINavigationController(rootViewController: receiptVc)
                         navController.modalPresentationStyle = .fullScreen
-                        navController.navigationBar.isHidden = true
                         self.present(navController, animated: true)
                     }
                 case .failure(let error):
@@ -756,7 +758,7 @@ extension MapScreenViewController{
     }
     @objc func handleNotificationTap(){
         let statusVc = ChargingStatusViewController()
-        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
+        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager.shared)
         statusVc.modalPresentationStyle = .fullScreen
         statusVc.fetchData()
         let navController = UINavigationController(rootViewController: statusVc)

@@ -138,7 +138,7 @@ extension ReserveViewController : UICollectionViewDelegateFlowLayout,UICollectio
         return cell ?? ChargersCollectionViewCell()
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 110, height: 180)
+        CGSize(width: 125, height: 180)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let previousSelected = selectedIndexPath

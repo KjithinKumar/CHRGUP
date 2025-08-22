@@ -25,11 +25,11 @@ enum AppErrorHandler {
                     }
                 }
             case .decodingFailed:
-                viewController.showAlert(title: "Error", message: "Internal Server Error")
+                viewController.showAlert(title: "Error", message: "Internal Error")
             case .invalidRequest:
                 viewController.showAlert(title: "Error", message: "Server Error")
             default:
-                break
+                viewController.showAlert(title: "Error", message: "Try again later")
             }
         } else {
             debugPrint("Unhandled Error:", error)

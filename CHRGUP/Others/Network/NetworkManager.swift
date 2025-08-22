@@ -59,6 +59,8 @@ protocol NetworkManagerProtocol : AnyObject {
 }
 
 class NetworkManager: NetworkManagerProtocol {
+    static let shared = NetworkManager()
+    private init(){}
     func request<T>(_ urlRequest: URLRequest, decodeTo type: T.Type, completion: @escaping (Result<T, any Error>) -> Void) where T : Decodable {
         logger.debug("Requesting: \(urlRequest.url?.absoluteString ?? "nil")")
         logger.debug("Method: \(urlRequest.httpMethod ?? "nil")")
@@ -70,7 +72,8 @@ class NetworkManager: NetworkManagerProtocol {
            let bodyString = String(data: body, encoding: .utf8) {
             logger.debug("Body: \(bodyString)")
         }
-        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: urlRequest) {[weak self] (data, response, error) in
+            guard let self = self else {return}
             if let error = error{
                 logger.error("❌ Network error: \(error.localizedDescription)")
                 completion(.failure(NetworkManagerError.serverError(message: error.localizedDescription, code: 0)))

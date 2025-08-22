@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Gd9-fb-y6X">
-                        <rect key="frame" x="346.66666666666669" y="20" width="61.333333333333314" height="20.333333333333329"/>
+                        <rect key="frame" x="345.66666666666669" y="20" width="61.333333333333314" height="20.333333333333329"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group 250" translatesAutoresizingMaskIntoConstraints="NO" id="agP-tC-Dcz">
                                 <rect key="frame" x="0.0" y="2.6666666666666679" width="15" height="15"/>
@@ -36,7 +36,7 @@
                         </subviews>
                     </stackView>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="U3Q-Pp-4is">
-                        <rect key="frame" x="15" y="55.333333333333329" width="393" height="201.66666666666669"/>
+                        <rect key="frame" x="16" y="56.333333333333329" width="391" height="200.66666666666669"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="heA-re-aza">
                             <size key="itemSize" width="128" height="128"/>
@@ -46,13 +46,13 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chargers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXD-Y1-hH5">
-                        <rect key="frame" x="15" y="20" width="69.666666666666671" height="20.333333333333329"/>
+                        <rect key="frame" x="16" y="20" width="69.666666666666671" height="20.333333333333329"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ge-8a-uQT">
-                        <rect key="frame" x="15" y="262" width="393" height="34"/>
+                        <rect key="frame" x="16" y="262" width="391" height="34"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <connections>
                             <action selector="raiseTicketButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="8If-DP-jBB"/>
@@ -60,16 +60,16 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="1ge-8a-uQT" secondAttribute="trailing" constant="15" id="Bzr-rI-yOe"/>
-                    <constraint firstAttribute="trailing" secondItem="Gd9-fb-y6X" secondAttribute="trailing" constant="15" id="DXa-3w-xvy"/>
+                    <constraint firstAttribute="trailing" secondItem="1ge-8a-uQT" secondAttribute="trailing" constant="16" id="Bzr-rI-yOe"/>
+                    <constraint firstAttribute="trailing" secondItem="Gd9-fb-y6X" secondAttribute="trailing" constant="16" id="DXa-3w-xvy"/>
                     <constraint firstItem="Gd9-fb-y6X" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="J8F-8S-PRH"/>
-                    <constraint firstItem="1ge-8a-uQT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Pfh-J8-qmR"/>
+                    <constraint firstItem="1ge-8a-uQT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Pfh-J8-qmR"/>
                     <constraint firstAttribute="bottom" secondItem="1ge-8a-uQT" secondAttribute="bottom" constant="10" id="XU8-oN-R9m"/>
                     <constraint firstItem="pXD-Y1-hH5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="bjL-mb-VSF"/>
-                    <constraint firstItem="U3Q-Pp-4is" firstAttribute="top" secondItem="pXD-Y1-hH5" secondAttribute="bottom" constant="15" id="eqX-qz-d1t"/>
-                    <constraint firstItem="pXD-Y1-hH5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hxL-EI-QJf"/>
-                    <constraint firstItem="U3Q-Pp-4is" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="jOy-mY-NA8"/>
-                    <constraint firstAttribute="trailing" secondItem="U3Q-Pp-4is" secondAttribute="trailing" constant="15" id="vg0-uG-yoG"/>
+                    <constraint firstItem="U3Q-Pp-4is" firstAttribute="top" secondItem="pXD-Y1-hH5" secondAttribute="bottom" constant="16" id="eqX-qz-d1t"/>
+                    <constraint firstItem="pXD-Y1-hH5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="hxL-EI-QJf"/>
+                    <constraint firstItem="U3Q-Pp-4is" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="jOy-mY-NA8"/>
+                    <constraint firstAttribute="trailing" secondItem="U3Q-Pp-4is" secondAttribute="trailing" constant="16" id="vg0-uG-yoG"/>
                     <constraint firstItem="1ge-8a-uQT" firstAttribute="top" secondItem="U3Q-Pp-4is" secondAttribute="bottom" constant="5" id="z9t-ee-CXh"/>
                 </constraints>
             </tableViewCellContentView>

@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import QuickLook
 
-class HistoryInfoViewController: UIViewController {
+class HistoryInfoViewController: UIViewController, QLPreviewControllerDataSource {
     @IBOutlet weak var LocationLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -27,14 +28,19 @@ class HistoryInfoViewController: UIViewController {
     @IBOutlet weak var subtitleFiveLabel: UILabel!
     @IBOutlet weak var titleSixLabel: UILabel!
     @IBOutlet weak var subtitleSixLabel: UILabel!
-    
+    @IBOutlet weak var typeImageView: UIImageView!
+    var pdfURLToPreview: URL?
     var historyInfo : HistoryModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        setUprightNavigationBar()
     }
     func setUpUI(){
         view.backgroundColor = ColorManager.backgroundColor
+        
+        navigationItem.title = AppStrings.History.receiptTitle
         
         bottomview.backgroundColor = ColorManager.secondaryBackgroundColor
         bottomview.layer.cornerRadius = 10
@@ -81,16 +87,14 @@ class HistoryInfoViewController: UIViewController {
         titleTwoLabel.textColor = ColorManager.subtitleTextColor
         titleTwoLabel.font = FontManager.regular()
         
-        let bulletPoint = "• "
         let text = "\(historyInfo?.chargerType ?? "") - \(historyInfo?.powerOutput ?? "")"
+        SubtitleTwoLabel.text = text
+        SubtitleTwoLabel.textColor = ColorManager.textColor
+        SubtitleTwoLabel.font = FontManager.regular()
         if historyInfo?.chargerType == "DC"{
-            let attributedString = NSMutableAttributedString(string: bulletPoint, attributes: [.foregroundColor: ColorManager.dcbulletColor])
-            attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
-            SubtitleTwoLabel.attributedText = attributedString
+            typeImageView.image = UIImage(named: "dc")
         }else{
-            let attributedString = NSMutableAttributedString(string: bulletPoint, attributes: [.foregroundColor: ColorManager.acbulletColor])
-            attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
-            SubtitleTwoLabel.attributedText = attributedString
+            typeImageView.image = UIImage(named: "ac")
         }
         
         titleThreeLabel.text = AppStrings.History.trasactionIdText
@@ -143,4 +147,84 @@ class HistoryInfoViewController: UIViewController {
 
         return displayFormatter.string(from: date)
     }
+    var downloadButton: UIBarButtonItem?
+
+    func setUprightNavigationBar() {
+        if historyInfo?.invoice != nil {
+            let button = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.down"), style: .plain, target: self, action: #selector(downloadTapped))
+            downloadButton = button
+            navigationItem.rightBarButtonItem = button
+        }
+    }
+    @objc func downloadTapped() {
+        showSpinnerInNavigationBar()
+        if let pdfUrl = historyInfo?.invoice{
+            downloadFromURL(url: pdfUrl)
+        }
+    }
+    func showSpinnerInNavigationBar() {
+        let spinner = UIActivityIndicatorView(style: .medium)
+        spinner.startAnimating()
+
+        // Center in container view
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        spinner.center = container.center
+        container.addSubview(spinner)
+
+        let spinnerItem = UIBarButtonItem(customView: container)
+        navigationItem.rightBarButtonItem = spinnerItem
+    }
+    func restoreDownloadButton() {
+        navigationItem.rightBarButtonItem = downloadButton
+    }
+    func downloadFromURL(url : String){
+        guard let url = URL(string: url) else {
+            return
+        }
+        let fileName = url.lastPathComponent
+        let task = URLSession.shared.downloadTask(with: url){ [weak self] tempUrl, response, error in
+            guard let self = self else {return}
+            if let error = error {
+                self.showAlert(title: "Error", message: error.localizedDescription)
+            }
+            guard let tempURL = tempUrl else {
+                return
+            }
+            let fileManager = FileManager.default
+            let destinationURL = fileManager.temporaryDirectory.appendingPathComponent(fileName)
+            
+            try? fileManager.removeItem(at: destinationURL)
+            
+            do {
+                try fileManager.copyItem(at: tempURL, to: destinationURL)
+                
+                DispatchQueue.main.async{ [weak self] in
+                    guard let self = self else { return }
+                    self.previewFile(at: destinationURL)
+                }
+            } catch {
+                print("File copy failed: \(error)")
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.restoreDownloadButton()
+            }
+        }
+        task.resume()
+    }
+    func previewFile(at url: URL) {
+        pdfURLToPreview = url
+        let previewController = QLPreviewController()
+        previewController.dataSource = self
+        navigationController?.pushViewController(previewController, animated: true)
+    }
+
+    // MARK: - QLPreviewControllerDataSource
+    func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+        return 1
+    }
+
+    func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        return pdfURLToPreview! as NSURL
+    }
 }
+

@@ -26,7 +26,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ms-bM-D0p">
-                    <rect key="frame" x="250.33333333333334" y="133" width="127.66666666666666" height="25"/>
+                    <rect key="frame" x="249.33333333333334" y="133" width="127.66666666666666" height="25"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="08H-CW-Sgu"/>
                     </constraints>
@@ -37,7 +37,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXJ-pQ-TaL">
-                    <rect key="frame" x="25" y="709" width="343" height="50"/>
+                    <rect key="frame" x="16" y="709" width="361" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Lhj-F2-lMN"/>
                     </constraints>
@@ -56,9 +56,9 @@
                 <constraint firstItem="bXJ-pQ-TaL" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" constant="-25" id="O7W-oS-Kj9"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2CO-W6-9Yb" secondAttribute="trailing" id="UcG-Dw-hlC"/>
                 <constraint firstItem="2CO-W6-9Yb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="cH5-T2-5yE"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bXJ-pQ-TaL" secondAttribute="trailing" constant="25" id="fsw-aL-HjR"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6Ms-bM-D0p" secondAttribute="trailing" constant="15" id="kxW-eb-olL"/>
-                <constraint firstItem="bXJ-pQ-TaL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="sdT-kt-3dY"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="bXJ-pQ-TaL" secondAttribute="trailing" constant="16" id="fsw-aL-HjR"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6Ms-bM-D0p" secondAttribute="trailing" constant="16" id="kxW-eb-olL"/>
+                <constraint firstItem="bXJ-pQ-TaL" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="sdT-kt-3dY"/>
             </constraints>
             <point key="canvasLocation" x="-5.343511450381679" y="19.718309859154932"/>
         </view>

@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         window.overrideUserInterfaceStyle = AppSettings.appearanceMode.interfaceStyle
         let splashVC = SplashScreenViewController()// Your splash screen view controller
-        splashVC.viewModel = SplashScreenViewModel(networkManager: NetworkManager(), delegate : splashVC)
+        splashVC.viewModel = SplashScreenViewModel(networkManager: NetworkManager.shared, delegate : splashVC)
         let navController = UINavigationController(rootViewController: splashVC)
         navController.navigationBar.tintColor = ColorManager.buttonTintColor
         window.rootViewController = navController

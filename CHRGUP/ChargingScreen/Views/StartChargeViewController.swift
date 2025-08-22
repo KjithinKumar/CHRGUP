@@ -23,6 +23,7 @@ class StartChargeViewController: UIViewController {
     @IBOutlet weak var subtitleFiveLabel: UILabel!
     @IBOutlet weak var secondView: UIView!
     @IBOutlet weak var secondViewTitleLabel: UILabel!
+    @IBOutlet weak var typeImageView: UIImageView!
     var viewModel : StartChargeViewModelInterface?
     @IBOutlet weak var infoButton: UIButton!
     var payLoad : QRPayload?
@@ -48,7 +49,7 @@ class StartChargeViewController: UIViewController {
         }
     }
     func setUpUi(){
-        view.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
         
         chargingTitleLabel.text = AppStrings.StartCharging.title
         chargingTitleLabel.font = FontManager.bold(size: 25)
@@ -75,7 +76,7 @@ class StartChargeViewController: UIViewController {
         titleFiveLabel.font = FontManager.regular()
         
         secondView.layer.cornerRadius = 10
-        secondView.backgroundColor = ColorManager.secondaryBackgroundColor
+        secondView.backgroundColor = ColorManager.thirdBackgroundColor
         
         secondViewTitleLabel.text = AppStrings.StartCharging.downViewTitle
         secondViewTitleLabel.textColor = ColorManager.subtitleTextColor
@@ -92,19 +93,25 @@ class StartChargeViewController: UIViewController {
     }
     func setUpData(){
         subtitleOneLabel.text = viewModel?.chargerDetails?.chargerInfo?.name
+        subtitleOneLabel.textColor = ColorManager.textColor
+        subtitleOneLabel.font = FontManager.bold(size: 17)
         subtitleTwoLabel.text = viewModel?.chargerDetails?.location?.locationName
+        subtitleTwoLabel.textColor = ColorManager.textColor
+        subtitleTwoLabel.font = FontManager.bold(size: 17)
         subtitleFourLabel.text = viewModel?.chargerDetails?.location?.freePaid?.charging ?? false ? "FREE" : "PAID"
+        subtitleFourLabel.textColor = ColorManager.textColor
+        subtitleFourLabel.font = FontManager.bold(size: 17)
         subtitleFiveLabel.text = viewModel?.chargerDetails?.location?.freePaid?.parking ?? false ? "FREE" : "PAID"
-        let bulletPoint = "• "
+        subtitleFiveLabel.textColor = ColorManager.textColor
+        subtitleFiveLabel.font = FontManager.bold(size: 17)
         let text = "\(viewModel?.chargerDetails?.chargerInfo?.type ?? "") - \(viewModel?.chargerDetails?.chargerInfo?.powerOutput ?? "")"
+        subtitleThreeLabel.text = text
+        subtitleThreeLabel.textColor = ColorManager.textColor
+        subtitleThreeLabel.font = FontManager.bold(size: 17)
         if viewModel?.chargerDetails?.chargerInfo?.type == "DC"{
-            let attributedString = NSMutableAttributedString(string: bulletPoint, attributes: [.foregroundColor: ColorManager.dcbulletColor,.font : FontManager.bold()])
-            attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
-            subtitleThreeLabel.attributedText = attributedString
+            typeImageView.image = UIImage(named: "dc")
         }else{
-            let attributedString = NSMutableAttributedString(string: bulletPoint, attributes: [.foregroundColor: ColorManager.acbulletColor])
-            attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
-            subtitleThreeLabel.attributedText = attributedString
+            typeImageView.image = UIImage(named: "ac")
         }
     }
     func configureNavBar(){
@@ -147,7 +154,7 @@ class StartChargeViewController: UIViewController {
                         ToastManager.shared.showToast(message: "Previous payment not completed")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                             let receiptVc = ReceiptViewController()
-                            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+                            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager.shared)
                             self.navigationController?.navigationBar.isHidden = false
                             self.navigationController?.setViewControllers([receiptVc], animated: true)
                         }
@@ -235,8 +242,9 @@ class StartChargeViewController: UIViewController {
                             }
                         }
                         iOSWatchSessionManger.shared.sendStatusToWatch()
+                        UserDefaultManager.shared.saveSessionStatus("Started")
                         let statusVc = ChargingStatusViewController()
-                        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager())
+                        statusVc.viewModel = ChargingStatusViewModel(networkManager: NetworkManager.shared)
                         statusVc.requestNotificationPermission()
                         self.navigationController?.setViewControllers([statusVc], animated: true)
                     }else{

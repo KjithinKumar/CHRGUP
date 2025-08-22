@@ -28,6 +28,7 @@ struct HistoryModel: Decodable {
     let paymentMethod: String?
     let paymentAmount: String?
     let paymentStatus: String?
+    let invoice : String?
     
     enum CodingKeys: String, CodingKey {
         case sessionId
@@ -45,6 +46,7 @@ struct HistoryModel: Decodable {
         case paymentMethod
         case paymentAmount
         case paymentStatus
+        case invoice
     }
 }
 enum ChargerFilter: String {

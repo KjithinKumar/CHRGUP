@@ -18,13 +18,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5QB-tq-h7W">
-                        <rect key="frame" x="15" y="10" width="399" height="21"/>
+                        <rect key="frame" x="16" y="10" width="397" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DtC-xB-d2p">
-                        <rect key="frame" x="15" y="36" width="399" height="216"/>
+                        <rect key="frame" x="16" y="36" width="397" height="216"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="textColor" systemColor="labelColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -32,11 +32,11 @@
                     </textView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="5QB-tq-h7W" secondAttribute="trailing" constant="15" id="7fm-U7-vN0"/>
-                    <constraint firstAttribute="trailing" secondItem="DtC-xB-d2p" secondAttribute="trailing" constant="15" id="8zl-Cl-4LQ"/>
-                    <constraint firstItem="DtC-xB-d2p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="AqC-Zx-0tq"/>
+                    <constraint firstAttribute="trailing" secondItem="5QB-tq-h7W" secondAttribute="trailing" constant="16" id="7fm-U7-vN0"/>
+                    <constraint firstAttribute="trailing" secondItem="DtC-xB-d2p" secondAttribute="trailing" constant="16" id="8zl-Cl-4LQ"/>
+                    <constraint firstItem="DtC-xB-d2p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="AqC-Zx-0tq"/>
                     <constraint firstItem="DtC-xB-d2p" firstAttribute="top" secondItem="5QB-tq-h7W" secondAttribute="bottom" constant="5" id="KLs-GO-qf0"/>
-                    <constraint firstItem="5QB-tq-h7W" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="hYy-0D-DTp"/>
+                    <constraint firstItem="5QB-tq-h7W" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="hYy-0D-DTp"/>
                     <constraint firstItem="5QB-tq-h7W" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="mb2-EX-0wY"/>
                     <constraint firstAttribute="bottom" secondItem="DtC-xB-d2p" secondAttribute="bottom" constant="10" id="nSg-dz-Ccq"/>
                 </constraints>

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 class WelcomeViewController: UIViewController {
     @IBOutlet weak var overlayView: UIView!
@@ -14,6 +15,7 @@ class WelcomeViewController: UIViewController {
     @IBOutlet weak var continueButton: UIButton!
     @IBOutlet weak var signUpLabel: UILabel!
     @IBOutlet weak var vStackView: UIStackView!
+    @IBOutlet weak var backgroundImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +34,8 @@ class WelcomeViewController: UIViewController {
     }
     func configureUi() {
         overlayView.layer.cornerRadius = 20
-        overlayView.backgroundColor = ColorManager.backgroundColor
-        UIView.animate(withDuration: 0.25) {
+        overlayView.backgroundColor = ColorManager.backgroundColor.withAlphaComponent(0.8)
+        UIView.animate(withDuration: 0.5) {
             self.overlayView.center.y -= self.overlayView.frame.height
         }
         
@@ -49,7 +51,7 @@ class WelcomeViewController: UIViewController {
         
         welcomeLabel.text = AppStrings.Welcome.welcomeTitle
         welcomeLabel.textColor = ColorManager.textColor
-        welcomeLabel.font = FontManager.bold(size: 40)
+        welcomeLabel.font = FontManager.bold(size: 32)
 
         
         subtitleLabel.text = AppStrings.Welcome.welcomeSubtitle

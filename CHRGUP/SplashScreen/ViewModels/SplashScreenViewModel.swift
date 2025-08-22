@@ -13,6 +13,7 @@ protocol SplashViewModelDelegate: AnyObject {
     func navigateToOnboarding()
     func navigateToMap()
     func showUpdateDialog(url: String?)
+    func showError(error : Error)
 }
 
 class SplashScreenViewModel{
@@ -28,47 +29,31 @@ class SplashScreenViewModel{
     //Start the Splash process
     func startSplashProcess(){
         let startTime = Date().timeIntervalSince1970
-        checkLatestVersion { [weak self] isForcedUpdate, updateUrl in
-            guard let url = updateUrl else {return}
-            //Calculate how long version check took
+        checkLatestVersion { [weak self] result in
             let versionCheckTime = Date().timeIntervalSince1970 - startTime
             let leftTime = max(0, AppConstants.splashScreenInterval - versionCheckTime)
-            DispatchQueue.main.asyncAfter(deadline: .now() + leftTime) {
-                if isForcedUpdate{
-                    self?.delegate?.showUpdateDialog(url: url) //Notify User to Force Update
-                    //return
-                }else {
-                    self?.checkOnboardingStatus()// Check login
+            guard let self = self else {return}
+            DispatchQueue.main.asyncAfter(deadline: .now() + leftTime){
+                switch result{
+                case .success(let response):
+                    if !response.status && response.force{
+                        self.delegate?.showUpdateDialog(url: response.iPhoneUrl)
+                    }else{
+                        self.checkOnboardingStatus()
+                    }
+                case .failure(let error):
+                    self.delegate?.showError(error: error)
                 }
             }
-        } 
+        }
     }
     
     //Checking the latest version
-    private func checkLatestVersion(completion: @escaping (Bool,String?)->(Void)){
-        let request = networkManager?.createRequest(
-            urlString: URLs.checkVersionUrl,
-            method: .get,
-            body: nil,
-            encoding: .json,
-            headers: nil)
-        if let request = request{
-            networkManager?.request(request, decodeTo: VersionResponseModel.self, completion: { [weak self] result in
-                guard let _ = self else { return }
-                switch result{
-                case .success(let versionResponse) :
-                    if !versionResponse.status, versionResponse.force {
-                        debugPrint(versionResponse.iPhoneUrl ?? "no value")
-                        completion(true, versionResponse.iPhoneUrl)
-                    } else {
-                        completion(false, "nil")
-                    }
-                case .failure(let error) :
-                    //error
-                    debugPrint(error)
-                    return
-                }
-            })
+    func checkLatestVersion(completion : @escaping (Result<VersionResponseModel, Error>)-> Void){
+        if let request = networkManager?.createRequest(urlString: URLs.checkVersionUrl, method: .get, body: nil, encoding: .json, headers: nil){
+            networkManager?.request(request, decodeTo: VersionResponseModel.self) { result in
+                completion(result)
+            }
         }
     }
     

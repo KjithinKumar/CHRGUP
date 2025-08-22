@@ -17,13 +17,14 @@ class ReceiptViewController: UIViewController {
     
     
     var grandTotal: Int?
+    var currencySymbol : String?
     var razorpay: RazorpayCheckout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchReceipt()
         setUpUI()
-        
+        disableButtonWithActivityIndicator(payButton)
         razorpay = RazorpayCheckout.initWithKey(AppIdentifications.RazorPay.key, andDelegate: self)
         
     }
@@ -47,8 +48,10 @@ class ReceiptViewController: UIViewController {
                 case .success(let response):
                     if response.status{
                         if let grandTotal = self.viewModel?.receiptData?.grandTotal{
-                            let cleanedString = grandTotal.replacingOccurrences(of: "₹", with: "").trimmingCharacters(in: .whitespaces)
-                            self.grandTotal = Int((Double(cleanedString) ?? 0.0) * 100)
+                            let splitString = grandTotal.split(separator: " ")
+                            self.currencySymbol = String(splitString[0])
+                            self.grandTotal = Int((Double(splitString[1]) ?? 0.0) * 100)
+                            self.enableButtonAndRemoveIndicator(self.payButton)
                             self.payButton.setTitle("Pay \(grandTotal)/-", for: .normal)
                         }
                         self.isLoading = false
@@ -69,7 +72,7 @@ class ReceiptViewController: UIViewController {
         view.backgroundColor = ColorManager.secondaryBackgroundColor
         tableView.backgroundColor = .clear
     
-        payButton.setTitle("Pay ₹0.00/-", for: .normal)
+        payButton.setTitle("Pay 0.00/-", for: .normal)
         payButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         payButton.titleLabel?.font = FontManager.bold(size: 17)
         
@@ -80,16 +83,18 @@ class ReceiptViewController: UIViewController {
     @IBAction func payButtonPressed(_ sender: Any) {
         disableButtonWithActivityIndicator(payButton)
         let amountInPaise = grandTotal ?? 00
-        viewModel?.createOder(amount: amountInPaise) { [weak self] result in
+        let currency = getCurrencyFromSymbol(currencySymbol ?? "₹")
+        viewModel?.createOder(amount: amountInPaise,currency: currency) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-                    if let amount = response.amount, let orderId = response.id{
-                        self.openCheckout(amount: String(amount), orderId: orderId)
+                    if let amount = response.amount, let orderId = response.id, let responseCurreny = response.currency{
+                        self.openCheckout(amount: String(amount),currency: responseCurreny, orderId: orderId)
                     }
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
+                    self.enableButtonAndRemoveIndicator(self.payButton)
                 }
             }
         }
@@ -173,13 +178,13 @@ extension ReceiptViewController : UITableViewDataSource,UITableViewDelegate{
     
 }
 extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
-    func openCheckout(amount : String, orderId : String) {
+    func openCheckout(amount : String,currency : String, orderId : String) {
         let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber ?? ""
         let email = UserDefaultManager.shared.getUserProfile()?.email ?? ""
         let options: [String:Any] = [
             "key" : AppIdentifications.RazorPay.key,
             "amount": amount,
-            "currency": "INR",
+            "currency": currency,
             "description": "Purchase Description",
             "order_id": orderId,
             "name": "CHRGUP",
@@ -266,8 +271,8 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                             self.dismiss(animated: true)
                         }else{
                             let reviewVc = ReviewViewController()
-                            reviewVc.viewModel = ReviewViewModel(networkManager: NetworkManager())
-                            self.navigationController?.pushViewController(reviewVc, animated: true)
+                            reviewVc.viewModel = ReviewViewModel(networkManager: NetworkManager.shared)
+                            self.navigationController?.setViewControllers([reviewVc], animated: true)
                         }
                     }else{
                         self.showAlert(title: "Error", message: response.message)
@@ -276,6 +281,38 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                     AppErrorHandler.handle(error, in: self)
                 }
             }
+        }
+    }
+    func getCurrencyFromSymbol(_ currencyCode: String = "₹") -> String {
+        switch currencyCode.uppercased() {
+        case "₹":
+            return "INR" // Indian Rupee
+        case "$":
+            return "USD" // US Dollar
+        case "€":
+            return "EUR" // Euro
+        case "£":
+            return "GBP" // British Pound
+        case "¥":
+            return "JPY" // Japanese Yen
+//        case "¥":
+//            return "CNY" // Chinese Yuan
+        case "AUD":
+            return "A$" // Australian Dollar
+        case "C$":
+            return "CAD" // Canadian Dollar
+        case "د.إ":
+            return "AED" // UAE Dirham
+        case "CHF":
+            return "CHF" // Swiss Franc
+        case "R":
+            return "ZAR" // South African Rand
+        case "S$":
+            return "SGD" // Singapore Dollar
+        case "₿":
+            return "BTC" // Bitcoin
+        default:
+            return currencyCode // fallback to code itself
         }
     }
 }

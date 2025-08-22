@@ -17,6 +17,7 @@ class ChargersCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var chargerIdLabel: UILabel!
     @IBOutlet weak var connectorIdLabel: UILabel!
+    @IBOutlet weak var typeImageView: UIImageView!
     
     
     static let identifier = "ChargersCollectionViewCell"
@@ -34,52 +35,62 @@ class ChargersCollectionViewCell: UICollectionViewCell {
             statusLabel.text = connector.status
             chargerIdLabel.textColor = ColorManager.primaryTextColor
             connectorIdLabel.textColor = ColorManager.primaryTextColor
+            titleLabel.textColor = ColorManager.textColor
+            imageView.tintColor = ColorManager.textColor
+            typeLabel.textColor = ColorManager.textColor
+            priceLabel.textColor = ColorManager.textColor
         }else if connector.status == "Inactive"{
             firstBackgroundView.backgroundColor = ColorManager.thirdBackgroundColor
             statusLabel.textColor = ColorManager.backgroundColor
             statusLabel.text = connector.status
-            chargerIdLabel.textColor = ColorManager.textColor
-            connectorIdLabel.textColor = ColorManager.textColor
+            chargerIdLabel.textColor = ColorManager.placeholderColor
+            connectorIdLabel.textColor = ColorManager.placeholderColor
+            titleLabel.textColor = ColorManager.placeholderColor
+            imageView.tintColor = ColorManager.placeholderColor
+            typeLabel.textColor = ColorManager.placeholderColor
+            priceLabel.textColor = ColorManager.placeholderColor
         }else{
             firstBackgroundView.backgroundColor = ColorManager.inUseColor
             statusLabel.text = "In Use"
             statusLabel.textColor = ColorManager.buttonTextColor
             chargerIdLabel.textColor = ColorManager.inUseColor
             connectorIdLabel.textColor = ColorManager.inUseColor
+            titleLabel.textColor = ColorManager.textColor
+            imageView.tintColor = ColorManager.textColor
+            typeLabel.textColor = ColorManager.textColor
+            priceLabel.textColor = ColorManager.textColor
         }
     
         chargerIdLabel.text = chargerInfo.name
         chargerIdLabel.font = FontManager.regular(size: 14)
     
         connectorIdLabel.text = "Connector ID: \(connector.connectorId)"
-        connectorIdLabel.font = FontManager.regular(size: 12)
+        connectorIdLabel.font = FontManager.regular(size: 14)
         
         titleLabel.text = chargerInfo.subType
-        titleLabel.font = FontManager.bold(size: 12)
-        titleLabel.textColor = ColorManager.textColor
+        titleLabel.font = FontManager.regular(size: 12)
+        
         
         if chargerInfo.subType == "CCS2"{
-            imageView.image = UIImage(named: "CCS2")
+            imageView.image = UIImage(systemName: "ev.plug.dc.ccs2")
         }else if chargerInfo.subType == "Type6"{
             imageView.image = UIImage(named: "type6")
         }else{
-            imageView.image = UIImage(named: "type7")
+            imageView.image = UIImage(systemName: "ev.plug.ac.type.2")
         }
-        imageView.tintColor = ColorManager.textColor
         
-        let bulletPoint = "• "
+        
         let text = "\(chargerInfo.type ?? "") \(chargerInfo.powerOutput ?? "")"
+        typeLabel.text = text
         if chargerInfo.type == "DC"{
-            let attributedString = NSMutableAttributedString(string: bulletPoint, attributes: [.foregroundColor: ColorManager.dcbulletColor])
-            attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
-            typeLabel.attributedText = attributedString
+            typeImageView.image = UIImage(named: "dc")
         }else{
-            let attributedString = NSMutableAttributedString(string: bulletPoint, attributes: [.foregroundColor: ColorManager.acbulletColor])
-            attributedString.append(NSAttributedString(string: text, attributes: [.foregroundColor: ColorManager.textColor]))
-            typeLabel.attributedText = attributedString
+            typeImageView.image = UIImage(named: "ac")
         }
+        typeLabel.font = FontManager.regular(size: 12)
         priceLabel.text = "Rs \(chargerInfo.costPerUnit?.amount ?? 0) /Unit"
-        priceLabel.textColor = ColorManager.textColor
+        priceLabel.font = FontManager.regular(size: 12)
+        
         secondBackgroundView.backgroundColor = ColorManager.secondaryBackgroundColor
     }
     func setSelected(_ selected: Bool) {

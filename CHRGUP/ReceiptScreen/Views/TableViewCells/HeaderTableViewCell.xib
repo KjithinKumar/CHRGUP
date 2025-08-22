@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WYm-je-IUB">
-                        <rect key="frame" x="15" y="10" width="372" height="102"/>
+                        <rect key="frame" x="16" y="10" width="370" height="102"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tr5-b8-iGp">
                                 <rect key="frame" x="0.0" y="28.333333333333339" width="56.333333333333336" height="45.666666666666657"/>
@@ -49,7 +49,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="k82-xe-su0">
-                                <rect key="frame" x="330.66666666666669" y="15.666666666666671" width="41.333333333333314" height="71"/>
+                                <rect key="frame" x="328.66666666666669" y="15.666666666666671" width="41.333333333333314" height="71"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAW-UI-pQZ">
                                         <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="20.333333333333332"/>
@@ -75,10 +75,10 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="WYm-je-IUB" secondAttribute="trailing" constant="15" id="9kS-s9-RTr"/>
+                    <constraint firstAttribute="trailing" secondItem="WYm-je-IUB" secondAttribute="trailing" constant="16" id="9kS-s9-RTr"/>
                     <constraint firstItem="WYm-je-IUB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="KgF-oJ-OMo"/>
                     <constraint firstAttribute="bottom" secondItem="WYm-je-IUB" secondAttribute="bottom" constant="10" id="LSX-j4-3Ut"/>
-                    <constraint firstItem="WYm-je-IUB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="VxD-oa-aL5"/>
+                    <constraint firstItem="WYm-je-IUB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="VxD-oa-aL5"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

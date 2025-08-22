@@ -46,8 +46,8 @@ struct AppStrings {
     }
     
     struct Auth{
-        static let welcomeTitle = "Welcome"
-        static let welcomBackTitle = "Welcome Back"
+        static let welcomeTitle = "Sign Up"
+        static let welcomBackTitle = "Sign In"
         static let welcomeSubtitle = "Enter your phone number to continue"
         static let placeHolder = "Enter mobile number"
         static let signUpButtonTitle = "Sign Up"
@@ -88,22 +88,25 @@ struct AppStrings {
         static let highlihtedTitle = "Driving"
         
         static let MyGarage = "My Garage"
-        static let GarageImage = "car"
+        static let GarageImage = "car.fill"
         
         static let FavouriteDocks = "Favourite Docks"
-        static let FavouriteDockImage = "heart"
+        static let FavouriteDockImage = "heart.fill"
         
         static let History = "History"
-        static let HistoryImage = "clock"
+        static let HistoryImage = "clock.fill"
         
         static let HelpandSupport = "Help & Support"
-        static let HelpandSupportImage = "phone.connection"
+        static let HelpandSupportImage = "phone.connection.fill"
         
         static let Settings = "Settings"
-        static let SettingsImage = "gear"
+        static let SettingsImage = "gearshape.fill"
         
         static let Reservation = "Reservations"
-        static let ReservationImage = "calendar.badge.clock"
+        static let ReservationImage = "bolt.badge.clock.fill"
+        
+        static let Notification = "Notifications"
+        static let NotificationImage = "bell.fill"
     }
     
     struct Garage{
@@ -225,6 +228,8 @@ struct AppStrings {
         static let trasactionIdText = "Transaction Id"
         
         static let paymentMethodText = "Payment Mode"
+        
+        static let receiptTitle = "Receipt"
     }
     
     struct signUp{

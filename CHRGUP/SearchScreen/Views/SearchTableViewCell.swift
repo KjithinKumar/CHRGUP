@@ -90,7 +90,7 @@ class SearchTableViewCell: UITableViewCell {
         }
         let range = (fullText as NSString).range(of: searchText, options: .caseInsensitive)
         if range.location != NSNotFound {
-            attributedString.addAttribute(.foregroundColor, value: ColorManager.primaryTextColor.cgColor, range: range) // Change text color
+            attributedString.addAttribute(.foregroundColor, value: ColorManager.primaryTextColor, range: range) // Change text color
             attributedString.addAttribute(.font, value: FontManager.bold(size: 17), range: range) // Make it bold
         }
         return attributedString

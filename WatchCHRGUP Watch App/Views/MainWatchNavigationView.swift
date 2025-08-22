@@ -11,7 +11,7 @@ struct MainWatchNavigationView: View {
     var body: some View {
         NavigationStack{
             List{
-                NavigationLink(destination: NearByChargersView(ViewModel: NearByChargerViewModel(networkManager: NetworkManager()))){
+                NavigationLink(destination: NearByChargersView(ViewModel: NearByChargerViewModel(networkManager: NetworkManager.shared))){
                     HStack {
                         Image(systemName: "map.fill")
                             .font(.title2) // Larger icon
@@ -30,7 +30,7 @@ struct MainWatchNavigationView: View {
                     }
                     .padding(.vertical, 8)
                 }
-                NavigationLink(destination: EnterChargerView(viewModel: ScanQrViewModel(networkManager: NetworkManager()))){
+                NavigationLink(destination: EnterChargerView(viewModel: ScanQrViewModel(networkManager: NetworkManager.shared))){
                     HStack {
                         Image(systemName: "bolt.fill")
                             .font(.title2) // Larger icon

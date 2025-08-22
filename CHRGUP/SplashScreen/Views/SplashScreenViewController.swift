@@ -22,18 +22,17 @@ class SplashScreenViewController: UIViewController {
 }
 extension SplashScreenViewController : SplashViewModelDelegate{
     func navigateToMain() {
-       let welcomeVc = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
+       let welcomeVc = WelcomeViewController()
         navigationController?.setViewControllers([welcomeVc], animated: true)
     }
-    
     func navigateToOnboarding() {
-        let onboardingVC = OnboardingViewController(nibName: "OnboardingViewController", bundle: nil)
+        let onboardingVC = OnboardingViewController()
         navigationController?.navigationBar.isHidden = true
         navigationController?.setViewControllers([onboardingVC], animated: true)
     }
     func navigateToMap() {
         let MapVc = MapScreenViewController()
-        MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
+        MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager.shared)
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.isTranslucent = false
         let appearance = UINavigationBarAppearance()
@@ -56,5 +55,9 @@ extension SplashScreenViewController : SplashViewModelDelegate{
             }
         }]
         )
+    }
+    func showError(error: Error) {
+        logoImageView.stopShimmering()
+        AppErrorHandler.handle(error, in: self)
     }
 }

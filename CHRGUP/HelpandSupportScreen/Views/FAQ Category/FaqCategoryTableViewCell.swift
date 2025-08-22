@@ -25,6 +25,8 @@ class FaqCategoryTableViewCell: UITableViewCell {
     }
     
     func configure(title : String,indexpath : IndexPath ){
+        stackeView.backgroundColor = ColorManager.secondaryBackgroundColor
+        stackeView.layer.cornerRadius = 10
         categoryLabel.text = title
         
         rightImageView.tintColor = ColorManager.textColor

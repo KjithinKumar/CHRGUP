@@ -43,13 +43,13 @@ struct ColorManager {
     static let thirdBackgroundColor = UIColor { _ in
         switch AppSettings.appearanceMode {
         case .light:
-            return UIColor.tertiaryLabel
+            return UIColor.systemGray4
         case .dark:
             return UIColor.tertiarySystemBackground
         case .system:
             return UIColor { traitCollection in
                 return traitCollection.userInterfaceStyle == .dark
-                ? UIColor.tertiarySystemBackground : UIColor.tertiaryLabel
+                ? UIColor.tertiarySystemBackground : UIColor.systemGray4
             }
         }
     }
@@ -66,5 +66,7 @@ struct ColorManager {
     static let completedColor = UIColor(hex: "#BFFF86")  // lime green (original)
 
     static let reservedColor = UIColor(hex: "#ACEAFF")  // sky blue (original)
+    
+    static let redColor = UIColor(hex: "#F74141")
 }
 

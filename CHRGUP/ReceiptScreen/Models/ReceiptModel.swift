@@ -10,6 +10,7 @@ struct ReceiptResponseModel : Decodable {
     let status : Bool
     let data : [ReceiptModel]
     let message : String?
+    let invoice : String?
 }
 
 struct ReceiptModel: Decodable {
@@ -26,7 +27,7 @@ struct ReceiptModel: Decodable {
         case sessionDetails = "session-details"
         case energyDetails = "energy-details"
         case subtotalDetails = "subtotal details"
-        case sessionCharges = "session details"
+        case sessionCharges = "additional details"
         case taxDetails = "tax details"
         case grandTotal = "Grand Total"
     }

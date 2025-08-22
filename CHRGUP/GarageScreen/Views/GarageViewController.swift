@@ -29,7 +29,7 @@ class GarageViewController: UIViewController {
     }
     @IBAction func addNewButtonPressed(_ sender: Any) {
         let vehicleVc = UserVehicleInfoViewController()
-        vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+        vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager.shared)
         vehicleVc.userData = UserDefaultManager.shared.getUserProfile()
         vehicleVc.screenType = .addNew
         navigationController?.pushViewController(vehicleVc, animated: true)
@@ -129,7 +129,7 @@ extension GarageViewController : GarageTableViewCellDelegate{
         let editingVechile = viewModel?.getVehicles()?[index]
         let vehicleInfoVc = UserVehicleInfoViewController()
         vehicleInfoVc.modalPresentationStyle = .fullScreen
-        vehicleInfoVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleInfoVc, networkManager: NetworkManager())
+        vehicleInfoVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleInfoVc, networkManager: NetworkManager.shared)
         vehicleInfoVc.screenType = .edit
         vehicleInfoVc.userSelecetedVechileData = editingVechile
         navigationController?.pushViewController(vehicleInfoVc, animated: true)

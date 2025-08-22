@@ -39,8 +39,8 @@ class ReviewViewController: UIViewController {
         removeKeyboardNotifications()
     }
     func setUpUI(){
-        view.backgroundColor = ColorManager.backgroundColor
-        backView.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
+        backView.backgroundColor = ColorManager.secondaryBackgroundColor
         
         titleLabel.text = AppStrings.Review.title
         titleLabel.textColor = ColorManager.primaryTextColor
@@ -55,7 +55,7 @@ class ReviewViewController: UIViewController {
         subtitleOne.text = AppStrings.Review.subtitleOne
         
         
-        starOneView.backgroundColor = ColorManager.backgroundColor
+        starOneView.backgroundColor = ColorManager.secondaryBackgroundColor
         
         ratingViewOne.translatesAutoresizingMaskIntoConstraints = false
         starOneView.addSubview(ratingViewOne)
@@ -71,7 +71,7 @@ class ReviewViewController: UIViewController {
             self?.checkIfBothRatingsSelected()
         }
         
-        starTwoView.backgroundColor = ColorManager.backgroundColor
+        starTwoView.backgroundColor = ColorManager.secondaryBackgroundColor
         
         ratingViewTwo.translatesAutoresizingMaskIntoConstraints = false
         starTwoView.addSubview(ratingViewTwo)
@@ -96,7 +96,7 @@ class ReviewViewController: UIViewController {
         commentsTitle.font = FontManager.bold(size: 17)
         
         commentsTextView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        commentsTextView.backgroundColor = ColorManager.secondaryBackgroundColor
+        commentsTextView.backgroundColor = ColorManager.backgroundColor
         commentsTextView.layer.cornerRadius = 8
         commentsTextView.layer.borderWidth = 2
         commentsTextView.layer.borderColor = ColorManager.thirdBackgroundColor.cgColor
@@ -116,8 +116,8 @@ class ReviewViewController: UIViewController {
         skipButton.backgroundColor = .clear
         skipButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
         
-        spacerView.backgroundColor = ColorManager.backgroundColor
-        spacerTwo.backgroundColor = ColorManager.backgroundColor
+        spacerView.backgroundColor = ColorManager.secondaryBackgroundColor
+        spacerTwo.backgroundColor = ColorManager.secondaryBackgroundColor
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(keyboardWillHide))
         view.addGestureRecognizer(gesture)
@@ -131,7 +131,7 @@ class ReviewViewController: UIViewController {
             submitButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         }else{
             submitButton.isEnabled = false
-            submitButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            submitButton.backgroundColor = ColorManager.thirdBackgroundColor
             submitButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
         }
     }

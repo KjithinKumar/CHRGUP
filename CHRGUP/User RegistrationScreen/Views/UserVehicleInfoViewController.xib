@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,11 +21,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="sCE-am-blH">
-                    <rect key="frame" x="25" y="59" width="343" height="659"/>
+                    <rect key="frame" x="16" y="118" width="361" height="566"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUd-cK-tn1">
-                    <rect key="frame" x="25" y="718" width="343" height="50"/>
+                    <rect key="frame" x="16" y="684" width="361" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="Rn5-WY-ovt"/>
                     </constraints>
@@ -39,13 +39,13 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fUd-cK-tn1" secondAttribute="trailing" constant="25" id="4xQ-1m-2OF"/>
-                <constraint firstItem="sCE-am-blH" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="63n-Uf-Jhi"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fUd-cK-tn1" secondAttribute="trailing" constant="16" id="4xQ-1m-2OF"/>
+                <constraint firstItem="sCE-am-blH" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="63n-Uf-Jhi"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="fUd-cK-tn1" secondAttribute="bottom" constant="50" id="7UZ-oh-ZIa"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="sCE-am-blH" secondAttribute="trailing" constant="25" id="B2a-r9-dCQ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="sCE-am-blH" secondAttribute="trailing" constant="16" id="B2a-r9-dCQ"/>
                 <constraint firstItem="sCE-am-blH" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LdT-cd-bD6"/>
                 <constraint firstItem="fUd-cK-tn1" firstAttribute="top" secondItem="sCE-am-blH" secondAttribute="bottom" id="Shv-OU-IKS"/>
-                <constraint firstItem="fUd-cK-tn1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="25" id="j1b-Sl-vyx"/>
+                <constraint firstItem="fUd-cK-tn1" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="j1b-Sl-vyx"/>
             </constraints>
             <point key="canvasLocation" x="-40.458015267175568" y="19.718309859154932"/>
         </view>

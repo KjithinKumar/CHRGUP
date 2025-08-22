@@ -61,9 +61,9 @@ class OtpViewController: UIViewController {
     @IBAction func verifyButtonPressed(_ sender: Any) {
         let otp = otpTextFields.compactMap { $0.text }.joined()
         guard let mobileNumber = mobileNumber else { return }
-        debugPrint("Entered OTP: \(otp)")
         setVerifyButtonState(.verifying)
-        viewModel?.verifyOtp(phoneNumber: mobileNumber, otp: otp){ message,result in
+        viewModel?.verifyOtp(phoneNumber: mobileNumber, otp: otp){[weak self] message,result in
+            guard let self = self else {return}
             if result{
                 self.setVerifyButtonState(.verified)
                 self.viewModel?.checkUserRegistration(phoneNumber: mobileNumber)
@@ -75,7 +75,7 @@ class OtpViewController: UIViewController {
     }
     
     func setUpUI(){
-        view.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
         
         OtpTitleLabel.textColor = ColorManager.textColor
         OtpTitleLabel.font = FontManager.bold()
@@ -94,7 +94,7 @@ class OtpViewController: UIViewController {
         resendOtpTextField.isUserInteractionEnabled = isResendEnabled
         
         
-        verifyButton.backgroundColor = ColorManager.secondaryBackgroundColor
+        verifyButton.backgroundColor = ColorManager.thirdBackgroundColor
         verifyButton.layer.cornerRadius = 20
         verifyButton.tintColor = ColorManager.backgroundColor
         verifyButton.isEnabled = false
@@ -123,7 +123,7 @@ extension OtpViewController : UITextFieldDelegate{
     func setuptextFields(){
         otpTextField1.textContentType = .oneTimeCode
         for i in otpTextFields{
-            i.backgroundColor = ColorManager.secondaryBackgroundColor
+            i.backgroundColor = ColorManager.backgroundColor
             i.textColor = ColorManager.primaryTextColor
             i.tintColor = ColorManager.primaryTextColor
             i.keyboardType = .numberPad
@@ -285,7 +285,7 @@ extension OtpViewController{
             verifyButton.isEnabled = true
         }else{
             verifyButton.isEnabled = false
-            verifyButton.backgroundColor = ColorManager.secondaryBackgroundColor
+            verifyButton.backgroundColor = ColorManager.thirdBackgroundColor
         }
         setVerifyButtonState(.verify)
     }
@@ -374,7 +374,8 @@ extension OtpViewController{
 
 extension OtpViewController : OtpViewModelDelegate {
     func didRequireGoogleSignIn() {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in 
+            guard let self = self else {return}
             self.navigationItem.leftBarButtonItem?.isHidden = true
             self.setVerifyButtonState(.verifying)
             let helpVc = SignUpViewController()
@@ -405,7 +406,7 @@ extension OtpViewController : OtpViewModelDelegate {
             guard let self = self else { return }
             let MapVc = MapScreenViewController()
             iOSWatchSessionManger.shared.sendStatusToWatch()
-            MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager())
+            MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager.shared)
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.navigationBar.isTranslucent = false
             let appearance = UINavigationBarAppearance()
@@ -430,7 +431,7 @@ extension OtpViewController : SignUpViewControllerDelegate {
             switch result{
             case .success(let newuser) :
                 let vehicleVc = UserVehicleInfoViewController()
-                vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+                vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager.shared)
                 vehicleVc.screenType = .registerNew
                 vehicleVc.userData = newuser
                 vehicleVc.userData?.phoneNumber = self.mobileNumber ?? ""
@@ -449,7 +450,7 @@ extension OtpViewController : SignUpViewControllerDelegate {
             switch result{
             case .success(let newuser) :
                 let vehicleVc = UserVehicleInfoViewController()
-                vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+                vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager.shared)
                 vehicleVc.screenType = .registerNew
                 vehicleVc.userData = newuser
                 vehicleVc.userData?.phoneNumber = self.mobileNumber ?? ""

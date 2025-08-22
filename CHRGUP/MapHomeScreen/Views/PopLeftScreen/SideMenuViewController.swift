@@ -41,7 +41,7 @@ class SideMenuViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.frame.origin.x = -self.view.frame.width
-        UIView.animate(withDuration: 0.3) { [weak self] in
+        UIView.animate(withDuration: 0.2) { [weak self] in
             guard let self = self else { return }
             self.view.frame.origin.x = 0
         }
@@ -112,13 +112,14 @@ class SideMenuViewController: UIViewController {
                 imageView.trailingAnchor.constraint(equalTo: popOverView.trailingAnchor, constant: -25)])
         }
         vehicleButton.layer.borderWidth = 1
-        vehicleButton.layer.cornerRadius = 5
+        vehicleButton.layer.cornerRadius = 8
         vehicleButton.layer.borderColor = ColorManager.primaryTextColor.cgColor
-        vehicleButton.backgroundColor = ColorManager.secondaryBackgroundColor
+        vehicleButton.backgroundColor = ColorManager.backgroundColor
         let vehicle = UserDefaultManager.shared.getSelectedVehicle()
         if let make = vehicle?.make ,let model = vehicle?.model ,let variant = vehicle?.variant{
             let Vehiclename = "\(make) \(model) \(variant)"
             vehicleButton.setTitle("\u{2003}\(Vehiclename)\u{2003}\u{2003}", for: .normal)
+            vehicleButton.titleLabel?.font = FontManager.bold(size: 16)
         }
         
         
@@ -146,14 +147,14 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 55
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedfield = viewModel?.sideMenuItems[indexPath.row]
         switch selectedfield?.sideMenuDestiantion{
         case .mygarage:
             let myGarageVc = GarageViewController()
-            myGarageVc.viewModel = GarageViewModel(networkManager: NetworkManager(), delegate: myGarageVc)
+            myGarageVc.viewModel = GarageViewModel(networkManager: NetworkManager.shared, delegate: myGarageVc)
             dismissView()
             DispatchQueue.main.async{  [weak self] in
                 guard let self = self else { return }
@@ -161,7 +162,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .helpandsupport:
             let helpAndSupportVc = HelpandSupportViewController()
-            helpAndSupportVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager(), delegate: nil)
+            helpAndSupportVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager.shared, delegate: nil)
             dismissView()
             DispatchQueue.main.async{  [weak self] in
                 guard let self = self else { return }
@@ -169,7 +170,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .favouritedocks:
             let favouriteDocksVc = FavouriteDockViewController()
-            favouriteDocksVc.viewModel = FavouriteDockViewModel(networkManager: NetworkManager())
+            favouriteDocksVc.viewModel = FavouriteDockViewModel(networkManager: NetworkManager.shared)
             dismissView()
             DispatchQueue.main.async{  [weak self] in
                 guard let self = self else { return }
@@ -177,7 +178,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .settings:
             let settingsVc = SettingsViewController()
-            settingsVc.viewModel = settingsViewModel(networkManager: NetworkManager())
+            settingsVc.viewModel = settingsViewModel(networkManager: NetworkManager.shared)
             dismissView()
             DispatchQueue.main.async{  [weak self] in
                 guard let self = self else { return }
@@ -185,7 +186,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .history:
             let historyVc = HistoryViewController()
-            historyVc.viewModel = HistoryViewModel(networkManager: NetworkManager())
+            historyVc.viewModel = HistoryViewModel(networkManager: NetworkManager.shared)
             dismissView()
             DispatchQueue.main.async{  [weak self] in
                 guard let self = self else { return }
@@ -193,11 +194,19 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case .reservations:
             let reservationVc = ReservationViewController()
-            reservationVc.viewModel = ReservationViewModel(networkManager: NetworkManager())
+            reservationVc.viewModel = ReservationViewModel(networkManager: NetworkManager.shared)
             dismissView()
             DispatchQueue.main.async {  [weak self] in
                 guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(reservationVc)
+            }
+        case .notifications:
+            let notificationVc = NotificationViewController()
+            notificationVc.viewModel = NotificationViewModel(networkManager: NetworkManager.shared)
+            dismissView()
+            DispatchQueue.main.async{  [weak self] in
+                guard let self = self else { return }
+                self.delegate?.didSelectMenuOption(notificationVc)
             }
         default:
             break
@@ -207,7 +216,7 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension SideMenuViewController {
     func dismissToLeft() {
-        UIView.animate(withDuration: 0.3, animations: {  [weak self] in
+        UIView.animate(withDuration: 0.2, animations: {  [weak self] in
             guard let self = self else { return }
             self.view.frame.origin.x = -self.view.frame.width // Slide out
         }) { [weak self] _ in
@@ -256,7 +265,7 @@ extension SideMenuViewController : sideMenuDelegate {
         let addVehicleAction = UIAction(title: "+ Add Vehicle", handler: { [weak self]_ in
             guard let self = self else { return }
             let vehicleVc = UserVehicleInfoViewController()
-            vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager())
+            vehicleVc.viewModel = UserVehicleInfoViewModel(delegate: vehicleVc, networkManager: NetworkManager.shared)
             vehicleVc.userData = UserDefaultManager.shared.getUserProfile()
             vehicleVc.screenType = .addNew
             self.dismissView()

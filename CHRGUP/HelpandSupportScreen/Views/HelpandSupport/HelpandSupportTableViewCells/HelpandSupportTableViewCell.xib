@@ -18,10 +18,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PiG-fB-PKl">
-                        <rect key="frame" x="15" y="0.0" width="432" height="198"/>
+                        <rect key="frame" x="16" y="0.0" width="430" height="198"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="E3b-1c-GrP">
-                                <rect key="frame" x="10" y="25" width="412" height="148"/>
+                                <rect key="frame" x="10" y="25" width="410" height="148"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7H3-ml-HR6">
                                         <rect key="frame" x="0.0" y="64" width="41.333333333333336" height="20.333333333333329"/>
@@ -30,7 +30,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZO4-hT-AKJ">
-                                        <rect key="frame" x="392" y="64" width="20" height="20"/>
+                                        <rect key="frame" x="390" y="64" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="0Vm-QS-9rz"/>
                                             <constraint firstAttribute="height" constant="20" id="cfc-9U-Cqq"/>
@@ -50,8 +50,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="PiG-fB-PKl" secondAttribute="bottom" constant="5" id="BvC-hu-EP2"/>
-                    <constraint firstAttribute="trailing" secondItem="PiG-fB-PKl" secondAttribute="trailing" constant="15" id="SdO-iH-XZQ"/>
-                    <constraint firstItem="PiG-fB-PKl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="YPR-VF-ZOa"/>
+                    <constraint firstAttribute="trailing" secondItem="PiG-fB-PKl" secondAttribute="trailing" constant="16" id="SdO-iH-XZQ"/>
+                    <constraint firstItem="PiG-fB-PKl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="YPR-VF-ZOa"/>
                     <constraint firstItem="PiG-fB-PKl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="cff-fO-Rsd"/>
                 </constraints>
             </tableViewCellContentView>

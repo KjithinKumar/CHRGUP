@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PmQ-Qx-Vxq">
-                        <rect key="frame" x="15" y="58" width="357" height="50"/>
+                        <rect key="frame" x="16" y="58" width="355" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="eEV-ja-2NH"/>
                         </constraints>
@@ -25,19 +25,19 @@
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79l-uQ-hVO">
-                        <rect key="frame" x="15" y="10" width="357" height="43"/>
+                        <rect key="frame" x="16" y="10" width="355" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="PmQ-Qx-Vxq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Glx-et-3HK"/>
+                    <constraint firstItem="PmQ-Qx-Vxq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Glx-et-3HK"/>
                     <constraint firstAttribute="bottom" secondItem="PmQ-Qx-Vxq" secondAttribute="bottom" constant="10" id="ajc-IP-jSq"/>
-                    <constraint firstItem="79l-uQ-hVO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="kaT-sn-bOJ"/>
-                    <constraint firstAttribute="trailing" secondItem="PmQ-Qx-Vxq" secondAttribute="trailing" constant="15" id="lKN-uM-Tq0"/>
+                    <constraint firstItem="79l-uQ-hVO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="kaT-sn-bOJ"/>
+                    <constraint firstAttribute="trailing" secondItem="PmQ-Qx-Vxq" secondAttribute="trailing" constant="16" id="lKN-uM-Tq0"/>
                     <constraint firstItem="79l-uQ-hVO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="mjM-q6-28r"/>
-                    <constraint firstAttribute="trailing" secondItem="79l-uQ-hVO" secondAttribute="trailing" constant="15" id="sI4-23-L0k"/>
+                    <constraint firstAttribute="trailing" secondItem="79l-uQ-hVO" secondAttribute="trailing" constant="16" id="sI4-23-L0k"/>
                     <constraint firstItem="PmQ-Qx-Vxq" firstAttribute="top" secondItem="79l-uQ-hVO" secondAttribute="bottom" constant="5" id="zU5-gG-g5g"/>
                 </constraints>
             </tableViewCellContentView>

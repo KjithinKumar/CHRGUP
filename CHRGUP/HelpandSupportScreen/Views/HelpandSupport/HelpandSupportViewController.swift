@@ -36,7 +36,7 @@ class HelpandSupportViewController: UIViewController {
         removeKeyboardNotifications()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        enableButtonAndRemoveIndicator(raiseTicketButton)
+        enableButtonAndRemoveIndicator(raiseTicketButton,titleColor: ColorManager.backgroundColor)
     }
     
     func setUpUI(){
@@ -84,7 +84,7 @@ class HelpandSupportViewController: UIViewController {
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "")
                         let trackTicketVc = TrackTicketViewController()
-                        trackTicketVc.viewModel = TrackTicketViewModel(networkManager: NetworkManager())
+                        trackTicketVc.viewModel = TrackTicketViewModel(networkManager: NetworkManager.shared)
                         self.resetData()
                         self.navigationController?.pushViewController(trackTicketVc, animated: true)
                     }else{
@@ -110,7 +110,7 @@ class HelpandSupportViewController: UIViewController {
     }
     @IBAction func trackTicketButtonPressed(_ sender: Any) {
         let trackTicketVc = TrackTicketViewController()
-        trackTicketVc.viewModel = TrackTicketViewModel(networkManager: NetworkManager())
+        trackTicketVc.viewModel = TrackTicketViewModel(networkManager: NetworkManager.shared)
         navigationController?.pushViewController(trackTicketVc, animated: true)
     }
     
@@ -237,7 +237,7 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
             switch type{
             case .faq:
                 let faqCategoryVc = FaqCategoryTableViewController()
-                faqCategoryVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager(), delegate: faqCategoryVc)
+                faqCategoryVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager.shared, delegate: faqCategoryVc)
                 navigationController?.pushViewController(faqCategoryVc, animated: true)
             case .contactUs:
                 break
@@ -304,7 +304,7 @@ extension HelpandSupportViewController: HelpandSupportDelegate{
         switch type{
         case .faq:
             let faqCategoryVc = FaqCategoryTableViewController()
-            faqCategoryVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager(), delegate: faqCategoryVc)
+            faqCategoryVc.viewModel = HelpAndSupportViewModel(networkManager: NetworkManager.shared, delegate: faqCategoryVc)
             navigationController?.pushViewController(faqCategoryVc, animated: true)
         case .contactUs:
             break

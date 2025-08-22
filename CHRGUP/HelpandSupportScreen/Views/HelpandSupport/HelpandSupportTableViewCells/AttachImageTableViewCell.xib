@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rSc-n1-biO">
-                        <rect key="frame" x="483" y="10" width="136" height="24"/>
+                        <rect key="frame" x="482" y="10" width="136" height="24"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <state key="normal" title="  Attach Image" image="paperclip" catalog="system"/>
                         <connections>
@@ -25,14 +25,14 @@
                         </connections>
                     </button>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="e1Q-QD-CMI">
-                        <rect key="frame" x="419" y="45.666666666666657" width="200" height="246.99999999999997"/>
+                        <rect key="frame" x="418" y="45.666666666666657" width="200" height="246.99999999999997"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="250" id="0D5-vT-GYN"/>
                             <constraint firstAttribute="width" constant="200" id="geQ-Hb-PM6"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKa-bG-fbp">
-                        <rect key="frame" x="579" y="59" width="25" height="25"/>
+                        <rect key="frame" x="578" y="59" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="F7R-LO-VuP"/>
                             <constraint firstAttribute="width" constant="25" id="pCp-GY-PEZ"/>
@@ -46,12 +46,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="e1Q-QD-CMI" firstAttribute="trailing" secondItem="bKa-bG-fbp" secondAttribute="trailing" constant="15" id="0OU-GV-AvG"/>
-                    <constraint firstAttribute="trailing" secondItem="rSc-n1-biO" secondAttribute="trailing" constant="15" id="9NC-D8-BDf"/>
+                    <constraint firstAttribute="trailing" secondItem="rSc-n1-biO" secondAttribute="trailing" constant="16" id="9NC-D8-BDf"/>
                     <constraint firstItem="rSc-n1-biO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="9oy-pd-pko"/>
                     <constraint firstItem="e1Q-QD-CMI" firstAttribute="top" secondItem="rSc-n1-biO" secondAttribute="bottom" constant="10" id="FfY-ov-aht"/>
                     <constraint firstItem="bKa-bG-fbp" firstAttribute="top" secondItem="e1Q-QD-CMI" secondAttribute="top" constant="15" id="d4n-lm-A3e"/>
                     <constraint firstAttribute="bottom" secondItem="e1Q-QD-CMI" secondAttribute="bottom" constant="10" id="fRD-jh-TiZ"/>
-                    <constraint firstAttribute="trailing" secondItem="e1Q-QD-CMI" secondAttribute="trailing" constant="15" id="t4C-dD-k1C"/>
+                    <constraint firstAttribute="trailing" secondItem="e1Q-QD-CMI" secondAttribute="trailing" constant="16" id="t4C-dD-k1C"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

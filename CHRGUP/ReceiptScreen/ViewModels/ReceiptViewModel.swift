@@ -11,7 +11,7 @@ protocol ReceiptViewModelInterface{
     func assembleReceipt(from models: [ReceiptModel]) -> ReceiptDisplayModel
     var receiptList : [ReceiptListModel]? { get }
     var receiptData : ReceiptDisplayModel? { get }
-    func createOder(amount : Int,completion : @escaping (Result<PaymentDetails, Error>) -> Void)
+    func createOder(amount : Int,currency : String,completion : @escaping (Result<PaymentDetails, Error>) -> Void)
     func fetchPaymentDetails(paymentId : String,completion : @escaping(Result<PaymentDetails, Error>) -> Void)
     func capturePayment(paymentId: String, amount : Int,completion : @escaping(Result<PaymentDetails,Error>) -> Void)
     func createPaymentOnServer(sessionId: String,details : PaymentDetails, completion : @escaping(Result<PaymentDetailsResponse,Error>)->Void)
@@ -92,7 +92,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
         return displayModel
     }
     
-    func createOder(amount : Int,completion : @escaping (Result<PaymentDetails, Error>) -> Void){
+    func createOder(amount : Int,currency : String,completion : @escaping (Result<PaymentDetails, Error>) -> Void){
         let url = URLs.razorPayOrderUrl
         let key = AppIdentifications.RazorPay.key
         let secret = AppIdentifications.RazorPay.secret
@@ -102,7 +102,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
         let header = ["Authorization":"Basic \(base64LoginString)"]
         let body = [
             "amount": amount,
-            "currency": "INR"
+            "currency": currency
         ] as [String : Any]
         
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header ){

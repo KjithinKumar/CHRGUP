@@ -103,7 +103,7 @@ extension TrackTicketViewController:UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let chatVc = TicketChatViewController()
-        chatVc.viewModel = TrackTicketViewModel(networkManager: NetworkManager())
+        chatVc.viewModel = TrackTicketViewModel(networkManager: NetworkManager.shared)
         chatVc.ticket = viewModel?.userTickets?[indexPath.row]
         navigationController?.pushViewController(chatVc, animated: true)
     }

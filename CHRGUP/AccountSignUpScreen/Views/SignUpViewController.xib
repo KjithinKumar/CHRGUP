@@ -26,13 +26,13 @@
                     <rect key="frame" x="0.0" y="553.66666666666663" width="393" height="298.33333333333337"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create a free account to access more" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pg-Kp-R7p">
-                            <rect key="frame" x="15" y="20.000000000000004" width="363" height="57.333333333333343"/>
+                            <rect key="frame" x="16" y="20.000000000000004" width="361" height="57.333333333333343"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vAr-D1-OpT">
-                            <rect key="frame" x="25" y="102.33333333333337" width="343" height="50"/>
+                            <rect key="frame" x="16" y="102.33333333333337" width="361" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="zrh-QM-rds"/>
                             </constraints>
@@ -43,7 +43,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIE-60-yig">
-                            <rect key="frame" x="25" y="172.33333333333337" width="343" height="50"/>
+                            <rect key="frame" x="16" y="172.33333333333337" width="361" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="IJZ-tx-Kg3"/>
                             </constraints>
@@ -56,15 +56,15 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="lIE-60-yig" secondAttribute="trailing" constant="25" id="721-1S-r2h"/>
+                        <constraint firstAttribute="trailing" secondItem="lIE-60-yig" secondAttribute="trailing" constant="16" id="721-1S-r2h"/>
                         <constraint firstItem="5pg-Kp-R7p" firstAttribute="top" secondItem="VIt-FX-UOF" secondAttribute="top" constant="20" id="BdX-Ta-Js1"/>
                         <constraint firstItem="lIE-60-yig" firstAttribute="top" secondItem="vAr-D1-OpT" secondAttribute="bottom" constant="20" id="DFt-W7-6Y9"/>
-                        <constraint firstItem="5pg-Kp-R7p" firstAttribute="leading" secondItem="VIt-FX-UOF" secondAttribute="leading" constant="15" id="IqS-vZ-M6q"/>
+                        <constraint firstItem="5pg-Kp-R7p" firstAttribute="leading" secondItem="VIt-FX-UOF" secondAttribute="leading" constant="16" id="IqS-vZ-M6q"/>
                         <constraint firstItem="vAr-D1-OpT" firstAttribute="top" secondItem="5pg-Kp-R7p" secondAttribute="bottom" constant="25" id="NIG-17-ydL"/>
-                        <constraint firstAttribute="trailing" secondItem="vAr-D1-OpT" secondAttribute="trailing" constant="25" id="dze-E0-9Ic"/>
-                        <constraint firstItem="lIE-60-yig" firstAttribute="leading" secondItem="VIt-FX-UOF" secondAttribute="leading" constant="25" id="ff1-6i-lWs"/>
-                        <constraint firstAttribute="trailing" secondItem="5pg-Kp-R7p" secondAttribute="trailing" constant="15" id="o2u-Th-7ry"/>
-                        <constraint firstItem="vAr-D1-OpT" firstAttribute="leading" secondItem="VIt-FX-UOF" secondAttribute="leading" constant="25" id="wUV-ZX-5E4"/>
+                        <constraint firstAttribute="trailing" secondItem="vAr-D1-OpT" secondAttribute="trailing" constant="16" id="dze-E0-9Ic"/>
+                        <constraint firstItem="lIE-60-yig" firstAttribute="leading" secondItem="VIt-FX-UOF" secondAttribute="leading" constant="16" id="ff1-6i-lWs"/>
+                        <constraint firstAttribute="trailing" secondItem="5pg-Kp-R7p" secondAttribute="trailing" constant="16" id="o2u-Th-7ry"/>
+                        <constraint firstItem="vAr-D1-OpT" firstAttribute="leading" secondItem="VIt-FX-UOF" secondAttribute="leading" constant="16" id="wUV-ZX-5E4"/>
                     </constraints>
                 </view>
             </subviews>

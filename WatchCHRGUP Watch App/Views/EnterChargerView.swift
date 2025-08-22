@@ -46,7 +46,7 @@ struct EnterChargerView: View {
             }
         }.navigationDestination(isPresented: $navigateToStartCharge) {
             if let data = chargerLocationData {
-                StartCharge(viewModel: StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager()),qrPayload: qrPayload)
+                StartCharge(viewModel: StartChargeViewModel(chargerInfo: data, networkManager: NetworkManager.shared),qrPayload: qrPayload)
             }
         }
         .alert("Alert", isPresented: $showAlert) {
@@ -88,5 +88,5 @@ struct EnterChargerView: View {
 
 
 #Preview {
-    EnterChargerView(viewModel: ScanQrViewModel(networkManager: NetworkManager()))
+    EnterChargerView(viewModel: ScanQrViewModel(networkManager: NetworkManager.shared))
 }

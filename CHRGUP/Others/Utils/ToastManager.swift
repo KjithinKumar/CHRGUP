@@ -25,7 +25,7 @@ class ToastManager {
         toast.numberOfLines = 0
         toast.text = message
         toast.textAlignment = .center
-        toast.backgroundColor = ColorManager.secondaryBackgroundColor.withAlphaComponent(0.8)
+        toast.backgroundColor = ColorManager.thirdBackgroundColor
         toast.textColor = ColorManager.subtitleTextColor
         toast.layer.cornerRadius = 20
         toast.clipsToBounds = true

@@ -21,12 +21,14 @@ class ChargingStatusViewController: UIViewController {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var chargingTimeLabel: UILabel!
     @IBOutlet weak var lastPingLabel: UILabel!
-    @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var timeStackView: UIStackView!
+    @IBOutlet weak var sliderParentView: UIView!
     
     private let progressLayer = CAShapeLayer()
     private let backView = UIView()
     private let batteryPercentageLabel: UILabel = UILabel()
+    
+    private var slideView = SwipeToStopButtonView()
     
     var viewModel : ChargingStatusViewModelInterface?
     var payLoad : QRPayload?
@@ -49,10 +51,9 @@ class ChargingStatusViewController: UIViewController {
         pingTimer?.invalidate()
         labelUpdateTimer?.invalidate()
     }
-    @IBAction func stopButtonPressed(_ sender: Any) {
+    func stopCharge(){
         pingTimer?.invalidate()
         labelUpdateTimer?.invalidate()
-        disableButtonWithActivityIndicator(stopButton)
         navigationController?.navigationBar.isHidden = true
         viewModel?.stopCharging { [weak self] result in
             guard let self = self else { return }
@@ -62,13 +63,12 @@ class ChargingStatusViewController: UIViewController {
                     if response.status{
                         ToastManager.shared.showToast(message: response.message ?? "Charging Stopped")
                         iOSWatchSessionManger.shared.sendStatusToWatch()
+                        self.sendChargingEndedNotification(message: response.message ?? "Your charging session has ended.")
                     }else{
                         self.showAlert(title: "Error", message: response.message)
                         self.navigationController?.navigationBar.isHidden = false
-                        self.stopButton.setTitleColor(ColorManager.backgroundColor, for: .normal)
-                        self.enableButtonAndRemoveIndicator(self.stopButton)
+                        self.slideView.resetThumb(animated: true)
                     }
-                    self.sendChargingEndedNotification(message: response.message ?? "Your charging session has ended.")
                     self.stopChargingForce()
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
@@ -83,21 +83,15 @@ class ChargingStatusViewController: UIViewController {
         showPopUp(sender: sender)
     }
     func setUpUI(){
-        view.backgroundColor = ColorManager.backgroundColor
+        view.backgroundColor = ColorManager.secondaryBackgroundColor
         
-        lottieView.backgroundColor = ColorManager.backgroundColor
+        lottieView.backgroundColor = ColorManager.secondaryBackgroundColor
         
         infoButton.tintColor = ColorManager.textColor
         
         dismissButton.tintColor = ColorManager.textColor
-        
-        stopButton.backgroundColor = ColorManager.primaryColor
-        stopButton.setTitle(AppStrings.chargingStatus.stopChargingText, for: .normal)
-        stopButton.titleLabel?.font = FontManager.bold(size: 18)
-        stopButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
-        stopButton.layer.cornerRadius = 20
-        
-        priceLabel.text = "₹ 0.000/Unit"
+
+        priceLabel.text = "₹ 0.00/kWh"
         priceLabel.textColor = ColorManager.subtitleTextColor
         priceLabel.font = FontManager.regular()
         
@@ -118,7 +112,7 @@ class ChargingStatusViewController: UIViewController {
         let currentTimeString = dateFormatter.string(from: Date())
         chargingTimeLabel.attributedText = self.getFormattedTimeDifference(from: currentTimeString)
         
-        eneryconsumedLabel.text = " 0.0000 kWh"
+        eneryconsumedLabel.text = " 0.0000 Wh"
         eneryconsumedLabel.textColor = ColorManager.textColor
         eneryconsumedLabel.font = FontManager.bold(size: 17)
         
@@ -126,6 +120,7 @@ class ChargingStatusViewController: UIViewController {
         lastPingLabel.font = FontManager.light()
         
         configureNavBar()
+        setUpSlideView()
     }
     func configureNavBar(){
         let leftBarButton = UIBarButtonItem(customView: dismissButton)
@@ -133,7 +128,12 @@ class ChargingStatusViewController: UIViewController {
         navigationItem.leftBarButtonItem = leftBarButton
         navigationItem.rightBarButtonItem = rightBarButton
     }
-    
+    func setUpSlideView(){
+        slideView = SwipeToStopButtonView(frame: CGRect(x: 0, y: 0, width: sliderParentView.frame.width, height: sliderParentView.frame.height))
+        sliderParentView.backgroundColor = ColorManager.secondaryBackgroundColor
+        slideView.delegate = self
+        self.sliderParentView.addSubview(slideView)
+    }
     func setUpAnimations(){
         backView.translatesAutoresizingMaskIntoConstraints = false
         backView.backgroundColor = ColorManager.primaryTextColor.withAlphaComponent(0.2)
@@ -212,8 +212,14 @@ class ChargingStatusViewController: UIViewController {
                             self.updateBatteryProgress(chargingStatus.batterypercentage ?? 0)
                             let chargingTime = self.getFormattedTimeDifference(from: startTime)
                             self.chargingTimeLabel.attributedText =  chargingTime
-                            self.priceLabel.text = "₹ \(cost.amount ?? 0)/Unit"
-                            let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference)
+                            
+                            if let currency = cost.currency{
+                                let symbol = self.getCurrencySymbol(currency)
+                                self.priceLabel.text = "\(symbol) \(cost.amount ?? 0)/kWh"
+                            }
+                            
+                            //let energyConsumed = self.convertWhToKWh(chargingStatus.meterValueDifference) for kWh
+                            let energyConsumed = chargingStatus.meterValueDifference
                             self.eneryconsumedLabel.text = " \(energyConsumed)"
                             UserDefaultManager.shared.saveSessionStatus(response.data?.status)
                             iOSWatchSessionManger.shared.sendStatusToWatch()
@@ -325,7 +331,7 @@ class ChargingStatusViewController: UIViewController {
             self.pingTimer?.invalidate()
             self.labelUpdateTimer?.invalidate()
             let receiptVc = ReceiptViewController()
-            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager())
+            receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager.shared)
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.setViewControllers([receiptVc], animated: true)
         }
@@ -361,6 +367,38 @@ class ChargingStatusViewController: UIViewController {
                                              attributes: [.foregroundColor: unitColor, .font: font]))
         return attributed
     }
+    func getCurrencySymbol(_ currencyCode: String = "INR") -> String {
+        switch currencyCode.uppercased() {
+        case "INR":
+            return "₹" // Indian Rupee
+        case "USD":
+            return "$" // US Dollar
+        case "EUR":
+            return "€" // Euro
+        case "GBP":
+            return "£" // British Pound
+        case "JPY":
+            return "¥" // Japanese Yen
+        case "CNY":
+            return "¥" // Chinese Yuan
+        case "AUD":
+            return "A$" // Australian Dollar
+        case "CAD":
+            return "C$" // Canadian Dollar
+        case "AED":
+            return "د.إ" // UAE Dirham
+        case "CHF":
+            return "CHF" // Swiss Franc
+        case "ZAR":
+            return "R" // South African Rand
+        case "SGD":
+            return "S$" // Singapore Dollar
+        case "BTC":
+            return "₿" // Bitcoin
+        default:
+            return currencyCode // fallback to code itself
+        }
+    }
 }
 
 extension ChargingStatusViewController : UNUserNotificationCenterDelegate  {
@@ -377,5 +415,11 @@ extension ChargingStatusViewController : UNUserNotificationCenterDelegate  {
                                      willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound, .list])
+    }
+}
+
+extension ChargingStatusViewController : SwipeToStopDelegate{
+    func didSwipeToStop() {
+        stopCharge()
     }
 }

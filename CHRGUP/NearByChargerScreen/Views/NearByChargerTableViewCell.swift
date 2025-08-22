@@ -76,8 +76,6 @@ class NearByChargerTableViewCell: UITableViewCell {
             statusLabel.textColor = .red
         }
         
-        
-        
         distanceLabel.text = viewModel.distance + " Kms"
         distanceLabel.font = FontManager.bold(size: 14)
         
@@ -102,7 +100,7 @@ class NearByChargerTableViewCell: UITableViewCell {
         let pointsAvailable = viewModel.pointsAvailable
         if pointsAvailable == 0{
             pointsLabel.text = "0 Points Available"
-            pointsLabel.textColor = ColorManager.thirdBackgroundColor
+            pointsLabel.textColor = ColorManager.placeholderColor
         }else{
             pointsLabel.text = "\(pointsAvailable) Points Available"
             pointsLabel.textColor = ColorManager.primaryTextColor
@@ -254,13 +252,17 @@ class NearByChargerTableViewCell: UITableViewCell {
         chargingTypeLabel.font = FontManager.light()
         chargingTypeLabel.textColor = ColorManager.subtitleTextColor
         
+        navigateButton.layer.cornerRadius = 10
+        navigateButton.backgroundColor = ColorManager.primaryColor
+        navigateButton.imageView?.tintColor = ColorManager.buttonTextColor
+        
         
     }
     @IBAction func directionButtonPressed(_ sender: Any) {
         viewModel?.openLocationInMaps()
     }
     @IBAction func addToFavouriteButtonPressed(_ sender: Any) {
-        viewModel?.addToFavourtie(networkManager: NetworkManager(),completion: { [weak self] result in
+        viewModel?.addToFavourtie(networkManager: NetworkManager.shared,completion: { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let resoponse) :

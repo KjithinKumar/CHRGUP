@@ -25,10 +25,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="iNe-Wf-Cza">
-                    <rect key="frame" x="15" y="133" width="363" height="34"/>
+                    <rect key="frame" x="16" y="133" width="361" height="34"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyc-zp-CHW">
-                            <rect key="frame" x="0.0" y="0.0" width="75" height="34"/>
+                            <rect key="frame" x="0.0" y="0.0" width="74.666666666666671" height="34"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -36,7 +36,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dN5-DH-4O3">
-                            <rect key="frame" x="90" y="0.0" width="75.333333333333314" height="34"/>
+                            <rect key="frame" x="89.666666666666657" y="0.0" width="74.666666666666657" height="34"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -44,7 +44,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQA-3r-bEm">
-                            <rect key="frame" x="180.33333333333334" y="0.0" width="75" height="34"/>
+                            <rect key="frame" x="179.33333333333334" y="0.0" width="74.666666666666657" height="34"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -52,7 +52,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7O-an-ibp">
-                            <rect key="frame" x="270.33333333333331" y="0.0" width="92.666666666666686" height="34"/>
+                            <rect key="frame" x="269" y="0.0" width="92" height="34"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -71,11 +71,11 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="UdK-Rn-o5B" secondAttribute="bottom" id="6TJ-Q5-8kw"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="UdK-Rn-o5B" secondAttribute="trailing" id="Idb-Ff-Gmw"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="iNe-Wf-Cza" secondAttribute="trailing" constant="15" id="Xgp-U6-Any"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="iNe-Wf-Cza" secondAttribute="trailing" constant="16" id="Xgp-U6-Any"/>
                 <constraint firstItem="UdK-Rn-o5B" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="dAw-Jl-kzd"/>
                 <constraint firstItem="iNe-Wf-Cza" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="15" id="nbK-GL-fUm"/>
                 <constraint firstItem="UdK-Rn-o5B" firstAttribute="top" secondItem="iNe-Wf-Cza" secondAttribute="bottom" constant="15" id="rIK-Cd-uRb"/>
-                <constraint firstItem="iNe-Wf-Cza" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="15" id="vRG-BV-YXX"/>
+                <constraint firstItem="iNe-Wf-Cza" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="vRG-BV-YXX"/>
             </constraints>
             <point key="canvasLocation" x="96.946564885496173" y="19.718309859154932"/>
         </view>

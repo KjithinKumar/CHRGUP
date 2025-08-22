@@ -25,16 +25,16 @@
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="nnV-SH-Etp">
-                        <rect key="frame" x="15" y="21" width="329" height="148"/>
+                        <rect key="frame" x="16" y="21" width="327" height="148"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Riv-sc-L19">
-                                <rect key="frame" x="0.0" y="0.0" width="329" height="122.66666666666667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="327" height="122.66666666666667"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTF-ET-fl2">
-                                <rect key="frame" x="0.0" y="127.66666666666664" width="329" height="20.333333333333329"/>
+                                <rect key="frame" x="0.0" y="127.66666666666664" width="327" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -43,9 +43,9 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="nnV-SH-Etp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="7MV-ns-5yd"/>
+                    <constraint firstItem="nnV-SH-Etp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="7MV-ns-5yd"/>
                     <constraint firstAttribute="bottom" secondItem="nnV-SH-Etp" secondAttribute="bottom" constant="10" id="B0q-PG-gr9"/>
-                    <constraint firstAttribute="trailing" secondItem="nnV-SH-Etp" secondAttribute="trailing" constant="15" id="NoS-XW-afR"/>
+                    <constraint firstAttribute="trailing" secondItem="nnV-SH-Etp" secondAttribute="trailing" constant="16" id="NoS-XW-afR"/>
                     <constraint firstItem="GiJ-NZ-hD8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="QtF-gy-bBm"/>
                     <constraint firstItem="GiJ-NZ-hD8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="b4V-m8-n3M"/>
                     <constraint firstAttribute="trailing" secondItem="GiJ-NZ-hD8" secondAttribute="trailing" constant="16" id="tET-ug-ddp"/>

@@ -59,7 +59,7 @@ extension FaqCategoryTableViewController : UITableViewDataSource, UITableViewDel
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let faqVc = FaqViewController()
-        faqVc.viewModel = FAQViewModel(delegate: faqVc, networkManager: NetworkManager())
+        faqVc.viewModel = FAQViewModel(delegate: faqVc, networkManager: NetworkManager.shared)
         faqVc.selectedCategory = viewModel?.faqCategories?[indexPath.row]
         navigationController?.pushViewController(faqVc, animated: true)
     }
