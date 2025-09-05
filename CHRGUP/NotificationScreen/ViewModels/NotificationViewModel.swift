@@ -18,7 +18,7 @@ class NotificationViewModel : NotificationViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    
+    //Fetch the previous notifications of the user
     func fetchNotification() async throws -> NotificationResponse {
         guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else {throw NetworkManagerError.invalidRequest}
         let url = URLs.notificationUrl(mobileNumber: mobileNumber)

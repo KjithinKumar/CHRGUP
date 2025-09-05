@@ -73,6 +73,7 @@ class SearchViewModel: SearchViewModelInterface {
             recentChargers.removeLast() // Keep only last 5
         }
     }
+    // Fetch the recent searched location to get it updated.
     func refreshLocationData(id : String,completion : @escaping (Result<LocationData, Error>) -> Void){
         let url = URLs.getChargerByIdUrl(chargerId: id)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }

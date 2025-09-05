@@ -24,7 +24,8 @@ class TrackTicketViewModel: TrackTicketViewModelInterface {
     var userTickets : [TicketModel]?
     var userMessages : [MessageModel]?
     var groupedMessages: [(date: String, messages: [MessageModel])] = []
-
+    
+    //Sort the messages by date.
     func groupMessagesByDate(_ messages: [MessageModel]) {
         let groupedDict = Dictionary(grouping: messages) { message in
             return formattedDate(for: message.createdAt)
@@ -76,6 +77,7 @@ class TrackTicketViewModel: TrackTicketViewModelInterface {
             return formatter.date(from: displayStr) ?? .distantPast
         }
     }
+    //Add the new message in the local to append it in the latest messages.
     func appendNewMessage(_ newMessage: MessageModel) {
         let newMessageDate = formattedDate(for: newMessage.createdAt)
 
@@ -95,7 +97,7 @@ class TrackTicketViewModel: TrackTicketViewModelInterface {
             }
         }
     }
-    
+    //Fetch all the tickets of the user
     func getAllTickets(completeion: @escaping (Result<TrackTicketResponseModel, Error>) -> Void) {
         let url = URLs.getTicketUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return}
@@ -117,6 +119,7 @@ class TrackTicketViewModel: TrackTicketViewModelInterface {
             }
         }
     }
+    //Get all the messages of the selected ticket
     func getAllMessages(ticketId : String,completion: @escaping(Result<MessageResponseModel, Error>) -> Void){
         let url = URLs.getAllMessagesUrl(ticketId: ticketId)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return}

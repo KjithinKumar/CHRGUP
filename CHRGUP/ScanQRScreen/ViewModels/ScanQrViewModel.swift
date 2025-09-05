@@ -17,6 +17,7 @@ class ScanQrViewModel: ScanQrViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
+    //Fetch the charger details by id.
     func fetchChargerDetails(id : String, connectorId : Int ,completion : @escaping (Result<ChargerNameResponse,Error>) -> Void){
         let url = URLs.getChargerByName
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }

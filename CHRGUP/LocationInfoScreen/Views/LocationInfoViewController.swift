@@ -132,11 +132,16 @@ class LocationInfoViewController: UIViewController {
     }
     func setFavouritebutton(favourite : Bool){
         if favourite{
-            addToFavouriteButton.setTitle(" Favourite", for: .normal)
-            addToFavouriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            addToFavouriteButton.tintColor = ColorManager.primaryTextColor
-            addToFavouriteButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
-            addToFavouriteButton.isUserInteractionEnabled = false
+            UIView.animate(withDuration: 0.2, animations: {
+                self.addToFavouriteButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }) { _ in
+                self.addToFavouriteButton.transform = .identity
+                self.addToFavouriteButton.setTitle(" Favourite", for: .normal)
+                self.addToFavouriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                self.addToFavouriteButton.tintColor = ColorManager.primaryTextColor
+                self.addToFavouriteButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
+                self.addToFavouriteButton.isUserInteractionEnabled = false
+            }
         }else{
             addToFavouriteButton.setTitleColor(ColorManager.subtitleTextColor, for: .normal)
             addToFavouriteButton.setTitle(" Add To Favourite", for: .normal)

@@ -62,7 +62,7 @@ class SideMenuViewModel: SideMenuViewModelInterface {
         self.delegate = delegate
         self.fetchUserDetails()
     }
-    
+    //Func user vehicle details.
     func fetchVehicleDetails() {
         guard let mobileNumber = mobileNumber, let authToken = authToken else {
             return

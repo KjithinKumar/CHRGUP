@@ -37,6 +37,7 @@ class OtpViewModel: OtpViewModelInterface {
         self.delegate = delegate
         self.networkManager = networkManager
     }
+    //Verify the user entered OTP
     func verifyOtp(phoneNumber: String, otp: String,completion : @escaping (String,Bool)->(Void)) {
         TwilioHelper.verifyCode(phoneNumber: phoneNumber, code: otp) { [weak self] success, value in
             guard let _ = self else { return }
@@ -49,6 +50,7 @@ class OtpViewModel: OtpViewModelInterface {
             }
         }
     }
+    //Resend the OTP
     func resendOtp(phoneNumber: String,completion: @escaping(String)->Void) {
         TwilioHelper.sendVerificationCode(to: phoneNumber) { [weak self] result in
             guard let _ = self else { return }
@@ -59,7 +61,7 @@ class OtpViewModel: OtpViewModelInterface {
             }
         }
     }
-    
+    //Check if user is already registered.
     func checkUserRegistration(phoneNumber: String) {
         let url = URLs.checkUserUrl + phoneNumber
         guard let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: nil) else {

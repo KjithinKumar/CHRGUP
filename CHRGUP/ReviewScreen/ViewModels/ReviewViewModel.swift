@@ -16,7 +16,7 @@ class ReviewViewModel: ReviewViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    
+    //Submit the review of the user to selected location.
     func submitReview(charging : Int, location : Int, comments : String, completion : @escaping (Result<ReviewResponseModel, Error>) -> Void) {
         let url = URLs.reviewsUrl
         guard let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else {return}

@@ -21,6 +21,7 @@ class StartChargeViewModel: StartChargeViewModelInterface {
         self.networkManager = networkManager
         self.chargerDetails = chargerInfo
     }
+    //Fetches Charging Status to the current ongoing session.
     func startCharging(phoneNumber: String, qrpayload : QRPayload,completion : @escaping( Result<StartChargeResponseModel,Error>) -> Void){
         let vehicleId = UserDefaultManager.shared.getSelectedVehicle()?.id ?? ""
         let payloadRequest = StartChargingpayload(idTag: phoneNumber, connectorId: qrpayload.connectorId)
@@ -51,6 +52,7 @@ class StartChargeViewModel: StartChargeViewModelInterface {
             }
         }
     }
+    //Fetches the payment status of the session.
     func paymentStatus(completion : @escaping( Result<PaymentStatusResponse,Error>) -> Void){
         let url = URLs.paymentStatusUrl
         guard let sessionID = UserDefaultManager.shared.getSessionId() else { return }
@@ -64,6 +66,7 @@ class StartChargeViewModel: StartChargeViewModelInterface {
             }
         }
     }
+    //send the live activity token to backend so that backend updates the live activity
     func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void) {
         let url = URLs.apnUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }

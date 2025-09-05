@@ -22,7 +22,7 @@ class NearByChargerViewModel : NearByChargerViewModelInterface{
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    
+    //Get the nearby charge location with the range.
     func getNearByCharger(latitue: Double, longitude: Double, range : Int, mobileNumber: String, completion : @escaping (Result<ChargerLocationResponse, Error>) -> Void){
         nearByChargers = nil
         sortedChargers = nil
@@ -44,10 +44,11 @@ class NearByChargerViewModel : NearByChargerViewModelInterface{
             })
         }
     }
+    //return nearby charger location.
     func nearByChargerData() -> [LocationData]{
         return nearByChargers ?? []
     }
-    
+    //return sorted nearby charger location.
     func sortedNearByChargerData(currentLocation : CLLocation) -> [LocationData]{
         sortedChargers = nearByChargerData().map { ChargerLocationProcessor.process($0, currentLocation: currentLocation) }
                 .sorted { $0.distance ?? 0.0 < $1.distance ?? 0.0 }
@@ -77,7 +78,7 @@ class ChargerLocationProcessor {
         
         return updatedCharger
     }
-    
+    //returns if the charger is active or not
     private static func isChargerActive(workingDays: String, workingHours: String) -> Bool {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hha" // Format for parsing "8am", "10pm"

@@ -24,7 +24,7 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
         self.networkManager = networkManager
     }
     var favouriteLocation : [LocationData]?
-    
+    //Fetch the user favourite locations
     func getUserFavouriteLocation(completion : @escaping (Result<GetFavouriteResponseModel, Error>) -> Void){
         if let mobileNumber = mobileNumber{
            let url = URLs.getFavouriteLocationUrl(mobileNumber: mobileNumber)
@@ -48,6 +48,7 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
             }
         }
     }
+    //Remove the user favourite location.
     func removeFavouriteLocation(locationId : String, completion : @escaping (Result<FavouriteResponseModel, Error>) -> Void){
         if let mobileNumber = mobileNumber{
             let url = URLs.deleteFavouriteLocationUrl(mobileNumber: mobileNumber)
@@ -70,6 +71,7 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
             }
         }
     }
+    //Add the location to user favourites
     func addToFavourtie(at index : Int,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void){
         let locationId = favouriteLocation?[index].id ?? ""
         let userDetails = UserDefaultManager.shared.getUserProfile()
@@ -93,6 +95,7 @@ class FavouriteDockViewModel: FavouriteDockViewModelInterface{
             }
         }
     }
+    //Update the locations received form backend to display it to the user
     func getProcessedFavouriteCharger(latitude : Double, longitude : Double, charger: LocationData) -> LocationData {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         return ChargerLocationProcessor.process(charger, currentLocation: location)

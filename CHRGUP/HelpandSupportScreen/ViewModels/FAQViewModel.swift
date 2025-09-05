@@ -24,7 +24,7 @@ class FAQViewModel : FAQViewModelInterface{
     }
     
     var FAQs : [faqData]?
-    
+    //Fetch the FAQ from the backend.
     func loadFAQs(category : String) {
         let url = URLs.faqCatergoryUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return}

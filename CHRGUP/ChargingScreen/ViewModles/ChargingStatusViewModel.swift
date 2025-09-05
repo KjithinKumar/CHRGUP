@@ -18,6 +18,7 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
+    // To Fetch Charging status of the ongoing session.
     func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void){
         let url = URLs.getChargingStatusUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
@@ -37,6 +38,7 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
             }
         }
     }
+    //To Stop the ongoing charging session.
     func stopCharging(completion : @escaping( Result<StopChargingResponseModel,Error>) -> Void){
         let chargerId = UserDefaultManager.shared.getChargerId() ?? ""
         let sessionId = UserDefaultManager.shared.getSessionId() ?? ""
@@ -56,6 +58,7 @@ class ChargingStatusViewModel: ChargingStatusViewModelInterface {
             }
         }
     }
+    //Pushes Live APN token to backend so that backend will update the live activity to this token
     func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void) {
         let url = URLs.apnUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }

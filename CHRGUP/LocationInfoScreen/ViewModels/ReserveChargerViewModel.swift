@@ -18,6 +18,7 @@ class ReserveChargerViewModel: ReserveChargerViewModelInterface {
         self.connectorItems = connectorItems
         self.networkManger = networkManger
     }
+    //make the reservation of the user selected connector 
     func makeReservation(for connector : ConnectorDisplayItem) async throws -> ReservationResponseModel{
         let url = URLs.reservationUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { throw NetworkManagerError.invalidRequest }

@@ -80,7 +80,14 @@ class ChargersCollectionViewCell: UICollectionViewCell {
         }
         
         
-        let text = "\(chargerInfo.type ?? "") \(chargerInfo.powerOutput ?? "")"
+        var text = ""
+        if let type = chargerInfo.type, let power = chargerInfo.powerOutput{
+            if type.contains("DC"){
+                text = "DC \(power)"
+            }else{
+                text = "AC \(power)"
+            }
+        }
         typeLabel.text = text
         if chargerInfo.type == "DC"{
             typeImageView.image = UIImage(named: "dc")

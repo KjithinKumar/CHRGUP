@@ -19,7 +19,7 @@ class iOSWatchSessionManger: NSObject, WCSessionDelegate,ObservableObject {
         WCSession.default.activate()
         
     }
-    
+    //received message from watch OS
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         if let request = message[MessageKeys.requestStatus] as? String {
             if request == MessageValues.getLoginStatus {
@@ -32,6 +32,7 @@ class iOSWatchSessionManger: NSObject, WCSessionDelegate,ObservableObject {
             replyHandler([:])
         }
     }
+    //send the updated status to watch
     func sendStatusToWatch() {
         var infoTOsend : [String:Any] = [:]
         let loginStatus = UserDefaultManager.shared.isLoggedIn()
@@ -78,6 +79,7 @@ class iOSWatchSessionManger: NSObject, WCSessionDelegate,ObservableObject {
     func sessionDidDeactivate(_ session: WCSession) {
         WCSession.default.activate()
     }
+    //Userinfo from watch
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
         debugPrint(userInfo)
         if let locationId = userInfo[MessageKeys.locationId] as? String {

@@ -41,7 +41,7 @@
                                     </constraints>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="  Continue with phone" image="iphone.gen2" catalog="system">
-                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="heavy"/>
+                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="regular"/>
                                     </state>
                                     <connections>
                                         <action selector="ContinueButtonPressed:" destination="-1" eventType="touchUpInside" id="p1t-Nw-0gY"/>

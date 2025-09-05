@@ -46,7 +46,6 @@ class MapScreenViewController: UIViewController{
         setUpNavBar()
         viewModel?.delegate = self
         UserDefaultManager.shared.setLoginStatus(true)
-        viewModel?.requestLocationPermissionIfNeeded()
         setupUI()
         setupBottomCard()
         setUpNotificationCard()

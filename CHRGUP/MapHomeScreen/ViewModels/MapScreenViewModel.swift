@@ -35,6 +35,7 @@ class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
         super.init()
         setUpLocation()
     }
+    //Fetch the charger locations by range
     func fetchchargerLocation(lat : Double, lon : Double, range : Int,completion : @escaping (Result<ChargerRangeresponse,Error>) -> Void){
         let url = URLs.getChargerRange
         let mobile = UserDefaultManager.shared.getUserProfile()?.phoneNumber ?? ""
@@ -57,6 +58,7 @@ class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
             })
         }
     }
+    // Fetch the location by ID
     func fetchLocationById(id : String,completion : @escaping (Result<ChargerLocationResponseById,Error>) -> Void){
         let url = URLs.getChargerById(chargerId: id)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
@@ -113,6 +115,7 @@ extension MapScreenViewModel : CLLocationManagerDelegate{
     }
 }
 extension MapScreenViewModel {
+    //Fetch Charging status of the ongoging session
     func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void){
         let url = URLs.getChargingStatusUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
@@ -146,6 +149,7 @@ extension MapScreenViewModel {
         let formatted = String(format: "%02d h : %02d m", hours, minutes)
         return formatted
     }
+    //Register for remote notifications.
     func registerForRemoteNotifications(fcmToken: String, completion : @escaping( Result<RemoteNotificationsResponse,Error>) -> Void) {
         let url = URLs.pushNotificationUrl
         guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
@@ -159,6 +163,7 @@ extension MapScreenViewModel {
             }
         }
     }
+    //Push live activity APN to backend so that backend updates the live activities
     func pushLiveApnToken(apnToken: String, event : String ,completion: @escaping (Result<apnTokenResponse, Error>) -> Void) {
         let url = URLs.apnUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }

@@ -26,7 +26,7 @@ class HistoryViewModel: HistoryViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    
+    //Fetch all the previous history of the user
     func fetchHistory(completion : @escaping (Result<HistoryResponseModel,Error>)-> Void) {
         guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else {return}
         let url = URLs.gethistoryUrl(mobileNumber: mobileNumber)
@@ -51,14 +51,15 @@ class HistoryViewModel: HistoryViewModelInterface {
             }
         }
     }
+    //Apply filter to the history list
     func applyFilter() {
         switch currentFilter {
         case .all:
             filteredChargers = allChargers
         case .ac:
-            filteredChargers = allChargers.filter { $0.chargerType == "AC" }
+            filteredChargers = allChargers.filter { $0.chargerType.contains("AC")}
         case .dc:
-            filteredChargers = allChargers.filter { $0.chargerType == "DC" }
+            filteredChargers = allChargers.filter { $0.chargerType.contains("DC") }
         }
         onDataChanged?()
     }

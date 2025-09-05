@@ -50,7 +50,7 @@ class HistoryTableViewCell: UITableViewCell {
         timeLabel.textColor = ColorManager.subtitleTextColor
         timeLabel.font = FontManager.regular(size: 14)
         
-        if chargingInfo.chargerType == "AC"{
+        if chargingInfo.chargerType.contains("AC"){
             typeView.backgroundColor = ColorManager.acbulletColor
         }else{
             typeView.backgroundColor = ColorManager.dcbulletColor

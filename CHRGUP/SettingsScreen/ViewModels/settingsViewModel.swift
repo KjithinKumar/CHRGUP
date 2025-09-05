@@ -17,7 +17,7 @@ class settingsViewModel: settingsViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    
+    //Delete the user account.
     func deletUserAccount(mobileNumber : String, completion : @escaping (Result<DeleteUserModel, Error>) -> Void) {
         let url = URLs.updateUserProfile(mobile: mobileNumber)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else {return}

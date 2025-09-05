@@ -27,7 +27,7 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
         self.delegate = delegate
         self.networkManager = networkManager
     }
-    
+    //save the user profile.
     func saveUserProfile(userProfile: UserProfile) {
         let url = URLs.postUserUrl
         guard let request = networkManager?.createRequest(urlString: url,
@@ -54,6 +54,7 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
             }
         })
     }
+    //Add new vehicle to the user
     func addNewVehicle(vehicle: VehicleModel,mobileNumber: String) {
         let url = URLs.userVehiclesUrl(mobileNumber: mobileNumber)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else {
@@ -87,6 +88,7 @@ class UserRegistrationViewModel : UserRegistrationViewModelnterface{
             }
         })
     }
+    //update the user vehicle.
     func updateVehicle(vehicle: VehicleModel,mobileNumber: String,vehicleId: String){
         let url = URLs.updateVehicleUrl(mobileNumber: mobileNumber, VehicleId: vehicleId)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else {

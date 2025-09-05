@@ -77,6 +77,7 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
     var pointsAvailable : String {
         return "\(locationData?.modpointsAvailable ?? 0)"
     }
+    // Based on the connecters formating the data to display
     func loadConnectors(){
         if let chargerData = locationData?.chargerInfo{
             for charger in chargerData{
@@ -92,7 +93,7 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
             (statusPriority[$0.connector.status] ?? 1) < (statusPriority[$1.connector.status] ?? 1)
         }
     }
-    
+    //Add the location to user favourites.
     func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void){
         let locationId = locationData?.id ?? ""
         let userDetails = UserDefaultManager.shared.getUserProfile()
@@ -116,7 +117,7 @@ class LocationInfoViewModel : LocationInfoViewModelInterface{
             }
         }
     }
-
+    //Update the connector status locally
     func updateConnectorStatus (_ updatedConnector: ConnectorDisplayItem) {
         if let index = connectorItems.firstIndex(where: { $0.connector.connectorId == updatedConnector.connector.connectorId}) {
             connectorItems[index].connector.status = "InUse"

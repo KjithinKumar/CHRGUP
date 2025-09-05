@@ -40,7 +40,7 @@ class GarageViewModel : GarageViewModelInterface {
             authToken = UserDefaultManager.shared.getJWTToken()
         }
     }
-    
+    //Fetch User Vehicles
     func fetchVehicles() {
         guard let mobileNumber = mobileNumber, let authToken = authToken else {
             return
@@ -72,6 +72,7 @@ class GarageViewModel : GarageViewModelInterface {
     func getVehicles() -> [VehicleModel]? {
         return userVehicles
     }
+    //Delete user selected vehicle 
     func deleteVehicle(vehicleId : String) {
         guard let mobileNumber = mobileNumber, let authToken = authToken else {
             return

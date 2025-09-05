@@ -24,6 +24,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
         self.networkManager = networkManager
     }
     var receiptData : ReceiptDisplayModel?
+    //Fetch the Receipt data
     func fetchReceiptData(completeion: @escaping (Result<ReceiptResponseModel, Error>) -> Void) {
         let url = URLs.getReceiptUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
@@ -43,6 +44,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
             }
         }
     }
+    //Format the receipt data
     func assembleReceipt(from models: [ReceiptModel]) -> ReceiptDisplayModel {
         var displayModel = ReceiptDisplayModel()
         
@@ -91,7 +93,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
         }
         return displayModel
     }
-    
+    //Create the order for payment.
     func createOder(amount : Int,currency : String,completion : @escaping (Result<PaymentDetails, Error>) -> Void){
         let url = URLs.razorPayOrderUrl
         let key = AppIdentifications.RazorPay.key
@@ -112,6 +114,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
             }
         }
     }
+    //Fetch the payment details from razor pay
     func fetchPaymentDetails(paymentId : String,completion : @escaping(Result<PaymentDetails, Error>) -> Void){
         let url = URLs.razorPayPaymentDetailUrl(paymentId: paymentId)
         let key = AppIdentifications.RazorPay.key
@@ -127,6 +130,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
             }
         }
     }
+    //Capture the payment in razorpay
     func capturePayment(paymentId: String, amount : Int,completion : @escaping(Result<PaymentDetails,Error>) -> Void){
         let url = URLs.capturePaymentUrl(paymentId: paymentId)
         let key = AppIdentifications.RazorPay.key
@@ -146,6 +150,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
             }
         }
     }
+    //Post the payment details to the server
     func createPaymentOnServer(sessionId: String,details : PaymentDetails, completion : @escaping(Result<PaymentDetailsResponse,Error>)->Void){
         let url = URLs.serverPaymentUrl
         var body = details
@@ -160,6 +165,7 @@ class ReceiptViewModel: ReceiptViewModelInterface {
             }
         }
     }
+    //check if user has reviewd the location.
     func checkReviewforLocation(completion : @escaping(Result<ReviewExistResponse,Error>)->Void){
         guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
         guard let chargerLocationId = UserDefaultManager.shared.getScannedLocationId() else { return }

@@ -28,7 +28,7 @@ class ReservationViewModel: ReservationViewModelInterface {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
     }
-    
+    //Fetch All the reservation of the user.
     func fetchReservations() async throws -> ReservationResponse{
         let url = URLs.reservationsByUserUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { throw NetworkManagerError.invalidRequest }
@@ -67,6 +67,7 @@ class ReservationViewModel: ReservationViewModelInterface {
         }
         onDataChanged?()
     }
+    //Cancel the Reservation.
     func cancelReservation(at index: Int) async throws -> CancelReservationResponse{
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { throw NetworkManagerError.invalidRequest }
         guard index < filteredReservations.count else {throw NetworkManagerError.invalidRequest}

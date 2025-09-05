@@ -51,7 +51,7 @@ class NearByChargerCellViewModel{
         let locationId = chargerLocationData.id
         return favourites.contains(where: { $0 == locationId })
     }
-    
+    //Open selected location on the default maps application.
     func openLocationInMaps() {
         let latitude = chargerLocationData.direction.latitude
         let longitude = chargerLocationData.direction.longitude
@@ -66,7 +66,7 @@ class NearByChargerCellViewModel{
     }
     
     
-    
+    //Add the selected location to the user favourite.
     func addToFavourtie(networkManager : NetworkManagerProtocol,completion: @escaping (Result<FavouriteResponseModel, Error>) -> Void){
         let locationId = chargerLocationData.id
         let userDetails = UserDefaultManager.shared.getUserProfile()

@@ -53,7 +53,7 @@ class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
     var expandedDropdownIndex: Int?
     var categoryOptions : [String]?
     var history : [HistoryModel]?
-    
+    //Fetch the FAQ Categories from the backend
     func getFAQCategories() {
         let url = URLs.faqURl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return}
@@ -73,7 +73,7 @@ class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
             })
         }
     }
-    
+    //Get the ticket categories form the back end
     func getTicketCategories(completion : @escaping (Result<ticketCategoryResponseModel,Error>) -> Void) {
         let url = URLs.ticketCategoryUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return}
@@ -92,6 +92,7 @@ class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
             }
         }
     }
+    //Fetch the user charging history to show in the sessions.
     func fetchHistory(completion : @escaping (Result<HistoryResponseModel,Error>)-> Void) {
         guard let mobileNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else {return}
         let url = URLs.gethistoryUrl(mobileNumber: mobileNumber)
@@ -115,6 +116,7 @@ class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
             }
         }
     }
+    //Create a new ticket.
     func createTicket(parameters : [String : String], image: UIImage?,imageFieldName: String = "screenshots",completion : @escaping (Result<createTicketResponseModel ,Error>) -> Void){
         let url = URLs.createTicketUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else {return}
