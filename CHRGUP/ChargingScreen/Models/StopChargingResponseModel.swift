@@ -10,6 +10,8 @@ struct StopChargingResponseModel : Codable {
     let status :Bool
     let message :String?
     let messageId : String?
+    let amount : Double?
+    let reason : String?
 }
 
 struct StopChargingPayload : Codable {

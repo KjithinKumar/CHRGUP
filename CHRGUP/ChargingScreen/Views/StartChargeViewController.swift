@@ -33,7 +33,7 @@ class StartChargeViewController: UIViewController {
         super.viewDidLoad()
         setUpUi()
         checkIfPopShouldShow()
-        checkPaymentStatus()
+        //checkPaymentStatus()
     }
     func checkIfPopShouldShow(){
         if UserDefaultManager.shared.showPopUp(){
@@ -210,6 +210,8 @@ class StartChargeViewController: UIViewController {
     }
     @IBAction func startChargingPressed(_ sender: Any) {
         startButton.isUserInteractionEnabled = false
+        let generator = UIImpactFeedbackGenerator(style: .medium) 
+        generator.impactOccurred()
         startButton.imageView?.tintColor = ColorManager.secondaryBackgroundColor
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = ColorManager.backgroundColor
@@ -248,7 +250,27 @@ class StartChargeViewController: UIViewController {
                         statusVc.requestNotificationPermission()
                         self.navigationController?.setViewControllers([statusVc], animated: true)
                     }else{
-                        self.showAlert(title: "Error", message: response.message ?? "Something went wrong")
+                        if let data = response.data{
+                            if data.addMoney == 1{
+                                let okAction = UIAlertAction(title: "OK", style: .default)
+                                let action = UIAlertAction(title: "Go to Wallet", style: .default) { _ in
+                                    if let presentingVC = self.presentingViewController as? UINavigationController,
+                                       let _ = presentingVC.viewControllers.first {
+                                        self.dismiss(animated: true) {
+                                            presentingVC.popToRootViewController(animated: true)
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                let walletVc = WalletViewController()
+                                                walletVc.viewModel = WalletViewModel(networkManager: NetworkManager.shared)
+                                                presentingVC.pushViewController(walletVc, animated: true)
+                                            }
+                                        }
+                                    }
+                                }
+                                self.showAlert(title: "Error", message: response.message ?? "Something went Wrong",actions: [okAction,action])
+                            }
+                        }else{
+                            self.showAlert(title: "Error", message: response.message ??  "Something went wrong")
+                        }
                         self.startButton.isUserInteractionEnabled = true
                         indicator.stopAnimating()
                         indicator.removeFromSuperview()

@@ -30,6 +30,7 @@ class UserDefaultManager{
         static let sessionIdKey = "sessionIdKey"
         static let sessionStatusKey = "sessionStatusKey"
         static let appearanceKey = "AppAppearance"
+        static let walletKey = "IsActiveWallet"
     }
     
     // MARK: - User Profile
@@ -261,5 +262,12 @@ class UserDefaultManager{
         set {
             UserDefaultManager.shared.defaults.set(newValue.rawValue, forKey: Keys.appearanceKey)
         }
+    }
+    //MARK: - Wallet Status
+    func saveWalletStatus(isActive : Bool){
+        defaults.set(isActive, forKey: Keys.walletKey)
+    }
+    func getWalletStatus() -> Bool{
+        return defaults.bool(forKey: Keys.walletKey)
     }
 }

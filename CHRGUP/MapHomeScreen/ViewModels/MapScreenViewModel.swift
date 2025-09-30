@@ -40,12 +40,14 @@ class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
         let url = URLs.getChargerRange
         let mobile = UserDefaultManager.shared.getUserProfile()?.phoneNumber ?? ""
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        guard let selectedVehicleId = UserDefaultManager.shared.getSelectedVehicle()?.id else {return}
         let header = ["Authorization": "Bearer \(authToken)"]
         let body : [String: Any] = ["latitude" : lat,
                                        "longitude" : lon,
                                        "range" : range,
                                        "status" : "Active",
-                                       "userPhone" : mobile]
+                                       "userPhone" : mobile,
+                                        "selected_vehicle_id" : selectedVehicleId]
         if let reqest = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(reqest, decodeTo: ChargerRangeresponse.self , completion: { [weak self] result in
                 guard let _ = self else { return }
@@ -60,7 +62,8 @@ class MapScreenViewModel: NSObject, MapScreenViewModelInterface {
     }
     // Fetch the location by ID
     func fetchLocationById(id : String,completion : @escaping (Result<ChargerLocationResponseById,Error>) -> Void){
-        let url = URLs.getChargerById(chargerId: id)
+        guard let selectedVehicleId = UserDefaultManager.shared.getSelectedVehicle()?.id else {return}
+        let url = URLs.getChargerById(chargerId: id, vehicleId: selectedVehicleId)
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
         let header = ["Authorization": "Bearer \(authToken)"]
         if let reqest = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){

@@ -107,6 +107,9 @@ struct AppStrings {
         
         static let Notification = "Notifications"
         static let NotificationImage = "bell.fill"
+        
+        static let wallet = "Wallet"
+        static let walletImage = "wallet.bifold.fill"
     }
     
     struct Garage{
@@ -264,6 +267,14 @@ struct AppStrings {
         static let messageText = "Message"
         
         static let messagePlaceholderText = "Enter message"
+        
+        static let selectCharger = "Charger Id"
+        
+        static let enterChargerId = "Enter Charger Id"
+        
+        static let selectTransaction = "Select Transaction ID"
+        
+        static let TransactionID = "Transaction"
     }
     
     struct reserveCharger{
@@ -286,5 +297,49 @@ struct AppStrings {
         static let completedButtonText = "  Completed"
         
         static let failedButtonText = "  Failed"
+    }
+    struct KYC{
+        static let Title = "KYC Verification"
+        
+        static let kycTitle = "Enter details to activate wallet"
+        
+        static let kycSubtTitle = "Provide valid ID information to complete verification."
+        
+        static let documentTypeTitle = "Document type"
+        
+        static let documentNumber = "Number"
+        
+        static let DOBTitle = "DOB"
+        
+        static let proceedButton = "Proceed"
+        
+        static let documentTypePlaceHolder = "Select the document Type"
+        
+        static let documentNumberPlaceHolder = "Enter the document Number"
+        
+        static let dobPlaceHolder = "Select your date of birth"
+    }
+    
+    struct Wallet{
+        static let title = "Wallet"
+        
+        static let availableBalance = "Available balance"
+        
+        static let addToWallet = "Add money to wallet"
+        
+        static let addwalletButtonText = "Add to Wallet"
+        
+        static let history = "History"
+        
+        static let enterAmount = "Enter the amount"
+    }
+    struct StopCharger{
+        static let paymentOf = "Payment Of"
+        
+        static let paid = "has been successfully paid from your wallet "
+        
+        static let skip = "Skip"
+        
+        static let viewReceipt = "View Receipt"
     }
 }

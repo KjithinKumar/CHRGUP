@@ -11,6 +11,7 @@ struct ChargerRangeresponse: Decodable {
     let success : Bool
     let data : [ChargerRangeModel]?
     let message : String?
+    let sessionInfo : SessionData?
 }
 
 struct ChargerRangeModel: Decodable {

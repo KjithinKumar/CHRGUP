@@ -11,6 +11,8 @@ struct ChargingStatusResponseModel: Decodable {
     let status : Bool
     let message : String?
     let data : ChargingStatusModel?
+    let amount : String?
+    let reason : String?
 }
 
 struct ChargingStatusModel: Decodable {

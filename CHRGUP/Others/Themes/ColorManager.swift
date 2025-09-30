@@ -43,13 +43,13 @@ struct ColorManager {
     static let thirdBackgroundColor = UIColor { _ in
         switch AppSettings.appearanceMode {
         case .light:
-            return UIColor.systemGray4
+            return UIColor.systemGray5
         case .dark:
             return UIColor.tertiarySystemBackground
         case .system:
             return UIColor { traitCollection in
                 return traitCollection.userInterfaceStyle == .dark
-                ? UIColor.tertiarySystemBackground : UIColor.systemGray4
+                ? UIColor.tertiarySystemBackground : UIColor.systemGray5
             }
         }
     }

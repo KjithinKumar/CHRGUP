@@ -80,8 +80,8 @@ struct URLs{
     
     static let getChargerRange = baseUrl + "charger-locations/location/range"
     
-    static func getChargerById (chargerId : String) -> String{
-        return "\(baseUrl)charger-locations/\(chargerId)"
+    static func getChargerById (chargerId : String,vehicleId : String) -> String{
+        return "\(baseUrl)charger-locations/\(chargerId)/\(vehicleId)"
     }
     
     static let getChargerByName = baseUrl + "charger-locations/get-charger-info-by-name"
@@ -145,5 +145,13 @@ struct URLs{
     
     static func notificationUrl(mobileNumber : String) -> String{
         "\(baseUrl)notification/by-phone/\(mobileNumber)"
+    }
+    
+    static func walletStatusUrl(mobileNumber : String) -> String{
+        "\(baseUrl)wallet/wallet-status/\(mobileNumber)"
+    }
+
+    static func walletdetailsUrl(userId : String,transaction : Bool,page : Int = 1,limit : Int = 10,refund : Bool) -> String{
+        "\(baseUrl)/wallet/wallet-details/\(userId)?transaction=\(transaction)&is_refund=\(refund)&page=\(page)&limit=\(limit)"
     }
 }

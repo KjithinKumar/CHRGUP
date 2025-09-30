@@ -69,11 +69,17 @@ class CameraManager: NSObject, AVCaptureMetadataOutputObjectsDelegate {
         }
     }
     func decodeQRPayload(from scannedString: String) -> QRPayload? {
+        let scannedText = DeepLinkManager.shared.handlePlainTextQR(scannedString)
+        if let chargerId = scannedText.components(separatedBy: "*").last{
+            let scannedPayload = QRPayload(connectorId: 1, chargerId: chargerId)
+            return scannedPayload
+        }
         guard let url = URL(string: scannedString),
               let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
               let encryptedPayload = components.queryItems?.first(where: { $0.name == "data" })?.value
         else {return nil}
         guard let decryptedText = DeepLinkManager.shared.decryptPayload(encryptedBase64: encryptedPayload, password: AppIdentifications.payload.password) else {return nil}
+        
         guard let payload = DeepLinkManager.shared.decodeDecryptedPayload(decryptedText: decryptedText) else {return nil}
         return payload
     }

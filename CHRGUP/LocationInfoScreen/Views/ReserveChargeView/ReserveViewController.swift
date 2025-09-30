@@ -42,7 +42,7 @@ class ReserveViewController: UIViewController {
         titleLabel.font = FontManager.bold(size: 17)
         titleLabel.textColor = ColorManager.textColor
         
-        popUpView.backgroundColor = ColorManager.secondaryBackgroundColor
+        popUpView.backgroundColor = ColorManager.backgroundColor
         popUpView.layer.cornerRadius = 10
         popUpView.clipsToBounds = true
         

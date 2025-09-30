@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -46,10 +46,10 @@
                                     </constraints>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSG-13-1gK">
-                                    <rect key="frame" x="210.33333333333334" y="14" width="23" height="22"/>
+                                    <rect key="frame" x="149.66666666666666" y="11.666666666666671" width="83.666666666666657" height="27"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal">
-                                        <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
+                                    <state key="normal" title="₹ 0.00">
+                                        <imageReference key="image" image="wallet.bifold" catalog="system" symbolScale="large"/>
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
                                     </state>
                                     <connections>
@@ -59,7 +59,7 @@
                             </subviews>
                         </stackView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JsE-Ix-g3G">
-                            <rect key="frame" x="16.000000000000014" y="301.66666666666674" width="231.33333333333337" height="463.33333333333326"/>
+                            <rect key="frame" x="16.000000000000014" y="301.66666666666663" width="231.33333333333337" height="465.66666666666663"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What am i driving today" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ib-3d-7mK">
@@ -80,15 +80,15 @@
                             <state key="normal" title="   Loading vehicles...."/>
                         </button>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chrgup_white_6cm" translatesAutoresizingMaskIntoConstraints="NO" id="1l7-lp-IQ5">
-                            <rect key="frame" x="71.666666666666686" y="787" width="120" height="30"/>
+                            <rect key="frame" x="86.666666666666686" y="787" width="90" height="30"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="120" id="l9J-7f-Xtw"/>
+                                <constraint firstAttribute="width" constant="90" id="l9J-7f-Xtw"/>
                                 <constraint firstAttribute="height" constant="30" id="uxn-L2-MC2"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbX-lh-CBB">
-                            <rect key="frame" x="133.33333333333334" y="775" width="56.333333333333343" height="12"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <rect key="frame" x="125.33333333333331" y="777.33333333333337" width="46" height="9.6666666666666288"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -106,7 +106,7 @@
                         <constraint firstAttribute="trailing" secondItem="JsE-Ix-g3G" secondAttribute="trailing" constant="16" id="aCo-Kj-gXM"/>
                         <constraint firstAttribute="bottom" secondItem="1l7-lp-IQ5" secondAttribute="bottom" constant="35" id="g2Q-3L-8Kz"/>
                         <constraint firstItem="LZX-Jg-q2d" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="16" id="l7q-UI-sUt"/>
-                        <constraint firstItem="bbX-lh-CBB" firstAttribute="centerX" secondItem="lvm-Wf-gLY" secondAttribute="centerX" constant="30" id="mWS-qb-NHv"/>
+                        <constraint firstItem="bbX-lh-CBB" firstAttribute="centerX" secondItem="lvm-Wf-gLY" secondAttribute="centerX" multiplier="0.9" constant="30" id="mWS-qb-NHv"/>
                         <constraint firstItem="Odu-zs-0yy" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="15" id="t9c-Jw-ecs"/>
                         <constraint firstAttribute="trailing" secondItem="Odu-zs-0yy" secondAttribute="trailing" constant="15" id="vYW-9J-kVR"/>
                         <constraint firstItem="JsE-Ix-g3G" firstAttribute="leading" secondItem="lvm-Wf-gLY" secondAttribute="leading" constant="16" id="vfr-qt-dDT"/>
@@ -133,7 +133,7 @@
     <resources>
         <image name="chrgup_white_6cm" width="283.66665649414062" height="61.666667938232422"/>
         <image name="person.crop.circle" catalog="system" width="128" height="123"/>
-        <image name="xmark" catalog="system" width="128" height="113"/>
+        <image name="wallet.bifold" catalog="system" width="128" height="103"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -22,8 +22,10 @@ protocol HelpAndSupportViewModelInterface {
     func getTicketCategories(completion : @escaping (Result<ticketCategoryResponseModel,Error>) -> Void)
     func fetchHistory(completion : @escaping (Result<HistoryResponseModel,Error>)-> Void)
     var history : [HistoryModel]? {get set}
+    var transaction : [transactionModel]? {get set}
     func createTicket(parameters : [String : String], image: UIImage?,imageFieldName: String,completion : @escaping (Result<createTicketResponseModel ,Error>) -> Void)
     func reset()
+    func fetchWalletStatus(transaction : Bool,page : Int,limit : Int,refund : Bool) async throws -> WalletStatusModel?
 }
 class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
     var networkManager : NetworkManagerProtocol?
@@ -39,20 +41,26 @@ class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
                   HelpAndSupportDataModel.customerServiceTitle(title: AppStrings.HelpandSupport.customerServiceText, subTitle: AppStrings.HelpandSupport.customerServiceSubText),
                   HelpAndSupportDataModel.selectCategory(title: AppStrings.HelpandSupport.categoryText, placeHolder: AppStrings.HelpandSupport.categoryPlaceholderText, image: "chevron.down"),
                   HelpAndSupportDataModel.selectSession(title: AppStrings.HelpandSupport.sessionText, placeHolder: AppStrings.HelpandSupport.sessionPlaceholderText, image: "chevron.down"),
+                  HelpAndSupportDataModel.selectTransaction(title: AppStrings.HelpandSupport.TransactionID, placeHolder: AppStrings.HelpandSupport.selectTransaction, image: "chevron.down"),
+                  HelpAndSupportDataModel.selectCharger(title: AppStrings.HelpandSupport.selectCharger, placeHolder: AppStrings.HelpandSupport.enterChargerId),
                   HelpAndSupportDataModel.subject(title: AppStrings.HelpandSupport.subjectText, placeHolder: AppStrings.HelpandSupport.subjectPlaceholderText),
                   HelpAndSupportDataModel.message(title: AppStrings.HelpandSupport.messageText, placeHolder: AppStrings.HelpandSupport.messagePlaceholderText),
-                  HelpAndSupportDataModel.attachImage]
+                  HelpAndSupportDataModel.attachImage,]
+        
     }
     var fields : [HelpAndSupportDataModel] = [HelpAndSupportDataModel.generalFaq(title: AppStrings.HelpandSupport.generalFaqText, image: "chevron.right", type: .faq),
                                               HelpAndSupportDataModel.customerServiceTitle(title: AppStrings.HelpandSupport.customerServiceText, subTitle: AppStrings.HelpandSupport.customerServiceSubText),
                                               HelpAndSupportDataModel.selectCategory(title: AppStrings.HelpandSupport.categoryText, placeHolder: AppStrings.HelpandSupport.categoryPlaceholderText, image: "chevron.down"),
                                               HelpAndSupportDataModel.selectSession(title: AppStrings.HelpandSupport.sessionText, placeHolder: AppStrings.HelpandSupport.sessionPlaceholderText, image: "chevron.down"),
+                                              HelpAndSupportDataModel.selectTransaction(title: AppStrings.HelpandSupport.TransactionID, placeHolder: AppStrings.HelpandSupport.selectTransaction, image: "chevron.down"),
+                                              HelpAndSupportDataModel.selectCharger(title: AppStrings.HelpandSupport.selectCharger, placeHolder: AppStrings.HelpandSupport.enterChargerId),
                                               HelpAndSupportDataModel.subject(title: AppStrings.HelpandSupport.subjectText, placeHolder: AppStrings.HelpandSupport.subjectPlaceholderText),
                                               HelpAndSupportDataModel.message(title: AppStrings.HelpandSupport.messageText, placeHolder: AppStrings.HelpandSupport.messagePlaceholderText),
                                               HelpAndSupportDataModel.attachImage]
     var expandedDropdownIndex: Int?
     var categoryOptions : [String]?
     var history : [HistoryModel]?
+    var transaction : [transactionModel]?
     //Fetch the FAQ Categories from the backend
     func getFAQCategories() {
         let url = URLs.faqURl
@@ -89,6 +97,33 @@ class HelpAndSupportViewModel: HelpAndSupportViewModelInterface {
                     print(error)
                 }
                 completion(result)
+            }
+        }
+    }
+    //Fetch the transaction
+    func fetchWalletStatus(transaction : Bool,page : Int,limit : Int,refund : Bool) async throws -> WalletStatusModel?{
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else {
+            throw NetworkManagerError.invalidRequest
+        }
+        guard let userId  = UserDefaultManager.shared.getUserProfile()?.id else {
+            throw NetworkManagerError.invalidRequest}
+        let url = URLs.walletdetailsUrl(userId: userId, transaction: transaction,page: page,limit: limit, refund: refund)
+        let header = ["Authorization": "Bearer \(authToken)"]
+        guard let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header)else {
+            throw NetworkManagerError.invalidRequest}
+        return try await withCheckedThrowingContinuation { continuation in
+            networkManager?.request(request, decodeTo: WalletStatusModel.self) { [weak self] result in
+                guard let self = self else {return}
+                
+                switch result {
+                case .success(let value):
+                    if value.status{
+                        self.transaction  = value.data.transactions
+                    }
+                    continuation.resume(returning: value)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
             }
         }
     }

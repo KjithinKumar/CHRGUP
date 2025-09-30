@@ -77,9 +77,10 @@ class MapScreenViewController: UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if UserDefaultManager.shared.IsSessionActive() {
-            showNotificationCard()
-        }else{
-            hideNotificationCard()
+            self.showNotificationCard()
+        }
+        else{
+            self.hideNotificationCard()
         }
         self.handleDeepLinkIfNeeded()
     }
@@ -205,10 +206,7 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
             didTapCluster = false
             return
         }
-        let centerLat = position.target.latitude
-        let centerLng = position.target.longitude
-        let visibleRadius = getVisibleRadius(from: mapView)
-        setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
+        updateLocation(for: mapView)
     }
     private func getVisibleRadius(from mapView: GMSMapView) -> Int {
         let center = mapView.camera.target
@@ -278,6 +276,12 @@ extension MapScreenViewController : GMSMapViewDelegate, GMUClusterManagerDelegat
         }
         return false
     }
+    private func updateLocation(for mapView: GMSMapView) {
+        let centerLat = mapView.camera.target.latitude
+        let centerLng = mapView.camera.target.longitude
+        let visibleRadius = getVisibleRadius(from: mapView)
+        setUplocation(latitude: centerLat, longitude: centerLng, range: visibleRadius)
+    }
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         hideBottomCard()
         selectedCharger = nil
@@ -316,6 +320,12 @@ extension MapScreenViewController : MapViewModelDelegate {
 }
 
 extension MapScreenViewController : SideMenuDelegate {
+    func didChangerSelectedVehicle() {
+        if let mapView = mapView{
+            updateLocation(for: mapView)
+        }
+    }
+    
     func didSelectMenuOption(_ viewController: UIViewController) {
         navigationController?.pushViewController(viewController, animated: true)
     }
@@ -334,6 +344,12 @@ extension MapScreenViewController {
                             if self.areChargersDifferent(old: self.lastFetchedChargers, new: chargerLocations) {
                                    self.lastFetchedChargers = chargerLocations
                                    self.updateMapWithChargers(chargerLocations)
+                            }
+                        }
+                        if let sessionData = response.sessionInfo{
+                            if sessionData.sessionId == nil{
+                                UserDefaultManager.shared.deleteSessionDetails()
+                                UserDefaultManager.shared.deleteSessionStartTime()
                             }
                         }
                     }
@@ -367,6 +383,9 @@ extension MapScreenViewController {
                   let newChargers = new[index].chargerInfo,
                   let oldChargers = charger.chargerInfo,
                   charger.id == new[index].id else{
+                return true
+            }
+            guard newChargers.count == oldChargers.count else {
                 return true
             }
             for i in 0..<newChargers.count {
@@ -734,9 +753,10 @@ extension MapScreenViewController{
                         }
                         self.showAlert(title: "Charging Stopped", message: response.message)
                         self.chargingTimer?.invalidate()
-                        let receiptVc = ReceiptViewController()
-                        receiptVc.viewModel = ReceiptViewModel(networkManager: NetworkManager.shared)
-                        let navController = UINavigationController(rootViewController: receiptVc)
+                        let stopVc = StoppedStatusViewController()
+                        stopVc.viewModel = ReceiptViewModel(networkManager: NetworkManager.shared)
+                        stopVc.autoStoppedresponse = response
+                        let navController = UINavigationController(rootViewController: stopVc)
                         navController.modalPresentationStyle = .fullScreen
                         self.present(navController, animated: true)
                     }

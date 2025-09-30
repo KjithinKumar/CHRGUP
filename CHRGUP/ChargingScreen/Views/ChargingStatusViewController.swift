@@ -69,7 +69,8 @@ class ChargingStatusViewController: UIViewController {
                         self.navigationController?.navigationBar.isHidden = false
                         self.slideView.resetThumb(animated: true)
                     }
-                    self.stopChargingForce()
+                    //self.stopChargingForce()
+                    self.sendDataToStoppedChargingScreen(autoStopResponse: nil, forceStopResponse: response)
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
                 }
@@ -241,7 +242,8 @@ class ChargingStatusViewController: UIViewController {
                         }
                     }else{
                         self.sendChargingEndedNotification(message: response.message ?? "Your charging session has ended.")
-                        self.stopChargingForce()
+                        //self.stopChargingForce()
+                        self.sendDataToStoppedChargingScreen(autoStopResponse: response, forceStopResponse: nil)
                     }
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
@@ -335,6 +337,37 @@ class ChargingStatusViewController: UIViewController {
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.setViewControllers([receiptVc], animated: true)
         }
+    }
+    func sendDataToStoppedChargingScreen(autoStopResponse : ChargingStatusResponseModel?,forceStopResponse :StopChargingResponseModel? ){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){ [weak self] in
+            guard let self = self else { return }
+            Task {
+                if let token = await ChargingLiveActivityManager.endActivity(){
+                    self.viewModel?.pushLiveApnToken(apnToken: token,event: "stop") { [weak self] result in
+                        guard let _ = self else { return }
+                        switch result {
+                        case .success(let response):
+                            debugPrint(response)
+                        case .failure(let error):
+                            debugPrint(error)
+                        }
+                    }
+                }
+            }
+            self.pingTimer?.invalidate()
+            self.labelUpdateTimer?.invalidate()
+            let stoppedVc = StoppedStatusViewController()
+            stoppedVc.viewModel = ReceiptViewModel(networkManager: NetworkManager.shared)
+            self.navigationController?.navigationBar.isHidden = false
+            if let autoStopResponse = autoStopResponse{
+                stoppedVc.autoStoppedresponse = autoStopResponse
+            }
+            if let forceStopResponse = forceStopResponse{
+                stoppedVc.forceStopResponse = forceStopResponse
+            }
+            self.navigationController?.setViewControllers([stoppedVc], animated: true)
+        }
+
     }
     func getFormattedTimeDifference(from dateString: String) -> NSAttributedString {
         let dateFormatter = DateFormatter()

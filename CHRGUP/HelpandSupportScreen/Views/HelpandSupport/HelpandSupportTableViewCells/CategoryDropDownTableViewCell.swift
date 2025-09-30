@@ -26,8 +26,6 @@ class CategoryDropDownTableViewCell: UITableViewCell {
         titleLabel.textColor = ColorManager.textColor
         titleLabel.font = FontManager.regular(size: 14)
         
-        backView.layer.cornerRadius = 8
-        backView.clipsToBounds = true
         backView.backgroundColor = ColorManager.secondaryBackgroundColor
     }
     

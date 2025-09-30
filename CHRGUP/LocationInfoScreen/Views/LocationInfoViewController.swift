@@ -185,7 +185,7 @@ class LocationInfoViewController: UIViewController {
         if let locationDisplayData = viewModel?.connectorItems{
             let availableConnectors = locationDisplayData.filter { $0.connector.status == "Available" }
             let reserveVc = ReserveViewController(viewModel: ReserveChargerViewModel(connectorItems: availableConnectors , networkManger: NetworkManager.shared))
-            reserveVc.modalPresentationStyle = .popover
+            reserveVc.modalPresentationStyle = .overCurrentContext
             if let popoverController = reserveVc.popoverPresentationController {
                 popoverController.sourceView = sender as? UIView
             }

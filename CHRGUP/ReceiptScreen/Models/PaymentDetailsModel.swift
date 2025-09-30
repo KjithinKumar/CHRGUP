@@ -35,9 +35,10 @@ struct PaymentDetails: Codable {
     let errorReason: String?
     let createdAt: Int?
     var sessionId : String?
+    var userId : String?
 
     enum CodingKeys: String, CodingKey {
-        case id, entity, amount, currency, status
+        case id, entity, amount, currency, status,userId
         case orderId = "order_id"
         case invoiceId = "invoice_id"
         case international, method

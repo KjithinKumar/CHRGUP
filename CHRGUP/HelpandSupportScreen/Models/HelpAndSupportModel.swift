@@ -18,10 +18,13 @@ enum HelpAndSupportDataModel{
     case selectCategory(title : String,placeHolder : String, image : String)
     case selectSession(title : String,placeHolder : String, image : String)
     case subject(title : String,placeHolder : String)
+    case selectCharger(title: String, placeHolder: String)
     case message(title : String,placeHolder : String)
     case attachImage
     case dropdownOption(title: String)
     case sessionDropdownOption(history: HistoryModel)
+    case selectTransaction(title : String,placeHolder : String, image : String)
+    case transactionDropdownOption(transaction : transactionModel)
 }
 
 struct HelpAndSupportModel{

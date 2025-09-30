@@ -22,12 +22,14 @@ class ReviewViewModel: ReviewViewModelInterface {
         guard let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else {return}
         guard let locationId = UserDefaultManager.shared.getScannedLocationId() else {return}
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        guard let sessionId = UserDefaultManager.shared.getSessionId() else {return}
         let header = ["Authorization": "Bearer \(authToken)"]
         let body : [String : Any] = [ "phoneNumber": phoneNumber,
-                     "location": locationId,
-                     "charging_exp": charging,
-                     "charging_location": location,
-                     "review": comments]
+                                      "location": locationId,
+                                      "charging_exp": charging,
+                                      "session": sessionId,
+                                      "charging_location": location,
+                                      "review": comments]
         if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(request, decodeTo: ReviewResponseModel.self) { [weak self] result in
                 guard let _ = self else { return }

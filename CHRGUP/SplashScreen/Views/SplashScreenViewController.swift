@@ -14,10 +14,10 @@ class SplashScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
-        viewModel?.startSplashProcess()
     }
     private func setUp(){
         logoImageView.startShimmering()
+        viewModel?.startSplashProcess()
     }
 }
 extension SplashScreenViewController : SplashViewModelDelegate{
@@ -31,6 +31,18 @@ extension SplashScreenViewController : SplashViewModelDelegate{
         navigationController?.setViewControllers([onboardingVC], animated: true)
     }
     func navigateToMap() {
+        let status = UserDefaultManager.shared.IsSessionActive()
+        if status{
+            viewModel?.fetchChargingStatus { [weak self] result  in
+                guard let _ = self else {return}
+                switch result{
+                case .success(let response):
+                    let status = response.data?.status
+                    UserDefaultManager.shared.saveSessionStatus(status)
+                case .failure(_) : break
+                }
+            }
+        } 
         let MapVc = MapScreenViewController()
         MapVc.viewModel = MapScreenViewModel(networkManager: NetworkManager.shared)
         navigationController?.navigationBar.isHidden = false
@@ -58,6 +70,14 @@ extension SplashScreenViewController : SplashViewModelDelegate{
     }
     func showError(error: Error) {
         logoImageView.stopShimmering()
-        AppErrorHandler.handle(error, in: self)
+        let action = UIAlertAction(title: "Retry", style: .default){ _ in
+            self.setUp()
+        }
+        switch error as? NetworkManagerError{
+        case .serverError(let message , _):
+            showAlert(title: "Error", message: message, actions: [action])
+        default :
+            showAlert(title: "Error", message: error.localizedDescription,style: .alert,actions: [action])
+        }
     }
 }

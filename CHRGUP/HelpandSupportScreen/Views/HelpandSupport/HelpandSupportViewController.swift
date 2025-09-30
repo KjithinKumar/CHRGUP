@@ -21,10 +21,18 @@ class HelpandSupportViewController: UIViewController {
     var attachedImages: UIImage?
     var textFieldValues: [String : String] = [:]
     var selectedHistory : HistoryModel?
+    var selectedTransaction : transactionModel?
     var selectedCategory : String?
+    var selectedChargerId : String?
     var requiredFields = 4
     var subject : String?
     var message : String?
+    
+    var cameraManager: CameraManager?
+    
+    private var showSessionCell = true
+    private var showChargerCell = true
+    private var showTransactionCell = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +42,7 @@ class HelpandSupportViewController: UIViewController {
     }
     deinit {
         removeKeyboardNotifications()
+
     }
     override func viewWillDisappear(_ animated: Bool) {
         enableButtonAndRemoveIndicator(raiseTicketButton,titleColor: ColorManager.backgroundColor)
@@ -64,6 +73,13 @@ class HelpandSupportViewController: UIViewController {
             case .success(_):
                 break
             case .failure(let error):
+                AppErrorHandler.handle(error, in: self)
+            }
+        }
+        Task{
+            do{
+                let _ = try await viewModel?.fetchWalletStatus(transaction: true, page: 1, limit: 100, refund: true)
+            }catch(let error){
                 AppErrorHandler.handle(error, in: self)
             }
         }
@@ -102,7 +118,9 @@ class HelpandSupportViewController: UIViewController {
         attachedImages = nil
         textFieldValues.removeAll()
         selectedHistory = nil
+        selectedTransaction = nil
         selectedCategory = nil
+        selectedChargerId = nil
         viewModel?.reset()
         subject = nil
         message = nil
@@ -140,6 +158,7 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
         tableView.register(UINib(nibName: "AttachImageTableViewCell", bundle: nil), forCellReuseIdentifier: AttachImageTableViewCell.identifier)
         tableView.register(UINib(nibName: "CategoryDropDownTableViewCell", bundle: nil), forCellReuseIdentifier: CategoryDropDownTableViewCell.identifier)
         tableView.register(UINib(nibName: "SessionDropDownTableViewCell", bundle: nil), forCellReuseIdentifier: SessionDropDownTableViewCell.identifier)
+        tableView.register(UINib(nibName: "EnterChargerTableViewCell", bundle: nil), forCellReuseIdentifier: EnterChargerTableViewCell.identifier)
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
@@ -173,7 +192,6 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
                 cell?.setDropdownValue("")
                 textFieldValues["category"] = ""
             }
-            checkIfAllFieldsFilled()
             cell?.backgroundColor = .clear
             cell?.selectionStyle = .none
             return cell ?? UITableViewCell()
@@ -183,12 +201,11 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
             if let history = selectedHistory{
                 let text = history.locationName + " | " + history.vehicle + " | " + formatDate(history.createdAt) + "  "
                 cell?.setDropdownValue(text)
-                textFieldValues["sessionId"] = selectedHistory?.sessionId
+                textFieldValues["categoryId"] = selectedHistory?.sessionId
             }else{
                 cell?.setDropdownValue("")
-                textFieldValues["sessionId"] = ""
+                textFieldValues["categoryId"] = ""
             }
-            checkIfAllFieldsFilled()
             cell?.backgroundColor = .clear
             cell?.selectionStyle = .none
             return cell ?? UITableViewCell()
@@ -225,6 +242,32 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
             cell?.selectionStyle = .none
             cell?.backgroundColor = .clear
             return cell ?? UITableViewCell()
+        case .selectCharger(let title,let placeHolder) :
+            let cell = tableView.dequeueReusableCell(withIdentifier: EnterChargerTableViewCell.identifier) as? EnterChargerTableViewCell
+            cell?.configure(title: title, placeholder: placeHolder,delegate: self, scanDelegate: self)
+            cell?.selectionStyle = .none
+            cell?.backgroundColor = .clear
+            return cell ?? UITableViewCell()
+        case .selectTransaction(let title,let placeHolder,let image) :
+            let cell = tableView.dequeueReusableCell(withIdentifier: DropDownViewTableViewCell.identifier) as? DropDownViewTableViewCell
+            cell?.configure(title: title, placeholder: placeHolder, image: image)
+            if let transaction = selectedTransaction{
+                let text = transaction.transactionId + " | " + "₹ \(transaction.amount/100)"
+                cell?.setDropdownValue(text)
+                textFieldValues["categoryId"] = selectedTransaction?.transactionId
+            }else{
+                cell?.setDropdownValue("")
+                textFieldValues["categoryId"] = ""
+            }
+            cell?.backgroundColor = .clear
+            cell?.selectionStyle = .none
+            return cell ?? UITableViewCell()
+        case .transactionDropdownOption(let transaction) :
+            let cell = tableView.dequeueReusableCell(withIdentifier: SessionDropDownTableViewCell.identifier) as? SessionDropDownTableViewCell
+            cell?.configure(transactionInfo: transaction)
+            cell?.selectionStyle = .none
+            cell?.backgroundColor = .clear
+            return cell ?? UITableViewCell()
         default : break
         }
         return UITableViewCell()
@@ -245,6 +288,9 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
         case .selectSession :
             guard let sessionOptions = viewModel?.history else { return  }
             insertSessionDropdownOptions(sessionOptions, below: indexPath.row)
+        case .selectTransaction :
+            guard let transactions = viewModel?.transaction else {return}
+            insertTransactionDropdownOptions(transactions, below: indexPath.row)
         case .selectCategory :
             guard let options = viewModel?.categoryOptions else { return  }
             viewModel?.expandedDropdownIndex = indexPath.row
@@ -252,30 +298,48 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
         case .dropdownOption(let title):
             guard let dropDownIndex = viewModel?.expandedDropdownIndex else { return }
             removeDropdownOptions(below: dropDownIndex)
-            let sessionIndex = viewModel?.fields.firstIndex(where: {
-                if case .selectSession = $0 { return true }
-                return false
-            })
+            // Set selected category
             self.selectedCategory = title
-            let indexPathToReload = IndexPath(row: dropDownIndex, section: 0)
-            tableView.reloadRows(at: [indexPathToReload], with: .none)
-            removeDropdownOptions(below: dropDownIndex)
-            if title == "Others" {
-                requiredFields = 3
-                if let sessionIndex = sessionIndex {
-                    viewModel?.fields.remove(at: sessionIndex )
-                    tableView.deleteRows(at: [IndexPath(row: sessionIndex, section: 0)], with: .fade)
-                    removeDropdownOptions(below: dropDownIndex)
-                    textFieldValues.removeValue(forKey: "sessionId")
-                }
-            } else {
+            // Decide visibility and required fields
+            if title.contains("Charger Not Working") ||
+               title.contains("Connector Problem") ||
+               title.contains("Physical Damage") {
+                showTransactionCell = false
+                showSessionCell = false
+                showChargerCell = true
                 requiredFields = 4
-                if sessionIndex == nil {
-                    let insertIndex = dropDownIndex + 1
-                    viewModel?.fields.insert(.selectSession(title: "Session", placeHolder: "Select Session", image: "chevron.down"), at: insertIndex)
-                    tableView.insertRows(at: [IndexPath(row: insertIndex, section: 0)], with: .fade)
-                }
+                textFieldValues.removeValue(forKey: "categoryId")
+                self.textFieldValues["chargerId"] = selectedChargerId
+            } else if title.contains("Billing") {
+                showSessionCell = true
+                showChargerCell = false
+                showTransactionCell = false
+                requiredFields = 4
+                textFieldValues.removeValue(forKey: "categoryId")
+                self.textFieldValues["categoryId"] = selectedHistory?.sessionId
+                textFieldValues.removeValue(forKey: "chargerId")
+                removeDropdownOptions(below: dropDownIndex)
+            }else if title.contains("Refund"){
+                showSessionCell = false
+                showChargerCell = false
+                showTransactionCell = true
+                requiredFields = 4
+                textFieldValues.removeValue(forKey: "categoryId")
+                self.textFieldValues["categoryId"] = selectedTransaction?.transactionId
+                textFieldValues.removeValue(forKey: "chargerId")
+                removeDropdownOptions(below: dropDownIndex)
+            }else { // "Others" and other categories
+                showSessionCell = false
+                showChargerCell = false
+                showTransactionCell = false
+                requiredFields = 3
+                textFieldValues.removeValue(forKey: "categoryId")
+                textFieldValues.removeValue(forKey: "chargerId")
             }
+            tableView.reloadRows(at: [IndexPath(row: dropDownIndex, section: 0)], with: .none)
+            // Animate height changes for session/charger cells
+            tableView.beginUpdates()
+            tableView.endUpdates()
         case .sessionDropdownOption(let history):
             guard let index = (0..<indexPath.row).reversed().first(where: {
                 if case .selectSession = viewModel?.fields[$0] { return true }
@@ -285,17 +349,43 @@ extension HelpandSupportViewController: UITableViewDataSource, UITableViewDelega
             let indexPath = IndexPath(row: index, section: 0)
             tableView.reloadRows(at: [indexPath], with: .none)
             removeDropdownOptions(below: index)
+        case .transactionDropdownOption(let transaction):
+            guard let index = (0..<indexPath.row).reversed().first(where: {
+                if case .selectTransaction = viewModel?.fields[$0] { return true }
+                return false
+            }) else { return }
+            self.selectedTransaction = transaction
+            let indexPath = IndexPath(row: index, section: 0)
+            tableView.reloadRows(at: [indexPath], with: .none)
+            removeDropdownOptions(below: index)
         default :
             break
         }
+        
     }
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         switch viewModel?.fields[indexPath.row] {
-        case .selectCategory, .selectSession, .dropdownOption, .generalFaq, .sessionDropdownOption:
+        case .selectCategory, .selectSession, .dropdownOption, .generalFaq, .sessionDropdownOption,.selectTransaction,.transactionDropdownOption:
             return indexPath
         default:
             return nil
         }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let field = viewModel?.fields[indexPath.row]
+        switch field {
+        case .selectSession:
+            return showSessionCell ? UITableView.automaticDimension : 0.0
+        case .selectCharger:
+            return showChargerCell ? UITableView.automaticDimension : 0.0
+        case .selectTransaction :
+            return showTransactionCell ? UITableView.automaticDimension : 0.0
+        default:
+            return UITableView.automaticDimension
+        }
+    }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        checkIfAllFieldsFilled()
     }
     
 }
@@ -321,19 +411,24 @@ extension HelpandSupportViewController {
         tableView.insertRows(at: indexPaths, with: .fade)
     }
     func removeDropdownOptions(below index: Int) {
+        guard let fields = viewModel?.fields else { return }
+
         var indicesToRemove: [Int] = []
-        for i in (index + 1)..<(viewModel?.fields.count ?? 0) {
-            if case .dropdownOption = viewModel?.fields[i]  {
+        // Scan all rows after the index
+        for i in (index + 1)..<fields.count {
+            switch fields[i] {
+            case .dropdownOption, .sessionDropdownOption, .transactionDropdownOption:
                 indicesToRemove.append(i)
-            } else if case .sessionDropdownOption = viewModel?.fields[i]{
-                indicesToRemove.append(i)
-            }else{
+            default:
+                // stop only when we reach another "main field"
                 break
             }
         }
+        // Remove in reverse order to keep indices valid
         for i in indicesToRemove.reversed() {
             viewModel?.fields.remove(at: i)
         }
+        // Animate removal
         let indexPaths = indicesToRemove.map { IndexPath(row: $0, section: 0) }
         tableView.deleteRows(at: indexPaths, with: .fade)
     }
@@ -354,6 +449,14 @@ extension HelpandSupportViewController {
         var indexPaths: [IndexPath] = []
         for (offset, session) in sessions.enumerated() {
             viewModel?.fields.insert(.sessionDropdownOption(history: session), at: index + offset + 1)
+            indexPaths.append(IndexPath(row: index + offset + 1, section: 0))
+        }
+        tableView.insertRows(at: indexPaths, with: .fade)
+    }
+    func insertTransactionDropdownOptions(_ transactions: [transactionModel], below index: Int) {
+        var indexPaths: [IndexPath] = []
+        for (offset, transaction) in transactions.enumerated() {
+            viewModel?.fields.insert(.transactionDropdownOption(transaction: transaction), at: index + offset + 1)
             indexPaths.append(IndexPath(row: index + offset + 1, section: 0))
         }
         tableView.insertRows(at: indexPaths, with: .fade)
@@ -418,24 +521,94 @@ extension HelpandSupportViewController : textFieldsdidChangeDelegate{
         case .selectCategory:
             self.textFieldValues["category"] = newText
         case .selectSession:
-            self.textFieldValues["sessionId"] = selectedHistory?.sessionId
+            self.textFieldValues["categoryId"] = selectedHistory?.sessionId
         case .subject:
             self.subject = newText
             self.textFieldValues["title"] = newText
         case .message:
             self.message = newText
             self.textFieldValues["description"] = newText
+        case .selectCharger:
+            self.selectedChargerId = newText
+            self.textFieldValues["chargerId"] = newText
+        case .selectTransaction:
+            self.textFieldValues["categoryId"] = selectedTransaction?.transactionId
         default : break
         }
-        
-        if textFieldValues.keys.count == requiredFields {
-            checkIfAllFieldsFilled()
-        }
+        checkIfAllFieldsFilled()
     }
-    func checkIfAllFieldsFilled(){
-        if textFieldValues.keys.count == requiredFields {
-            let allFieldsFilled = !textFieldValues.values.contains { $0.trimmingCharacters(in: .whitespaces).isEmpty }
-            raiseTicketButtonState(isEnabled: allFieldsFilled)
+
+    func checkIfAllFieldsFilled() {
+        var isValid = true
+
+        // Always required
+        if (selectedCategory?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) {
+            isValid = false
         }
+        if (subject?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) {
+            isValid = false
+        }
+        if (message?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) {
+            isValid = false
+        }
+
+        // Conditional required
+        if showSessionCell {
+            if selectedHistory?.sessionId == nil {
+                isValid = false
+            }
+        }
+        if showChargerCell {
+            if (selectedChargerId?.trimmingCharacters(in: .whitespaces).isEmpty ?? true) {
+                isValid = false
+            }
+        }
+        if showTransactionCell {
+            if selectedTransaction?.transactionId == nil {
+                isValid = false
+            }
+        }
+
+        raiseTicketButtonState(isEnabled: isValid)
+    }
+}
+extension HelpandSupportViewController : EnterChargerCellDelegate{
+    func didTapScanQRCode(cell: EnterChargerTableViewCell) {
+        // Create scanner overlay
+        let scannerView = UIView(frame: CGRect(x: 40, y: 150, width: view.frame.width - 80, height: 300))
+        scannerView.backgroundColor = .black
+        scannerView.layer.cornerRadius = 20
+        scannerView.clipsToBounds = true
+        view.addSubview(scannerView)
+        
+        
+        // Initialize CameraManager
+        cameraManager = CameraManager(previewView: scannerView) { [weak self] payload in
+            guard let _ = self else {return}
+            DispatchQueue.main.async {
+                // Stop camera session
+                self?.cameraManager?.stopSession()
+                self?.cameraManager = nil
+                // Remove overlay
+                scannerView.removeFromSuperview()
+                
+                // Update the cell's text field
+                cell.textField.text = payload.chargerId
+                // Notify the text field delegate to update raise ticket button state
+                cell.delegate?.textFieldDidChange(in: cell, newText: payload.chargerId)
+            }
+        }
+        cameraManager?.startSession()
+        // Add close button
+        let closeButton = UIButton(frame: CGRect(x: scannerView.frame.width - 40, y: 10, width: 30, height: 30))
+        closeButton.setTitle("✕", for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
+        closeButton.addTarget(self, action: #selector(closeScanner(_:)), for: .touchUpInside)
+        scannerView.addSubview(closeButton)
+    }
+    @objc func closeScanner(_ sender: UIButton) {
+        cameraManager?.stopSession()
+        cameraManager = nil
+        sender.superview?.removeFromSuperview()
     }
 }

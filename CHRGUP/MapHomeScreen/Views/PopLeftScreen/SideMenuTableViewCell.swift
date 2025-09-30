@@ -12,6 +12,7 @@ class SideMenuTableViewCell: UITableViewCell {
     @IBOutlet weak var LeftImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var rightImageView: UIImageView!
+    let indicator = UIActivityIndicatorView(style: .medium)
     
     static let identifier = "SideMenuTableViewCell"
     override func awakeFromNib() {
@@ -28,5 +29,19 @@ class SideMenuTableViewCell: UITableViewCell {
         rightImageView.tintColor = ColorManager.textColor
         titleLabel.textColor = ColorManager.textColor
         titleLabel.font = FontManager.regular()
+    }
+    func showActivityIndicator(){
+        contentView.addSubview(indicator)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.autoresizingMask = .flexibleWidth
+        indicator.autoresizingMask = .flexibleHeight
+        indicator.startAnimating()
+        NSLayoutConstraint.activate([
+            indicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            indicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)])
+    }
+    func stopActivityIndicator(){
+        indicator.hidesWhenStopped = true
+        indicator.stopAnimating()
     }
 }

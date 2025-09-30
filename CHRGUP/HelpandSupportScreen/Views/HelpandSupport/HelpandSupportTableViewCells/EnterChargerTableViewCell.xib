@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EnterChargerTableViewCell" rowHeight="128" id="KGk-i7-Jjw" customClass="EnterChargerTableViewCell" customModule="CHRGUP" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="459" height="128"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="459" height="128"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="MhI-ts-QuM">
+                        <rect key="frame" x="16" y="15" width="281" height="103"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evh-ML-A3y">
+                                <rect key="frame" x="0.0" y="0.0" width="281" height="47"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MWk-s2-j9n">
+                                <rect key="frame" x="0.0" y="53" width="281" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="bCv-GH-niN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                    </stackView>
+                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ot0-tT-GEu">
+                        <rect key="frame" x="313" y="58.333333333333343" width="130" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="130" id="2qm-9A-Uzz"/>
+                            <constraint firstAttribute="height" constant="50" id="YNR-T7-8KL"/>
+                        </constraints>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="  Scan QR">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <imageReference key="image" image="qrcode.viewfinder" catalog="system" symbolScale="medium"/>
+                        </state>
+                        <connections>
+                            <action selector="scanQRButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="L0a-4Q-5IL"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="ot0-tT-GEu" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" multiplier="1.3" id="7ay-dc-RMS"/>
+                    <constraint firstAttribute="trailing" secondItem="ot0-tT-GEu" secondAttribute="trailing" constant="16" id="BmH-pd-tA3"/>
+                    <constraint firstItem="MhI-ts-QuM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Caf-At-uSb"/>
+                    <constraint firstItem="MhI-ts-QuM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="kb4-ap-l6K"/>
+                    <constraint firstAttribute="bottom" secondItem="MhI-ts-QuM" secondAttribute="bottom" constant="10" id="lxS-It-hrR"/>
+                    <constraint firstItem="ot0-tT-GEu" firstAttribute="leading" secondItem="MhI-ts-QuM" secondAttribute="trailing" constant="16" id="uaC-Ar-A04"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="scanQRButton" destination="ot0-tT-GEu" id="PVF-MQ-h9R"/>
+                <outlet property="textField" destination="MWk-s2-j9n" id="ddd-HU-mg0"/>
+                <outlet property="titleLabel" destination="evh-ML-A3y" id="ecp-TN-OnE"/>
+            </connections>
+            <point key="canvasLocation" x="136.64122137404578" y="49.295774647887328"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="qrcode.viewfinder" catalog="system" width="128" height="115"/>
+    </resources>
+</document>

@@ -52,7 +52,7 @@ class ReceiptViewController: UIViewController {
                             self.currencySymbol = String(splitString[0])
                             self.grandTotal = Int((Double(splitString[1]) ?? 0.0) * 100)
                             self.enableButtonAndRemoveIndicator(self.payButton)
-                            self.payButton.setTitle("Pay \(grandTotal)/-", for: .normal)
+                            //self.payButton.setTitle("Pay \(grandTotal)/-", for: .normal)
                         }
                         self.isLoading = false
                         self.setUpTableView()
@@ -72,7 +72,8 @@ class ReceiptViewController: UIViewController {
         view.backgroundColor = ColorManager.secondaryBackgroundColor
         tableView.backgroundColor = .clear
     
-        payButton.setTitle("Pay 0.00/-", for: .normal)
+        //payButton.setTitle("Pay 0.00/-", for: .normal)
+        payButton.setTitle("Done", for: .normal)
         payButton.setTitleColor(ColorManager.buttonTextColor, for: .normal)
         payButton.titleLabel?.font = FontManager.bold(size: 17)
         
@@ -81,23 +82,25 @@ class ReceiptViewController: UIViewController {
         payButton.clipsToBounds = true
     }
     @IBAction func payButtonPressed(_ sender: Any) {
+//        disableButtonWithActivityIndicator(payButton)
+//        let amountInPaise = grandTotal ?? 00
+//        let currency = getCurrencyFromSymbol(currencySymbol ?? "₹")
+//        viewModel?.createOder(amount: amountInPaise,currency: currency) { [weak self] result in
+//            guard let self = self else { return }
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let response):
+//                    if let amount = response.amount, let orderId = response.id, let responseCurreny = response.currency{
+//                        self.openCheckout(amount: String(amount),currency: responseCurreny, orderId: orderId)
+//                    }
+//                case .failure(let error):
+//                    AppErrorHandler.handle(error, in: self)
+//                    self.enableButtonAndRemoveIndicator(self.payButton)
+//                }
+//            }
+//        }
         disableButtonWithActivityIndicator(payButton)
-        let amountInPaise = grandTotal ?? 00
-        let currency = getCurrencyFromSymbol(currencySymbol ?? "₹")
-        viewModel?.createOder(amount: amountInPaise,currency: currency) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let response):
-                    if let amount = response.amount, let orderId = response.id, let responseCurreny = response.currency{
-                        self.openCheckout(amount: String(amount),currency: responseCurreny, orderId: orderId)
-                    }
-                case .failure(let error):
-                    AppErrorHandler.handle(error, in: self)
-                    self.enableButtonAndRemoveIndicator(self.payButton)
-                }
-            }
-        }
+        checkIfReviewed()
     }
 }
 extension ReceiptViewController : UITableViewDataSource,UITableViewDelegate{
@@ -280,6 +283,7 @@ extension ReceiptViewController: RazorpayPaymentCompletionProtocol{
                 case .failure(let error):
                     AppErrorHandler.handle(error, in: self)
                 }
+                self.enableButtonAndRemoveIndicator(self.payButton)
             }
         }
     }

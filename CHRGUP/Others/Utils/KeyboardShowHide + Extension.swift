@@ -32,6 +32,7 @@ extension UIViewController {
         UIView.animate(withDuration: duration) {[weak self] in
             guard let self else { return }
             self.moveViewForKeyboard(yOffset: -offset)
+            self.adjustForKeyboard(showing: true, inset: offset)
         }
     }
     
@@ -42,6 +43,7 @@ extension UIViewController {
         UIView.animate(withDuration: duration) { [weak self] in
             guard let self else { return }
             self.moveViewForKeyboard(yOffset: 0)
+            self.adjustForKeyboard(showing: false, inset: 0)
         }
     }
     
@@ -50,5 +52,8 @@ extension UIViewController {
     }
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    @objc func adjustForKeyboard(showing: Bool, inset: CGFloat) {
+        // Default: do nothing
     }
 }

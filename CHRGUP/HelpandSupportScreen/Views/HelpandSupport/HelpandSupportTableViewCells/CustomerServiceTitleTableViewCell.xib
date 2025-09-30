@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GiJ-NZ-hD8">
-                        <rect key="frame" x="16" y="10" width="327" height="1"/>
+                        <rect key="frame" x="0.0" y="10" width="359" height="1"/>
                         <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="SLm-Ye-oBB"/>
@@ -47,8 +47,8 @@
                     <constraint firstAttribute="bottom" secondItem="nnV-SH-Etp" secondAttribute="bottom" constant="10" id="B0q-PG-gr9"/>
                     <constraint firstAttribute="trailing" secondItem="nnV-SH-Etp" secondAttribute="trailing" constant="16" id="NoS-XW-afR"/>
                     <constraint firstItem="GiJ-NZ-hD8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="QtF-gy-bBm"/>
-                    <constraint firstItem="GiJ-NZ-hD8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="b4V-m8-n3M"/>
-                    <constraint firstAttribute="trailing" secondItem="GiJ-NZ-hD8" secondAttribute="trailing" constant="16" id="tET-ug-ddp"/>
+                    <constraint firstItem="GiJ-NZ-hD8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="b4V-m8-n3M"/>
+                    <constraint firstAttribute="trailing" secondItem="GiJ-NZ-hD8" secondAttribute="trailing" id="tET-ug-ddp"/>
                     <constraint firstItem="nnV-SH-Etp" firstAttribute="top" secondItem="GiJ-NZ-hD8" secondAttribute="bottom" constant="10" id="zRR-rp-4Rq"/>
                 </constraints>
             </tableViewCellContentView>

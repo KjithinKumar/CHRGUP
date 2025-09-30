@@ -10,6 +10,7 @@ import SDWebImage
 
 protocol SideMenuDelegate: AnyObject {
     func didSelectMenuOption(_ viewController: UIViewController)
+    func didChangerSelectedVehicle()
 }
 
 class SideMenuViewController: UIViewController {
@@ -37,6 +38,7 @@ class SideMenuViewController: UIViewController {
         setUpTableView()
         setUpVehicleButton()
         viewModel?.fetchVehicleDetails()
+        fetchWalletStatus()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -47,7 +49,36 @@ class SideMenuViewController: UIViewController {
         }
     }
     @IBAction func closeButtonPressed(_ sender: Any) {
-        dismissToLeft()
+        //dismissToLeft()
+        let walletVc = WalletViewController()
+        walletVc.viewModel = WalletViewModel(networkManager: NetworkManager.shared)
+        dismissView()
+        DispatchQueue.main.async{  [weak self] in
+            guard let self = self else { return }
+            self.delegate?.didSelectMenuOption(walletVc)
+        }
+    }
+    func fetchWalletStatus(){
+        disableButtonWithActivityIndicator(closeButton)
+        Task{
+            do{
+                let data = try await viewModel?.fetchWalletStatus(transaction: false, page: 1, limit: 1, refund: false)
+                if let money = data?.data.balance{
+                    closeButton.setTitle(" ₹\(money/100)", for: .normal)
+                    DispatchQueue.main.async {
+                        if money > 0{
+                            self.closeButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
+                        }else{
+                            self.closeButton.setTitleColor(ColorManager.cancelledColor, for: .normal)
+                        }
+                    }
+                }
+                
+            }catch(let error){
+                AppErrorHandler.handle(error, in: self)
+            }
+            enableButtonAndRemoveIndicator(closeButton)
+        }
     }
     func setUpUI(){
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissView))
@@ -60,6 +91,9 @@ class SideMenuViewController: UIViewController {
         titleLabel.attributedText = setHighlightedText(fullText: AppStrings.leftMenu.Title, highlightedWord: AppStrings.leftMenu.highlihtedTitle, highlightColor: ColorManager.primaryTextColor)
         
         closeButton.imageView?.tintColor = ColorManager.textColor
+        closeButton.titleLabel?.font = FontManager.bold(size: 19)
+        closeButton.setTitleColor(ColorManager.primaryTextColor, for: .normal)
+
         
         profileImageView.tintColor = ColorManager.textColor
         
@@ -208,6 +242,14 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let self = self else { return }
                 self.delegate?.didSelectMenuOption(notificationVc)
             }
+        case .wallet:
+            let walletVc = WalletViewController()
+            walletVc.viewModel = WalletViewModel(networkManager: NetworkManager.shared)
+            dismissView()
+            DispatchQueue.main.async{  [weak self] in
+                guard let self = self else { return }
+                self.delegate?.didSelectMenuOption(walletVc)
+            }
         default:
             break
         }
@@ -258,6 +300,7 @@ extension SideMenuViewController : sideMenuDelegate {
                 guard let self = self else { return }
                 self.vehicleButton.setTitle("\u{2003}\(Vehiclename)\u{2003}\u{2003}", for: .normal)
                 UserDefaultManager.shared.saveSelectedVehicle(vehicle)
+                delegate?.didChangerSelectedVehicle()
             }
             menuItems.append(action)
         }

@@ -28,7 +28,13 @@ class NearByChargerViewModel : NearByChargerViewModelInterface{
         sortedChargers = nil
         let url = URLs.nearByChargersUrl
         guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
-        let body = ["latitude": latitue, "longitude": longitude, "range": range, "mobileNumber": mobileNumber, "status" : "Active"] as [String : Any]
+        guard let selectedVehicleId = UserDefaultManager.shared.getSelectedVehicle()?.id else {return}
+        let body = ["latitude": latitue,
+                    "longitude": longitude,
+                    "range": range,
+                    "userPhone": mobileNumber,
+                    "status" : "Active",
+                    "selected_vehicle_id" : selectedVehicleId] as [String : Any]
         let header = ["Authorization": "Bearer \(authToken)"]
         if let reqest = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
             networkManager?.request(reqest, decodeTo: ChargerLocationResponse.self , completion: { [weak self] result in

@@ -81,6 +81,20 @@ class SplashScreenViewModel{
         if UIApplication.shared.getCurrentViewController() is SplashScreenViewController {
             startSplashProcess()
         }
-        
     }
+    func fetchChargingStatus(completion : @escaping (Result<ChargingStatusResponseModel, Error>) -> Void){
+        let url = URLs.getChargingStatusUrl
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else { return }
+        let header = ["Authorization": "Bearer \(authToken)"]
+        guard let phoneNumber = UserDefaultManager.shared.getUserProfile()?.phoneNumber else { return }
+        let body : [String:Any] = ["userPhone":phoneNumber,
+                                   "timezone": AppConstants.timeZone]
+        if let request = networkManager?.createRequest(urlString: url, method: .post, body: body, encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: ChargingStatusResponseModel.self) { [weak self] result in
+                guard let _ = self else { return }
+                completion(result)
+            }
+        }
+    }
+
 }

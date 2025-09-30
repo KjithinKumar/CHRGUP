@@ -15,6 +15,7 @@ struct SideMenuItem {
 enum sideMenuDestination{
     case mygarage
     case favouritedocks
+    case wallet
     case history
     case helpandsupport
     case settings
@@ -31,7 +32,7 @@ protocol SideMenuViewModelInterface {
     var sideMenuItems: [SideMenuItem] { get }
     func fetchVehicleDetails()
     var vehicleData : [VehicleModel]? { get set }
-    
+    func fetchWalletStatus(transaction : Bool,page : Int,limit : Int,refund : Bool) async throws -> WalletStatusModel?
 }
 
 class SideMenuViewModel: SideMenuViewModelInterface {
@@ -39,6 +40,7 @@ class SideMenuViewModel: SideMenuViewModelInterface {
         SideMenuItem(title: AppStrings.leftMenu.MyGarage, icon: AppStrings.leftMenu.GarageImage,sideMenuDestiantion: .mygarage),
         SideMenuItem(title: AppStrings.leftMenu.Reservation, icon: AppStrings.leftMenu.ReservationImage, sideMenuDestiantion: .reservations),
         SideMenuItem(title: AppStrings.leftMenu.FavouriteDocks, icon: AppStrings.leftMenu.FavouriteDockImage,sideMenuDestiantion: .favouritedocks),
+        SideMenuItem(title: AppStrings.leftMenu.wallet, icon: AppStrings.leftMenu.walletImage, sideMenuDestiantion: .wallet),
         SideMenuItem(title: AppStrings.leftMenu.Notification, icon: AppStrings.leftMenu.NotificationImage, sideMenuDestiantion: .notifications),
         SideMenuItem(title: AppStrings.leftMenu.History, icon: AppStrings.leftMenu.HistoryImage,sideMenuDestiantion: .history),
         SideMenuItem(title: AppStrings.leftMenu.HelpandSupport, icon: AppStrings.leftMenu.HelpandSupportImage,sideMenuDestiantion: .helpandsupport),
@@ -89,6 +91,39 @@ class SideMenuViewModel: SideMenuViewModelInterface {
                     debugPrint(error)
                 }
             })
+        }
+    }
+    func fetchWalletDetails(completion : @escaping (Result<WalletStatusResponse,Error>)-> Void){
+        guard let mobileNumber = mobileNumber, let authToken = authToken else {return}
+        let url = URLs.walletStatusUrl(mobileNumber: mobileNumber)
+        let header = ["Authorization": "Bearer \(authToken)"]
+        if let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header){
+            networkManager?.request(request, decodeTo: WalletStatusResponse.self) { [weak self] result in
+                guard let _ = self else {return}
+                completion(result)
+            }
+        }
+    }
+    func fetchWalletStatus(transaction : Bool,page : Int,limit : Int,refund : Bool) async throws -> WalletStatusModel?{
+        guard let authToken = UserDefaultManager.shared.getJWTToken() else {
+            throw NetworkManagerError.invalidRequest
+        }
+        guard let userId  = UserDefaultManager.shared.getUserProfile()?.id else {
+            throw NetworkManagerError.invalidRequest}
+        let url = URLs.walletdetailsUrl(userId: userId, transaction: transaction,page: page,limit: limit, refund: refund)
+        let header = ["Authorization": "Bearer \(authToken)"]
+        guard let request = networkManager?.createRequest(urlString: url, method: .get, body: nil, encoding: .json, headers: header)else {
+            throw NetworkManagerError.invalidRequest}
+        return try await withCheckedThrowingContinuation { continuation in
+            networkManager?.request(request, decodeTo: WalletStatusModel.self) { [weak self] result in
+                guard let _ = self else {return}
+                switch result {
+                case .success(let value):
+                    continuation.resume(returning: value)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
         }
     }
 }

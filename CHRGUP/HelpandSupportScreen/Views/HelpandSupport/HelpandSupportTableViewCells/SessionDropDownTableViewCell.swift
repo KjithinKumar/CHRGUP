@@ -48,14 +48,48 @@ class SessionDropDownTableViewCell: UITableViewCell {
         timeLabel.textColor = ColorManager.subtitleTextColor
         timeLabel.font = FontManager.regular(size: 14)
         
+    }
+    func configure(transactionInfo :  transactionModel){
+        backView.backgroundColor = ColorManager.secondaryBackgroundColor
+        backView.layer.cornerRadius = 8
+        backView.clipsToBounds = true
+        
+        titleLabel.text = transactionInfo.transactionId
+        titleLabel.textColor = ColorManager.textColor
+        titleLabel.font = FontManager.regular()
+        
+        vehicleLabel.text = "₹ \(transactionInfo.amount/100)"
+        vehicleLabel.textColor = ColorManager.textColor
+        vehicleLabel.font = FontManager.regular(size: 14)
+        
+        timeLabel.text = formatDateTranscation(transactionInfo.timestamp)
+        timeLabel.textColor = ColorManager.subtitleTextColor
+        timeLabel.font = FontManager.regular(size: 14)
         
     }
+    
     func formatDate(_ isoString: String) -> String {
         let isoFormatter = ISO8601DateFormatter()
         isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
 
         guard let date = isoFormatter.date(from: isoString) else {
             return isoString // fallback in case of failure
+        }
+
+        let displayFormatter = DateFormatter()
+        displayFormatter.dateStyle = .medium
+        displayFormatter.timeStyle = .short
+        displayFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+        return displayFormatter.string(from: date)
+    }
+    func formatDateTranscation(_ input: String) -> String {
+        let parser = DateFormatter()
+        parser.dateFormat = "d/M/yyyy, h:mm:ss a"
+        parser.locale = Locale(identifier: "en_US_POSIX")
+
+        guard let date = parser.date(from: input) else {
+            return input // fallback
         }
 
         let displayFormatter = DateFormatter()

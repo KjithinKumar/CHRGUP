@@ -97,7 +97,8 @@ extension DeepLinkManager {
         }
         do {
             let aes = try AES(key: keyAndIV.key, blockMode: CBC(iv: keyAndIV.iv), padding: .pkcs7)
-            let encryptedBytes = try aes.encrypt(mobileData.bytes)
+            let inputBytes = [UInt8](mobileData)
+            let encryptedBytes = try aes.encrypt(inputBytes)
             // Prepend "Salted__" + salt like OpenSSL format
             let prefix = "Salted__".data(using: .utf8)!
             let encryptedData = prefix + Data(salt) + Data(encryptedBytes)
@@ -107,5 +108,8 @@ extension DeepLinkManager {
             print("Encryption failed: \(error)")
             return nil
         }
+    }
+    func handlePlainTextQR(_ qrString: String) -> String {
+        return qrString.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

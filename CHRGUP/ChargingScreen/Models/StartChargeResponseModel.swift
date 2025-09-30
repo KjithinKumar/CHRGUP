@@ -11,12 +11,21 @@ struct StartChargeResponseModel : Decodable {
     var message: String?
     var messageId : String?
     var sessionId : String?
+    var data : StartData?
     
     enum CodingKeys: String, CodingKey {
         case status = "status"
         case message = "message"
         case messageId = "messageId"
         case sessionId = "sessionId"
+        case data = "data"
+    }
+}
+struct StartData: Decodable{
+    var addMoney : Int?
+    
+    enum CodingKeys : String, CodingKey{
+        case addMoney = "add_money"
     }
 }
 struct StartChargingRequest: Codable {
